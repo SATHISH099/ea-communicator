@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e
+echo "-----------------------------"
+echo "| Running Pre-Commit Checks |"
+echo "-----------------------------"
+
+sh -c "pnpm lint"

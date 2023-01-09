@@ -1,29 +1,53 @@
-# README #
+# Communicator
 
-This README would normally document whatever steps are necessary to get your application up and running.
+## Installation (Quick Start)
+- Install NodeJS(pnpm) if not installed by following [this guide](https://github.com/nvm-sh/nvm#install--update-script).
+```bash
+$ npm i -g pnpm
+$ pnpm install
+```
+## Setup
 
-### What is this repository for? ###
+Make sure to install the dependencies:
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+```bash
+# pnpm
+pnpm install
+```
 
-### How do I get set up? ###
+#### Copy .env from the .env.example && Please add all the env variable in .env.example as well
+```bash
+cp .env.example .env
+```
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+#### Nuxi Command generate for components, composable, layouts, middleware, pages
 
-### Contribution guidelines ###
+Generate Components, Composable, Layouts, Middleware
 
-* Writing tests
-* Code review
-* Other guidelines
+```bash
+pnpm nuxi add [components, layouts, composable, middleware, page] [names]
+```
 
-### Who do I talk to? ###
+### Development Server
 
-* Repo owner or admin
-* Other community or team contact
+Start the development server on http://localhost:3000
+
+```bash
+pnpm run dev
+```
+
+### Production
+
+Build the application for production:
+
+```bash
+pnpm run build
+```
+
+Locally preview production build:
+
+```bash
+pnpm run preview
+```
+
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
