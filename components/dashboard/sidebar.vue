@@ -2,15 +2,13 @@
     <div>
         <button @click="SidebarState.sidebarOpen = !SidebarState.sidebarOpen">Toggle Sidebar</button>
         <div :class="{ 'sidebar': true, 'open': SidebarState.sidebarOpen }">
-            <div>
-                <nav>
-                    <ul>
-                        <li v-for="item in items" :key="item.link">
-                            <nuxt-link :to="item.link">{{ item.text }}</nuxt-link>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+            <nav>
+                <ul>
+                    <li v-for="item in items" :key="item.link">
+                        <NuxtLink :to="item.link">{{ item.text }}</NuxtLink>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </template>
