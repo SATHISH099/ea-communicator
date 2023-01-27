@@ -1,9 +1,9 @@
 <script lang="ts" setup></script>
 
 <template>
-  <div>
-    Page: foo
-  </div>
+    <div class="header">
+        Header
+    </div>
 </template>
 
 <style scoped>
