@@ -1,13 +1,11 @@
 <template>
-    <div>
-        <DashboardHeader />
-        <DashboardSidebar />
-        <div class="main-wrapper">
-            <slot />
-        </div>
+  <div>
+    <DashboardHeader />
+    <DashboardSidebar />
+    <div class="main-wrapper m-10 ml-90">
+      <slot />
     </div>
+  </div>
 </template>
 
-<script lang="ts" setup>
-
-</script>
+<script lang="ts" setup></script>

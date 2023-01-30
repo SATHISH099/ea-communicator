@@ -1,79 +1,72 @@
 @import "variables.scss";
 @import "login.scss";
 
-
-
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Ubuntu', sans-serif;
+  font-family: "Ubuntu", sans-serif;
 }
 
 .btn {
-    padding: 16px 32px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .btn-primary {
-    background-color: $primary;
-    color: $white;
+  background-color: $primary;
+  color: $white;
 
-    &:hover {
-        background-color: $red-accent1;
-    }
+  &:hover {
+    background-color: $red-accent1;
+  }
 
-    &:focus {
-        background-color: $red-accent2;
-    }
+  &:focus {
+    background-color: $red-accent2;
+  }
 }
 
 .btn-secondary {
-    border: 1px solid $primary;
-    background-color: $white;
-    color: $primary;
+  border: 1px solid $primary;
+  background-color: $white;
+  color: $primary;
 
-    &:hover {
-        background-color: $floral-white;
-    }
+  &:hover {
+    background-color: $floral-white;
+  }
 
-    &:focus {
-        background-color: $pale-pink;
-    }
+  &:focus {
+    background-color: $pale-pink;
+  }
 }
 
 .form-control {
-    display: block;
-    width: 100%;
-    padding: 16px;
-    background-color: $white;
-    background-clip: padding-box;
-    border: 1px solid #dce1eb;
-    border-radius: 4px;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    outline: none;
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background-color: $white;
+  background-clip: padding-box;
+  border: 1px solid #dce1eb;
+  border-radius: 4px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  outline: none;
 
-    &:focus {
-        border: 1px solid $primary;
-    }
-
+  &:focus {
+    border: 1px solid $primary;
+  }
 }
 
 a {
-    color: $primary;
-    text-decoration: none;
-
-    &:hover {
-        text-decoration: underline;
-    }
+  color: $primary;
+  text-decoration: none;
 }
 
 .formkit-messages {
-    color: $primary;
-    margin-top: 10px;
+  color: $primary;
+  margin-top: 10px;
 }
