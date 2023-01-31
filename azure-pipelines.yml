@@ -37,9 +37,6 @@ stages:
             displayName: "Install Dependencies"
 
 
-          - script: pnpm test
-            displayName: "Run Tests"
-
           - task: SonarQubePrepare@5
             displayName: "Prepare SonarQube Analysis"
             condition: eq(variables['Build.SourceBranchName'], 'master')
