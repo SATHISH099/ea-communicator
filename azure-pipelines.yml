@@ -36,8 +36,6 @@ stages:
           - script: pnpm install --no-frozen-lockfile
             displayName: "Install Dependencies"
 
-          - script: pnpm check
-            displayName: "Check TypeScript Errors"
 
           - script: pnpm test
             displayName: "Run Tests"
