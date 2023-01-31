@@ -26,7 +26,9 @@
           <nav>
             <ul>
               <li v-for="item in items" :key="item.link">
-                <NuxtLink class="text-[#a3a3a3] no-underline" :to="item.link"
+                <NuxtLink
+                  class="text-silver-chalice no-underline"
+                  :to="item.link"
                   ><img :src="'_nuxt/assets/images/' + item.icon" />
                   {{ SidebarState.sidebarOpen ? item.text : "" }}</NuxtLink
                 >

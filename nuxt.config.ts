@@ -24,7 +24,10 @@ export default defineNuxtConfig({
   unocss: {
     shortcuts: {
       'bg-primary': 'bg-[#B42424]',
-      'text-primary': 'text-[#B42424]'
+      'bg-white-smoke': 'bg-[#F5F5F5]',
+      'text-primary': 'text-[#B42424]',
+      'text-silver-chalice': 'text-[#A3A3A3]'
+
     }
   },
   modules: [

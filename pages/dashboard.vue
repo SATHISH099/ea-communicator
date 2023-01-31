@@ -2,15 +2,15 @@
   <div>
     <div class="mb-12">
       <h2 class="mb-4">Dashboard</h2>
-      <p class="text-[#A3A3A3]">
+      <p class="text-silver-chalice">
         Smart Suit / Communicator /
-        <span class="text-[#B42424]">Dashboard</span>
+        <span class="text-primary">Dashboard</span>
       </p>
     </div>
     <div class="w-full flex gap-8 mb-8">
       <div class="card-communicator flex justify-between items-center">
         <div>
-          <h1 class="text-[#B42424] mb-2">25</h1>
+          <h1 class="text-primary mb-2">25</h1>
           <p>Short Messages</p>
         </div>
         <div>
@@ -23,7 +23,7 @@
 
       <div class="card-communicator flex justify-between items-center">
         <div>
-          <h1 class="text-[#B42424] mb-2">150</h1>
+          <h1 class="text-primary mb-2">150</h1>
           <p>Email</p>
         </div>
         <div>
@@ -35,7 +35,7 @@
       </div>
       <div class="card-communicator flex justify-between items-center">
         <div>
-          <h1 class="text-[#B42424] mb-2">230</h1>
+          <h1 class="text-primary mb-2">230</h1>
           <p>Alert</p>
         </div>
         <div>
@@ -47,7 +47,7 @@
       </div>
       <div class="card-communicator flex justify-between items-center">
         <div>
-          <h1 class="text-[#B42424] mb-2">2367</h1>
+          <h1 class="text-primary mb-2">2367</h1>
           <p>Library</p>
         </div>
         <div>

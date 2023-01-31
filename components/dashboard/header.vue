@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-  <div class="bg-[#F5F5F5] h-[90px] w-full flex justify-end items-center">
+  <div class="bg-white-smoke h-[90px] w-full flex justify-end items-center">
     <img src="~/assets/images/Component.png" class="mr-8" />
     <img src="~/assets/images/Group.png" class="mr-8" />
     <img
