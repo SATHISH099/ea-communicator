@@ -1,0 +1,96 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - master
+
+  paths:
+    include:
+      - "*"
+    exclude:
+      - "README.md"
+
+pr:
+  branches:
+    include:
+      - master
+
+pool:
+  vmImage: "ubuntu-20.04"
+
+stages:
+  - stage: buildPackage
+    displayName: "Build and Package"
+    jobs:
+      - job: build
+        displayName: "Build and Test"
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "16.x"
+            displayName: "Install Node.js"
+
+          - script: npm -g install pnpm
+            displayName: "Install Package Manager"
+
+          - script: pnpm install --no-frozen-lockfile
+            displayName: "Install Dependencies"
+
+          - script: pnpm lint:check
+            displayName: "Running Code Linter"
+
+          - script: pnpm format:check
+            displayName: "Checking Code Formating"
+
+          - script: pnpm test:cov
+            displayName: "Running Test Cases"
+
+          - task: SonarQubePrepare@5
+            displayName: "Prepare SonarQube Analysis"
+            condition: eq(variables['Build.SourceBranchName'], 'master')
+            inputs:
+              SonarQube: "cc-sonarqube"
+              scannerMode: "CLI"
+              configMode: "manual"
+              cliProjectKey: "ea-communicator-fe"
+              cliProjectName: "EA Communicator Frontend"
+              cliSources: "."
+              extraProperties: |
+                sonar.sourceEncoding=UTF-8
+                sonar.scm.provider=git
+                sonar.profile=node
+                sonar.javascript.lcov.reportPaths=coverage/lcov.info
+                sonar.javascript.coverage.reportPaths=coverage/clover.xml
+                sonar.clover.reportPath=coverage/clover.xml
+
+          - task: SonarQubeAnalyze@5
+            condition: eq(variables['Build.SourceBranchName'], 'master')
+            displayName: "Run SonarQube Analysis"
+
+          - task: SonarQubePublish@5
+            condition: eq(variables['Build.SourceBranchName'], 'master')
+            displayName: "Publish SonarQube Analysis"
+            inputs:
+              pollingTimeoutSec: "300"
+
+          - script: pnpm build
+            displayName: "Build Package"
+
+      - job: package
+        displayName: "Package Artifact"
+        dependsOn: build
+        condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
+        steps:
+          - task: ArchiveFiles@2
+            inputs:
+              rootFolderOrFile: "$(System.DefaultWorkingDirectory)"
+              includeRootFolder: false
+              archiveType: "zip"
+              archiveFile: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip"
+              replaceExistingArchive: true
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip"
+              ArtifactName: "ea-communicator-fe"
+              publishLocation: "Container"

@@ -5,15 +5,13 @@ export default defineNuxtConfig({
     apiSecret: process.env.NUXT_API_SECRET,
     // Keys within public are also exposed client-side
     public: {
-      apiBase: process.env.BASE_URL
+      apiBase: process.env.BASE_URL,
     },
-    buildModules: [
-      '@nuxtjs/google-fonts'
-    ],
+    buildModules: ['@nuxtjs/google-fonts'],
     googlefonts: {
       families: {
         Ubuntu: [400, 500, 600],
-      }
+      },
     },
     unocss: {
       uno: true,
@@ -24,17 +22,12 @@ export default defineNuxtConfig({
   unocss: {
     shortcuts: {
       'bg-primary': 'bg-[#B42424]',
-      'bg-white-smoke': 'bg-[#F5F5F5]',
       'text-primary': 'text-[#B42424]',
-      'text-silver-chalice': 'text-[#A3A3A3]'
-
-    }
+      'text-carbon': 'text-[#2D2D2E]',
+      'text-stone': 'text-[#555555]',
+      'text-silver': 'text-[#A3A3A3]',
+    },
   },
-  modules: [
-    '@formkit/nuxt',
-    '@unocss/nuxt'
-  ],
-  css: [
-    '~/assets/scss/main.scss'
-  ],
+  modules: ['@formkit/nuxt', '@unocss/nuxt', '@pinia/nuxt'],
+  css: ['~/assets/scss/main.scss'],
 });

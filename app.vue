@@ -1,10 +1,14 @@
 <template>
   <div>
-    <NuxtLayout>
+    <NuxtLayout :name="layout">
       <NuxtPage />
     </NuxtLayout>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { useLayoutStore } from '~~/store/layout';
+
+const store = useLayoutStore();
+const layout = store.layout;
 </script>

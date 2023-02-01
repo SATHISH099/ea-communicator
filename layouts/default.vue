@@ -1,8 +1,8 @@
 <template>
   <div>
-    <DashboardHeader />
-    <DashboardSidebar />
-    <div class="main-wrapper m-10 ml-90">
+    <Header />
+    <Sidebar />
+    <div class="main-wrapper">
       <slot />
     </div>
   </div>
