@@ -1,25 +1,35 @@
 <template>
   <div>
-    <div class="shadow-2xl relative" :class="{ sidebar: true, open: SidebarState.sidebarOpen }">
-      <div class="sidebar-toggle-btn" @click="SidebarState.sidebarOpen = !SidebarState.sidebarOpen">
-        <img src="~/assets/images/back-icon.png" alt="">
+    <div
+      class="shadow-2xl relative"
+      :class="{ sidebar: true, open: SidebarOpen }"
+    >
+      <div class="sidebar-toggle-btn" @click="SidebarOpen = !SidebarOpen">
+        <img src="~/assets/images/back-icon.png" alt="" />
       </div>
       <div class="logo">
-        <img alt="logo" :src="
-          '_nuxt/assets/images/' +
-          (SidebarState.sidebarOpen
-            ? 'SmartSuiteLogo.png'
-            : 'SmartSuite-Final-Logo.png')
-        " />
+        <img
+          alt="logo"
+          :src="
+            '_nuxt/assets/images/' +
+            (SidebarOpen ? 'SmartSuiteLogo.png' : 'SmartSuite-Final-Logo.png')
+          "
+        />
       </div>
       <div class="menu-items">
         <div class="mt-8">
           <nav>
             <ul>
               <li v-for="item in MenuItems" :key="item.link">
-                <NuxtLink class="text-silver no-underline flex items-center gap-3" :to="item.link"><img alt="item-icon"
-                    :src="'_nuxt/assets/images/' + item.icon" />
-                  {{ SidebarState.sidebarOpen ? item.text : "" }}</NuxtLink>
+                <NuxtLink
+                  class="text-silver no-underline flex items-center gap-3"
+                  :to="item.link"
+                  ><img
+                    alt="item-icon"
+                    :src="'_nuxt/assets/images/' + item.icon"
+                  />
+                  {{ SidebarOpen ? item.text : '' }}</NuxtLink
+                >
               </li>
             </ul>
           </nav>
@@ -36,15 +46,13 @@
 
 <script lang="ts" setup>
 const MenuItems = [
-  { text: "Dashboard", link: "/", icon: "Dashboard.png" },
-  { text: "Manage Users", link: "/", icon: "people.png" },
-  { text: "Email / Messages", link: "/", icon: "email.png" },
-  { text: "Recipients and Groups", link: "/", icon: "Recipients-Groups.png" },
+  { text: 'Dashboard', link: '/', icon: 'Dashboard.png' },
+  { text: 'Manage Users', link: '/', icon: 'people.png' },
+  { text: 'Email / Messages', link: '/', icon: 'email.png' },
+  { text: 'Recipients and Groups', link: '/', icon: 'Recipients-Groups.png' },
 ];
 
-const SidebarState = reactive({
-  sidebarOpen: true,
-});
+const SidebarOpen = ref(true);
 </script>
 
 <style lang="scss">
