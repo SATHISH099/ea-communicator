@@ -36,6 +36,14 @@ stages:
           - script: pnpm install --no-frozen-lockfile
             displayName: "Install Dependencies"
 
+          - script: pnpm lint:check
+            displayName: "Running Code Linter"
+
+          - script: pnpm format:check
+            displayName: "Checking Code Formating"
+
+          - script: pnpm test:cov
+            displayName: "Running Test Cases"
 
           - task: SonarQubePrepare@5
             displayName: "Prepare SonarQube Analysis"
@@ -51,7 +59,6 @@ stages:
                 sonar.sourceEncoding=UTF-8
                 sonar.scm.provider=git
                 sonar.profile=node
-                sonar.coverage.exclusions=src/models/*.js,src/migrations/*.js,src/pages/api/coverage.js
                 sonar.javascript.lcov.reportPaths=coverage/lcov.info
                 sonar.javascript.coverage.reportPaths=coverage/clover.xml
                 sonar.clover.reportPath=coverage/clover.xml
