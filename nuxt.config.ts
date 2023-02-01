@@ -23,8 +23,11 @@ export default defineNuxtConfig({
     shortcuts: {
       'bg-primary': 'bg-[#B42424]',
       'text-primary': 'text-[#B42424]',
+      'text-carbon': 'text-[#2D2D2E]',
+      'text-stone': 'text-[#555555]',
+      'text-silver': 'text-[#A3A3A3]',
     },
   },
-  modules: ['@formkit/nuxt', '@unocss/nuxt'],
+  modules: ['@formkit/nuxt', '@unocss/nuxt', '@pinia/nuxt'],
   css: ['~/assets/scss/main.scss'],
 });
