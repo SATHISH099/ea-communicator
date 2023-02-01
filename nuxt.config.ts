@@ -16,15 +16,24 @@ export default defineNuxtConfig({
     unocss: {
       uno: true,
       icons: true,
-      attributify: true,
+      attributify: true
     },
   },
   unocss: {
     shortcuts: {
       'bg-primary': 'bg-[#B42424]',
       'text-primary': 'text-[#B42424]',
-    },
+      'text-carbon': 'text-[#2D2D2E]',
+      'text-stone': 'text-[#555555]',
+      'text-silver': 'text-[#A3A3A3]'
+    }
   },
-  modules: ['@formkit/nuxt', '@unocss/nuxt'],
-  css: ['~/assets/scss/main.scss'],
+  modules: [
+    '@formkit/nuxt',
+    '@unocss/nuxt',
+    '@pinia/nuxt'
+  ],
+  css: [
+    '~/assets/scss/main.scss'
+  ],
 });

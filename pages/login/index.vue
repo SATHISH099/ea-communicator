@@ -17,9 +17,6 @@
 </template>
 
 <script setup>
-definePageMeta({
-    layout: "auth",
-});
 
 const handleIconClick = (node, e) => {
     node.props.suffixIcon = node.props.suffixIcon === 'eye' ? 'eyeClosed' : 'eye'
