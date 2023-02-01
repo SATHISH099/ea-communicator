@@ -3,6 +3,13 @@
 set -e
 echo "-----------------------------"
 echo "| Running Pre-Commit Checks |"
+echo "| Running Code Quality      |"
 echo "-----------------------------"
+sh -c "pnpm lint:check"
+sh -c "pnpm format:check"
 
-sh -c "pnpm lint"
+echo "-----------------------------"
+echo "| Running Test Cases        |"
+echo "-----------------------------"
+sh -c "pnpm test --silent"
+
