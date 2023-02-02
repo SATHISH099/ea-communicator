@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest';
 import { $fetch, isDev, setup } from '@nuxt/test-utils';
 
 describe('home page', async () => {
