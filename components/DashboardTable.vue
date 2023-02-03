@@ -1,20 +1,3 @@
-<template>
-  <div class="admin-table">
-    <table>
-      <thead>
-        <tr>
-          <th v-for="header in headers" :key="header">{{ header }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="row in rows" :key="row.id">
-          <td v-for="cell in row" :key="cell">{{ cell }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</template>
-
 <script lang="ts">
 export default defineComponent({
   name: 'TableComponent',
@@ -39,6 +22,25 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div class="admin-table">
+    <table>
+      <thead>
+        <tr>
+          <th><input type="checkbox" /></th>
+          <th v-for="header in headers" :key="header">{{ header }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="row in rows" :key="row.id">
+          <td><input type="checkbox" /></td>
+          <td v-for="cell in row" :key="cell">{{ cell }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .admin-table {

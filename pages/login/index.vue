@@ -1,3 +1,10 @@
+<script setup>
+const handleIconClick = (node) => {
+  node.props.suffixIcon = node.props.suffixIcon === 'eye' ? 'eyeClosed' : 'eye';
+  node.props.type = node.props.type === 'password' ? 'text' : 'password';
+};
+</script>
+
 <template>
   <div class="w-full mt-10">
     <div class="mb-10">
@@ -32,12 +39,5 @@
     </FormKit>
   </div>
 </template>
-
-<script setup>
-const handleIconClick = (node, e) => {
-  node.props.suffixIcon = node.props.suffixIcon === 'eye' ? 'eyeClosed' : 'eye';
-  node.props.type = node.props.type === 'password' ? 'text' : 'password';
-};
-</script>
 
 <style lang="scss" scoped></style>
