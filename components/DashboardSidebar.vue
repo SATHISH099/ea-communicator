@@ -1,19 +1,36 @@
+<script lang="ts" setup>
+const MenuItems = [
+  { text: 'Dashboard', link: '/dashboard', icon: 'dashboard.png' },
+  { text: 'Manage Users', link: '/', icon: 'people.png' },
+  {
+    text: 'Email / Messages',
+    link: '/email-messages',
+    icon: 'email.png',
+    items: [
+      { text: 'Predefined Messages', link: '/pre' },
+      { text: 'Account', link: '/account' },
+    ],
+  },
+  { text: 'Recipients and Groups', link: '/', icon: 'recipients-groups.png' },
+];
+
+const SidebarOpen = ref(true);
+</script>
+
 <template>
   <div>
-    <div
-      class="shadow-2xl relative"
-      :class="{ sidebar: true, open: SidebarOpen }"
-    >
+    <div class="shadow-2xl relative sidebar" :class="{ open: SidebarOpen }">
       <div class="sidebar-toggle-btn" @click="SidebarOpen = !SidebarOpen">
-        <img src="~/assets/images/back-icon.png" alt="" />
+        <img src="/back-icon.png" alt="" />
       </div>
       <div class="logo">
         <img
           alt="logo"
-          :src="
-            '_nuxt/assets/images/' +
-            (SidebarOpen ? 'SmartSuiteLogo.png' : 'SmartSuite-Final-Logo.png')
-          "
+          :src="`/${
+            SidebarOpen
+              ? 'smartsuite-communicator-logo.png'
+              : 'smartsuite-communicator-emblem.png'
+          }`"
         />
       </div>
       <div class="menu-items">
@@ -24,48 +41,42 @@
                 <NuxtLink
                   class="text-silver no-underline flex items-center gap-3"
                   :to="item.link"
-                  ><img
-                    alt="item-icon"
-                    :src="'_nuxt/assets/images/' + item.icon"
-                  />
+                  ><img alt="item-icon" :src="`/${item.icon}`" />
                   {{ SidebarOpen ? item.text : '' }}</NuxtLink
                 >
+                <!-- <ul v-if="item.items">
+                  <li v-for="subitem in item.items" :key="subitem.link">
+                    <NuxtLink class="text-silver no-underline" :to="subitem.link">{{ SidebarOpen? subitem.text : '' }}
+                    </NuxtLink>
+                  </li>
+                </ul> -->
               </li>
             </ul>
           </nav>
         </div>
-        <div>
-          <ul>
-            <li>Logout</li>
-          </ul>
+        <div class="mb-15">
+          <NuxtLink to="/">
+            <div class="flex items-center gap-3">
+              <img src="/logout.png" alt="logout" /><span
+                :class="`${SidebarOpen ? 'block text-silver' : 'hidden'}`"
+                >Logout</span
+              >
+            </div>
+          </NuxtLink>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup>
-const MenuItems = [
-  { text: 'Dashboard', link: '/', icon: 'Dashboard.png' },
-  { text: 'Manage Users', link: '/', icon: 'people.png' },
-  { text: 'Email / Messages', link: '/', icon: 'email.png' },
-  { text: 'Recipients and Groups', link: '/', icon: 'Recipients-Groups.png' },
-];
-
-const SidebarOpen = ref(true);
-</script>
-
 <style lang="scss">
 .sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 90px;
   height: 100vh;
   background: #ffffff;
   z-index: 1;
   transition: 0.5s;
-  padding: 20px;
+  padding: 30px;
 
   .sidebar-toggle-btn {
     position: absolute;
@@ -88,6 +99,12 @@ const SidebarOpen = ref(true);
   }
 
   .menu-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    align-items: center;
+
     ul {
       list-style-type: none;
 
@@ -105,7 +122,6 @@ const SidebarOpen = ref(true);
 
   &.open {
     width: 317px;
-    padding: 30px;
 
     .logo {
       width: 158px;
@@ -114,6 +130,8 @@ const SidebarOpen = ref(true);
     }
 
     .menu-items {
+      align-items: flex-start;
+
       ul {
         li {
           a {
