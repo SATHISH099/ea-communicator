@@ -1,3 +1,5 @@
+<script lang="ts" setup></script>
+
 <template>
   <div class="w-full mt-10">
     <div class="mb-10">
@@ -24,5 +26,3 @@
     </FormKit>
   </div>
 </template>
-
-<script lang="ts" setup></script>

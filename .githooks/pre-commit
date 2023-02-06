@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
 echo "-----------------------------"
@@ -7,6 +7,7 @@ echo "| Running Code Quality      |"
 echo "-----------------------------"
 sh -c "pnpm lint:check"
 sh -c "pnpm format:check"
+sh -c "pnpm type:check"
 
 echo "-----------------------------"
 echo "| Running Test Cases        |"

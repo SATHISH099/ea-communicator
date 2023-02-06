@@ -9,6 +9,7 @@
 
 body {
     font-family: "Ubuntu", sans-serif;
+    overflow: hidden;
 }
 
 .btn {
@@ -69,11 +70,6 @@ a {
 .formkit-messages {
     color: $primary;
     margin-top: 10px;
-}
-
-
-.main-wrapper {
-    margin: 50px 30px 50px 350px;
 }
 
 .update-card {

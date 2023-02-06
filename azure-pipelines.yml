@@ -42,6 +42,9 @@ stages:
           - script: pnpm format:check
             displayName: "Checking Code Formating"
 
+          - script: pnpm type:check
+            displayName: "Running Type Checker"
+
           - script: pnpm test:cov
             displayName: "Running Test Cases"
 
