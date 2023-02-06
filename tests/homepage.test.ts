@@ -1,6 +1,8 @@
-import { $fetch, isDev } from '@nuxt/test-utils';
+import { $fetch, isDev, setup } from '@nuxt/test-utils';
 
-describe('home page', () => {
+describe('home page', async () => {
+  await setup();
+
   it('Renders Home page "Page"', async () => {
     expect(await $fetch('/')).toMatch('Page');
   });
