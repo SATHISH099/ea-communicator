@@ -35,7 +35,9 @@ export default defineComponent({
       <tbody>
         <tr v-for="row in rows" :key="row.id">
           <td><input type="checkbox" /></td>
-          <td v-for="cell in row" :key="cell">{{ cell }}</td>
+          <td v-for="cell in row" :key="cell">
+            <img class="pr-4" :src="cell.image" /> {{ cell.value ?? cell }}
+          </td>
         </tr>
       </tbody>
     </table>
@@ -71,6 +73,10 @@ export default defineComponent({
           padding: 18px 30px;
           font-size: 14px;
           text-align: left;
+          &:nth-child(2) {
+            display: flex;
+            align-items: center;
+          }
         }
       }
     }
