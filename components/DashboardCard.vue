@@ -11,7 +11,7 @@ export default defineComponent({
 
 <template>
   <div class="card">
-    <div class="card-header">
+    <div class="card-header flex justify-between">
       <h5 class="card-title">{{ title }}</h5>
     </div>
     <div class="card-body">
