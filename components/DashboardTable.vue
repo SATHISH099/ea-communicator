@@ -36,7 +36,8 @@ export default defineComponent({
         <tr v-for="row in rows" :key="row.id">
           <td><input type="checkbox" /></td>
           <td v-for="cell in row" :key="cell">
-            <img class="pr-4" :src="cell.image" /> {{ cell.value ?? cell }}
+            <img v-if="cell.image" class="pr-4" :src="cell.image" />
+            {{ cell.value ?? cell }}
           </td>
         </tr>
       </tbody>
