@@ -1,10 +1,8 @@
-<script lang="ts">
-export default defineComponent({
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
+<script setup>
+const props = defineProps({
+  title: {
+    type: String,
+    required: true,
   },
 });
 </script>
@@ -12,7 +10,7 @@ export default defineComponent({
 <template>
   <div class="card">
     <div class="card-header flex justify-between">
-      <h5 class="card-title">{{ title }}</h5>
+      <h5 class="card-title">{{ props.title }}</h5>
     </div>
     <div class="card-body">
       <slot />

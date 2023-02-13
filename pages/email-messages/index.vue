@@ -23,24 +23,30 @@
             </div>
           </div>
         </NuxtLink>
-        <div class="w-[284px] h-[176px] rounded-[4px] small-shadow p-[25px]">
-          <div class="flex flex-col justify-between items-center">
-            <img src="/alerts.png" alt="messages" />
-            <p class="text-[20px] text-carbon font-medium mt-6">Alerts</p>
+        <NuxtLink to="/email-messages/alert">
+          <div class="w-[284px] h-[176px] rounded-[4px] small-shadow p-[25px]">
+            <div class="flex flex-col justify-between items-center">
+              <img src="/alerts.png" alt="messages" />
+              <p class="text-[20px] text-carbon font-medium mt-6">Alerts</p>
+            </div>
           </div>
-        </div>
-        <div class="w-[284px] h-[176px] rounded-[4px] small-shadow p-[25px]">
-          <div class="flex flex-col justify-between items-center">
-            <img src="/emails.png" alt="messages" />
-            <p class="text-[20px] text-carbon font-medium mt-6">Emails</p>
+        </NuxtLink>
+        <NuxtLink to="/email-messages/email">
+          <div class="w-[284px] h-[176px] rounded-[4px] small-shadow p-[25px]">
+            <div class="flex flex-col justify-between items-center">
+              <img src="/emails.png" alt="messages" />
+              <p class="text-[20px] text-carbon font-medium mt-6">Emails</p>
+            </div>
           </div>
-        </div>
-        <div class="w-[284px] h-[176px] rounded-[4px] small-shadow p-[25px]">
-          <div class="flex flex-col justify-between items-center">
-            <img src="/messages.png" alt="messages" />
-            <p class="text-[20px] text-carbon font-medium mt-6">SMS</p>
+        </NuxtLink>
+        <NuxtLink to="/email-messages/sms">
+          <div class="w-[284px] h-[176px] rounded-[4px] small-shadow p-[25px]">
+            <div class="flex flex-col justify-between items-center">
+              <img src="/messages.png" alt="messages" />
+              <p class="text-[20px] text-carbon font-medium mt-6">SMS</p>
+            </div>
           </div>
-        </div>
+        </NuxtLink>
         <div class="w-[284px] h-[176px] rounded-[4px] small-shadow p-[25px]">
           <div class="flex flex-col justify-between items-center">
             <img src="/voice.png" alt="messages" />

@@ -1,4 +1,7 @@
-<script lang="ts" setup></script>
+<script setup>
+// import { QuillEditor } from '@vueup/vue-quill';
+// import '@vueup/vue-quill/dist/vue-quill.snow.css';
+</script>
 
 <template>
   <div>
@@ -33,6 +36,11 @@
             :options="['email', 'message', 'sms', 'voice']"
             outer-class="mb-5"
           />
+          <div class="mb-5">
+            <!-- <ClientOnly>
+              <QuillEditor :content="content" />
+            </ClientOnly> -->
+          </div>
           <div class="flex justify-end">
             <button class="btn btn-primary">Save</button>
           </div>

@@ -5,6 +5,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Ubuntu", sans-serif;
 }
 
 body {
@@ -17,6 +18,7 @@ body {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .btn-primary {
@@ -56,6 +58,7 @@ body {
     border-radius: 4px;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     outline: none;
+    font-size: 16px;
 
     &:focus {
         border: 1px solid $primary;
@@ -77,4 +80,27 @@ a {
     background: #ffffff;
     border-radius: 4px;
     padding: 20px;
+}
+
+.radio-fieldset {
+    .formkit-fieldset {
+        border: none;
+
+        .formkit-options {
+            list-style-type: none;
+            display: flex;
+            align-items: center;
+            column-gap: 0.6rem;
+
+            .formkit-wrapper {
+                display: flex;
+                align-items: center;
+                column-gap: 0.4rem;
+            }
+        }
+    }
+}
+
+.ql-container {
+    height: auto !important;
 }
