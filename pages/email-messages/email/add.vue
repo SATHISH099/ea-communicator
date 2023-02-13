@@ -1,8 +1,6 @@
 <script setup>
 import Multiselect from '@vueform/multiselect';
 import '@vueform/multiselect/themes/default.css';
-// import { QuillEditor } from '@vueup/vue-quill';
-// import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 const MessageHeaders = ['Title', 'Message'];
 const MessageRows = [
@@ -27,7 +25,6 @@ const MessageRows = [
     message: 'This is a test message ',
   },
 ];
-const content = ref('Hello World');
 const showModal = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
@@ -98,9 +95,6 @@ const toggleModal = () => {
               class="form-control col-span-2 mb-5"
             />
           </div>
-          <!-- <ClientOnly>
-            <QuillEditor :content="content" />
-          </ClientOnly> -->
           <div class="flex justify-end items-center mt-5">
             <button class="btn btn-primary">Send Email</button>
           </div>
