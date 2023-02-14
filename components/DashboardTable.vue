@@ -1,26 +1,16 @@
-<script lang="ts">
-export default defineComponent({
-  name: 'TableComponent',
-  props: {
-    headers: {
-      type: Array,
-      required: true,
-    },
-    rows: {
-      type: Array,
-      required: true,
-    },
+<script setup>
+const props = defineProps({
+  headers: {
+    type: Array,
+    required: true,
   },
-  setup(props: any) {
-    const headers = ref(props.headers);
-    const rows = ref(props.rows);
-
-    return {
-      headers,
-      rows,
-    };
+  rows: {
+    type: Array,
+    required: true,
   },
 });
+const headers = ref(props.headers);
+const rows = ref(props.rows);
 </script>
 
 <template>
@@ -28,13 +18,11 @@ export default defineComponent({
     <table>
       <thead>
         <tr>
-          <th><input type="checkbox" /></th>
           <th v-for="header in headers" :key="header">{{ header }}</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="row in rows" :key="row.id">
-          <td><input type="checkbox" /></td>
           <td v-for="cell in row" :key="cell">
             <img v-if="cell.image" class="pr-4" :src="cell.image" />
             {{ cell.value ?? cell }}

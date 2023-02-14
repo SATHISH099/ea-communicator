@@ -11,9 +11,10 @@ const unocssConfig: UnocssNuxtOptions = {
     'bg-white-smoke': 'bg-[#F5F5F5]',
     'text-primary': 'text-[#B42424]',
     'text-carbon': 'text-[#2D2D2E]',
-    'text-stone-cold': 'text-[#555555]',
+    'text-stone': 'text-[#555555]',
     'text-silver': 'text-[#A3A3A3]',
     'small-shadow': 'shadow-[0_2px_30px_rgba(45,45,46,0.06)]',
+    'form-check-input': 'accent-[#B42424] w-[20px] h-[20px]',
   },
 };
 

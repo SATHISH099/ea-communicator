@@ -1,19 +1,40 @@
 <script lang="ts" setup>
 const MenuItems = [
-  { text: 'Dashboard', link: '/dashboard', icon: 'dashboard.png' },
-  { text: 'Manage Users', link: '/', icon: 'people.png' },
+  {
+    text: 'Dashboard',
+    link: '/dashboard',
+    icon: 'dashboard.png',
+    activeIcon: 'dashboard-active.png',
+  },
+  {
+    text: 'Manage Users',
+    link: '',
+    icon: 'people.png',
+    activeIcon: 'people-active.png',
+  },
   {
     text: 'Email / Messages',
     link: '/email-messages',
     icon: 'email.png',
+    activeIcon: 'email-active.png',
     items: [
-      { text: 'Predefined Messages', link: '/pre' },
-      { text: 'Account', link: '/account' },
+      {
+        text: 'Predefined Messages',
+        link: '/email-messages/predefined-messages',
+      },
+      { text: 'Alert', link: '/email-messages/alert' },
+      { text: 'Email', link: '/email-messages/email' },
     ],
   },
-  { text: 'Recipients and Groups', link: '/', icon: 'recipients-groups.png' },
+  {
+    text: 'Recipients and Groups',
+    link: '',
+    icon: 'recipients-groups.png',
+    activeIcon: 'recipients-groups-active.png',
+  },
 ];
 
+const showDropdown = ref('');
 const SidebarOpen = ref(true);
 </script>
 
@@ -37,19 +58,56 @@ const SidebarOpen = ref(true);
         <div class="mt-8">
           <nav>
             <ul>
-              <li v-for="item in MenuItems" :key="item.link">
+              <li
+                v-for="item in MenuItems"
+                :key="item.link"
+                class="py-[20px] px-0 text-silver cursor-pointer relative"
+              >
                 <NuxtLink
-                  class="text-silver no-underline flex items-center gap-3"
                   :to="item.link"
-                  ><img alt="item-icon" :src="`/${item.icon}`" />
+                  :class="`${
+                    $route.path === item.link ? 'text-primary' : 'text-silver'
+                  } no-underline flex items-center gap-3`"
+                  ><img
+                    alt="item-icon"
+                    :src="`/${
+                      $route.path === item.link ? item.activeIcon : item.icon
+                    }`"
+                  />
                   {{ SidebarOpen ? item.text : '' }}</NuxtLink
                 >
-                <!-- <ul v-if="item.items">
-                  <li v-for="subitem in item.items" :key="subitem.link">
-                    <NuxtLink class="text-silver no-underline" :to="subitem.link">{{ SidebarOpen? subitem.text : '' }}
+                <template v-if="item.items && SidebarOpen">
+                  <img
+                    :src="
+                      showDropdown === item.link
+                        ? '/arrow-up.png'
+                        : '/arrow-down.png'
+                    "
+                    alt="arrow-down"
+                    class="absolute top-[1.55rem] -right-[2rem]"
+                    @click="
+                      showDropdown === item.link
+                        ? (showDropdown = '')
+                        : (showDropdown = item.link)
+                    "
+                  />
+                </template>
+                <ul
+                  v-if="item.items && showDropdown === item.link"
+                  class="transition"
+                >
+                  <li
+                    v-for="subitem in item.items"
+                    :key="subitem.link"
+                    class="pt-[2em] pl-[2em]"
+                  >
+                    <NuxtLink
+                      class="text-silver no-underline"
+                      :to="subitem.link"
+                      >{{ SidebarOpen ? subitem.text : '' }}
                     </NuxtLink>
                   </li>
-                </ul> -->
+                </ul>
               </li>
             </ul>
           </nav>
@@ -71,7 +129,7 @@ const SidebarOpen = ref(true);
 
 <style lang="scss">
 .sidebar {
-  width: 90px;
+  width: 5.625em;
   height: 100vh;
   background: #ffffff;
   z-index: 1;
@@ -107,15 +165,8 @@ const SidebarOpen = ref(true);
 
     ul {
       list-style-type: none;
-
-      li {
-        color: #a3a3a3;
-        padding: 20px 0;
-        cursor: pointer;
-
-        a {
-          justify-content: center;
-        }
+      a {
+        justify-content: center;
       }
     }
   }
