@@ -2,70 +2,70 @@
 const RecentEmailHeaders = [
   'Recipients',
   'Subject',
-  'Alert Message',
+  'Email Message',
   'Sent Date',
 ];
 const RecentEmailRows = [
   {
     Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
     Subject: 'Request For API endpoints',
-    AlertMessage:
+    EmailMessage:
       'It depefs largely on how much emphasis there is on visual design',
     SentDate: 'Mon 19-sep-2022',
   },
   {
     Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
     Subject: 'Request For API endpoints',
-    AlertMessage:
+    EmailMessage:
       'It depefs largely on how much emphasis there is on visual design',
     SentDate: 'Mon 19-sep-2022',
   },
   {
     Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
     Subject: 'Request For API endpoints',
-    AlertMessage:
+    EmailMessage:
       'It depefs largely on how much emphasis there is on visual design',
     SentDate: 'Mon 19-sep-2022',
   },
   {
     Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
     Subject: 'Request For API endpoints',
-    AlertMessage:
+    EmailMessage:
       'It depefs largely on how much emphasis there is on visual design',
     SentDate: 'Mon 19-sep-2022',
   },
   {
     Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
     Subject: 'Request For API endpoints',
-    AlertMessage:
+    EmailMessage:
       'It depefs largely on how much emphasis there is on visual design',
     SentDate: 'Mon 19-sep-2022',
   },
   {
     Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
     Subject: 'Request For API endpoints',
-    AlertMessage:
+    EmailMessage:
       'It depefs largely on how much emphasis there is on visual design',
     SentDate: 'Mon 19-sep-2022',
   },
   {
     Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
     Subject: 'Request For API endpoints',
-    AlertMessage:
+    EmailMessage:
       'It depefs largely on how much emphasis there is on visual design',
     SentDate: 'Mon 19-sep-2022',
   },
   {
     Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
     Subject: 'Request For API endpoints',
-    AlertMessage:
+    EmailMessage:
       'It depefs largely on how much emphasis there is on visual design',
     SentDate: 'Mon 19-sep-2022',
   },
   {
     Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
     Subject: 'Request For API endpoints',
-    AlertMessage:
+    EmailMessage:
       'It depefs largely on how much emphasis there is on visual design',
     SentDate: 'Mon 19-sep-2022',
   },
@@ -75,13 +75,12 @@ const RecentEmailRows = [
 <template>
   <div>
     <div class="mb-4">
-      <h2 class="mb-4">Alert</h2>
+      <h2 class="mb-4">History</h2>
       <div class="flex justify-between">
         <p class="text-silver">
-          Communicator / Email / Messages /
-          <span class="text-primary">Alert</span>
+          Communicator /
+          <span class="text-primary">History</span>
         </p>
-        <button class="btn btn-primary">Create New Alert</button>
       </div>
     </div>
     <div class="update-card">
@@ -89,7 +88,7 @@ const RecentEmailRows = [
         <div class="flex items-center">
           <FormKit
             type="search"
-            placeholder="Search alert"
+            placeholder="Search"
             input-class="form-control w-[555px]"
             value=""
           />
@@ -100,7 +99,13 @@ const RecentEmailRows = [
             input-class="form-control"
             type="select"
             name="predefined_messages"
-            :options="['Sort by: older to Newest']"
+            :options="['Filter by: Date']"
+          />
+          <FormKit
+            input-class="form-control"
+            type="select"
+            name="predefined_messages"
+            :options="['Category: Email']"
           />
         </div>
       </div>
