@@ -119,6 +119,7 @@ const RecentEmailRows = [
         :rows="RecentEmailRows"
         class="w-full"
       />
+      <PaginationTable></PaginationTable>
     </div>
   </div>
 </template>
