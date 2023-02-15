@@ -27,6 +27,9 @@ const rows = ref(props.rows);
             <img v-if="cell.image" class="pr-4" :src="cell.image" />
             {{ cell.value ?? cell }}
           </td>
+          <td>
+            <DropdownTable></DropdownTable>
+          </td>
         </tr>
       </tbody>
     </table>
