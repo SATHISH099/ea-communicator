@@ -4,6 +4,7 @@ const RecentEmailHeaders = [
   'Subject',
   'Alert Message',
   'Sent Date',
+  '',
 ];
 const RecentEmailRows = [
   {

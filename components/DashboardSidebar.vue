@@ -32,7 +32,7 @@ const MenuItems = [
     icon: 'recipients-groups.png',
     activeIcon: 'recipients-groups-active.png',
   },
-  { text: 'History', link: '/history', icon: 'recipients-groups.png' },
+  { text: 'History', link: '/history', icon: 'History.png' },
 ];
 
 const showDropdown = ref('');
