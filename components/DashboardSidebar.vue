@@ -2,15 +2,9 @@
 const MenuItems = [
   {
     text: 'Dashboard',
-    link: '/dashboard',
+    link: '/',
     icon: 'dashboard.png',
     activeIcon: 'dashboard-active.png',
-  },
-  {
-    text: 'Manage Users',
-    link: '',
-    icon: 'people.png',
-    activeIcon: 'people-active.png',
   },
   {
     text: 'Email / Messages',
@@ -19,12 +13,12 @@ const MenuItems = [
     activeIcon: 'email-active.png',
     items: [
       {
-        text: 'Predefined Messages',
-        link: '/email-messages/predefined-messages',
+        text: 'Predefined Templates',
+        link: '/email-messages/predefined-templates',
       },
       {
         text: 'Scheduled Messages',
-        link: '/email-messages/predefined-messages',
+        link: '',
       },
       { text: 'Messages', link: '/email-messages/alert' },
       { text: 'Email', link: '/email-messages/email' },
@@ -33,11 +27,23 @@ const MenuItems = [
   },
   {
     text: 'Recipients and Groups',
-    link: '',
+    link: '/recipients-and-groups',
     icon: 'recipients-groups.png',
     activeIcon: 'recipients-groups-active.png',
+    items: [
+      {
+        text: 'Groups',
+        link: '/recipients-and-groups/groups',
+      },
+      { text: 'Recipients', link: '/recipients-and-groups/recipients' },
+    ],
   },
-  { text: 'History', link: '/history', icon: 'History.png' },
+  {
+    text: 'History',
+    link: '/history',
+    icon: 'history.png',
+    activeIcon: 'history-active.png',
+  },
 ];
 
 const showDropdown = ref('');
@@ -70,34 +76,23 @@ const SidebarOpen = ref(true);
                 class="py-[20px] px-0 text-silver cursor-pointer relative"
               >
                 <NuxtLink
-                  :to="item.link"
                   :class="`${
                     $route.path === item.link ? 'text-primary' : 'text-silver'
                   } no-underline flex items-center gap-3`"
+                  :to="item.link"
+                  @click="
+                    showDropdown === item.link
+                      ? (showDropdown = '')
+                      : (showDropdown = item.link)
+                  "
                   ><img
                     alt="item-icon"
                     :src="`/${
                       $route.path === item.link ? item.activeIcon : item.icon
                     }`"
                   />
-                  {{ SidebarOpen ? item.text : '' }}</NuxtLink
-                >
-                <template v-if="item.items && SidebarOpen">
-                  <img
-                    :src="
-                      showDropdown === item.link
-                        ? '/arrow-up.png'
-                        : '/arrow-down.png'
-                    "
-                    alt="arrow-down"
-                    class="absolute top-[1.55rem] -right-[2rem]"
-                    @click="
-                      showDropdown === item.link
-                        ? (showDropdown = '')
-                        : (showDropdown = item.link)
-                    "
-                  />
-                </template>
+                  {{ SidebarOpen ? item.text : '' }}
+                </NuxtLink>
                 <ul
                   v-if="item.items && showDropdown === item.link"
                   class="transition"
@@ -108,7 +103,11 @@ const SidebarOpen = ref(true);
                     class="pt-[2em] pl-[2em]"
                   >
                     <NuxtLink
-                      class="text-silver no-underline"
+                      :class="`${
+                        $route.path === subitem.link
+                          ? 'text-primary'
+                          : 'text-silver'
+                      }`"
                       :to="subitem.link"
                       >{{ SidebarOpen ? subitem.text : '' }}
                     </NuxtLink>
@@ -141,6 +140,11 @@ const SidebarOpen = ref(true);
   z-index: 1;
   transition: 0.5s;
   padding: 30px;
+  @media screen and (max-width: 768px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
 
   .sidebar-toggle-btn {
     position: absolute;

@@ -60,6 +60,10 @@ body {
     outline: none;
     font-size: 16px;
 
+    &::placeholder {
+        color: $silver;
+    }
+
     &:focus {
         border: 1px solid $primary;
     }
@@ -70,10 +74,84 @@ a {
     text-decoration: none;
 }
 
-.formkit-messages {
-    color: $primary;
-    margin-top: 10px;
+
+.formkit-outer {
+    .formkit-inner {
+        position: relative;
+
+        &.file-uploader {
+            border: 1px solid #E4E4E4;
+            padding: 1rem;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+
+            input {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                cursor: pointer;
+                z-index: 2;
+                color: transparent;
+                opacity: 0;
+            }
+
+            .formkit-file-list {
+                list-style-type: none;
+                z-index: 3;
+
+                .formkit-file-item {
+                    background-color: #F7F7F7;
+                    border: 1px solid #E4E4E4;
+                    padding: 0.5rem;
+                    margin: 0.4rem;
+
+                    .formkit-file-name {
+                        color: #555555;
+                        font-size: 14px;
+                    }
+                }
+            }
+
+            .formkit-no-files {
+                display: flex;
+                flex-grow: 1;
+                color: #555555;
+            }
+
+            svg {
+                width: 1.2rem;
+                color: #555555;
+            }
+
+            .formkit-file-remove {
+                z-index: 3;
+            }
+        }
+
+        .search-icon {
+            svg {
+                position: absolute;
+                top: 50%;
+                left: 2rem;
+                transform: translate(-50%, -50%);
+                width: 1.4rem;
+            }
+        }
+    }
+
+    .formkit-messages {
+        color: $primary;
+        margin-top: 10px;
+        list-style-type: none;
+    }
 }
+
 
 .update-card {
     box-shadow: 0px 2px 30px rgba(45, 45, 46, 0.06);
@@ -89,6 +167,7 @@ a {
         .formkit-options {
             list-style-type: none;
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             column-gap: 0.6rem;
 
@@ -102,5 +181,38 @@ a {
 }
 
 .ql-container {
-    height: auto !important;
+    min-height: 15rem !important;
+}
+
+.multiselect {
+    border: 1px solid #dce1eb !important;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    min-height: 3.25rem !important;
+
+    &.is-active {
+        box-shadow: none !important;
+        border-color: $primary !important;
+    }
+
+    .multiselect-option {
+        &.is-selected {
+            background: $primary !important;
+            color: $white !important;
+        }
+
+        &.is-pointed {
+            background: $floral-white !important;
+            color: $secondary !important;
+        }
+    }
+
+    .multiselect-tags {
+        .multiselect-tag {
+            background-color: transparent;
+            border: 1px solid $primary;
+            border-radius: 24px;
+            color: $primary;
+            font-weight: 400;
+        }
+    }
 }

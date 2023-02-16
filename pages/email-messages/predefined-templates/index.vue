@@ -35,15 +35,15 @@ const MessageRows = [
   <div>
     <div class="flex justify-between items-center mb-10">
       <div>
-        <h4 class="mb-4 text-carbon">Email</h4>
+        <h4 class="mb-4 text-carbon">Predefined Templates</h4>
         <p class="text-silver">
           Smart Suite / Communicator /
-          <span class="text-primary">Email</span>
+          <span class="text-primary">Predefined Templates</span>
         </p>
       </div>
       <div>
-        <NuxtLink to="./email/add" class="btn btn-primary"
-          >Compose New Email</NuxtLink
+        <NuxtLink to="./predefined-templates/add" class="btn btn-primary"
+          >Create Message</NuxtLink
         >
       </div>
     </div>
@@ -61,10 +61,16 @@ const MessageRows = [
             />
             <button class="btn btn-primary">Search</button>
           </div>
-          <div class="md:w-[16.5rem] w-full">
+          <div class="flex flex-wrap items-center gap-3">
             <Multiselect
-              placeholder="Sort by: Oldest to newest"
+              placeholder="Predefined Type"
               :options="['test1', 'test2']"
+              class="md:w-[14rem] w-full"
+            />
+            <Multiselect
+              placeholder="Sort by"
+              :options="['test1', 'test2']"
+              class="md:w-[10rem] w-full"
             />
           </div>
         </div>

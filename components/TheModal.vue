@@ -9,6 +9,7 @@ const props = defineProps({
     default: false,
   },
 });
+const emit = defineEmits('close');
 </script>
 
 <template>
@@ -27,7 +28,7 @@ const props = defineProps({
             border-0
             cursor-pointer
             p-0
-            @click="$emit('close')"
+            @click="emit('close')"
           >
             <img src="/close.png" alt="close" />
           </button>

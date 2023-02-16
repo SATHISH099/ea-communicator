@@ -1,6 +1,5 @@
 <script setup>
 import Multiselect from '@vueform/multiselect';
-import '@vueform/multiselect/themes/default.css';
 
 const MessageHeaders = ['Title', 'Message'];
 const MessageRows = [
@@ -43,13 +42,13 @@ const toggleModal = () => {
       </div>
     </div>
     <div w-full>
-      <div grid grid-cols-3 gap-5>
+      <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>
         <div bg-white small-shadow p-6 col-span-2>
-          <div flex justify-between items-center>
+          <div flex flex-wrap justify-between items-center>
             <h5 text-stone>Compose New Email</h5>
-            <div flex items-center gap-5>
+            <div flex flex-wrap items-center gap-5>
               <h6 text-stone>Importance Level</h6>
-              <div flex items-center gap-3>
+              <div flex flex-wrap items-center gap-3>
                 <FormKit
                   v-model="value"
                   type="radio"
@@ -60,13 +59,11 @@ const toggleModal = () => {
               </div>
             </div>
           </div>
-          <div grid grid-cols-2 gap-5 mt-8>
-            <FormKit
-              type="select"
-              name="from"
-              :options="['test1', 'test2']"
+          <div grid md:grid-cols-2 grid-cols-1 gap-5 mt-8>
+            <Multiselect
+              v-model="value"
               placeholder="From"
-              input-class="form-control"
+              :options="['test1', 'test2']"
             />
             <button
               class="border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex justify-between text-[1rem] text-silver items-center p-[1rem]"
@@ -89,23 +86,42 @@ const toggleModal = () => {
               <span>BCC</span>
               <img src="/plus.png" alt="plus" />
             </button>
-            <input
-              placeholder="Subject"
+            <FormKit
               type="text"
-              class="form-control col-span-2 mb-5"
+              placeholder="Subject"
+              input-class="form-control"
+              outer-class="mb-5 col-span-2"
             />
           </div>
-          <div class="flex justify-end items-center mt-5">
-            <button class="btn btn-primary">Send Email</button>
+          <div mb-5>
+            <ClientOnly>
+              <RichTextEditor />
+            </ClientOnly>
+          </div>
+          <div flex flex-warp justify-between items-center>
+            <FormKit
+              type="file"
+              accept=".pdf,.doc,.docx,.xml,.md,.csv"
+              multiple="true"
+              inner-class="file-uploader"
+              prefix-icon="link"
+              prefix-icon-class="mr-3"
+              outer-class="min-w-[20em]"
+            />
+            <div class="flex justify-end items-center mt-5">
+              <button class="btn btn-primary">Send Email</button>
+            </div>
           </div>
         </div>
         <div bg-white small-shadow>
           <div px-6 pt-6>
             <h5 text-stone mb-5>Predefined Templates</h5>
             <FormKit
+              prefix-icon="search"
               type="search"
               placeholder="Search"
-              input-class="form-control"
+              input-class="form-control pl-[3.5rem]"
+              prefix-icon-class="search-icon"
             />
           </div>
           <DashboardTable
@@ -122,14 +138,20 @@ const toggleModal = () => {
         @close="toggleModal"
       >
         <div class="mt-10">
-          <Multiselect
-            v-model="value"
-            :options="['test1', 'test2']"
-            searchable="true"
-            mode="tags"
-            :create-option="true"
-            :close-on-select="false"
-          />
+          <div flex items-center gap-3>
+            <Multiselect
+              v-model="value"
+              :options="['test1', 'test2']"
+              searchable="true"
+              mode="tags"
+              :create-option="true"
+              :close-on-select="false"
+              placeholder="Search"
+            />
+            <button class="form-control w-[3.5rem] cursor-pointer">
+              <img src="/add-user.png" alt="" />
+            </button>
+          </div>
           <div flex justify-end mt-5>
             <button class="btn btn-primary">Add</button>
           </div>
