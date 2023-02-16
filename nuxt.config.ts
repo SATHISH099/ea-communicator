@@ -10,8 +10,11 @@ const nuxtConfig = defineNuxtConfig({
     public: {
       apiBase: process.env.BASE_URL,
     },
+    build: {
+      transpile: ['@vuepic/vue-datepicker'],
+    },
   },
-  css: ['~/assets/scss/main.scss'],
+  css: ['~/assets/scss/main.scss', '@vueform/multiselect/themes/default.css'],
 });
 
 export default { ...nuxtConfig, unocss: { ...unocssConfig } };

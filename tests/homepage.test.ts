@@ -4,7 +4,7 @@ describe('home page', async () => {
   await setup();
 
   it('Renders Home page "Page"', async () => {
-    expect(await $fetch('/')).toMatch('Page');
+    expect(await $fetch('/')).toMatch('Dashboard');
   });
 
   if (isDev()) {

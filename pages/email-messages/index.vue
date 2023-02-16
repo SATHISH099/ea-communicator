@@ -13,12 +13,12 @@
       class="bg-white small-shadow min-h-[48rem] flex justify-center items-center p-10"
     >
       <div class="grid grid-cols-3 gap-6">
-        <NuxtLink to="/email-messages/predefined-messages">
+        <NuxtLink to="/email-messages/predefined-templates">
           <div class="w-[284px] h-[176px] rounded-[4px] small-shadow p-[25px]">
             <div class="flex flex-col justify-between items-center">
               <img src="/messages.png" alt="messages" />
               <p class="text-[20px] text-carbon font-medium mt-6">
-                Predefined Messages
+                Predefined Templates
               </p>
             </div>
           </div>

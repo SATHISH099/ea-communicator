@@ -9,22 +9,22 @@ const MessageRows = [
     date: 'Mon, 19 Sep 2022 09:01 PM',
   },
   {
-    title: 'Keyword',
+    title: 'Keyword1',
     message: 'This is a test message ',
     date: 'Mon, 19 Sep 2022 09:01 PM',
   },
   {
-    title: 'Keyword',
+    title: 'Keyword2',
     message: 'This is a test message ',
     date: 'Mon, 19 Sep 2022 09:01 PM',
   },
   {
-    title: 'Keyword',
+    title: 'Keyword3',
     message: 'This is a test message ',
     date: 'Mon, 19 Sep 2022 09:01 PM',
   },
   {
-    title: 'Keyword',
+    title: 'Keyword4',
     message: 'This is a test message ',
     date: 'Mon, 19 Sep 2022 09:01 PM',
   },
@@ -35,15 +35,15 @@ const MessageRows = [
   <div>
     <div class="flex justify-between items-center mb-10">
       <div>
-        <h4 class="mb-4 text-carbon">Email</h4>
+        <h4 class="mb-4 text-carbon">Groups</h4>
         <p class="text-silver">
           Smart Suite / Communicator /
-          <span class="text-primary">Email</span>
+          <span class="text-primary">Groups</span>
         </p>
       </div>
       <div>
-        <NuxtLink to="./email/add" class="btn btn-primary"
-          >Compose New Email</NuxtLink
+        <NuxtLink to="./groups/create" class="btn btn-primary"
+          >Create New Group</NuxtLink
         >
       </div>
     </div>
@@ -61,10 +61,11 @@ const MessageRows = [
             />
             <button class="btn btn-primary">Search</button>
           </div>
-          <div class="md:w-[16.5rem] w-full">
+          <div class="flex items-center gap-3">
             <Multiselect
-              placeholder="Sort by: Oldest to newest"
+              placeholder="Sort by"
               :options="['test1', 'test2']"
+              class="md:w-[10rem] w-full"
             />
           </div>
         </div>
