@@ -22,8 +22,13 @@ const MenuItems = [
         text: 'Predefined Messages',
         link: '/email-messages/predefined-messages',
       },
-      { text: 'Alert', link: '/email-messages/alert' },
+      {
+        text: 'Scheduled Messages',
+        link: '/email-messages/predefined-messages',
+      },
+      { text: 'Messages', link: '/email-messages/alert' },
       { text: 'Email', link: '/email-messages/email' },
+      { text: 'SMS', link: '/email-messages/sms' },
     ],
   },
   {

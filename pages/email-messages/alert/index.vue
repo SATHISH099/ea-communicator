@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-const RecentEmailHeaders = [
+const MessageHeaders = [
   'Recipients',
   'Subject',
   'Alert Message',
   'Sent Date',
   '',
 ];
-const RecentEmailRows = [
+const MessageRows = [
   {
     Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
     Subject: 'Request For API endpoints',
@@ -32,7 +32,7 @@ const RecentEmailRows = [
     Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
     Subject: 'Request For API endpoints',
     AlertMessage:
-      'It depefs largely on how much emphasis there is on visual design',
+      'It depends largely on how much emphasis there is on visual design',
     SentDate: 'Mon 19-sep-2022',
   },
   {
@@ -75,42 +75,55 @@ const RecentEmailRows = [
 
 <template>
   <div>
-    <div class="mb-4">
-      <h2 class="mb-4">Alert</h2>
-      <div class="flex justify-between">
+    <div class="flex justify-between items-center mb-10">
+      <div>
+        <h4 class="mb-4 text-carbon">Messages</h4>
         <p class="text-silver">
-          Communicator / Email / Messages /
-          <span class="text-primary">Alert</span>
+          Communicator / Email Messages /
+          <span class="text-primary">Messages</span>
         </p>
-        <button class="btn btn-primary">Create New Alert</button>
+      </div>
+      <div>
+        <NuxtLink to="./predefined-messages/add" class="btn btn-primary"
+          >Add New Message</NuxtLink
+        >
       </div>
     </div>
-    <div class="update-card">
-      <div class="flex justify-between items-center">
-        <div class="flex items-center">
-          <FormKit
-            type="search"
-            placeholder="Search alert"
-            input-class="form-control w-[555px]"
-            value=""
-          />
-          <button class="btn btn-primary ml-4">Search</button>
-        </div>
-        <div class="flex items-center gap-3">
-          <FormKit
-            input-class="form-control"
-            type="select"
-            name="predefined_messages"
-            :options="['Sort by: older to Newest']"
-          />
+    <div class="bg-white small-shadow">
+      <div class="p-6">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center">
+            <FormKit
+              type="search"
+              placeholder="Search Alert"
+              input-class="form-control w-[555px]"
+              value=""
+            />
+            <button class="btn btn-primary ml-4">Search</button>
+          </div>
+          <div class="flex items-center gap-3">
+            <FormKit
+              input-class="form-control"
+              type="select"
+              placeholder="Predefined type"
+              name="predefined_messages"
+              :options="['email', 'alert', 'sms', 'voice']"
+            />
+            <FormKit
+              input-class="form-control"
+              type="select"
+              name="predefined_messages"
+              :options="['Sort by']"
+            />
+          </div>
         </div>
       </div>
-      <DashboardTable
-        :headers="RecentEmailHeaders"
-        :rows="RecentEmailRows"
-        class="w-full"
-      />
-      <PaginationTable></PaginationTable>
+      <div class="pb-10 pt-5">
+        <DashboardTable :headers="MessageHeaders" :rows="MessageRows" />
+        <div class="ml-8">
+          <PaginationTable></PaginationTable>
+        </div>
+      </div>
     </div>
   </div>
 </template>
