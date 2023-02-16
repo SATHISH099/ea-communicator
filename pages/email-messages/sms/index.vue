@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-const RecentEmailHeaders = [
+const MessageHeaders = [
   'Recipients',
   'Message Title',
   'Sender',
   'Sms Message',
   'Sent Date',
 ];
-const RecentEmailRows = [
+const MessageRows = [
   {
     Recepients: 'Wade Warren',
     MessageTitle: 'Request For API endpoints',
@@ -84,42 +84,40 @@ const RecentEmailRows = [
 
 <template>
   <div>
-    <div class="mb-4">
-      <h2 class="mb-4">Sms</h2>
-      <div class="flex justify-between">
+    <div class="flex justify-between items-center mb-10">
+      <div>
+        <h4 class="mb-4 text-carbon">Sms</h4>
         <p class="text-silver">
           Communicator / Email / Messages /
-          <span class="text-primary">Alert</span>
+          <span class="text-primary">Sms</span>
         </p>
-        <button class="btn btn-primary">Create New Sms</button>
+      </div>
+      <div>
+        <NuxtLink to="./predefined-messages/add" class="btn btn-primary"
+          >Add New Message</NuxtLink
+        >
       </div>
     </div>
-    <div class="update-card">
-      <div class="flex justify-between items-center">
-        <div class="flex items-center">
-          <FormKit
-            type="search"
-            placeholder="Search alert"
-            input-class="form-control w-[555px]"
-            value=""
-          />
-          <button class="btn btn-primary ml-4">Search</button>
-        </div>
-        <div class="flex items-center gap-3">
-          <FormKit
-            input-class="form-control"
-            type="select"
-            name="predefined_messages"
-            :options="['Sort by: older to Newest']"
-          />
+    <div class="bg-white small-shadow">
+      <div class="p-6">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center">
+            <FormKit
+              type="search"
+              placeholder="Search"
+              input-class="form-control w-[555px]"
+              value=""
+            />
+            <button class="btn btn-primary ml-4">Search</button>
+          </div>
         </div>
       </div>
-      <DashboardTable
-        :headers="RecentEmailHeaders"
-        :rows="RecentEmailRows"
-        class="w-full"
-      />
-      <PaginationTable></PaginationTable>
+      <div class="pb-10 pt-5">
+        <DashboardTable :headers="MessageHeaders" :rows="MessageRows" />
+        <div class="ml-8">
+          <PaginationTable></PaginationTable>
+        </div>
+      </div>
     </div>
   </div>
 </template>

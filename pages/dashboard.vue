@@ -24,7 +24,7 @@ const RecentEmailRows = [
     <div class="mb-12">
       <h4 class="mb-4 text-carbon">Dashboard</h4>
       <p class="text-silver">
-        Smart Suit / Communicator /
+        Communicator /
         <span class="text-primary">Dashboard</span>
       </p>
     </div>
@@ -65,13 +65,13 @@ const RecentEmailRows = [
         <img alt="library" src="/library.png" />
       </div>
     </div>
-    <div class="grid grid-cols-3 gap-8">
-      <div class="grid gap-8">
+    <div class="flex gap-6">
+      <div class="w-[66%]">
         <DashboardCard title="Messages">
           <div class="flex flex-col justify-between items-center gap-10">
             <img src="/pie-chart.png" alt="" class="h-90" />
           </div>
-          <div class="flex gap-10">
+          <div class="flex justify-center gap-10">
             <div class="mb-8">
               <div class="flex items-center gap-2 mb-2">
                 <img src="/messages.png" alt="" class="h-8" />
@@ -127,9 +127,9 @@ const RecentEmailRows = [
           </div>
         </DashboardCard>
       </div>
-      <DashboardCard title="" class="col-span-2">
+      <DashboardCard title="" class="w-full">
         <div class="flex justify-between px-6 pb-6">
-          <h5 class="text-stone-cold">Recent sent Emails</h5>
+          <h5 class="text-stone">Recent sent Emails</h5>
           <div class="flex">
             <p
               class="bg-white-smoke hover:bg-primary hover:text-white text-silver p-2 px-4"
