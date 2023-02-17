@@ -93,9 +93,7 @@ const MessageRows = [
         </p>
       </div>
       <div>
-        <NuxtLink to="./predefined-messages/add" class="btn btn-primary"
-          >Add New Message</NuxtLink
-        >
+        <NuxtLink to="" class="btn btn-primary">Add New Message</NuxtLink>
       </div>
     </div>
     <div class="bg-white small-shadow">

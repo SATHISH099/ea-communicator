@@ -38,10 +38,10 @@ const MessageRows = [
       </div>
     </div>
     <div w-full>
-      <div grid grid-cols-3 gap-5>
+      <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>
         <div bg-white small-shadow p-6 col-span-2>
           <h5 text-stone>Create New Recipient</h5>
-          <div grid grid-cols-2 gap-5 my-8>
+          <div grid lg:grid-cols-2 grid-cols-1 gap-5 my-8>
             <FormKit
               type="text"
               placeholder="First Name"

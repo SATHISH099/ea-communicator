@@ -4,8 +4,8 @@ import Multiselect from '@vueform/multiselect/src/Multiselect';
 
 <template>
   <div>
-    <div class="flex justify-between items-center mb-10">
-      <div>
+    <div class="flex flex-wrap justify-between items-center mb-10">
+      <div class="md:mb-0 mb-10">
         <h4 class="mb-4 text-carbon">Predefined Templates</h4>
         <p class="text-silver">
           Smart Suite / Communicator / Predefined Templates /
@@ -13,14 +13,14 @@ import Multiselect from '@vueform/multiselect/src/Multiselect';
         </p>
       </div>
       <div>
-        <NuxtLink @click.prevent="$router.back()" class="btn btn-primary"
+        <NuxtLink class="btn btn-primary" @click.prevent="$router.back()"
           >Back</NuxtLink
         >
       </div>
     </div>
     <DashboardCard title="Add New Predefined Template">
       <div class="p-6">
-        <div flex items-center gap-5 mb-6>
+        <div flex flex-wrap items-center gap-5 mb-6>
           <h6 text-stone>Communication Channels</h6>
           <div flex items-center gap-3>
             <FormKit

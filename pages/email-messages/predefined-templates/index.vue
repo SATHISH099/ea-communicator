@@ -33,15 +33,15 @@ const MessageRows = [
 
 <template>
   <div>
-    <div class="flex justify-between items-center mb-10">
-      <div>
+    <div class="flex flex-wrap justify-between items-center mb-10">
+      <div class="md:mb-0 mb-10">
         <h4 class="mb-4 text-carbon">Predefined Templates</h4>
         <p class="text-silver">
           Smart Suite / Communicator /
           <span class="text-primary">Predefined Templates</span>
         </p>
       </div>
-      <div>
+      <div class="md:w-auto">
         <NuxtLink to="./predefined-templates/add" class="btn btn-primary"
           >Create Message</NuxtLink
         >
@@ -59,9 +59,9 @@ const MessageRows = [
               prefix-icon-class="search-icon"
               outer-class="md:w-[34rem] w-full"
             />
-            <button class="btn btn-primary">Search</button>
+            <button class="btn btn-primary md:w-auto w-full">Search</button>
           </div>
-          <div class="flex flex-wrap items-center gap-3">
+          <div class="flex flex-wrap items-center gap-3 md:w-auto w-full">
             <Multiselect
               placeholder="Predefined Type"
               :options="['test1', 'test2']"
