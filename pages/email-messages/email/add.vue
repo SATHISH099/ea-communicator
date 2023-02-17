@@ -140,7 +140,7 @@ const toggleModal = () => {
         @close="toggleModal"
       >
         <div class="mt-10">
-          <div flex flex-wrap items-center gap-3>
+          <div flex items-center gap-3>
             <Multiselect
               v-model="value"
               :options="['test1', 'test2']"
