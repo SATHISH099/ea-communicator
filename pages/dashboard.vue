@@ -28,7 +28,7 @@ const RecentEmailRows = [
         <span class="text-primary">Dashboard</span>
       </p>
     </div>
-    <div class="items-center grid grid-cols-5 gap-6 mb-8">
+    <div class="items-center grid md:grid-cols-5 gap-6 mb-8">
       <div class="update-card flex justify-between items-center gap-15">
         <div>
           <h1 class="text-primary mb-2">25</h1>
@@ -65,14 +65,16 @@ const RecentEmailRows = [
         <img alt="library" src="/library.png" />
       </div>
     </div>
-    <div class="flex gap-6">
-      <div class="w-[66%]">
+    <div class="md:flex gap-6">
+      <div class="md:w-[66%] w-full">
         <DashboardCard title="Messages">
           <div class="flex flex-col justify-between items-center gap-10">
             <img src="/pie-chart.png" alt="" class="h-90" />
           </div>
-          <div class="flex justify-center gap-10">
-            <div class="mb-8">
+          <div
+            class="grid md:grid-cols-4 grid-cols-2 content-around gap-10 md:mb-0 mb-10"
+          >
+            <div class="mb-8 flex flex-col items-center md:items-start">
               <div class="flex items-center gap-2 mb-2">
                 <img src="/messages.png" alt="" class="h-8" />
               </div>
@@ -85,7 +87,7 @@ const RecentEmailRows = [
                 <span class="text-silver">Sms</span>
               </div>
             </div>
-            <div class="mb-8">
+            <div class="mb-8 flex flex-col items-center md:items-start">
               <div class="flex items-center gap-2 mb-2">
                 <img src="/messages.png" alt="" class="h-8" />
               </div>
@@ -98,7 +100,7 @@ const RecentEmailRows = [
                 <span class="text-silver">Emails</span>
               </div>
             </div>
-            <div class="mb-8">
+            <div class="mb-8 flex flex-col items-center md:items-start">
               <div class="flex items-center gap-2 mb-2">
                 <img src="/messages.png" alt="" class="h-8" />
               </div>
@@ -111,7 +113,7 @@ const RecentEmailRows = [
                 <span class="text-silver">Alerts</span>
               </div>
             </div>
-            <div>
+            <div class="mb-8 flex flex-col items-center md:items-start">
               <div class="flex items-center gap-2 mb-2">
                 <img src="/messages.png" alt="" class="h-8" />
               </div>
@@ -128,9 +130,9 @@ const RecentEmailRows = [
         </DashboardCard>
       </div>
       <DashboardCard title="" class="w-full">
-        <div class="flex justify-between px-6 pb-6">
-          <h5 class="text-stone">Recent sent Emails</h5>
-          <div class="flex">
+        <div class="md:flex justify-between px-6 pb-6">
+          <h5 class="text-stone mb-4 md:mb-0">Recent sent Emails</h5>
+          <div class="flex justify-start">
             <p
               class="bg-white-smoke hover:bg-primary hover:text-white text-silver p-2 px-4"
             >
@@ -156,7 +158,7 @@ const RecentEmailRows = [
         <DashboardTable
           :headers="RecentEmailHeaders"
           :rows="RecentEmailRows"
-          class="w-full"
+          class="w-full overflow-auto scroll"
         />
       </DashboardCard>
     </div>

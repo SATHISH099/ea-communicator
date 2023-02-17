@@ -3,16 +3,16 @@
 <template>
   <div>
     <div class="mb-10">
-      <h4 class="mb-4 text-carbon">Email / Messages</h4>
+      <h4 class="mb-4 text-stone">Email / Messages</h4>
       <p class="text-silver">
-        Smart Suite / Communicator /
-        <span class="text-primary"> Email / Messages</span>
+        Communicator /
+        <span class="text-primary">Email / Messages</span>
       </p>
     </div>
     <div
       class="bg-white small-shadow min-h-[48rem] flex justify-center items-center p-10"
     >
-      <div class="grid grid-cols-3 gap-6">
+      <div class="grid md:grid-cols-3 gap-6">
         <NuxtLink to="/email-messages/predefined-templates">
           <div class="w-[284px] h-[176px] rounded-[4px] small-shadow p-[25px]">
             <div class="flex flex-col justify-between items-center">

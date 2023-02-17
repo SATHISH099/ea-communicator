@@ -1,48 +1,94 @@
 <script lang="ts" setup>
 import Multiselect from '@vueform/multiselect/src/Multiselect';
 
-const MessageHeaders = ['Title', 'Message', 'Created Date'];
+const MessageHeaders = [
+  'Recipients',
+  'Subject',
+  'Email Message',
+  'Sent Date',
+  '',
+];
 const MessageRows = [
   {
-    title: 'Keyword',
-    message: 'This is a test message ',
-    date: 'Mon, 19 Sep 2022 09:01 PM',
+    Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
+    Subject: 'Request For API endpoints',
+    EmailMessage:
+      'It depefs largely on how much emphasis there is on visual design',
+    SentDate: 'Mon 19-sep-2022',
   },
   {
-    title: 'Keyword',
-    message: 'This is a test message ',
-    date: 'Mon, 19 Sep 2022 09:01 PM',
+    Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
+    Subject: 'Request For API endpoints',
+    EmailMessage:
+      'It depefs largely on how much emphasis there is on visual design',
+    SentDate: 'Mon 19-sep-2022',
   },
   {
-    title: 'Keyword',
-    message: 'This is a test message ',
-    date: 'Mon, 19 Sep 2022 09:01 PM',
+    Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
+    Subject: 'Request For API endpoints',
+    EmailMessage:
+      'It depefs largely on how much emphasis there is on visual design',
+    SentDate: 'Mon 19-sep-2022',
   },
   {
-    title: 'Keyword',
-    message: 'This is a test message ',
-    date: 'Mon, 19 Sep 2022 09:01 PM',
+    Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
+    Subject: 'Request For API endpoints',
+    EmailMessage:
+      'It depends largely on how much emphasis there is on visual design',
+    SentDate: 'Mon 19-sep-2022',
   },
   {
-    title: 'Keyword',
-    message: 'This is a test message ',
-    date: 'Mon, 19 Sep 2022 09:01 PM',
+    Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
+    Subject: 'Request For API endpoints',
+    EmailMessage:
+      'It depefs largely on how much emphasis there is on visual design',
+    SentDate: 'Mon 19-sep-2022',
+  },
+  {
+    Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
+    Subject: 'Request For API endpoints',
+    EmailMessage:
+      'It depefs largely on how much emphasis there is on visual design',
+    SentDate: 'Mon 19-sep-2022',
+  },
+  {
+    Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
+    Subject: 'Request For API endpoints',
+    EmailMessage:
+      'It depefs largely on how much emphasis there is on visual design',
+    SentDate: 'Mon 19-sep-2022',
+  },
+  {
+    Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
+    Subject: 'Request For API endpoints',
+    EmailMessage:
+      'It depefs largely on how much emphasis there is on visual design',
+    SentDate: 'Mon 19-sep-2022',
+  },
+  {
+    Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
+    Subject: 'Request For API endpoints',
+    EmailMessage:
+      'It depefs largely on how much emphasis there is on visual design',
+    SentDate: 'Mon 19-sep-2022',
   },
 ];
 </script>
 
 <template>
   <div>
-    <div class="flex justify-between items-center mb-10">
+    <div class="md:flex justify-between items-center mb-10">
       <div>
-        <h4 class="mb-4 text-carbon">Email</h4>
+        <h4 class="mb-4 text-stone">Email</h4>
         <p class="text-silver">
-          Smart Suite / Communicator /
+          Communicator / Email / Messages /
           <span class="text-primary">Email</span>
         </p>
       </div>
-      <div>
-        <NuxtLink to="./email/add" class="btn btn-primary"
+      <div class="flex mt-10 md:mt-0">
+        <NuxtLink
+          to="./email/add"
+          class="btn btn-primary w-full flex justify-center"
           >Compose New Email</NuxtLink
         >
       </div>
@@ -59,7 +105,7 @@ const MessageRows = [
               prefix-icon-class="search-icon"
               outer-class="md:w-[34rem] w-full"
             />
-            <button class="btn btn-primary">Search</button>
+            <button class="btn btn-primary md:w-30 w-full">Search</button>
           </div>
           <div class="md:w-[16.5rem] w-full">
             <Multiselect
@@ -69,8 +115,11 @@ const MessageRows = [
           </div>
         </div>
       </div>
-      <div class="pb-10 pt-5">
+      <div class="pb-10 pt-5 overflow-auto scroll">
         <DashboardTable :headers="MessageHeaders" :rows="MessageRows" />
+        <div class="ml-8">
+          <PaginationTable></PaginationTable>
+        </div>
       </div>
     </div>
   </div>

@@ -77,7 +77,7 @@ const MessageRows = [
   <div>
     <div class="flex justify-between items-center mb-10">
       <div>
-        <h4 class="mb-4 text-carbon">Messages</h4>
+        <h4 class="mb-4 text-stone">Messages</h4>
         <p class="text-silver">
           Communicator / Email Messages /
           <span class="text-primary">Messages</span>

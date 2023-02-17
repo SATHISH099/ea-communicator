@@ -44,7 +44,7 @@ const toggleModal = () => {
     <div w-full>
       <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>
         <div bg-white small-shadow p-6 col-span-2>
-          <div flex flex-wrap justify-between items-center>
+          <div md:flex flex-wrap justify-between items-center>
             <h5 text-stone>Compose New Email</h5>
             <div flex flex-wrap items-center gap-5>
               <h6 text-stone>Importance Level</h6>
