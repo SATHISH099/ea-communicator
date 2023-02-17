@@ -52,10 +52,7 @@ const SidebarOpen = ref(true);
 
 <template>
   <div>
-    <div
-      class="hidden md:block shadow-2xl relative sidebar"
-      :class="{ open: SidebarOpen }"
-    >
+    <div class="shadow-2xl relative sidebar" :class="{ open: SidebarOpen }">
       <div class="sidebar-toggle-btn" @click="SidebarOpen = !SidebarOpen">
         <img src="/back-icon.png" alt="" />
       </div>
@@ -145,7 +142,7 @@ const SidebarOpen = ref(true);
   padding: 30px;
   @media screen and (max-width: 768px) {
     position: fixed;
-    top: 0;
+    top: 5.5rem;
     left: 0;
   }
 
@@ -162,6 +159,11 @@ const SidebarOpen = ref(true);
     display: flex;
     align-items: center;
     cursor: pointer;
+    @media screen and (max-width: 768px) {
+      position: relative;
+      right: 0px;
+      top: -5.5em;
+    }
   }
 
   .logo {

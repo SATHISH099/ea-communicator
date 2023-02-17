@@ -9,9 +9,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="bg-[#F5F5F5] h-[90px] w-full flex md:justify-end justify-start pl-8 md:pl-0 items-center"
-  >
+  <div class="bg-[#F5F5F5] h-[90px] w-full flex justify-end items-center">
     <img src="/Component.png" class="mr-8" />
     <img src="/notification.png" class="mr-8" />
     <div class="dropdown">

@@ -7,7 +7,7 @@
       <div class="w-full">
         <DashboardHeader />
         <div
-          class="h-[89vh] overflow-auto pt-[3rem] pl-[2rem] pr-[2rem] pb-[2rem]"
+          class="h-[89vh] overflow-auto pt-[3rem] md:pl-[2rem] pl-[1rem] md:pr-[2rem] pr-[1rem] md:pb-[2rem] pb-[1rem]"
         >
           <slot />
         </div>

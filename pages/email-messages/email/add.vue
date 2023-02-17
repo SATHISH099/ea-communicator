@@ -36,8 +36,8 @@ const toggleModal = () => {
       <div>
         <h4 class="mb-4 text-carbon">Email</h4>
         <p class="text-silver">
-          Smart Suite / Communicator /
-          <span class="text-primary">Email</span>
+          Communicator / Email /
+          <span class="text-primary">Compose New Email</span>
         </p>
       </div>
     </div>
@@ -47,7 +47,7 @@ const toggleModal = () => {
           <div md:flex flex-wrap justify-between items-center>
             <h5 text-stone>Compose New Email</h5>
             <div flex flex-wrap items-center gap-5>
-              <h6 text-stone>Importance Level</h6>
+              <h6 text-stone>Priority</h6>
               <div flex flex-wrap items-center gap-3>
                 <FormKit
                   v-model="value"
@@ -98,7 +98,7 @@ const toggleModal = () => {
               <RichTextEditor />
             </ClientOnly>
           </div>
-          <div flex flex-warp justify-between items-center>
+          <div flex flex-wrap justify-between items-center>
             <FormKit
               type="file"
               accept=".pdf,.doc,.docx,.xml,.md,.csv"
@@ -106,10 +106,12 @@ const toggleModal = () => {
               inner-class="file-uploader"
               prefix-icon="link"
               prefix-icon-class="mr-3"
-              outer-class="min-w-[20em]"
+              outer-class="md:min-w-[20em] min-w-full"
             />
-            <div class="flex justify-end items-center mt-5">
-              <button class="btn btn-primary">Send Email</button>
+            <div class="flex items-center mt-5 md:w-auto w-full">
+              <button class="btn btn-primary md:w-auto w-full">
+                Send Email
+              </button>
             </div>
           </div>
         </div>
@@ -138,7 +140,7 @@ const toggleModal = () => {
         @close="toggleModal"
       >
         <div class="mt-10">
-          <div flex items-center gap-3>
+          <div flex flex-wrap items-center gap-3>
             <Multiselect
               v-model="value"
               :options="['test1', 'test2']"

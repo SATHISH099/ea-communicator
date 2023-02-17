@@ -81,7 +81,7 @@ const MessageRows = [
       <div>
         <h4 class="mb-4 text-stone">Email</h4>
         <p class="text-silver">
-          Communicator / Email / Messages /
+          Communicator /
           <span class="text-primary">Email</span>
         </p>
       </div>
