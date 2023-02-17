@@ -52,7 +52,13 @@ const SidebarOpen = ref(true);
 
 <template>
   <div>
-    <div class="shadow-2xl relative sidebar" :class="{ open: SidebarOpen }">
+    <button
+      class="absolute top-[2.5em] left-[2em] border-none bg-transparent outline-none cursor-pointer md:hidden block"
+      @click="SidebarOpen = !SidebarOpen"
+    >
+      <img alt="" class="w-[1.5rem]" src="/hamburger-icon.png" />
+    </button>
+    <div :class="`shadow-2xl relative sidebar ${SidebarOpen ? 'open' : ''}`">
       <div class="sidebar-toggle-btn" @click="SidebarOpen = !SidebarOpen">
         <img src="/back-icon.png" alt="" />
       </div>
@@ -141,11 +147,8 @@ const SidebarOpen = ref(true);
   transition: 0.5s;
   padding: 30px;
   @media screen and (max-width: 768px) {
-    position: fixed;
-    top: 5.5rem;
-    left: 0;
+    display: none;
   }
-
   .sidebar-toggle-btn {
     position: absolute;
     right: -15px;
@@ -160,9 +163,7 @@ const SidebarOpen = ref(true);
     align-items: center;
     cursor: pointer;
     @media screen and (max-width: 768px) {
-      position: relative;
-      right: 0px;
-      top: -5.5em;
+      display: none;
     }
   }
 
@@ -188,6 +189,12 @@ const SidebarOpen = ref(true);
 
   &.open {
     width: 317px;
+    @media screen and (max-width: 768px) {
+      position: absolute;
+      top: 5.5rem;
+      left: 0;
+      display: block;
+    }
 
     .logo {
       width: 158px;

@@ -28,25 +28,27 @@ const MessageRows = [
 
 <template>
   <div>
-    <div class="flex justify-between items-center mb-10">
-      <div>
+    <div class="flex flex-wrap justify-between items-center mb-10">
+      <div mb-5>
         <h4 class="mb-4 text-carbon">Groups</h4>
         <p class="text-silver">
           Smart Suite / Communicator / Groups /
           <span class="text-primary">Create New Group</span>
         </p>
       </div>
-      <div>
-        <button class="btn btn-primary flex items-center gap-3">
+      <div md:w-auto w-full>
+        <button
+          class="btn btn-primary flex items-center gap-3 md:w-auto w-full text-center"
+        >
           <img src="/csv.png" alt="csv" />Upload CSV
         </button>
       </div>
     </div>
     <div w-full>
-      <div grid grid-cols-3 gap-5>
+      <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>
         <div bg-white small-shadow p-6 col-span-2>
           <h5 text-stone>Create New Group</h5>
-          <div grid grid-cols-2 gap-5 my-8>
+          <div grid md:grid-cols-2 grid-cols-1 gap-5 my-8 md:w-auto w-full>
             <FormKit
               type="text"
               placeholder="Group Name"
