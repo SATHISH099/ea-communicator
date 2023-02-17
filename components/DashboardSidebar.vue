@@ -52,7 +52,10 @@ const SidebarOpen = ref(true);
 
 <template>
   <div>
-    <div class="shadow-2xl relative sidebar" :class="{ open: SidebarOpen }">
+    <div
+      class="hidden md:block shadow-2xl relative sidebar"
+      :class="{ open: SidebarOpen }"
+    >
       <div class="sidebar-toggle-btn" @click="SidebarOpen = !SidebarOpen">
         <img src="/back-icon.png" alt="" />
       </div>
