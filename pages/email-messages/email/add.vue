@@ -43,7 +43,7 @@ const toggleModal = () => {
     </div>
     <div w-full>
       <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>
-        <div bg-white small-shadow p-6 col-span-2>
+        <div bg-white small-shadow p-6 md:col-span-2 col-span-1>
           <div md:flex flex-wrap justify-between items-center>
             <h5 text-stone>Compose New Email</h5>
             <div flex flex-wrap items-center gap-5>
@@ -90,7 +90,7 @@ const toggleModal = () => {
               type="text"
               placeholder="Subject"
               input-class="form-control"
-              outer-class="mb-5 col-span-2"
+              outer-class="mb-5 md:col-span-2 col-span-1"
             />
           </div>
           <div mb-5>

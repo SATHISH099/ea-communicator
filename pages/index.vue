@@ -17,6 +17,8 @@ const RecentEmailRows = [
     EmailMessages: 'johndoe@example.com',
   },
 ];
+
+const activeTab = ref('alerts');
 </script>
 
 <template>
@@ -28,7 +30,7 @@ const RecentEmailRows = [
         <span class="text-primary">Dashboard</span>
       </p>
     </div>
-    <div class="items-center grid md:grid-cols-5 gap-6 mb-8">
+    <div class="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-1 gap-6 mb-8">
       <div class="update-card flex justify-between items-center gap-15">
         <div>
           <h1 class="text-primary mb-2">25</h1>
@@ -73,7 +75,7 @@ const RecentEmailRows = [
               <img src="/pie-chart.png" alt="" class="h-90" />
             </div>
             <div
-              class="grid md:grid-cols-4 grid-cols-2 content-around gap-10 md:mb-0 mb-10"
+              class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 content-around gap-10 md:mb-0 mb-10"
             >
               <div class="mb-8 flex flex-col items-center md:items-start">
                 <div class="flex items-center gap-2 mb-2">
@@ -131,40 +133,105 @@ const RecentEmailRows = [
           </div>
         </DashboardCard>
       </div>
-      <DashboardCard title="" class="w-full">
-        <div class="md:flex justify-between px-6 pb-6">
-          <h5 class="text-stone mb-4 md:mb-0">Recent sent Emails</h5>
-          <div class="flex justify-start">
-            <p
-              class="bg-white-smoke hover:bg-primary hover:text-white text-silver p-2 px-4"
+      <div class="bg-white small-shadow rounded-[4px] w-full">
+        <div class="flex justify-end p-6">
+          <div class="flex items-center">
+            <div
+              class="tab"
+              :class="{ active: activeTab === 'alerts' }"
+              @click="activeTab = 'alerts'"
             >
               Alerts
-            </p>
-            <p
-              class="bg-white-smoke text-silver p-2 px-4 hover:bg-primary hover:text-white"
+            </div>
+            <div
+              class="tab"
+              :class="{ active: activeTab === 'email' }"
+              @click="activeTab = 'email'"
             >
               Email
-            </p>
-            <p
-              class="bg-white-smoke text-silver p-2 px-4 hover:bg-primary hover:text-white"
+            </div>
+            <div
+              class="tab"
+              :class="{ active: activeTab === 'sms' }"
+              @click="activeTab = 'sms'"
             >
               Sms
-            </p>
-            <p
-              class="bg-white-smoke text-silver p-2 px-4 hover:bg-primary hover:text-white"
+            </div>
+            <div
+              class="tab"
+              :class="{ active: activeTab === 'voice' }"
+              @click="activeTab = 'voice'"
             >
               Voice
-            </p>
+            </div>
           </div>
         </div>
-        <DashboardTable
-          :headers="RecentEmailHeaders"
-          :rows="RecentEmailRows"
-          class="w-full overflow-auto scroll"
-        />
-      </DashboardCard>
+        <div class="relative">
+          <div v-show="activeTab === 'alerts'">
+            <h5
+              class="text-stone md:absolute md:-top-[63px] md:left-0 pl-6 md:ml-0 ml-7"
+            >
+              Recent sent Alerts
+            </h5>
+            <DashboardTable
+              :headers="RecentEmailHeaders"
+              :rows="RecentEmailRows"
+              class="w-full overflow-auto scroll"
+            />
+          </div>
+          <div v-show="activeTab === 'email'">
+            <h5
+              class="text-stone md:absolute md:-top-[63px] md:left-[23px] md:ml-0 ml-7"
+            >
+              Recent sent Emails
+            </h5>
+            <DashboardTable
+              :headers="RecentEmailHeaders"
+              :rows="RecentEmailRows"
+              class="w-full overflow-auto scroll"
+            />
+          </div>
+          <div v-show="activeTab === 'sms'">
+            <h5
+              class="text-stone md:absolute md:-top-[63px] md:left-[23px] md:ml-0 ml-7"
+            >
+              Recent sent SMS
+            </h5>
+            <DashboardTable
+              :headers="RecentEmailHeaders"
+              :rows="RecentEmailRows"
+              class="w-full overflow-auto scroll"
+            />
+          </div>
+          <div v-show="activeTab === 'voice'">
+            <h5
+              class="text-stone md:absolute md:-top-[63px] md:left-[23px] md:ml-0 ml-7"
+            >
+              Recent sent Voice
+            </h5>
+            <DashboardTable
+              :headers="RecentEmailHeaders"
+              :rows="RecentEmailRows"
+              class="w-full overflow-auto scroll"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+.tab {
+  background-color: #f5f5f5;
+  color: #a3a3a3;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.tab.active {
+  background-color: #b42424;
+  color: white;
+}
+</style>

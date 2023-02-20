@@ -86,10 +86,10 @@ const MessageRows = [
   <div>
     <div class="flex justify-between items-center mb-10">
       <div>
-        <h4 class="mb-4 text-carbon">Sms</h4>
+        <h4 class="mb-4 text-carbon">SMS</h4>
         <p class="text-silver">
           Communicator / Email / Messages /
-          <span class="text-primary">Sms</span>
+          <span class="text-primary">SMS</span>
         </p>
       </div>
       <div>

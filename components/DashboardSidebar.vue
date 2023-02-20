@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+const showDropdown = ref('');
+const SidebarOpen = ref(false);
+const isDesktop = ref(false);
+
 const MenuItems = [
   {
     text: 'Dashboard',
@@ -18,7 +22,6 @@ const MenuItems = [
       },
       {
         text: 'Scheduled Messages',
-        link: '',
       },
       { text: 'Messages', link: '/email-messages/alert' },
       { text: 'Email', link: '/email-messages/email' },
@@ -46,8 +49,19 @@ const MenuItems = [
   },
 ];
 
-const showDropdown = ref('');
-const SidebarOpen = ref(true);
+onMounted(() => {
+  if (process.client) {
+    isDesktop.value = window.matchMedia('(min-width: 768px)').matches;
+  }
+});
+
+watchEffect(() => {
+  if (isDesktop.value) {
+    SidebarOpen.value = true;
+  } else {
+    SidebarOpen.value = false;
+  }
+});
 </script>
 
 <template>
@@ -59,10 +73,18 @@ const SidebarOpen = ref(true);
       <img alt="" class="w-[1.5rem]" src="/hamburger-icon.png" />
     </button>
     <div :class="`shadow-2xl relative sidebar ${SidebarOpen ? 'open' : ''}`">
-      <div class="sidebar-toggle-btn" @click="SidebarOpen = !SidebarOpen">
+      <div
+        class="absolute -right-[15px] top-[33px] shadow-[0_3.20559px_32.0559px_rgba(0,0,0,0.08)] bg-white w-[28px] h-[28px] p-[10px] rounded-[50%] md:flex hidden items-center cursor-pointer"
+        @click="SidebarOpen = !SidebarOpen"
+      >
         <img src="/back-icon.png" alt="" />
       </div>
-      <div class="logo">
+      <div
+        flex
+        :class="`${
+          SidebarOpen ? 'justify-start' : 'justify-center'
+        }  logo pb-5`"
+      >
         <img
           alt="logo"
           :src="`/${
@@ -79,11 +101,13 @@ const SidebarOpen = ref(true);
               <li
                 v-for="item in MenuItems"
                 :key="item.link"
-                class="py-[20px] px-0 text-silver cursor-pointer relative"
+                class="py-5 px-0 text-silver cursor-pointer relative"
               >
                 <NuxtLink
                   :class="`${
-                    $route.path === item.link ? 'text-primary' : 'text-silver'
+                    $route.path.startsWith(item.link)
+                      ? 'text-primary'
+                      : 'text-silver'
                   } no-underline flex items-center gap-3`"
                   :to="item.link"
                   @click="
@@ -94,26 +118,24 @@ const SidebarOpen = ref(true);
                   ><img
                     alt="item-icon"
                     :src="`/${
-                      $route.path === item.link ? item.activeIcon : item.icon
+                      $route.path.startsWith(item.link)
+                        ? item.activeIcon
+                        : item.icon
                     }`"
                   />
                   {{ SidebarOpen ? item.text : '' }}
                 </NuxtLink>
                 <ul
-                  v-if="item.items && showDropdown === item.link"
-                  class="transition"
+                  v-if="item.items && showDropdown === item.link && SidebarOpen"
+                  class="transition mt-6"
                 >
-                  <li
-                    v-for="subitem in item.items"
-                    :key="subitem.link"
-                    class="pt-[2em] pl-[2em]"
-                  >
+                  <li v-for="subitem in item.items" :key="subitem.link">
                     <NuxtLink
                       :class="`${
-                        $route.path === subitem.link
-                          ? 'text-primary'
+                        subitem.link && $route.path.startsWith(subitem.link)
+                          ? 'text-primary bg-floral'
                           : 'text-silver'
-                      }`"
+                      } mt-2 px-10 py-3 block rounded-[4px] w-full`"
                       :to="subitem.link"
                       >{{ SidebarOpen ? subitem.text : '' }}
                     </NuxtLink>
@@ -123,7 +145,7 @@ const SidebarOpen = ref(true);
             </ul>
           </nav>
         </div>
-        <div class="mb-15">
+        <div class="mb-[5rem]">
           <NuxtLink to="/">
             <div class="flex items-center gap-3">
               <img src="/logout.png" alt="logout" /><span
@@ -149,27 +171,9 @@ const SidebarOpen = ref(true);
   @media screen and (max-width: 768px) {
     display: none;
   }
-  .sidebar-toggle-btn {
-    position: absolute;
-    right: -15px;
-    top: 33px;
-    box-shadow: 0px 3.20559px 32.0559px rgba(0, 0, 0, 0.08);
-    background: #ffffff;
-    width: 28px;
-    height: 28px;
-    padding: 10px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    @media screen and (max-width: 768px) {
-      display: none;
-    }
-  }
 
   .logo {
-    display: flex;
-    justify-content: center;
+    border-bottom: 1px solid #f5f5f5;
   }
 
   .menu-items {
@@ -178,7 +182,7 @@ const SidebarOpen = ref(true);
     justify-content: space-between;
     height: 100%;
     align-items: center;
-
+    padding-left: 0;
     ul {
       list-style-type: none;
       a {
@@ -196,14 +200,9 @@ const SidebarOpen = ref(true);
       display: block;
     }
 
-    .logo {
-      width: 158px;
-      display: flex;
-      justify-content: flex-start;
-    }
-
     .menu-items {
       align-items: flex-start;
+      padding-left: 10px;
 
       ul {
         li {

@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import Multiselect from '@vueform/multiselect/src/Multiselect';
+
 const MessageHeaders = [
   'Recipients',
   'Subject',
@@ -75,44 +77,35 @@ const MessageRows = [
 
 <template>
   <div>
-    <div class="flex justify-between items-center mb-10">
-      <div>
+    <div class="flex flex-wrap justify-between items-center mb-10">
+      <div md:mb-0 mb-5>
         <h4 class="mb-4 text-stone">Messages</h4>
         <p class="text-silver">
           Communicator / Email Messages /
           <span class="text-primary">Messages</span>
         </p>
       </div>
-      <div>
-        <NuxtLink to="" class="btn btn-primary">Add New Message</NuxtLink>
+      <div md:w-auto w-full>
+        <NuxtLink
+          to=""
+          class="btn btn-primary block md:w-auto w-full text-center"
+          >Create New Message</NuxtLink
+        >
       </div>
     </div>
     <div class="bg-white small-shadow">
       <div class="p-6">
-        <div class="flex justify-between items-center">
-          <div class="flex items-center">
+        <div class="flex flex-wrap justify-between items-center gap-4">
+          <div class="flex flex-wrap items-center gap-4">
             <FormKit
+              prefix-icon="search"
               type="search"
-              placeholder="Search Alert"
-              input-class="form-control w-[555px]"
-              value=""
+              placeholder="Search"
+              input-class="form-control pl-[3.5rem]"
+              prefix-icon-class="search-icon"
+              outer-class="md:w-[34rem] w-full"
             />
-            <button class="btn btn-primary ml-4">Search</button>
-          </div>
-          <div class="flex items-center gap-3">
-            <FormKit
-              input-class="form-control"
-              type="select"
-              placeholder="Predefined type"
-              name="predefined_messages"
-              :options="['email', 'alert', 'sms', 'voice']"
-            />
-            <FormKit
-              input-class="form-control"
-              type="select"
-              name="predefined_messages"
-              :options="['Sort by']"
-            />
+            <button class="btn btn-primary md:w-auto w-full">Search</button>
           </div>
         </div>
       </div>

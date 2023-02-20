@@ -34,15 +34,17 @@ const MessageRows = [
 <template>
   <div>
     <div class="flex flex-wrap justify-between items-center mb-10">
-      <div mb-10>
+      <div md:mb-0 mb-10>
         <h4 class="mb-4 text-carbon">Recipients</h4>
         <p class="text-silver">
           Smart Suite / Communicator /
           <span class="text-primary">Recipients</span>
         </p>
       </div>
-      <div>
-        <NuxtLink to="./recipients/add" class="btn btn-primary"
+      <div md:w-auto w-full>
+        <NuxtLink
+          to="./recipients/add"
+          class="btn btn-primary block md:w-auto w-full text-center"
           >Add New Recipient</NuxtLink
         >
       </div>
@@ -60,13 +62,6 @@ const MessageRows = [
               outer-class="md:w-[34rem] w-full"
             />
             <button class="btn btn-primary md:w-auto w-full">Search</button>
-          </div>
-          <div class="flex items-center gap-3 md:w-auto w-full">
-            <Multiselect
-              placeholder="Sort by"
-              :options="['test1', 'test2']"
-              class="md:w-[10rem] w-full"
-            />
           </div>
         </div>
       </div>

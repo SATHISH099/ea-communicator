@@ -41,8 +41,10 @@ const MessageRows = [
           <span class="text-primary">Groups</span>
         </p>
       </div>
-      <div>
-        <NuxtLink to="./groups/create" class="btn btn-primary"
+      <div md:w-auto w-full>
+        <NuxtLink
+          to="./groups/create"
+          class="btn btn-primary block md:w-auto w-full text-center"
           >Create New Group</NuxtLink
         >
       </div>
@@ -60,13 +62,6 @@ const MessageRows = [
               outer-class="md:w-[34rem] w-full"
             />
             <button class="btn btn-primary md:w-auto w-full">Search</button>
-          </div>
-          <div class="flex items-center gap-3 md:w-auto w-full">
-            <Multiselect
-              placeholder="Sort by"
-              :options="['test1', 'test2']"
-              class="md:w-[10rem] w-full"
-            />
           </div>
         </div>
       </div>

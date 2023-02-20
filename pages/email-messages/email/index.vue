@@ -107,12 +107,6 @@ const MessageRows = [
             />
             <button class="btn btn-primary md:w-30 w-full">Search</button>
           </div>
-          <div class="md:w-[16.5rem] w-full">
-            <Multiselect
-              placeholder="Sort by: Oldest to newest"
-              :options="['test1', 'test2']"
-            />
-          </div>
         </div>
       </div>
       <div class="pb-10 pt-5 overflow-auto scroll">
