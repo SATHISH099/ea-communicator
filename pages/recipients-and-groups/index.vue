@@ -10,7 +10,7 @@
       </p>
     </div>
     <div
-      class="bg-white small-shadow min-h-[41rem] flex justify-center items-center p-10"
+      class="bg-white small-shadow min-h-[41rem] flex justify-center items-center"
     >
       <div class="grid md:grid-cols-2 grid-cols-1 gap-6">
         <NuxtLink to="/recipients-and-groups/groups">

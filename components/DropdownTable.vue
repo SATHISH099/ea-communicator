@@ -17,7 +17,7 @@ export default {
 <template>
   <div class="dropdown">
     <img class="cursor-pointer" src="/EditIcon.png" @click="isOpen = !isOpen" />
-    <ul v-show="isOpen" class="dropdown-menu right-[80px]">
+    <ul v-show="isOpen" class="dropdown-menu right-[23px]">
       <li class="p-2">View</li>
       <li class="p-2">Edit</li>
       <li class="p-2">Delete</li>

@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import Multiselect from '@vueform/multiselect/src/Multiselect';
-
 const MessageHeaders = [
   'Recipients',
   'Subject',
@@ -77,19 +75,19 @@ const MessageRows = [
 
 <template>
   <div>
-    <div class="flex flex-wrap justify-between items-center mb-10">
-      <div md:mb-0 mb-5>
+    <div class="md:flex justify-between items-center mb-10">
+      <div>
         <h4 class="mb-4 text-stone">Messages</h4>
         <p class="text-silver">
           Communicator / Email Messages /
           <span class="text-primary">Messages</span>
         </p>
       </div>
-      <div md:w-auto w-full>
+      <div class="flex mt-10 md:mt-0">
         <NuxtLink
-          to=""
-          class="btn btn-primary block md:w-auto w-full text-center"
-          >Create New Message</NuxtLink
+          to="./alert/add"
+          class="btn btn-primary w-full flex justify-center"
+          >Create New Messages</NuxtLink
         >
       </div>
     </div>
@@ -105,7 +103,7 @@ const MessageRows = [
               prefix-icon-class="search-icon"
               outer-class="md:w-[34rem] w-full"
             />
-            <button class="btn btn-primary md:w-auto w-full">Search</button>
+            <button class="btn btn-primary md:w-30 w-full">Search</button>
           </div>
         </div>
       </div>
