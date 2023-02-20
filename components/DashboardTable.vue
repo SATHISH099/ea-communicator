@@ -14,7 +14,7 @@ const rows = ref(props.rows);
 </script>
 
 <template>
-  <div class="admin-table overflow-auto scroll">
+  <div class="admin-table o relative">
     <table>
       <thead>
         <tr>

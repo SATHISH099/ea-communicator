@@ -25,10 +25,15 @@ const activeTab = ref('alerts');
   <div>
     <div class="mb-12">
       <h4 class="mb-4 text-stone">Dashboard</h4>
-      <p class="text-silver">
-        Communicator /
-        <span class="text-primary">Dashboard</span>
-      </p>
+      <div class="flex justify-between">
+        <p class="text-silver">
+          Communicator /
+          <span class="text-primary">Dashboard</span>
+        </p>
+        <NuxtLink to="email-messages/alert/add" class="btn btn-primary"
+          >Send a Message</NuxtLink
+        >
+      </div>
     </div>
     <div class="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-1 gap-6 mb-8">
       <div class="update-card flex justify-between items-center gap-15">
@@ -92,7 +97,7 @@ const activeTab = ref('alerts');
               </div>
               <div class="mb-8 flex flex-col items-center md:items-start">
                 <div class="flex items-center gap-2 mb-2">
-                  <img src="/messages.png" alt="" class="h-8" />
+                  <img src="/SentEmails.png" alt="" class="h-8" />
                 </div>
                 <div class="flex items-center mb-2">
                   <h4 class="text-carbon mr-2">150</h4>
@@ -105,7 +110,7 @@ const activeTab = ref('alerts');
               </div>
               <div class="mb-8 flex flex-col items-center md:items-start">
                 <div class="flex items-center gap-2 mb-2">
-                  <img src="/messages.png" alt="" class="h-8" />
+                  <img src="/alerts.png" alt="" class="h-8" />
                 </div>
                 <div class="flex items-center mb-2">
                   <h4 class="text-carbon mr-2">230</h4>
@@ -118,7 +123,7 @@ const activeTab = ref('alerts');
               </div>
               <div class="mb-8 flex flex-col items-center md:items-start">
                 <div class="flex items-center gap-2 mb-2">
-                  <img src="/messages.png" alt="" class="h-8" />
+                  <img src="/SentVoice.png" alt="" class="h-8" />
                 </div>
                 <div class="flex items-center mb-2">
                   <h4 class="text-carbon mr-2">160</h4>
@@ -171,19 +176,19 @@ const activeTab = ref('alerts');
             <h5
               class="text-stone md:absolute md:-top-[63px] md:left-0 pl-6 md:ml-0 ml-7"
             >
-              Recent sent Alerts
+              Recent Sent Alerts
             </h5>
             <DashboardTable
               :headers="RecentEmailHeaders"
               :rows="RecentEmailRows"
-              class="w-full overflow-auto scroll"
+              class="w-full overflow-auto scroll relative"
             />
           </div>
           <div v-show="activeTab === 'email'">
             <h5
               class="text-stone md:absolute md:-top-[63px] md:left-[23px] md:ml-0 ml-7"
             >
-              Recent sent Emails
+              Recent Sent Emails
             </h5>
             <DashboardTable
               :headers="RecentEmailHeaders"
@@ -195,7 +200,7 @@ const activeTab = ref('alerts');
             <h5
               class="text-stone md:absolute md:-top-[63px] md:left-[23px] md:ml-0 ml-7"
             >
-              Recent sent SMS
+              Recent Sent SMS
             </h5>
             <DashboardTable
               :headers="RecentEmailHeaders"
@@ -207,7 +212,7 @@ const activeTab = ref('alerts');
             <h5
               class="text-stone md:absolute md:-top-[63px] md:left-[23px] md:ml-0 ml-7"
             >
-              Recent sent Voice
+              Recent Sent Voice
             </h5>
             <DashboardTable
               :headers="RecentEmailHeaders"

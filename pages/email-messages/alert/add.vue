@@ -34,10 +34,10 @@ const toggleModal = () => {
   <div>
     <div class="flex justify-between items-center mb-10">
       <div>
-        <h4 class="mb-4 text-carbon">Sms</h4>
+        <h4 class="mb-4 text-carbon">Messages</h4>
         <p class="text-silver">
-          Communicator / Email / Messages / Sms /
-          <span class="text-primary">Create New SMS</span>
+          Communicator / Email / Messages /Messages
+          <span class="text-primary">Create New Messages</span>
         </p>
       </div>
     </div>
@@ -45,7 +45,7 @@ const toggleModal = () => {
       <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>
         <div bg-white small-shadow p-6 col-span-2>
           <div md:flex flex-wrap justify-between items-center>
-            <h5 text-stone>Create New Sms</h5>
+            <h5 text-stone>Compose New Messages</h5>
             <div flex flex-wrap items-center gap-5>
               <h6 text-stone>Priority</h6>
               <div flex flex-wrap items-center gap-3>
@@ -54,33 +54,32 @@ const toggleModal = () => {
                   type="radio"
                   outer-class="radio-fieldset"
                   input-class="form-check-input"
-                  :options="['High', 'Normal', 'Low']"
+                  :options="['Low', 'Medium', 'High']"
                 />
               </div>
             </div>
           </div>
           <div grid md:grid-cols-2 grid-cols-1 gap-5 mt-8>
-            <button
-              class="col-span-2 border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex justify-between text-[16px] text-silver items-center p-[1rem]"
-              @click="toggleModal"
-            >
-              <span>Recepient</span>
-              <img src="/plus.png" alt="plus" />
-            </button>
             <Multiselect
               v-model="value"
-              placeholder="Sender"
-              class="col-span-2"
+              placeholder="From"
               :options="['test1', 'test2']"
             />
-
+            <button
+              class="border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex justify-between text-[1rem] text-silver items-center p-[1rem]"
+              @click="toggleModal"
+            >
+              <span>TO</span>
+              <img src="/plus.png" alt="plus" />
+            </button>
             <FormKit
               type="text"
-              placeholder="Title of the Message"
+              placeholder="Subject"
               input-class="form-control"
               outer-class="mb-5 col-span-2"
             />
           </div>
+
           <div class="w-full mb-5">
             <FormKit
               type="textarea"
@@ -90,29 +89,71 @@ const toggleModal = () => {
               input-class="form-control"
             />
           </div>
+
           <div flex flex-wrap justify-between items-center>
-            <div flex flex-wrap items-center gap-5 mb-6>
-              <h6 text-stone>Communication Channels</h6>
-              <div flex items-center gap-3>
-                <FormKit
-                  v-model="value"
-                  name="Comunication Channels"
-                  type="checkbox"
-                  :options="['SMS', 'Email', 'Voice']"
-                  validation="required|min:1"
-                  outer-class="radio-fieldset"
-                  input-class="form-check-input"
-                />
-              </div>
-            </div>
+            <FormKit
+              type="file"
+              accept=".pdf,.doc,.docx,.xml,.md,.csv"
+              multiple="true"
+              inner-class="file-uploader"
+              prefix-icon="link"
+              prefix-icon-class="mr-3"
+              outer-class="md:min-w-[20em] min-w-full"
+            />
             <div class="flex items-center mt-5 md:w-auto w-full">
-              <button class="btn btn-primary md:w-auto w-full">Send SMS</button>
+              <button class="btn btn-primary md:w-auto w-full">Send</button>
             </div>
           </div>
         </div>
         <div bg-white small-shadow>
           <div px-6 pt-6>
-            <h5 text-stone mb-5>Predefined Templates</h5>
+            <h5 text-stone>Predefined Templates</h5>
+            <div class="flex justify-start py-6">
+              <div class="flex items-center">
+                <div
+                  class="tab"
+                  :class="{ active: activeTab === 'alerts' }"
+                  @click="activeTab = 'alerts'"
+                >
+                  All
+                </div>
+                <div
+                  class="tab"
+                  :class="{ active: activeTab === 'alerts' }"
+                  @click="activeTab = 'alerts'"
+                >
+                  Messages
+                </div>
+                <div
+                  class="tab"
+                  :class="{ active: activeTab === 'email' }"
+                  @click="activeTab = 'email'"
+                >
+                  Email
+                </div>
+                <div
+                  class="tab"
+                  :class="{ active: activeTab === 'sms' }"
+                  @click="activeTab = 'sms'"
+                >
+                  Sms
+                </div>
+                <div
+                  class="tab"
+                  :class="{ active: activeTab === 'voice' }"
+                  @click="activeTab = 'voice'"
+                >
+                  Voice
+                </div>
+                <div
+                  class="tab"
+                  :class="{ active: activeTab === 'voice' }"
+                  @click="activeTab = 'voice'"
+                >
+                  Push Notification
+                </div>
+              </div>
+            </div>
             <FormKit
               prefix-icon="search"
               type="search"

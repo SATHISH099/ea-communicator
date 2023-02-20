@@ -84,33 +84,37 @@ const MessageRows = [
 
 <template>
   <div>
-    <div class="flex justify-between items-center mb-10">
+    <div class="md:flex justify-between items-center mb-10">
       <div>
-        <h4 class="mb-4 text-carbon">SMS</h4>
+        <h4 class="mb-4 text-stone">Sms</h4>
         <p class="text-silver">
           Communicator / Email / Messages /
           <span class="text-primary">SMS</span>
         </p>
       </div>
-      <div>
-        <NuxtLink to="" class="btn btn-primary">Add New Message</NuxtLink>
+      <div class="flex mt-10 md:mt-0">
+        <NuxtLink
+          to="./sms/add"
+          class="btn btn-primary w-full flex justify-center"
+          >Create New Sms</NuxtLink
+        >
       </div>
     </div>
     <div class="bg-white small-shadow">
       <div class="p-6">
-        <div class="flex justify-between items-center">
-          <div class="flex items-center">
-            <FormKit
-              type="search"
-              placeholder="Search"
-              input-class="form-control w-[555px]"
-              value=""
-            />
-            <button class="btn btn-primary ml-4">Search</button>
-          </div>
+        <div class="flex flex-wrap items-center gap-4">
+          <FormKit
+            prefix-icon="search"
+            type="search"
+            placeholder="Search"
+            input-class="form-control pl-[3.5rem]"
+            prefix-icon-class="search-icon"
+            outer-class="md:w-[34rem] w-full"
+          />
+          <button class="btn btn-primary md:w-30 w-full">Search</button>
         </div>
       </div>
-      <div class="pb-10 pt-5">
+      <div class="pb-10 pt-5 overflow-auto scroll relative">
         <DashboardTable :headers="MessageHeaders" :rows="MessageRows" />
         <div class="ml-8">
           <PaginationTable></PaginationTable>
