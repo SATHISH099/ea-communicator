@@ -8,7 +8,7 @@ import Multiselect from '@vueform/multiselect/src/Multiselect';
       <div class="md:mb-0 mb-10">
         <h4 class="mb-4 text-carbon">Predefined Templates</h4>
         <p class="text-silver">
-          Smart Suite / Communicator / Predefined Templates /
+          Communicator / Email/Messages / Predefined Templates /
           <span class="text-primary"> Add New Predefined Template</span>
         </p>
       </div>

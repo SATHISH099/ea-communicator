@@ -38,7 +38,7 @@ const MessageRows = [
       </div>
       <div md:w-auto w-full>
         <button
-          class="btn btn-primary flex items-center gap-3 md:w-auto w-full text-center"
+          class="btn btn-primary flex items-center justify-center gap-3 md:w-auto w-full text-center"
         >
           <img src="/csv.png" alt="csv" />Upload CSV
         </button>
@@ -46,7 +46,7 @@ const MessageRows = [
     </div>
     <div w-full>
       <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>
-        <div bg-white small-shadow p-6 col-span-2>
+        <div bg-white small-shadow p-6 md:col-span-2 col-span-1>
           <h5 text-stone>Create New Group</h5>
           <div grid md:grid-cols-2 grid-cols-1 gap-5 my-8 md:w-auto w-full>
             <FormKit
@@ -82,7 +82,7 @@ const MessageRows = [
             <FormKit
               type="text"
               placeholder="Location"
-              outer-class="col-span-2"
+              outer-class="md:col-span-2 col-span-1"
               input-class="form-control"
             />
             <FormKit
@@ -90,14 +90,16 @@ const MessageRows = [
               rows="10"
               placeholder="Note"
               input-class="form-control"
-              outer-class="col-span-2"
+              outer-class="md:col-span-2 col-span-1"
             />
           </div>
           <div>
             <h6 class="text-carbon">Recipient Added</h6>
           </div>
-          <div class="flex justify-end items-center mt-5">
-            <button class="btn btn-primary">Create Group</button>
+          <div class="flex justify-end items-center mt-5 md:w-auto w-full">
+            <button class="btn btn-primary md:w-auto w-full">
+              Create Group
+            </button>
           </div>
         </div>
         <div bg-white small-shadow>

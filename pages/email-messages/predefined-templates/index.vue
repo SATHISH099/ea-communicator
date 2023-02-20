@@ -37,12 +37,14 @@ const MessageRows = [
       <div class="md:mb-0 mb-10">
         <h4 class="mb-4 text-carbon">Predefined Templates</h4>
         <p class="text-silver">
-          Smart Suite / Communicator /
+          Communicator / Email/Messages /
           <span class="text-primary">Predefined Templates</span>
         </p>
       </div>
-      <div class="md:w-auto">
-        <NuxtLink to="./predefined-templates/add" class="btn btn-primary"
+      <div class="md:w-auto w-full">
+        <NuxtLink
+          to="./predefined-templates/add"
+          class="btn btn-primary block md:w-auto w-full text-center"
           >Create Message</NuxtLink
         >
       </div>
@@ -66,11 +68,6 @@ const MessageRows = [
               placeholder="Predefined Type"
               :options="['test1', 'test2']"
               class="md:w-[14rem] w-full"
-            />
-            <Multiselect
-              placeholder="Sort by"
-              :options="['test1', 'test2']"
-              class="md:w-[10rem] w-full"
             />
           </div>
         </div>
