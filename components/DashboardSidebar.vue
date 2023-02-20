@@ -26,6 +26,7 @@ const MenuItems = [
       { text: 'Messages', link: '/email-messages/alert' },
       { text: 'Email', link: '/email-messages/email' },
       { text: 'SMS', link: '/email-messages/sms' },
+      { text: 'Library', link: '/email-messages/library' },
     ],
   },
   {
