@@ -28,6 +28,7 @@ const showModal = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
 };
+const activeTab = ref('alerts');
 </script>
 
 <template>
@@ -109,11 +110,11 @@ const toggleModal = () => {
           <div px-6 pt-6>
             <h5 text-stone>Predefined Templates</h5>
             <div class="flex justify-start py-6">
-              <div class="flex items-center">
+              <div class="flex items-center gap-1 md:gap-0 flex-wrap">
                 <div
                   class="tab"
-                  :class="{ active: activeTab === 'alerts' }"
-                  @click="activeTab = 'alerts'"
+                  :class="{ active: activeTab === 'all' }"
+                  @click="activeTab = 'all'"
                 >
                   All
                 </div>
@@ -123,13 +124,6 @@ const toggleModal = () => {
                   @click="activeTab = 'alerts'"
                 >
                   Messages
-                </div>
-                <div
-                  class="tab"
-                  :class="{ active: activeTab === 'email' }"
-                  @click="activeTab = 'email'"
-                >
-                  Email
                 </div>
                 <div
                   class="tab"
@@ -146,9 +140,9 @@ const toggleModal = () => {
                   Voice
                 </div>
                 <div
-                  class="tab"
-                  :class="{ active: activeTab === 'voice' }"
-                  @click="activeTab = 'voice'"
+                  class="tab whitespace-nowrap"
+                  :class="{ active: activeTab === 'notification' }"
+                  @click="activeTab = 'notification'"
                 >
                   Push Notification
                 </div>

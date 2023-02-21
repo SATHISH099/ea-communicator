@@ -1,8 +1,6 @@
 <script lang="ts" setup>
-import Multiselect from '@vueform/multiselect/src/Multiselect';
-
 const MessageHeaders = [
-  'Recipients',
+  { value: 'Recipients', image: '/arrow-and-direction.png' },
   'Subject',
   'Email Message',
   'Sent Date',
@@ -81,14 +79,14 @@ const MessageRows = [
       <div>
         <h4 class="mb-4 text-stone">Email</h4>
         <p class="text-silver">
-          Communicator /
+          Communicator / Email / Messages /
           <span class="text-primary">Email</span>
         </p>
       </div>
       <div class="flex mt-10 md:mt-0">
         <NuxtLink
           to="./email/add"
-          class="btn btn-primary w-full flex justify-center"
+          class="btn btn-primary btn-create w-full flex justify-center"
           >Compose New Email</NuxtLink
         >
       </div>

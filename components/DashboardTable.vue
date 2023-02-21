@@ -14,11 +14,14 @@ const rows = ref(props.rows);
 </script>
 
 <template>
-  <div class="admin-table o relative">
-    <table>
+  <div class="admin-table overflow">
+    <table class="relative">
       <thead>
         <tr>
-          <th v-for="header in headers" :key="header">{{ header }}</th>
+          <th v-for="header in headers" :key="header">
+            {{ header.value ?? header }}
+            <img v-if="header.image" class="pl-4" :src="header.image" />
+          </th>
         </tr>
       </thead>
       <tbody>

@@ -83,7 +83,6 @@ const RecentEmailRows = [
                 <span class="text-[20px] font-normal text-stone">(4.4%)</span>
               </div>
               <div class="flex items-center gap-2">
-                <img src="/status-bullet.png" alt="" />
                 <span class="text-silver">Sms</span>
               </div>
             </div>
@@ -96,7 +95,6 @@ const RecentEmailRows = [
                 <span class="text-[20px] font-normal text-stone">(2.5%)</span>
               </div>
               <div class="flex items-center gap-2">
-                <img src="/status-bullet.png" alt="" />
                 <span class="text-silver">Emails</span>
               </div>
             </div>
@@ -109,7 +107,6 @@ const RecentEmailRows = [
                 <span class="text-[20px] font-normal text-stone">(4.7%)</span>
               </div>
               <div class="flex items-center gap-2">
-                <img src="/status-bullet.png" alt="" />
                 <span class="text-silver">Alerts</span>
               </div>
             </div>
@@ -122,7 +119,6 @@ const RecentEmailRows = [
                 <span class="text-[20px] font-normal text-stone">(2.3%)</span>
               </div>
               <div class="flex items-center gap-2">
-                <img src="/status-bullet.png" alt="" />
                 <span class="text-silver">Voice</span>
               </div>
             </div>

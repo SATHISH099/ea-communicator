@@ -24,13 +24,15 @@ const activeTab = ref('alerts');
 <template>
   <div>
     <div class="mb-12">
-      <h4 class="mb-4 text-stone">Dashboard</h4>
-      <div class="flex justify-between">
-        <p class="text-silver">
+      <h4 class="mb-2 text-stone">Dashboard</h4>
+      <div class="md:flex justify-between">
+        <p class="text-silver mb-10 md:mb-0 flex items-center">
           Communicator /
-          <span class="text-primary">Dashboard</span>
+          <span class="text-primary">&nbsp; Dashboard</span>
         </p>
-        <NuxtLink to="email-messages/alert/add" class="btn btn-primary"
+        <NuxtLink
+          to="email-messages/alert/add"
+          class="btn btn-primary flex justify-center items-center"
           >Send a Message</NuxtLink
         >
       </div>
@@ -91,7 +93,7 @@ const activeTab = ref('alerts');
                   <span class="text-[20px] font-normal text-stone">(4.4%)</span>
                 </div>
                 <div class="flex items-center gap-2">
-                  <img src="/status-bullet.png" alt="" />
+                  <img src="/sms-bullet.png" alt="" />
                   <span class="text-silver">Sms</span>
                 </div>
               </div>
@@ -104,7 +106,7 @@ const activeTab = ref('alerts');
                   <span class="text-[20px] font-normal text-stone">(2.5%)</span>
                 </div>
                 <div class="flex items-center gap-2">
-                  <img src="/status-bullet.png" alt="" />
+                  <img src="/email-bullet.png" alt="" />
                   <span class="text-silver">Emails</span>
                 </div>
               </div>
@@ -117,7 +119,7 @@ const activeTab = ref('alerts');
                   <span class="text-[20px] font-normal text-stone">(4.7%)</span>
                 </div>
                 <div class="flex items-center gap-2">
-                  <img src="/status-bullet.png" alt="" />
+                  <img src="/alert-bullet.png" alt="" />
                   <span class="text-silver">Alerts</span>
                 </div>
               </div>
@@ -130,7 +132,7 @@ const activeTab = ref('alerts');
                   <span class="text-[20px] font-normal text-stone">(2.3%)</span>
                 </div>
                 <div class="flex items-center gap-2">
-                  <img src="/status-bullet.png" alt="" />
+                  <img src="/voice-bullet.png" alt="" />
                   <span class="text-silver">Voice</span>
                 </div>
               </div>
@@ -139,8 +141,8 @@ const activeTab = ref('alerts');
         </DashboardCard>
       </div>
       <div class="bg-white small-shadow rounded-[4px] w-full">
-        <div class="flex justify-end p-6">
-          <div class="flex items-center">
+        <div class="flex md:justify-end justify-start p-6">
+          <div class="flex items-center lex-wrap">
             <div
               class="tab"
               :class="{ active: activeTab === 'alerts' }"
@@ -174,7 +176,7 @@ const activeTab = ref('alerts');
         <div class="relative">
           <div v-show="activeTab === 'alerts'">
             <h5
-              class="text-stone md:absolute md:-top-[63px] md:left-0 pl-6 md:ml-0 ml-7"
+              class="text-stone md:absolute md:-top-[63px] md:left-0 md:pl-6 md:ml-0 ml-7"
             >
               Recent Sent Alerts
             </h5>
@@ -217,7 +219,7 @@ const activeTab = ref('alerts');
             <DashboardTable
               :headers="RecentEmailHeaders"
               :rows="RecentEmailRows"
-              class="w-full overflow-auto scroll"
+              class="w-full overflow-auto scroll relative"
             />
           </div>
         </div>

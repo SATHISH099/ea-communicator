@@ -1,11 +1,5 @@
-<script>
-export default {
-  data() {
-    return {
-      isOpen: false,
-    };
-  },
-};
+<script setup>
+const isOpen = ref(false);
 </script>
 
 <template>
