@@ -1,6 +1,11 @@
 import type { z } from 'zod';
-import type { FetchOptions } from 'ofetch';
+import type { FetchResponse, FetchOptions } from 'ofetch';
 import { useToasterStore } from '~~/store/toaster';
+
+interface ServerError {
+  message: string;
+  statusCode: number;
+}
 
 export class ApiService {
   private url = '';
@@ -10,11 +15,36 @@ export class ApiService {
       const { setMessage } = useToasterStore();
       setMessage('Something went wrong. Please try later.', 'error');
     },
+    onResponseError: (error) => {
+      if (error.response?._data) {
+        const { statusCode } = error.response?._data as ServerError;
+        switch (statusCode) {
+          case 404:
+            throw showError({
+              statusCode: 404,
+              statusMessage: 'Page Not Found',
+            });
+            break;
+          case 401:
+            throw showError({
+              statusCode: 401,
+              statusMessage: 'Unauthorized',
+            });
+            break;
+          default:
+            throw showError({
+              statusCode: 500,
+              statusMessage: 'Internal Server Error',
+            });
+            break;
+        }
+      }
+    },
   };
 
   constructor(options?: FetchOptions) {
     options ??= {};
-    this.options = { ...this.options, ...options };
+    this.setOptions(options);
   }
 
   get<T>(schema: z.ZodType<T>, url?: string, options?: FetchOptions) {
@@ -56,13 +86,17 @@ export class ApiService {
     return data;
   }
 
-  getOptions(options?: FetchOptions) {
-    return options || this.options;
-  }
-
   getBaseUrl() {
     const config = useRuntimeConfig();
     return config.public.API_BASE_URL;
+  }
+
+  setOptions(options: FetchOptions) {
+    this.options = { ...this.options, ...options };
+  }
+
+  getOptions(options?: FetchOptions) {
+    return { ...this.options, ...options };
   }
 
   getUrl(url?: string) {
