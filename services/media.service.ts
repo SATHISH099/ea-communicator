@@ -3,7 +3,7 @@ import type { ApiService } from './api.service';
 
 const media = z.object({
   id: z.number(),
-  createdAt: z.number(),
+  createdAt: z.string(),
   updatedAt: z.string(),
   title: z.string(),
   fileUrl: z.string(),
