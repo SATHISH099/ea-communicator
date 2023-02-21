@@ -1,29 +1,13 @@
 <script setup>
-const props = defineProps({
-  message: {
-    type: String,
-    default: '',
-  },
-  timeout: {
-    type: Number,
-    default: 3000,
-  },
-});
+import { storeToRefs } from 'pinia';
+import { useToasterStore } from '~~/store/toaster';
 
-const show = ref(false);
-watchEffect(() => {
-  if (props.message) {
-    show.value = true;
-
-    setTimeout(() => {
-      show.value = false;
-    }, props.timeout);
-  }
-});
+const store = useToasterStore();
+const { getMessage: message, getType: type } = storeToRefs(store);
 </script>
 
 <template>
-  <div v-if="show" class="toaster">
+  <div v-if="!!message" class="toaster" :class="type">
     {{ message }}
   </div>
 </template>
@@ -36,9 +20,16 @@ watchEffect(() => {
   padding: 12px 24px;
   border-radius: 4px;
   z-index: 9999;
-  border: 1px solid #5ca044;
-  background: #def0d7;
   color: #2d2d2e;
   font-weight: 500;
+}
+.success {
+  background: #def0d7;
+  border: 1px solid #5ca044;
+}
+.error {
+  color: white;
+  background: #da1313;
+  border: 1px solid #da1313;
 }
 </style>

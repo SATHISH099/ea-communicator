@@ -1,5 +1,16 @@
 <script lang="ts" setup>
 import Multiselect from '@vueform/multiselect/src/Multiselect';
+import type { Media } from '~~/services/media.service';
+
+const mediaService = useService('media');
+
+const medias = ref<Media[]>([]);
+
+const response = await mediaService.getAll();
+
+if (response) {
+  medias.value = response;
+}
 </script>
 
 <template>
@@ -40,68 +51,12 @@ import Multiselect from '@vueform/multiselect/src/Multiselect';
     </div>
     <div class="bg-white small-shadow p-6">
       <div class="grid lg:grid-cols-7 md:grid-cols-3 grid-cols-1 gap-3">
-        <div class="max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
-        </div>
-        <div class="library-image max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
-        </div>
-        <div class="library-image max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
-        </div>
-        <div class="library-image max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
-        </div>
-        <div class="library-image max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
-        </div>
-        <div class="library-image max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
-        </div>
-        <div class="library-image max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
-        </div>
-        <div class="library-image max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
-        </div>
-        <div class="library-image max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
-        </div>
-        <div class="library-image max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
-        </div>
-        <div class="library-image max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
-        </div>
-        <div class="library-image max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
-        </div>
-        <div class="library-image max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
-        </div>
-        <div class="library-image max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
-        </div>
-        <div class="library-image max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
-        </div>
-        <div class="library-image max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
-        </div>
-        <div class="library-image max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
-        </div>
-        <div class="library-image max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
-        </div>
-        <div class="library-image max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
-        </div>
-        <div class="library-image max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
-        </div>
-        <div class="library-image max-w-[12rem] cursor-pointer relative">
-          <img w-full object-cover object-center src="/image.png" alt="" />
+        <div
+          v-for="media in medias"
+          :key="media.id"
+          class="library-image max-w-[12rem] cursor-pointer relative"
+        >
+          <img w-full object-cover object-center :src="media.fileUrl" alt="" />
         </div>
       </div>
     </div>

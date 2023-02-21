@@ -8,7 +8,7 @@ const nuxtConfig = defineNuxtConfig({
     apiSecret: process.env.NUXT_API_SECRET,
     // Keys within public are also exposed client-side
     public: {
-      apiBase: process.env.BASE_URL,
+      API_BASE_URL: process.env.API_BASE_URL,
     },
     build: {
       transpile: ['@vuepic/vue-datepicker'],

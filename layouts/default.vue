@@ -9,6 +9,7 @@
         <div
           class="h-[89vh] overflow-auto pt-[3rem] md:pl-[2rem] pl-[1rem] md:pr-[2rem] pr-[1rem] md:pb-[2rem] pb-[1rem]"
         >
+          <ToastNotification />
           <slot />
         </div>
       </div>
