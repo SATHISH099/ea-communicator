@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const MessageHeaders = [
-  'Recipients',
+  { value: 'Recipients', image: '/arrow-and-direction.png' },
   'Subject',
   'Alert Message',
   'Sent Date',
@@ -86,7 +86,7 @@ const MessageRows = [
       <div class="flex mt-10 md:mt-0">
         <NuxtLink
           to="./alert/add"
-          class="btn btn-primary w-full flex justify-center"
+          class="btn btn-primary btn-create w-full flex justify-center"
           >Create New Messages</NuxtLink
         >
       </div>

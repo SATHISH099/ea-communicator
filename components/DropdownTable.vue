@@ -1,23 +1,11 @@
-<script>
-export default {
-  props: {
-    buttonLabel: {
-      type: String,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      isOpen: false,
-    };
-  },
-};
+<script setup>
+const isOpen = ref(false);
 </script>
 
 <template>
   <div class="dropdown">
     <img class="cursor-pointer" src="/EditIcon.png" @click="isOpen = !isOpen" />
-    <ul v-show="isOpen" class="dropdown-menu right-[23px]">
+    <ul v-show="isOpen" class="dropdown-menu right-[15px]">
       <li class="p-2">View</li>
       <li class="p-2">Edit</li>
       <li class="p-2">Delete</li>

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const MessageHeaders = [
-  'Recipients',
+  { value: 'Recipinets', image: '/arrow-and-direction.png' },
   'Message Title',
   'Sender',
   'Sms Message',
@@ -95,7 +95,7 @@ const MessageRows = [
       <div class="flex mt-10 md:mt-0">
         <NuxtLink
           to="./sms/add"
-          class="btn btn-primary w-full flex justify-center"
+          class="btn btn-primary btn-create w-full flex justify-center"
           >Create New Sms</NuxtLink
         >
       </div>

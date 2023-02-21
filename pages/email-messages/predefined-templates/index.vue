@@ -1,7 +1,11 @@
 <script lang="ts" setup>
 import Multiselect from '@vueform/multiselect/src/Multiselect';
 
-const MessageHeaders = ['Title', 'Message', 'Created Date'];
+const MessageHeaders = [
+  { value: 'Title', image: '/arrow-and-direction.png' },
+  'Message',
+  'Created Date',
+];
 const MessageRows = [
   {
     title: 'Keyword',
@@ -44,7 +48,7 @@ const MessageRows = [
       <div class="md:w-auto w-full">
         <NuxtLink
           to="./predefined-templates/add"
-          class="btn btn-primary block md:w-auto w-full text-center"
+          class="btn btn-primary btn-create block md:w-auto w-full text-center"
           >Create Message</NuxtLink
         >
       </div>
