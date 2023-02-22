@@ -34,7 +34,7 @@ const toggleModal = () => {
   <div>
     <div class="flex justify-between items-center mb-10">
       <div>
-        <h4 class="mb-4 text-carbon">Email</h4>
+        <h4 class="mb-4 text-stone">Email</h4>
         <p class="text-silver">
           Communicator / Email /
           <span class="text-primary">Compose New Email</span>
@@ -54,14 +54,14 @@ const toggleModal = () => {
                   type="radio"
                   outer-class="radio-fieldset"
                   input-class="form-check-input"
-                  :options="['Low', 'Medium', 'High']"
+                  :options="['High', 'Normal', 'Low']"
                 />
               </div>
             </div>
           </div>
           <div grid md:grid-cols-2 grid-cols-1 gap-5 mt-8>
             <Multiselect
-              v-model="value"
+              v-model="valuy"
               placeholder="From"
               :options="['test1', 'test2']"
             />
@@ -131,6 +131,8 @@ const toggleModal = () => {
             mb-8
             :headers="MessageHeaders"
             :rows="MessageRows"
+            :isDropdown="false"
+            :isTemplateDefine="true"
           />
         </div>
       </div>

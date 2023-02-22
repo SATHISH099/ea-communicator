@@ -39,7 +39,7 @@ const MessageRows = [
   <div>
     <div class="flex flex-wrap justify-between items-center mb-10">
       <div class="md:mb-0 mb-10">
-        <h4 class="mb-4 text-carbon">Predefined Templates</h4>
+        <h4 class="mb-4 text-stone">Predefined Templates</h4>
         <p class="text-silver">
           Communicator / Email/Messages /
           <span class="text-primary">Predefined Templates</span>

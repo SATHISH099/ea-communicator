@@ -35,9 +35,9 @@ const activeTab = ref('alerts');
   <div>
     <div class="flex justify-between items-center mb-10">
       <div>
-        <h4 class="mb-4 text-carbon">Messages</h4>
+        <h4 class="mb-4 text-stone">Messages</h4>
         <p class="text-silver">
-          Communicator / Email / Messages /Messages
+          Communicator / Email / Messages / Messages /
           <span class="text-primary">Create New Messages</span>
         </p>
       </div>
@@ -46,7 +46,7 @@ const activeTab = ref('alerts');
       <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>
         <div bg-white small-shadow p-6 col-span-2>
           <div md:flex flex-wrap justify-between items-center>
-            <h5 text-stone>Compose New Messages</h5>
+            <h5 text-stone>Create New Message</h5>
             <div flex flex-wrap items-center gap-5>
               <h6 text-stone>Priority</h6>
               <div flex flex-wrap items-center gap-3>
@@ -55,7 +55,7 @@ const activeTab = ref('alerts');
                   type="radio"
                   outer-class="radio-fieldset"
                   input-class="form-check-input"
-                  :options="['Low', 'Medium', 'High']"
+                  :options="['High', 'Normal', 'Low']"
                 />
               </div>
             </div>
@@ -90,20 +90,22 @@ const activeTab = ref('alerts');
               input-class="form-control"
             />
           </div>
-
-          <div flex flex-wrap justify-between items-center>
-            <FormKit
-              type="file"
-              accept=".pdf,.doc,.docx,.xml,.md,.csv"
-              multiple="true"
-              inner-class="file-uploader"
-              prefix-icon="link"
-              prefix-icon-class="mr-3"
-              outer-class="md:min-w-[20em] min-w-full"
-            />
-            <div class="flex items-center mt-5 md:w-auto w-full">
-              <button class="btn btn-primary md:w-auto w-full">Send</button>
+          <div flex flex-wrap items-center gap-5 mb-6>
+            <h6 text-stone>Communication Channels</h6>
+            <div flex items-center gap-3>
+              <FormKit
+                v-model="value"
+                name="Comunication Channels"
+                type="checkbox"
+                :options="['SMS', 'Email', 'Voice']"
+                validation="required|min:1"
+                outer-class="radio-fieldset"
+                input-class="form-check-input"
+              />
             </div>
+          </div>
+          <div class="flex items-center justify-end mt-5 md:w-auto w-full">
+            <button class="btn btn-primary md:w-auto w-full">Send</button>
           </div>
         </div>
         <div bg-white small-shadow>
@@ -152,7 +154,7 @@ const activeTab = ref('alerts');
               prefix-icon="search"
               type="search"
               placeholder="Search"
-              input-class="form-control pl-[3.5rem]"
+              input-class="form-control pl-[3.5rem] text-black"
               prefix-icon-class="search-icon"
             />
           </div>
@@ -161,6 +163,8 @@ const activeTab = ref('alerts');
             mb-8
             :headers="MessageHeaders"
             :rows="MessageRows"
+            :isDropdown="false"
+            :isTemplateDefine="true"
           />
         </div>
       </div>

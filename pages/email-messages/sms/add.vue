@@ -34,7 +34,7 @@ const toggleModal = () => {
   <div>
     <div class="flex justify-between items-center mb-10">
       <div>
-        <h4 class="mb-4 text-carbon">Sms</h4>
+        <h4 class="mb-4 text-stone">Sms</h4>
         <p class="text-silver">
           Communicator / Email / Messages / Sms /
           <span class="text-primary">Create New SMS</span>
@@ -126,6 +126,8 @@ const toggleModal = () => {
             mb-8
             :headers="MessageHeaders"
             :rows="MessageRows"
+            :isDropdown="false"
+            :isTemplateDefine="true"
           />
         </div>
       </div>
