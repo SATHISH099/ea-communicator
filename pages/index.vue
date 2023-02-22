@@ -40,35 +40,35 @@ const activeTab = ref('alerts');
     <div class="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-1 gap-6 mb-8">
       <div class="update-card flex justify-between items-center gap-15">
         <div>
-          <h1 class="text-primary mb-2">25</h1>
+          <h1 class="text-primary mb-2 font-bold">25</h1>
           <p class="font-medium text-carbon">Sent sms</p>
         </div>
         <img alt="messages" src="/messages.png" />
       </div>
       <div class="update-card flex justify-between items-center gap-15">
         <div>
-          <h1 class="text-primary mb-2">150</h1>
+          <h1 class="text-primary mb-2 font-bold">150</h1>
           <p class="font-medium text-carbon">Sent Emails</p>
         </div>
         <img alt="recipient and groups" src="/SentEmails.png" />
       </div>
       <div class="update-card flex justify-between items-center gap-15">
         <div>
-          <h1 class="text-primary mb-2">230</h1>
+          <h1 class="text-primary mb-2 font-bold">230</h1>
           <p class="font-medium text-carbon">Sent messages</p>
         </div>
         <img alt="alerts" src="/alerts.png" />
       </div>
       <div class="update-card flex justify-between items-center gap-15">
         <div>
-          <h1 class="text-primary mb-2">2367</h1>
+          <h1 class="text-primary mb-2 font-bold">2367</h1>
           <p class="font-medium text-carbon">Sent Voice</p>
         </div>
         <img alt="library" src="/SentVoice.png" />
       </div>
       <div class="update-card flex justify-between items-center gap-15">
         <div>
-          <h1 class="text-primary mb-2">2367</h1>
+          <h1 class="text-primary mb-2 font-bold">2367</h1>
           <p class="font-medium text-carbon">library</p>
         </div>
         <img alt="library" src="/library.png" />
