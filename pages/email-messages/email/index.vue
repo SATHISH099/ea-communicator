@@ -3,7 +3,7 @@ const MessageHeaders = [
   { value: 'Recipients', image: '/arrow-and-direction.png' },
   'Subject',
   'Email Message',
-  'Sent Date',
+  { value: 'Sent Date', image: '/arrow-and-direction.png' },
   '',
 ];
 const MessageRows = [
@@ -79,8 +79,8 @@ const MessageRows = [
       <div>
         <h4 class="mb-4 text-stone">Email</h4>
         <p class="text-silver">
-          Communicator / Email / Messages / Email /
-          <span class="text-primary">Compose New Email</span>
+          Communicator / Email / Messages /
+          <span class="text-primary">Email</span>
         </p>
       </div>
       <div class="flex mt-10 md:mt-0">

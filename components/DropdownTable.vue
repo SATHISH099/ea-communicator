@@ -7,7 +7,7 @@ const isOpen = ref(false);
     <img class="cursor-pointer" src="/EditIcon.png" @click="isOpen = !isOpen" />
     <ul
       v-show="isOpen"
-      class="dropdown-menu absolute top-[2rem] -right-[1rem] bg-stone px-[12px] py-[4px] rounded-[4px] cursor-pointer text-white list-style-none"
+      class="dropdown-menu z-10 absolute top-[30px] -right-[30px] bg-stone px-[12px] py-[4px] rounded-[4px] cursor-pointer text-white list-style-none"
     >
       <li class="p-2">View</li>
       <li class="p-2">Edit</li>
@@ -25,8 +25,8 @@ const isOpen = ref(false);
   background-color: #555555;
   color: white;
   border: 1px solid white;
-  border-radius: 4px;
-  padding: 4px 12px 4px 12px;
+  border-radius: 6px;
+  padding: 4px 8px 4px 8px;
   position: absolute;
   cursor: pointer;
   list-style: none;
