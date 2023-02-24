@@ -12,11 +12,6 @@ import Multiselect from '@vueform/multiselect/src/Multiselect';
           <span class="text-primary"> Add New Predefined Template</span>
         </p>
       </div>
-      <div>
-        <NuxtLink class="btn btn-primary" @click.prevent="$router.back()"
-          >Back</NuxtLink
-        >
-      </div>
     </div>
     <DashboardCard title="Add New Predefined Template">
       <div class="p-6">

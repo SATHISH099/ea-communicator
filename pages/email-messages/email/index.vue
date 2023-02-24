@@ -85,7 +85,7 @@ const MessageRows = [
       </div>
       <div class="flex mt-10 md:mt-0">
         <NuxtLink
-          to="./email/add"
+          :to="{ name: 'email-messages-email-add' }"
           class="btn btn-primary btn-create w-full flex justify-center"
           >Compose New Email</NuxtLink
         >

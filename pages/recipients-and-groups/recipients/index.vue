@@ -43,7 +43,7 @@ const MessageRows = [
       </div>
       <div md:w-auto w-full>
         <NuxtLink
-          to="./recipients/add"
+          :to="{ name: 'recipients-and-groups-recipients-add' }"
           class="btn btn-primary block md:w-auto w-full text-center"
           >Add New Recipient</NuxtLink
         >
