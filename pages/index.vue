@@ -31,7 +31,7 @@ const activeTab = ref('alerts');
           <span class="text-primary">&nbsp; Dashboard</span>
         </p>
         <NuxtLink
-          to="email-messages/alert/add"
+          :to="{ name: 'email-messages-email-add' }"
           class="btn btn-primary flex justify-center items-center"
           >Send a Message</NuxtLink
         >

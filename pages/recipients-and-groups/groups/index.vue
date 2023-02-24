@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import Multiselect from '@vueform/multiselect/src/Multiselect';
-
 const MessageHeaders = ['Title', 'Message', 'Created Date'];
 const MessageRows = [
   {
@@ -43,7 +41,7 @@ const MessageRows = [
       </div>
       <div md:w-auto w-full>
         <NuxtLink
-          to="./groups/create"
+          :to="{ name: 'recipients-and-groups-groups-create' }"
           class="btn btn-primary block md:w-auto w-full text-center"
           >Create New Group</NuxtLink
         >

@@ -25,7 +25,7 @@ const isDropdown = ref(props.isDropdown);
 </script>
 
 <template>
-  <div class="admin-table overflow">
+  <div class="admin-table overflow-auto scroll">
     <table class="relative">
       <thead>
         <tr>

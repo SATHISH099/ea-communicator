@@ -47,7 +47,7 @@ const MessageRows = [
       </div>
       <div class="md:w-auto w-full">
         <NuxtLink
-          to="./predefined-templates/add"
+          :to="{ name: 'email-messages-predefined-templates-add' }"
           class="btn btn-primary btn-create block md:w-auto w-full text-center"
           >Create Message</NuxtLink
         >

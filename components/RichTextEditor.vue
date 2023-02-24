@@ -6,7 +6,7 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 <template>
   <div>
     <ClientOnly>
-      <QuillEditor theme="snow" />
+      <QuillEditor theme="snow" placeholder="Type Your Message here" />
     </ClientOnly>
   </div>
 </template>
