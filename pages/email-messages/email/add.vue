@@ -36,7 +36,7 @@ const toggleModal = () => {
       <div>
         <h4 class="mb-4 text-stone">Email</h4>
         <p class="text-silver">
-          Communicator / Email /
+          Communicator / Email / Messages / Email /
           <span class="text-primary">Compose New Email</span>
         </p>
       </div>

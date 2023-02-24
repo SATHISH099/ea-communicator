@@ -41,7 +41,7 @@ const activeTab = ref('alerts');
       <div class="update-card flex justify-between items-center gap-15">
         <div>
           <h1 class="text-primary mb-2 font-bold">25</h1>
-          <p class="font-medium text-carbon">Sent sms</p>
+          <p class="font-medium text-carbon">Sent SMS</p>
         </div>
         <img alt="messages" src="/messages.png" />
       </div>
@@ -55,7 +55,7 @@ const activeTab = ref('alerts');
       <div class="update-card flex justify-between items-center gap-15">
         <div>
           <h1 class="text-primary mb-2 font-bold">230</h1>
-          <p class="font-medium text-carbon">Sent messages</p>
+          <p class="font-medium text-carbon">Sent Messages</p>
         </div>
         <img alt="alerts" src="/alerts.png" />
       </div>
@@ -69,7 +69,7 @@ const activeTab = ref('alerts');
       <div class="update-card flex justify-between items-center gap-15">
         <div>
           <h1 class="text-primary mb-2 font-bold">2367</h1>
-          <p class="font-medium text-carbon">library</p>
+          <p class="font-medium text-carbon">Library</p>
         </div>
         <img alt="library" src="/library.png" />
       </div>

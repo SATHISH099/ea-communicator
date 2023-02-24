@@ -81,7 +81,7 @@ const activeTab = ref('alerts');
             />
           </div>
 
-          <div class="w-full mb-5">
+          <div class="w-full mb-7">
             <FormKit
               type="textarea"
               rows="10"
@@ -92,7 +92,7 @@ const activeTab = ref('alerts');
           </div>
           <div flex flex-wrap items-center gap-5 mb-6>
             <h6 text-stone>Communication Channels</h6>
-            <div flex items-center gap-3>
+            <div flex items-center gap-6>
               <FormKit
                 v-model="value"
                 name="Comunication Channels"

@@ -9,10 +9,10 @@ const isOpen = ref(false);
     <div class="dropdown">
       <img
         src="/avatar.png"
-        class="h-10 border-4 border-indigo-600 mr-2 cursor-pointer"
+        class="abc h-10 mr-4 cursor-pointer"
         @click="isOpen = !isOpen"
       />
-      <ul v-show="isOpen" class="dropdown-menu right-12">
+      <ul v-show="isOpen" class="dropdown-menu right-15 top-20">
         <li class="p-2">View Profile</li>
         <li class="p-2">Logout</li>
       </ul>
@@ -21,4 +21,9 @@ const isOpen = ref(false);
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.abc {
+  border: 3px solid #b42424;
+  border-radius: 20px;
+}
+</style>
