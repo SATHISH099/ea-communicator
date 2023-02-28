@@ -1,222 +1,220 @@
-@import "variables.scss";
-@import "login.scss";
+@import 'variables.scss';
+@import 'login.scss';
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Ubuntu", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Ubuntu';
 }
 
 body {
-    font-family: "Ubuntu", sans-serif;
-    overflow: hidden;
+  font-family: 'Ubuntu';
+  overflow: hidden;
 }
 
 .btn {
-    padding: 16px 32px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 18px;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
 }
 
 .btn-primary {
-    background-color: $primary;
-    color: $white;
+  background-color: $primary;
+  color: $white;
 
-    &:hover {
-        background-color: $red-accent1;
-    }
+  &:hover {
+    background-color: $red-accent1;
+  }
 
-    &:focus {
-        background-color: $red-accent2;
-    }
+  &:focus {
+    background-color: $red-accent2;
+  }
 }
 
-.btn-create{
-    padding: 12px 23px;
+.btn-create {
+  padding: 12px 23px;
 }
 
 .btn-secondary {
-    border: 1px solid $primary;
-    background-color: $white;
-    color: $primary;
+  border: 1px solid $primary;
+  background-color: $white;
+  color: $primary;
 
-    &:hover {
-        background-color: $floral-white;
-    }
+  &:hover {
+    background-color: $floral-white;
+  }
 
-    &:focus {
-        background-color: $pale-pink;
-    }
+  &:focus {
+    background-color: $pale-pink;
+  }
 }
 
 .form-control {
-    display: block;
-    width: 100%;
-    padding: 16px;
-    background-color: $white;
-    background-clip: padding-box;
-    border: 1px solid #dce1eb;
-    border-radius: 4px;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    outline: none;
-    font-size: 16px;
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background-color: $white;
+  background-clip: padding-box;
+  border: 1px solid #dce1eb;
+  border-radius: 4px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  outline: none;
+  font-size: 16px;
 
-    &::placeholder {
-        color: $silver;
-    }
+  &::placeholder {
+    color: $silver;
+  }
 
-    &:focus {
-        border: 1px solid $primary;
-    }
+  &:focus {
+    border: 1px solid $primary;
+  }
 }
 
 a {
-    color: $primary;
-    text-decoration: none;
+  color: $primary;
+  text-decoration: none;
 }
-
 
 .formkit-outer {
-    .formkit-inner {
-        position: relative;
+  .formkit-inner {
+    position: relative;
 
-        &.file-uploader {
-            border: 1px solid #E4E4E4;
-            padding: 1rem;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
+    &.file-uploader {
+      border: 1px solid #e4e4e4;
+      padding: 1rem;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
 
-            input {
-                -webkit-appearance: none;
-                -moz-appearance: none;
-                appearance: none;
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                cursor: pointer;
-                z-index: 2;
-                color: transparent;
-                opacity: 0;
-            }
+      input {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        cursor: pointer;
+        z-index: 2;
+        color: transparent;
+        opacity: 0;
+      }
 
-            .formkit-file-list {
-                list-style-type: none;
-                z-index: 3;
-
-                .formkit-file-item {
-                    background-color: #F7F7F7;
-                    border: 1px solid #E4E4E4;
-                    padding: 0.5rem;
-                    margin: 0.4rem;
-
-                    .formkit-file-name {
-                        color: #555555;
-                        font-size: 14px;
-                    }
-                }
-            }
-
-            .formkit-no-files {
-                display: flex;
-                flex-grow: 1;
-                color: #555555;
-            }
-
-            svg {
-                width: 1.2rem;
-                color: #555555;
-            }
-
-            .formkit-file-remove {
-                z-index: 3;
-            }
-        }
-
-        .search-icon {
-            svg {
-                position: absolute;
-                top: 50%;
-                left: 2rem;
-                transform: translate(-50%, -50%);
-                width: 1.4rem;
-            }
-        }
-    }
-
-    .formkit-messages {
-        color: $primary;
-        margin-top: 10px;
+      .formkit-file-list {
         list-style-type: none;
+        z-index: 3;
+
+        .formkit-file-item {
+          background-color: #f7f7f7;
+          border: 1px solid #e4e4e4;
+          padding: 0.5rem;
+          margin: 0.4rem;
+
+          .formkit-file-name {
+            color: #555555;
+            font-size: 14px;
+          }
+        }
+      }
+
+      .formkit-no-files {
+        display: flex;
+        flex-grow: 1;
+        color: #555555;
+      }
+
+      svg {
+        width: 1.2rem;
+        color: #555555;
+      }
+
+      .formkit-file-remove {
+        z-index: 3;
+      }
     }
+
+    .search-icon {
+      svg {
+        position: absolute;
+        top: 50%;
+        left: 2rem;
+        transform: translate(-50%, -50%);
+        width: 1.4rem;
+      }
+    }
+  }
+
+  .formkit-messages {
+    color: $primary;
+    margin-top: 10px;
+    list-style-type: none;
+  }
 }
 
-
 .update-card {
-    box-shadow: 0px 2px 30px rgba(45, 45, 46, 0.06);
-    background: #ffffff;
-    border-radius: 4px;
-    padding: 16px;
+  box-shadow: 0px 2px 30px rgba(45, 45, 46, 0.06);
+  background: #ffffff;
+  border-radius: 4px;
+  padding: 16px;
 }
 
 .radio-fieldset {
-    .formkit-fieldset {
-        border: none;
+  .formkit-fieldset {
+    border: none;
 
-        .formkit-options {
-            list-style-type: none;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            column-gap: 0.6rem;
+    .formkit-options {
+      list-style-type: none;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      column-gap: 0.6rem;
 
-            .formkit-wrapper {
-                display: flex;
-                align-items: center;
-                column-gap: 0.4rem;
-            }
-        }
+      .formkit-wrapper {
+        display: flex;
+        align-items: center;
+        column-gap: 0.4rem;
+      }
     }
+  }
 }
 
 .ql-container {
-    min-height: 15rem !important;
+  min-height: 15rem !important;
 }
 
 .multiselect {
-    border: 1px solid #dce1eb !important;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    min-height: 3.25rem !important;
+  border: 1px solid #dce1eb !important;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  min-height: 3.25rem !important;
 
-    &.is-active {
-        box-shadow: none !important;
-        border-color: $primary !important;
+  &.is-active {
+    box-shadow: none !important;
+    border-color: $primary !important;
+  }
+
+  .multiselect-option {
+    &.is-selected {
+      background: $primary !important;
+      color: $white !important;
     }
 
-    .multiselect-option {
-        &.is-selected {
-            background: $primary !important;
-            color: $white !important;
-        }
-
-        &.is-pointed {
-            background: $floral-white !important;
-            color: $secondary !important;
-        }
+    &.is-pointed {
+      background: $floral-white !important;
+      color: $secondary !important;
     }
+  }
 
-    .multiselect-tags {
-        .multiselect-tag {
-            background-color: transparent;
-            border: 1px solid $primary;
-            border-radius: 24px;
-            color: $primary;
-            font-weight: 400;
-        }
+  .multiselect-tags {
+    .multiselect-tag {
+      background-color: transparent;
+      border: 1px solid $primary;
+      border-radius: 24px;
+      color: $primary;
+      font-weight: 400;
     }
+  }
 }

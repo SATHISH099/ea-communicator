@@ -4,9 +4,12 @@
   <div>
     <div class="mb-10">
       <h4 class="mb-4 text-stone">Email / Messages</h4>
-      <p class="text-silver">
-        Communicator /
-        <span class="text-primary">Email / Messages</span>
+      <p class="text-silver hover:text-primary">
+        <span class="hover:underline mr-1 transition duration-700">
+          Communicator</span
+        >
+        <span class="text-silver">/</span>
+        <span class="text-primary hover:no-underline"> Email / Messages</span>
       </p>
     </div>
     <div

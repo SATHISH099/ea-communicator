@@ -73,9 +73,14 @@ const MessageRows = [
       <div>
         <h4 class="mb-4 text-stone">History</h4>
         <p class="text-silver">
-          Communicator /
+          <span
+            class="hover:text-primary hover:underline mr-1 transition duration-700"
+          >
+            Communicator</span
+          >
+          <span>/</span>
 
-          <span class="text-primary">History </span>
+          <span class="text-primary ml-1">History </span>
         </p>
       </div>
     </div>

@@ -4,7 +4,7 @@ import Multiselect from '@vueform/multiselect/src/Multiselect';
 const MessageHeaders = [
   { value: 'Title', image: '/arrow-and-direction.png' },
   'Message',
-  'Created Date',
+  { value: 'Created Date', image: '/arrow-and-direction.png' },
 ];
 const MessageRows = [
   {
@@ -41,8 +41,11 @@ const MessageRows = [
       <div class="md:mb-0 mb-10">
         <h4 class="mb-4 text-stone">Predefined Templates</h4>
         <p class="text-silver">
-          Communicator / Email/Messages /
-          <span class="text-primary">Predefined Templates</span>
+          <span class="sub-heading"> Communicator</span>
+          <span class="text-silver">/</span>
+          <span class="sub-heading"> Email / Messages</span>
+          <span class="text-silver">/</span>
+          <span class="text-primary hover:no-underline ml-1">Email</span>
         </p>
       </div>
       <div class="md:w-auto w-full">
@@ -63,7 +66,7 @@ const MessageRows = [
               placeholder="Search"
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
-              outer-class="md:w-[34rem] w-full"
+              outer-class="md:w-[34rem] w-full search-field"
             />
             <button class="btn btn-primary md:w-auto w-full">Search</button>
           </div>
@@ -78,9 +81,20 @@ const MessageRows = [
       </div>
       <div class="pb-10 pt-5">
         <DashboardTable :headers="MessageHeaders" :rows="MessageRows" />
+        <div class="ml-8">
+          <PaginationTable></PaginationTable>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+.search-field {
+  input {
+    &::placeholder {
+      color: #2d2d2e;
+    }
+  }
+}
+</style>

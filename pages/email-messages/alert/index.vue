@@ -79,8 +79,11 @@ const MessageRows = [
       <div>
         <h4 class="mb-4 text-stone">Messages</h4>
         <p class="text-silver">
-          Communicator / Email Messages /
-          <span class="text-primary">Messages</span>
+          <span class="sub-heading"> Communicator</span>
+          <span class="text-silver">/</span>
+          <span class="sub-heading"> Email / Messages</span>
+          <span class="text-silver">/</span>
+          <span class="text-primary hover:no-underline ml-1">Messages</span>
         </p>
       </div>
       <div class="flex mt-10 md:mt-0">

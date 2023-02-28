@@ -3,10 +3,11 @@
 <template>
   <div>
     <div class="mb-10">
-      <h4 class="mb-4 text-carbon">Email / Messages</h4>
+      <h4 class="mb-4 text-stone">Recipients and Groups</h4>
       <p class="text-silver">
-        Smart Suite / Communicator /
-        <span class="text-primary"> Email / Messages</span>
+        <span class="sub-heading"> Communicator</span>
+        <span class="text-silver">/</span>
+        <span class="text-primary ml-1">Recipients and Groups</span>
       </p>
     </div>
     <div

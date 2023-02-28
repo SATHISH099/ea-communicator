@@ -35,10 +35,13 @@ const MessageRows = [
   <div>
     <div class="flex flex-wrap justify-between items-center mb-10">
       <div md:mb-0 mb-10>
-        <h4 class="mb-4 text-carbon">Recipients</h4>
+        <h4 class="mb-4 text-stone">Recipients</h4>
         <p class="text-silver">
-          Smart Suite / Communicator /
-          <span class="text-primary">Recipients</span>
+          <span class="sub-heading"> Communicator</span>
+          <span class="text-silver">/</span>
+          <span class="sub-heading"> Recipients and Groups</span>
+          <span class="text-silver">/</span>
+          <span class="text-primary hover:no-underline ml-1">Recipients</span>
         </p>
       </div>
       <div md:w-auto w-full>

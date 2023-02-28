@@ -29,7 +29,11 @@ const isDropdown = ref(props.isDropdown);
     <table class="relative">
       <thead>
         <tr>
-          <th v-for="header in headers" :key="header">
+          <th
+            class="md:px-[32px] py-[18px] px-[24px]"
+            v-for="header in headers"
+            :key="header"
+          >
             {{ header.value ?? header }}
             <img v-if="header.image" class="pl-4" :src="header.image" />
           </th>
@@ -64,7 +68,6 @@ const isDropdown = ref(props.isDropdown);
     thead {
       tr {
         th {
-          padding: 18px 30px;
           font-size: 16px;
           font-weight: 400;
           text-align: left;
