@@ -17,6 +17,8 @@ const unocssConfig: UnocssNuxtOptions = {
     'text-silver': 'text-[#A3A3A3]',
     'small-shadow': 'shadow-[0_2px_30px_rgba(45,45,46,0.06)]',
     'form-check-input': 'accent-[#B42424] w-[20px] h-[20px]',
+    'abc-abc':
+      'hover:text-primary hover:underline mr-1 transition duration-700',
     'border-primary': 'border-[#B42424]',
     'border-smoke': 'border-[#F5F5F5]',
   },

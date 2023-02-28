@@ -35,17 +35,9 @@ const MessageRows = [
       <div md:mb-0 mb-10>
         <h4 class="mb-4 text-stone">Groups</h4>
         <p class="text-silver">
-          <span
-            class="hover:text-primary hover:underline mr-1 transition duration-700"
-          >
-            Communicator</span
-          >
+          <span class="sub-heading"> Communicator</span>
           <span class="text-silver">/</span>
-          <span
-            class="hover:text-primary hover:underline mr-1 transition duration-700"
-          >
-            Recipients and Groups</span
-          >
+          <span class="sub-heading"> Recipients and Groups</span>
           <span class="text-silver">/</span>
           <span class="text-primary hover:no-underline ml-1">Groups</span>
         </p>

@@ -41,17 +41,9 @@ const MessageRows = [
       <div class="md:mb-0 mb-10">
         <h4 class="mb-4 text-stone">Predefined Templates</h4>
         <p class="text-silver">
-          <span
-            class="hover:text-primary hover:underline mr-1 transition duration-700"
-          >
-            Communicator</span
-          >
+          <span class="sub-heading"> Communicator</span>
           <span class="text-silver">/</span>
-          <span
-            class="hover:text-primary hover:underline mr-1 transition duration-700"
-          >
-            Email / Messages</span
-          >
+          <span class="sub-heading"> Email / Messages</span>
           <span class="text-silver">/</span>
           <span class="text-primary hover:no-underline ml-1">Email</span>
         </p>
@@ -69,7 +61,6 @@ const MessageRows = [
         <div class="flex flex-wrap justify-between items-center gap-4">
           <div class="flex flex-wrap items-center gap-4">
             <FormKit
-              class="text-red"
               prefix-icon="search"
               type="search"
               placeholder="Search"
@@ -90,6 +81,9 @@ const MessageRows = [
       </div>
       <div class="pb-10 pt-5">
         <DashboardTable :headers="MessageHeaders" :rows="MessageRows" />
+        <div class="ml-8">
+          <PaginationTable></PaginationTable>
+        </div>
       </div>
     </div>
   </div>

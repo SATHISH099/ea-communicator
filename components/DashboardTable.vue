@@ -68,7 +68,6 @@ const isDropdown = ref(props.isDropdown);
     thead {
       tr {
         th {
-          // padding: 18px 30px;
           font-size: 16px;
           font-weight: 400;
           text-align: left;
