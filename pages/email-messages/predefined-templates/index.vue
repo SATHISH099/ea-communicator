@@ -4,7 +4,7 @@ import Multiselect from '@vueform/multiselect/src/Multiselect';
 const MessageHeaders = [
   { value: 'Title', image: '/arrow-and-direction.png' },
   'Message',
-  'Created Date',
+  { value: 'Created Date', image: '/arrow-and-direction.png' },
 ];
 const MessageRows = [
   {
@@ -41,8 +41,19 @@ const MessageRows = [
       <div class="md:mb-0 mb-10">
         <h4 class="mb-4 text-stone">Predefined Templates</h4>
         <p class="text-silver">
-          Communicator / Email/Messages /
-          <span class="text-primary">Predefined Templates</span>
+          <span
+            class="hover:text-primary hover:underline mr-1 transition duration-700"
+          >
+            Communicator</span
+          >
+          <span class="text-silver">/</span>
+          <span
+            class="hover:text-primary hover:underline mr-1 transition duration-700"
+          >
+            Email / Messages</span
+          >
+          <span class="text-silver">/</span>
+          <span class="text-primary hover:no-underline ml-1">Email</span>
         </p>
       </div>
       <div class="md:w-auto w-full">
@@ -58,12 +69,13 @@ const MessageRows = [
         <div class="flex flex-wrap justify-between items-center gap-4">
           <div class="flex flex-wrap items-center gap-4">
             <FormKit
+              class="text-red"
               prefix-icon="search"
               type="search"
               placeholder="Search"
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
-              outer-class="md:w-[34rem] w-full"
+              outer-class="md:w-[34rem] w-full search-field"
             />
             <button class="btn btn-primary md:w-auto w-full">Search</button>
           </div>
@@ -83,4 +95,12 @@ const MessageRows = [
   </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+.search-field {
+  input {
+    &::placeholder {
+      color: #2d2d2e;
+    }
+  }
+}
+</style>
