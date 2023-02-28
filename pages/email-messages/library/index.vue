@@ -1,7 +1,8 @@
 <script lang="ts" setup>
+import { setErrors } from '@formkit/vue';
 import Multiselect from '@vueform/multiselect/src/Multiselect';
 import type { Media } from '~~/services/media.service';
-
+const complete = ref(false);
 const mediaService = useService('media');
 
 const medias = ref<Media[]>([]);
@@ -11,6 +12,25 @@ const response = await mediaService.getAll();
 if (response) {
   medias.value = response;
 }
+const handleAddNewItem = async (data: { file: any[] }) => {
+  const body = new FormData();
+  data.file.forEach((fileItem: { file: string | Blob }) => {
+    body.append('media', fileItem.file);
+  });
+
+  const res = await mediaService.create(body);
+
+  if (res) {
+    const updatedMediasResponse = await mediaService.getAll();
+    if (updatedMediasResponse) {
+      medias.value = updatedMediasResponse;
+    }
+
+    complete.value = true;
+  } else {
+    setErrors('media', ['The server didn’t like our request.']);
+  }
+};
 </script>
 
 <template>
@@ -36,11 +56,25 @@ if (response) {
           <button class="btn btn-primary md:w-30 w-full">Search</button>
         </div>
         <div flex items-center gap-4>
-          <button
-            class="border-none outline-none flex items-center py-[16px] px-[32px] rounded-[4px] text-stone text-[1.125rem] gap-3 cursor-pointer"
+          <FormKit
+            v-if="!complete"
+            id="file"
+            type="form"
+            @submit="handleAddNewItem"
           >
-            <img src="/document-add.png" alt="" /> Add new item
-          </button>
+            <FormKit
+              type="file"
+              name="file"
+              accept=".pdf,.doc,.docx,.csv,.png,.jpg,.jpeg"
+              multiple="true"
+              inner-class="file-uploader"
+              prefix-icon="link"
+              prefix-icon-class="mr-3"
+              outer-class="md:min-w-[20em] min-w-full"
+              validation="required"
+            />
+          </FormKit>
+          <div v-else class="complete">File upload complete.</div>
           <Multiselect
             placeholder="Category"
             :options="['test1', 'test2']"
@@ -54,9 +88,13 @@ if (response) {
         <div
           v-for="media in medias"
           :key="media.id"
-          class="library-image max-w-[12rem] cursor-pointer relative"
+          class="cursor-pointer relative"
         >
-          <img w-full object-cover object-center :src="media.fileUrl" alt="" />
+          <img
+            class="w-[12rem] h-[12rem] w-full object-cover object-center"
+            :src="media.fileUrl"
+            alt=""
+          />
         </div>
       </div>
     </div>
