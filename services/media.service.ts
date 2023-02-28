@@ -13,16 +13,19 @@ const media = z.object({
   tenantId: z.null(),
 });
 
-const medias = z.array(media);
+const medias = z.object({ data: z.array(media), total: z.number() });
 
 export type Media = z.infer<typeof media>;
-
 export class MediaService {
   constructor(private apiService: ApiService) {
-    this.apiService.setUrl('media');
+    this.apiService.setUrl('medias');
   }
 
   getAll() {
     return this.apiService.get(medias);
+  }
+
+  create(formData: FormData) {
+    return this.apiService.post(media, formData);
   }
 }
