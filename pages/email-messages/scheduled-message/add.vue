@@ -170,6 +170,7 @@ const activeTab = ref('alerts');
               placeholder="Search"
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
+              outer-class="search-field"
             />
           </div>
           <DashboardTable
@@ -210,3 +211,13 @@ const activeTab = ref('alerts');
     </div>
   </div>
 </template>
+
+<style lang="scss">
+.search-field {
+  input {
+    &::placeholder {
+      color: #2d2d2e;
+    }
+  }
+}
+</style>

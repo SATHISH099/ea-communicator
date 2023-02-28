@@ -79,15 +79,18 @@ const MessageRows = [
       <div>
         <h4 class="mb-4 text-stone">Scheduled Message</h4>
         <p class="text-silver">
-          Communicator / Email / Messages / Email /
-          <span class="text-primary">Compose New Scheduled Message</span>
+          <span class="sub-heading"> Communicator </span>
+          <span> / </span>
+          <span class="sub-heading">Email / Messages </span>
+          <span>/ </span>
+          <span class="text-primary">Scheduled Messages</span>
         </p>
       </div>
       <div class="flex mt-10 md:mt-0">
         <NuxtLink
           to="./scheduled-message/add"
           class="btn btn-primary btn-create w-full flex justify-center"
-          >Compose New Scheduled Message</NuxtLink
+          >Create New Scheduled Message</NuxtLink
         >
       </div>
     </div>
@@ -101,7 +104,7 @@ const MessageRows = [
               placeholder="Search"
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
-              outer-class="md:w-[34rem] w-full"
+              outer-class="md:w-[34rem] w-full search-field"
             />
             <button class="btn btn-primary md:w-30 w-full">Search</button>
           </div>
@@ -117,4 +120,12 @@ const MessageRows = [
   </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+.search-field {
+  input {
+    &::placeholder {
+      color: #2d2d2e;
+    }
+  }
+}
+</style>

@@ -86,7 +86,7 @@ const MessageRows = [
   <div>
     <div class="md:flex justify-between items-center mb-10">
       <div>
-        <h4 class="mb-4 text-stone">Sms</h4>
+        <h4 class="mb-4 text-stone">SMS</h4>
         <p class="text-silver">
           <span class="sub-heading"> Communicator</span>
           <span class="text-silver">/</span>
@@ -99,7 +99,7 @@ const MessageRows = [
         <NuxtLink
           :to="{ name: 'email-messages-sms-add' }"
           class="btn btn-primary btn-create w-full flex justify-center"
-          >Create New Sms</NuxtLink
+          >Create New SMS</NuxtLink
         >
       </div>
     </div>
@@ -112,7 +112,7 @@ const MessageRows = [
             placeholder="Search"
             input-class="form-control pl-[3.5rem]"
             prefix-icon-class="search-icon"
-            outer-class="md:w-[34rem] w-full"
+            outer-class="md:w-[34rem] w-full search-field"
           />
           <button class="btn btn-primary md:w-30 w-full">Search</button>
         </div>
@@ -127,4 +127,12 @@ const MessageRows = [
   </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+.search-field {
+  input {
+    &::placeholder {
+      color: #2d2d2e;
+    }
+  }
+}
+</style>
