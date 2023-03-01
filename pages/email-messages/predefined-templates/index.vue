@@ -1,38 +1,53 @@
 <script lang="ts" setup>
 import Multiselect from '@vueform/multiselect/src/Multiselect';
+import type { Sms } from '~~/services/sms.service';
+import type { Email } from '~~/services/email.service';
+
+const config = useRuntimeConfig();
+const type = ref('emails');
+const page = ref(1);
+const search = ref('');
+const searchField = ref('');
 
 const MessageHeaders = [
   { value: 'Title', image: '/arrow-and-direction.png' },
   'Message',
   { value: 'Created Date', image: '/arrow-and-direction.png' },
 ];
-const MessageRows = [
+
+const { data, refresh } = await useFetch<any>(
+  () =>
+    `${type.value}?search=${search.value}&pageNumber=${page.value}&pageSize=10&isPredefined=true`,
   {
-    title: 'Keyword',
-    message: 'This is a test message ',
-    date: 'Mon, 19 Sep 2022 09:01 PM',
+    baseURL: config.public.API_BASE_URL,
+    transform: (data) => {
+      return {
+        total: data.total,
+        data: data.data.map((x: any) => ({
+          title: x.title ?? x.subject,
+          message: x.body ?? x.message,
+          sentDate: x.createdAt,
+        })),
+      };
+    },
   },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-    date: 'Mon, 19 Sep 2022 09:01 PM',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-    date: 'Mon, 19 Sep 2022 09:01 PM',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-    date: 'Mon, 19 Sep 2022 09:01 PM',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-    date: 'Mon, 19 Sep 2022 09:01 PM',
-  },
-];
+);
+
+const searchKeyword = () => {
+  search.value = searchField.value;
+  page.value = 1;
+  refresh();
+};
+
+const paginate = (pg: number) => {
+  page.value = pg;
+  refresh();
+};
+
+const optionTypeSelected = (option: string) => {
+  type.value = option;
+  refresh();
+};
 </script>
 
 <template>
@@ -45,7 +60,7 @@ const MessageRows = [
           <span class="text-silver">/</span>
           <span class="sub-heading"> Email / Messages</span>
           <span class="text-silver">/</span>
-          <span class="text-primary hover:no-underline ml-1">Email</span>
+          <span class="text-primary hover:no-underline ml-1">Template</span>
         </p>
       </div>
       <div class="md:w-auto w-full">
@@ -63,26 +78,38 @@ const MessageRows = [
             <FormKit
               prefix-icon="search"
               type="search"
+              v-model="searchField"
               placeholder="Search"
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
               outer-class="md:w-[34rem] w-full search-field"
             />
-            <button class="btn btn-primary md:w-auto w-full">Search</button>
+            <button
+              class="btn btn-primary md:w-30 w-full"
+              @click="searchKeyword"
+            >
+              Search
+            </button>
           </div>
           <div class="flex flex-wrap items-center gap-3 md:w-auto w-full">
             <Multiselect
               placeholder="Predefined Type"
-              :options="['test1', 'test2']"
+              v-model="type"
+              @select="optionTypeSelected"
+              :options="['emails', 'sms']"
               class="md:w-[14rem] w-full"
             />
           </div>
         </div>
       </div>
       <div class="pb-10 pt-5">
-        <DashboardTable :headers="MessageHeaders" :rows="MessageRows" />
+        <DashboardTable :headers="MessageHeaders" :rows="data.data" />
         <div class="ml-8">
-          <PaginationTable></PaginationTable>
+          <PaginationTable
+            :totalRecords="data.total"
+            :currentPage="page"
+            v-bind:paginate="paginate"
+          ></PaginationTable>
         </div>
       </div>
     </div>

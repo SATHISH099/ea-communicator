@@ -1,4 +1,16 @@
 <script lang="ts" setup>
+import type { Sms } from '~~/services/sms.service';
+
+interface Data {
+  data: Sms[];
+  total: number;
+}
+
+const config = useRuntimeConfig();
+const page = ref(1);
+const search = ref('');
+const searchField = ref('');
+
 const MessageHeaders = [
   { value: 'Recipinets', image: '/arrow-and-direction.png' },
   'Message Title',
@@ -6,80 +18,36 @@ const MessageHeaders = [
   'Sms Message',
   'Sent Date',
 ];
-const MessageRows = [
+
+const { data, refresh } = await useFetch<any>(
+  () => `sms?search=${search.value}&pageNumber=${page.value}&pageSize=10`,
   {
-    Recepients: 'Wade Warren',
-    MessageTitle: 'Request For API endpoints',
-    Sender: 'Adnan Izhar',
-    SmsMessage:
-      'It depeds largely on how much emphasis there is on visual design',
-    SentDate: 'Mon 19-sep-2022',
+    baseURL: config.public.API_BASE_URL,
+    transform: (data) => {
+      return {
+        total: data.total,
+        data: data.data.map((x: any) => ({
+          recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
+          messageTitle: x.title,
+          sender: x.sender,
+          smsMessage: x.message,
+          sentDate: x.createdAt,
+        })),
+      };
+    },
   },
-  {
-    Recepients: 'Wade Warren',
-    MessageTitle: 'Request For API endpoints',
-    Sender: 'Adnan Izhar',
-    SmsMessage:
-      'It depeds largely on how much emphasis there is on visual design',
-    SentDate: 'Mon 19-sep-2022',
-  },
-  {
-    Recepients: 'Wade Warren',
-    MessageTitle: 'Request For API endpoints',
-    Sender: 'Adnan Izhar',
-    SmsMessage:
-      'It depeds largely on how much emphasis there is on visual design',
-    SentDate: 'Mon 19-sep-2022',
-  },
-  {
-    Recepients: 'Wade Warren',
-    MessageTitle: 'Request For API endpoints',
-    Sender: 'Adnan Izhar',
-    SmsMessage:
-      'It depeds largely on how much emphasis there is on visual design',
-    SentDate: 'Mon 19-sep-2022',
-  },
-  {
-    Recepients: 'Wade Warren',
-    MessageTitle: 'Request For API endpoints',
-    Sender: 'Adnan Izhar',
-    SmsMessage:
-      'It depeds largely on how much emphasis there is on visual design',
-    SentDate: 'Mon 19-sep-2022',
-  },
-  {
-    Recepients: 'Wade Warren',
-    MessageTitle: 'Request For API endpoints',
-    Sender: 'Adnan Izhar',
-    SmsMessage:
-      'It depeds largely on how much emphasis there is on visual design',
-    SentDate: 'Mon 19-sep-2022',
-  },
-  {
-    Recepients: 'Wade Warren',
-    MessageTitle: 'Request For API endpoints',
-    Sender: 'Adnan Izhar',
-    SmsMessage:
-      'It depeds largely on how much emphasis there is on visual design',
-    SentDate: 'Mon 19-sep-2022',
-  },
-  {
-    Recepients: 'Wade Warren',
-    MessageTitle: 'Request For API endpoints',
-    Sender: 'Adnan Izhar',
-    SmsMessage:
-      'It depeds largely on how much emphasis there is on visual design',
-    SentDate: 'Mon 19-sep-2022',
-  },
-  {
-    Recepients: 'Wade Warren',
-    MessageTitle: 'Request For API endpoints',
-    Sender: 'Adnan Izhar',
-    SmsMessage:
-      'It depeds largely on how much emphasis there is on visual design',
-    SentDate: 'Mon 19-sep-2022',
-  },
-];
+);
+
+const searchKeyword = () => {
+  search.value = searchField.value;
+  page.value = 1;
+  refresh();
+};
+
+const paginate = (pg: number) => {
+  page.value = pg;
+  refresh();
+};
 </script>
 
 <template>
@@ -109,18 +77,25 @@ const MessageRows = [
           <FormKit
             prefix-icon="search"
             type="search"
+            v-model="searchField"
             placeholder="Search"
             input-class="form-control pl-[3.5rem]"
             prefix-icon-class="search-icon"
             outer-class="md:w-[34rem] w-full search-field"
           />
-          <button class="btn btn-primary md:w-30 w-full">Search</button>
+          <button class="btn btn-primary md:w-30 w-full" @click="searchKeyword">
+            Search
+          </button>
         </div>
       </div>
       <div class="pb-10 pt-5 overflow-auto scroll relative">
-        <DashboardTable :headers="MessageHeaders" :rows="MessageRows" />
+        <DashboardTable :headers="MessageHeaders" :rows="data.data" />
         <div class="ml-8">
-          <PaginationTable></PaginationTable>
+          <PaginationTable
+            :totalRecords="data.total"
+            :currentPage="page"
+            v-bind:paginate="paginate"
+          ></PaginationTable>
         </div>
       </div>
     </div>

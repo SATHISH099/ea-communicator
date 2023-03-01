@@ -12,10 +12,12 @@ const props = defineProps({
   },
   isDropdown: {
     type: boolean,
+    default: true,
     required: false,
   },
   isTemplateDefine: {
     type: boolean,
+    default: false,
     required: false,
   },
 });
@@ -30,9 +32,9 @@ const isDropdown = ref(props.isDropdown);
       <thead>
         <tr>
           <th
+            v-for="(header, index) in headers"
+            :key="index"
             class="md:px-[32px] py-[18px] px-[24px]"
-            v-for="header in headers"
-            :key="header"
           >
             {{ header.value ?? header }}
             <img v-if="header.image" class="pl-4" :src="header.image" />
@@ -40,8 +42,8 @@ const isDropdown = ref(props.isDropdown);
         </tr>
       </thead>
       <tbody>
-        <tr v-for="row in rows" :key="row.id">
-          <td v-for="cell in row" :key="cell">
+        <tr v-for="row in props.rows" :key="row.id">
+          <td v-for="(cell, index) in row" :key="index">
             <div flex items-center>
               <img v-if="cell.image" class="pr-4" :src="cell.image" />
               {{ cell.value ?? cell }}
