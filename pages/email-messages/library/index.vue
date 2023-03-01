@@ -10,7 +10,7 @@ const medias = ref<Media[]>([]);
 const response = await mediaService.getAll();
 
 if (response) {
-  medias.value = response;
+  medias.value = response.data;
 }
 const handleAddNewItem = async (data: { file: any[] }) => {
   const body = new FormData();
@@ -21,11 +21,7 @@ const handleAddNewItem = async (data: { file: any[] }) => {
   const res = await mediaService.create(body);
 
   if (res) {
-    const updatedMediasResponse = await mediaService.getAll();
-    if (updatedMediasResponse) {
-      medias.value = updatedMediasResponse;
-    }
-
+    window.location.reload();
     complete.value = true;
   } else {
     setErrors('media', ['The server didn’t like our request.']);
