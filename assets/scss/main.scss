@@ -219,56 +219,62 @@ a {
   }
 }
 
-
 .datepicker {
-    .dp__input {
-        padding: 1rem;
-        border: 1px solid #dce1eb;
+  .dp__input {
+    padding: 1rem;
+    border: 1px solid #dce1eb;
 
-        &:hover {
-            border-color: $primary;
-        }
-
-        &:focus {
-            border-color: $primary;
-        }
-
+    &:hover {
+      border-color: $primary;
     }
 
-    .dp__input_icons {
-        width: 1.3rem;
-        height: 1.3rem;
+    &:focus {
+      border-color: $primary;
     }
+  }
 
-    .dp__input_icon_pad {
-        padding-left: 2.5rem;
-    }
+  .dp__input_icons {
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+
+  .dp__input_icon_pad {
+    padding-left: 2.5rem;
+  }
 }
 
 .dp__instance_calendar {
-    .dp__month_year_select {
-        color: $primary !important;
-    }
+  .dp__month_year_select {
+    color: $primary !important;
+  }
 
-    .dp__calendar_header_item {
-        color: #89939E;
-        font-weight: 400;
-    }
+  .dp__calendar_header_item {
+    color: #89939e;
+    font-weight: 400;
+  }
 
-    .dp__range_end,
-    .dp__range_start,
-    .dp__active_date {
-        background-color: $primary;
-        border: 1px solid $primary
-    }
+  .dp__range_end,
+  .dp__range_start,
+  .dp__active_date {
+    background-color: $primary;
+    border: 1px solid $primary;
+  }
 
-    .dp__today {
-        border: 1px solid $primary;
-    }
+  .dp__today {
+    border: 1px solid $primary;
+  }
 
-    .dp__action {
-        &.dp__select {
-            color: $primary !important;
-        }
+  .dp__action {
+    &.dp__select {
+      color: $primary !important;
     }
+  }
+}
+
+.search-field {
+  input {
+    &::placeholder {
+      color: #2d2d2e;
+    }
+  }
 }

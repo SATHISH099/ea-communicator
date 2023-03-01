@@ -127,12 +127,4 @@ const MessageRows = [
   </div>
 </template>
 
-<style lang="scss">
-.search-field {
-  input {
-    &::placeholder {
-      color: #2d2d2e;
-    }
-  }
-}
-</style>
+<style lang="scss"></style>
