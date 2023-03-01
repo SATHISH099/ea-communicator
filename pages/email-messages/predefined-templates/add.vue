@@ -6,7 +6,7 @@ import type { Email } from '~~/services/email.service';
 const smsService = useService('sms');
 const emailService = useService('email');
 const type = ref('emails');
-const isSuccess = ref(false);
+const successResponse = ref({ id: null });
 const errorBody = ref(false);
 const title = ref('');
 const message = ref('');
@@ -37,7 +37,7 @@ const submitHandler = async (formData: any) => {
       type.value === 'emails'
         ? await saveEmail(formData)
         : await saveSms(formData);
-    isSuccess.value = response ?? false;
+    successResponse.value = response;
     resetForm();
   }
 };
@@ -50,8 +50,7 @@ const saveEmail = async (formData: any) => {
     body: body.value,
     isPredefined: true,
   };
-  const response = await emailService.sendEmail(data);
-  return response;
+  return emailService.sendEmail(data);
 };
 
 const saveSms = async (formData: any) => {
@@ -63,8 +62,7 @@ const saveSms = async (formData: any) => {
     tenantId: 'test',
     isPredefined: true,
   };
-  const response = await smsService.sendSms(data);
-  return response;
+  return smsService.sendSms(data);
 };
 </script>
 
@@ -89,7 +87,7 @@ const saveSms = async (formData: any) => {
       <DashboardCard title="Add New Predefined Template">
         <div class="p-6">
           <div class="max-w-[50rem]">
-            <div class="success alert-success" v-if="isSuccess">
+            <div class="success alert-success" v-if="successResponse.id">
               Template Successfully Saved
             </div>
             <FormKit

@@ -5,7 +5,7 @@ import type { Sms } from '~~/services/sms.service';
 const smsService = useService('sms');
 const sender = ref('');
 const importanceLevel = ref('low');
-const isSuccess = ref(false);
+const successResponse = ref({ id: null });
 const errorSender = ref(false);
 const title = ref('');
 const message = ref('');
@@ -63,8 +63,7 @@ const submitHandler = async (formData: []) => {
       isPredefined: false,
     };
     const response = await smsService.sendSms(data);
-
-    isSuccess.value = response ?? false;
+    successResponse.value = response;
     resetForm();
   }
 };
@@ -94,7 +93,7 @@ const optionSenderSelected = (option: string) => {
         </div>
       </div>
       <div w-full>
-        <div class="success alert-success" v-if="isSuccess">
+        <div class="success alert-success" v-if="successResponse.id">
           SMS Successfully Sent
         </div>
         <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>

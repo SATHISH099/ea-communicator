@@ -5,7 +5,7 @@ import type { Email } from '~~/services/email.service';
 const emailService = useService('email');
 const sender = ref('');
 const importanceLevel = ref('low');
-const isSuccess = ref(false);
+const successResponse = ref({ id: null });
 const errorSender = ref(false);
 const errorBody = ref(false);
 const subject = ref('');
@@ -72,7 +72,7 @@ const submitHandler = async (formData: []) => {
     };
     const response = await emailService.sendEmail(data);
 
-    isSuccess.value = response ?? false;
+    successResponse.value = response;
     resetForm();
   }
 };
@@ -102,7 +102,7 @@ const optionSenderSelected = (option: string) => {
         </div>
       </div>
       <div w-full>
-        <div class="success alert-success" v-if="isSuccess">
+        <div class="success alert-success" v-if="successResponse.id">
           Email Successfully Sent
         </div>
         <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>
