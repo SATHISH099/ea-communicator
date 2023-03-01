@@ -1,4 +1,7 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const props = defineProps(['totalRecords', 'currentPage', 'paginate']);
+console.log(props.totalRecords);
+</script>
 
 <template>
   <div>
@@ -6,11 +9,14 @@
       <button class="btn-pagination">
         <img src="/left-arrow.png" />
       </button>
-      <button class="btn-pagination">1</button>
-      <button class="btn-pagination">2</button>
-      <button class="btn-pagination">3</button>
-      <button class="btn-pagination">4</button>
-      <button class="btn-pagination">5</button>
+      <button
+        v-for="index in Math.ceil(parseInt(props.totalRecords) / 10)"
+        :key="index"
+        :class="`${currentPage === index ? 'active' : ''}  btn-pagination`"
+        @click="props.paginate(index)"
+      >
+        {{ index }}
+      </button>
       <button class="btn-pagination">
         <img src="/right-arrow.png" />
       </button>
@@ -28,7 +34,8 @@
   background-color: #fff;
   cursor: pointer;
 }
-.btn-pagination:hover {
+.btn-pagination:hover,
+.btn-pagination.active {
   font-size: 16px;
   border: 1px solid #b42424;
   padding: 6px 10px;
