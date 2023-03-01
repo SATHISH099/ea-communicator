@@ -38,8 +38,6 @@ const { data, refresh } = await useFetch<any>(
   },
 );
 
-console.log(data);
-
 const searchKeyword = () => {
   search.value = searchField.value;
   page.value = 1;
