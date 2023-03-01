@@ -64,7 +64,7 @@ const toggleModal = () => {
               class="col-span-2 border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex justify-between text-[16px] text-silver items-center p-[1rem]"
               @click="toggleModal"
             >
-              <span>Recepient</span>
+              <span>Recipients</span>
               <img src="/plus.png" alt="plus" />
             </button>
             <Multiselect
@@ -118,6 +118,7 @@ const toggleModal = () => {
               type="search"
               placeholder="Search"
               input-class="form-control pl-[3.5rem]"
+              outer-class="search-field"
               prefix-icon-class="search-icon"
             />
           </div>
@@ -159,3 +160,5 @@ const toggleModal = () => {
     </div>
   </div>
 </template>
+
+<style lang="scss"></style>

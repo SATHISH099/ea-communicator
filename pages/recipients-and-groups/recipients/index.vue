@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import Multiselect from '@vueform/multiselect/src/Multiselect';
-
 const MessageHeaders = ['Title', 'Message', 'Created Date'];
 const MessageRows = [
   {
@@ -62,7 +60,7 @@ const MessageRows = [
               placeholder="Search"
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
-              outer-class="md:w-[34rem] w-full"
+              outer-class="search-field md:w-[34rem] w-full"
             />
             <button class="btn btn-primary md:w-auto w-full">Search</button>
           </div>
