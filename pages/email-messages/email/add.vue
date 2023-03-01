@@ -3,10 +3,8 @@ import Multiselect from '@vueform/multiselect';
 import type { Email } from '~~/services/email.service';
 
 const emailService = useService('email');
-const sender = ref('');
 const importanceLevel = ref('low');
 const successResponse = ref({ id: null });
-const errorSender = ref(false);
 const errorBody = ref(false);
 const subject = ref('');
 const body = ref('');
@@ -44,17 +42,13 @@ const setField = (data: string) => {
 };
 
 const resetForm = () => {
-  sender.value = '';
   body.value = '';
   subject.value = '';
   importanceLevel.value = '';
 };
 
 const checkvalidation = () => {
-  if (!sender.value) {
-    errorSender.value = true;
-    return false;
-  } else if (!body.value) {
+  if (!body.value) {
     errorBody.value = true;
     return false;
   }
@@ -67,7 +61,7 @@ const submitHandler = async (formData: []) => {
     const data = {
       ...formData,
       body: body.value,
-      sender: sender.value,
+      sender: 'test',
       isPredefined: false,
     };
     const response = await emailService.sendEmail(data);
@@ -75,11 +69,6 @@ const submitHandler = async (formData: []) => {
     successResponse.value = response;
     resetForm();
   }
-};
-
-const optionSenderSelected = (option: string) => {
-  errorSender.value = false;
-  sender.value = option;
 };
 </script>
 
@@ -125,16 +114,8 @@ const optionSenderSelected = (option: string) => {
               </div>
             </div>
             <div grid md:grid-cols-2 grid-cols-1 gap-5 mt-8>
-              <Multiselect
-                placeholder="From"
-                v-model="sender"
-                @select="optionSenderSelected"
-                :options="['test1', 'test2']"
-              />
-
-              <span class="error" v-if="errorSender">Please Select Sender</span>
               <button
-                class="border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex justify-between text-[1rem] text-silver items-center p-[1rem]"
+                class="border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex justify-between text-[1rem] text-silver items-center p-[1rem] col-span-2"
                 @click="toggleModal"
               >
                 <span>TO</span>

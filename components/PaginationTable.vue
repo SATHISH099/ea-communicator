@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 const props = defineProps(['totalRecords', 'currentPage', 'paginate']);
-console.log(props.totalRecords);
 </script>
 
 <template>

@@ -3,10 +3,8 @@ import Multiselect from '@vueform/multiselect';
 import type { Sms } from '~~/services/sms.service';
 
 const smsService = useService('sms');
-const sender = ref('');
 const importanceLevel = ref('low');
 const successResponse = ref({ id: null });
-const errorSender = ref(false);
 const title = ref('');
 const message = ref('');
 
@@ -39,38 +37,21 @@ const toggleModal = () => {
 };
 
 const resetForm = () => {
-  sender.value = '';
   message.value = '';
   title.value = '';
   importanceLevel.value = '';
 };
 
-const checkvalidation = () => {
-  if (!sender.value) {
-    errorSender.value = true;
-    return false;
-  }
-
-  return true;
-};
-
 const submitHandler = async (formData: []) => {
-  if (checkvalidation()) {
-    const data = {
-      ...formData,
-      sender: sender.value,
-      tenantId: 'test',
-      isPredefined: false,
-    };
-    const response = await smsService.sendSms(data);
-    successResponse.value = response;
-    resetForm();
-  }
-};
-
-const optionSenderSelected = (option: string) => {
-  errorSender.value = false;
-  sender.value = option;
+  const data = {
+    ...formData,
+    sender: 'test',
+    tenantId: 'test',
+    isPredefined: false,
+  };
+  const response = await smsService.sendSms(data);
+  successResponse.value = response;
+  resetForm();
 };
 </script>
 
@@ -107,6 +88,7 @@ const optionSenderSelected = (option: string) => {
                     name="importanceLevel"
                     v-model="importanceLevel"
                     type="radio"
+                    validation="required"
                     outer-class="radio-fieldset"
                     input-class="form-check-input"
                     :options="['high', 'normal', 'low']"
@@ -122,14 +104,6 @@ const optionSenderSelected = (option: string) => {
                 <span>Recepient</span>
                 <img src="/plus.png" alt="plus" />
               </button>
-              <Multiselect
-                placeholder="Sender"
-                v-model="sender"
-                @select="optionSenderSelected"
-                class="col-span-2"
-                :options="['test1', 'test2']"
-              />
-              <span class="error" v-if="errorSender">Please Select Sender</span>
 
               <FormKit
                 type="text"
