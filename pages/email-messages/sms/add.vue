@@ -79,7 +79,7 @@ const optionSenderSelected = (option: string) => {
   <div>
     <FormKit
       type="form"
-      id="sendSmsssssss"
+      id="sendSms"
       @submit="submitHandler"
       :actions="false"
       #default="{ value }"
