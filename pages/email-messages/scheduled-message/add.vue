@@ -37,8 +37,10 @@ const activeTab = ref('alerts');
       <div>
         <h4 class="mb-4 text-stone">Scheduled Messages</h4>
         <p class="text-silver">
-          Communicator / Email / Messages /Messages /
-          <span class="text-primary">Create New Messages</span>
+          <span class="sub-heading"> Communicator </span> /
+          <span class="sub-heading">Email / Messages </span> /
+          <span class="sub-heading">Scheduled Message</span> /
+          <span class="text-primary">Create New Scheduled Message</span>
         </p>
       </div>
     </div>

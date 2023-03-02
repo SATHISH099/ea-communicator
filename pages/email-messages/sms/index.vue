@@ -12,11 +12,11 @@ const search = ref('');
 const searchField = ref('');
 
 const MessageHeaders = [
-  { value: 'Recipinets', image: '/arrow-and-direction.png' },
+  { value: 'Recipients', image: '/arrow-and-direction.png' },
   'Message Title',
   'Sender',
   'Sms Message',
-  'Sent Date',
+  { value: 'Sent Date', image: '/arrow-and-direction.png' },
 ];
 
 const { data, refresh } = await useFetch<any>(
