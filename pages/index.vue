@@ -37,7 +37,7 @@ const activeTab = ref('alerts');
         >
       </div>
     </div>
-    <div class="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-1 gap-6 mb-8">
+    <div class="grid lg:grid-cols-5 md:grid-cols-2 grid-cols-1 gap-6 mb-8">
       <div class="update-card flex justify-between items-center gap-15">
         <div>
           <h1 class="text-primary mb-2 font-bold">25</h1>
@@ -74,71 +74,75 @@ const activeTab = ref('alerts');
         <img alt="library" src="/library.png" />
       </div>
     </div>
-    <div class="md:flex gap-6">
-      <div class="md:w-[66%] w-full">
-        <DashboardCard title="Messages">
-          <div px-8>
-            <div class="flex flex-col justify-between items-center gap-10">
-              <img src="/pie-chart.png" alt="" class="h-90" />
+    <div class="lg:flex gap-6">
+      <div
+        class="lg:w-[66%] w-full lg:mb-0 md:mb-10 bg-white small-shadow rounded-[4px] w-full px-6 py-4"
+      >
+        <div class="flex justify-between items-center">
+          <h5 class="text-stone">Messages</h5>
+          <DatePicker></DatePicker>
+        </div>
+        <div px-8>
+          <div class="flex flex-col justify-between items-center gap-10">
+            <img src="/pie-chart.png" alt="" class="h-90" />
+          </div>
+          <div
+            class="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-1 content-around gap-10 md:mb-0 mb-10"
+          >
+            <div class="mb-8 flex flex-col items-center md:items-start">
+              <div class="flex items-center gap-2 mb-2">
+                <img src="/messages.png" alt="" class="h-8" />
+              </div>
+              <div class="flex items-center mb-2">
+                <h4 class="text-carbon mr-2">25</h4>
+                <span class="text-[20px] font-normal text-stone">(4.4%)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <img src="/sms-bullet.png" alt="" />
+                <span class="text-silver">Sms</span>
+              </div>
             </div>
-            <div
-              class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 content-around gap-10 md:mb-0 mb-10"
-            >
-              <div class="mb-8 flex flex-col items-center md:items-start">
-                <div class="flex items-center gap-2 mb-2">
-                  <img src="/messages.png" alt="" class="h-8" />
-                </div>
-                <div class="flex items-center mb-2">
-                  <h4 class="text-carbon mr-2">25</h4>
-                  <span class="text-[20px] font-normal text-stone">(4.4%)</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <img src="/sms-bullet.png" alt="" />
-                  <span class="text-silver">Sms</span>
-                </div>
+            <div class="mb-8 flex flex-col items-center md:items-start">
+              <div class="flex items-center gap-2 mb-2">
+                <img src="/SentEmails.png" alt="" class="h-8" />
               </div>
-              <div class="mb-8 flex flex-col items-center md:items-start">
-                <div class="flex items-center gap-2 mb-2">
-                  <img src="/SentEmails.png" alt="" class="h-8" />
-                </div>
-                <div class="flex items-center mb-2">
-                  <h4 class="text-carbon mr-2">150</h4>
-                  <span class="text-[20px] font-normal text-stone">(2.5%)</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <img src="/email-bullet.png" alt="" />
-                  <span class="text-silver">Emails</span>
-                </div>
+              <div class="flex items-center mb-2">
+                <h4 class="text-carbon mr-2">150</h4>
+                <span class="text-[20px] font-normal text-stone">(2.5%)</span>
               </div>
-              <div class="mb-8 flex flex-col items-center md:items-start">
-                <div class="flex items-center gap-2 mb-2">
-                  <img src="/alerts.png" alt="" class="h-8" />
-                </div>
-                <div class="flex items-center mb-2">
-                  <h4 class="text-carbon mr-2">230</h4>
-                  <span class="text-[20px] font-normal text-stone">(4.7%)</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <img src="/alert-bullet.png" alt="" />
-                  <span class="text-silver">Alerts</span>
-                </div>
+              <div class="flex items-center gap-2">
+                <img src="/email-bullet.png" alt="" />
+                <span class="text-silver">Emails</span>
               </div>
-              <div class="mb-8 flex flex-col items-center md:items-start">
-                <div class="flex items-center gap-2 mb-2">
-                  <img src="/SentVoice.png" alt="" class="h-8" />
-                </div>
-                <div class="flex items-center mb-2">
-                  <h4 class="text-carbon mr-2">160</h4>
-                  <span class="text-[20px] font-normal text-stone">(2.3%)</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <img src="/voice-bullet.png" alt="" />
-                  <span class="text-silver">Voice</span>
-                </div>
+            </div>
+            <div class="mb-8 flex flex-col items-center md:items-start">
+              <div class="flex items-center gap-2 mb-2">
+                <img src="/alerts.png" alt="" class="h-8" />
+              </div>
+              <div class="flex items-center mb-2">
+                <h4 class="text-carbon mr-2">230</h4>
+                <span class="text-[20px] font-normal text-stone">(4.7%)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <img src="/alert-bullet.png" alt="" />
+                <span class="text-silver">Alerts</span>
+              </div>
+            </div>
+            <div class="mb-8 flex flex-col items-center md:items-start">
+              <div class="flex items-center gap-2 mb-2">
+                <img src="/SentVoice.png" alt="" class="h-8" />
+              </div>
+              <div class="flex items-center mb-2">
+                <h4 class="text-carbon mr-2">160</h4>
+                <span class="text-[20px] font-normal text-stone">(2.3%)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <img src="/voice-bullet.png" alt="" />
+                <span class="text-silver">Voice</span>
               </div>
             </div>
           </div>
-        </DashboardCard>
+        </div>
       </div>
       <div class="bg-white small-shadow rounded-[4px] w-full">
         <div class="flex md:justify-end justify-start p-6">

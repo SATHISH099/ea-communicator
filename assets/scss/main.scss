@@ -81,6 +81,8 @@ a {
 .formkit-outer {
   .formkit-inner {
     position: relative;
+    display: flex;
+    align-items: center;
 
     &.file-uploader {
       border: 1px solid #e4e4e4;
@@ -221,7 +223,7 @@ a {
 
 .datepicker {
   .dp__input {
-    padding: 1rem;
+    padding: 13px;
     border: 1px solid #dce1eb;
 
     &:hover {

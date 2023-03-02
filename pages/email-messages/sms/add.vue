@@ -66,9 +66,9 @@ const submitHandler = async (formData: []) => {
     >
       <div class="flex justify-between items-center mb-10">
         <div>
-          <h4 class="mb-4 text-stone">Sms</h4>
+          <h4 class="mb-4 text-stone">SMS</h4>
           <p class="text-silver">
-            Communicator / Email / Messages / Sms /
+            Communicator / Email / Messages / SMS /
             <span class="text-primary">Create New SMS</span>
           </p>
         </div>
@@ -80,7 +80,7 @@ const submitHandler = async (formData: []) => {
         <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>
           <div bg-white small-shadow p-6 col-span-2>
             <div md:flex flex-wrap justify-between items-center>
-              <h5 text-stone>Create New Sms</h5>
+              <h5 text-stone>Create New SMS</h5>
               <div flex flex-wrap items-center gap-5>
                 <h6 text-stone>Priority</h6>
                 <div flex flex-wrap items-center gap-3>

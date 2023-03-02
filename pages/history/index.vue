@@ -1,5 +1,10 @@
 <script lang="ts" setup>
-const MessageHeaders = ['Recipients', 'Subject', 'Email Message', 'Sent Date'];
+const MessageHeaders = [
+  { value: 'Recipients', image: '/arrow-and-direction.png' },
+  'Subject',
+  'Email Message',
+  { value: 'Sent Date', image: '/arrow-and-direction.png' },
+];
 const MessageRows = [
   {
     Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
@@ -95,12 +100,7 @@ const MessageRows = [
             <button class="btn btn-primary md:w-30 w-full">Search</button>
           </div>
           <div class="flex items-center gap-3">
-            <FormKit
-              input-class="form-control"
-              type="select"
-              name="predefined_messages"
-              :options="['Filter by: Date']"
-            />
+            <DatePicker></DatePicker>
             <FormKit
               input-class="form-control"
               type="select"
