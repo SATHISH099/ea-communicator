@@ -76,7 +76,7 @@ const activeTab = ref('alerts');
     </div>
     <div class="lg:flex gap-6">
       <div
-        class="lg:w-[66%] w-full lg:mb-0 md:mb-10 bg-white small-shadow rounded-[4px] w-full px-6 py-4"
+        class="lg:w-[64%] w-full lg:mb-0 md:mb-10 bg-white small-shadow rounded-[4px] w-full py-4 px-6"
       >
         <div class="flex justify-between items-center">
           <h5 class="text-stone">Messages</h5>
