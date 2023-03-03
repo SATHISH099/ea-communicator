@@ -16,7 +16,7 @@ const props = defineProps({
     default: false,
     required: false,
   },
-  use: {
+  type: {
     required: false,
   },
 });
@@ -49,15 +49,12 @@ const isDropdown = ref(props.isDropdown);
             </div>
           </td>
           <td>
-            <DropdownTable v-if="isDropdown ?? true"></DropdownTable>
-            <button
-              v-if="isTemplateDefine ?? false"
-              @click="props.use(row)"
-              class="text-primary hover:underline"
-              type="button"
-            >
-              Use
-            </button>
+            <DropdownTable
+              v-if="isDropdown ?? true"
+              :detailId="row.id"
+              :type="props.type"
+            ></DropdownTable>
+            <UsePredefined v-if="isTemplateDefine ?? false"></UsePredefined>
           </td>
         </tr>
       </tbody>

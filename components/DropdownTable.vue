@@ -1,4 +1,5 @@
 <script setup>
+const props = defineProps(['detailId', 'type']);
 const isOpen = ref(false);
 </script>
 
@@ -9,7 +10,15 @@ const isOpen = ref(false);
       v-show="isOpen"
       class="dropdown-menu z-10 absolute top-[30px] -right-[30px] bg-stone px-[12px] py-[4px] rounded-[4px] cursor-pointer text-white list-style-none"
     >
-      <li class="p-2">View</li>
+      <NuxtLink
+        :to="{
+          path: '/email-messages/' + props.type + '/detail',
+          query: { id: props.detailId },
+        }"
+        class="p-2 view"
+        >View</NuxtLink
+      >
+
       <li class="p-2">Edit</li>
       <li class="p-2">Delete</li>
     </ul>
@@ -42,5 +51,8 @@ const isOpen = ref(false);
   border-right: 10px solid transparent;
   border-bottom: 10px solid #555555;
   transform: translate(-50%, -50%);
+}
+.view {
+  color: white;
 }
 </style>

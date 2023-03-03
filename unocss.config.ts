@@ -19,7 +19,7 @@ const unocssConfig: UnocssNuxtOptions = {
     'form-check-input':
       'accent-[#B42424] hover:accent-[#d81717] w-[20px] h-[20px]',
     'sub-heading':
-      'hover:text-primary hover:underline mr-1 transition duration-700',
+      'hover:text-primary hover:underline mr-1 transition duration-700 cursor-pointer',
     'border-primary': 'border-[#B42424]',
     'border-smoke': 'border-[#F5F5F5]',
   },

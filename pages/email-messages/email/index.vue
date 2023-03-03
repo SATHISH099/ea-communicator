@@ -12,6 +12,7 @@ const search = ref('');
 const searchField = ref('');
 
 const MessageHeaders = [
+  'Id',
   { value: 'Recipients', image: '/arrow-and-direction.png' },
   'Subject',
   'Email Message',
@@ -27,7 +28,11 @@ const { data, refresh } = await useFetch<any>(
       return {
         total: data.total,
         data: data.data.map((x: any) => ({
-          Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
+          id: x.id,
+          Recipients: {
+            value: 'johndoe@example.com',
+            image: '/Ellipse.png',
+          },
           Subject: x.subject,
           EmailMessage: x.body,
           SentDate: x.createdAt,
@@ -93,7 +98,11 @@ const paginate = (pg: number) => {
         </div>
       </div>
       <div class="pb-10 pt-5 overflow-auto scroll">
-        <DashboardTable :headers="MessageHeaders" :rows="data.data" />
+        <DashboardTable
+          :headers="MessageHeaders"
+          :rows="data.data"
+          type="email"
+        />
         <div class="ml-8">
           <PaginationTable
             :totalRecords="data.total"

@@ -55,9 +55,9 @@ const activeTab = ref('alerts');
       <div class="update-card flex justify-between items-center gap-15">
         <div>
           <h1 class="text-primary mb-2 font-bold">230</h1>
-          <p class="font-medium text-carbon">Sent Messages</p>
+          <p class="font-medium text-carbon whitespace-nowrap">Sent Messages</p>
         </div>
-        <img alt="alerts" src="/alerts.png" />
+        <img alt="alerts" src="/alerts.png" class="h-[60px]" />
       </div>
       <div class="update-card flex justify-between items-center gap-15">
         <div>
