@@ -28,4 +28,8 @@ export class MediaService {
   create(formData: FormData) {
     return this.apiService.post(media, formData);
   }
+
+  delete(id: number) {
+    return this.apiService.delete(media, `/medias/${id}`);
+  }
 }
