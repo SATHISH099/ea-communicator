@@ -2,35 +2,17 @@
 import Multiselect from '@vueform/multiselect';
 import type { Email } from '~~/services/email.service';
 
+interface EmailData {
+  title: string;
+  message: string;
+}
+
 const emailService = useService('email');
 const importanceLevel = ref('low');
 const successResponse = ref({ id: null });
 const errorBody = ref(false);
 const subject = ref('');
 const body = ref('');
-const MessageHeaders = ['Title', 'Message'];
-const MessageRows = [
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-];
 const showModal = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
@@ -54,6 +36,11 @@ const checkvalidation = () => {
   }
 
   return true;
+};
+
+const useTemplate = (template: EmailData) => {
+  subject.value = template.title;
+  body.value = template.message;
 };
 
 const submitHandler = async (formData: []) => {
@@ -179,25 +166,10 @@ const submitHandler = async (formData: []) => {
               </div>
             </div>
           </div>
-
-          <div bg-white small-shadow>
-            <div px-6 pt-6>
-              <h5 text-stone mb-5>Predefined Templates</h5>
-              <FormKit
-                prefix-icon="search"
-                type="search"
-                placeholder="Search"
-                input-class="form-control pl-[3.5rem]"
-                prefix-icon-class="search-icon"
-              />
-            </div>
-            <DashboardTable
-              mt-3
-              mb-8
-              :headers="MessageHeaders"
-              :rows="MessageRows"
-            />
-          </div>
+          <PredefinedTemplates
+            type="emails"
+            :use="useTemplate"
+          ></PredefinedTemplates>
         </div>
         <TheModal
           title="Select Recipient and Groups"
