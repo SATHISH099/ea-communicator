@@ -1,5 +1,5 @@
 import type { z } from 'zod';
-import type { FetchResponse, FetchOptions } from 'ofetch';
+import type { FetchOptions } from 'ofetch';
 import { useToasterStore } from '~~/store/toaster';
 
 interface ServerError {
@@ -59,6 +59,11 @@ export class ApiService {
   ) {
     const body = data as Record<string, any>;
     options = { method: 'post', body, ...options };
+    return this.makeRequest(this.getUrl(url), this.getOptions(options), schema);
+  }
+
+  delete<T>(schema: z.ZodType<T>, url?: string, options?: FetchOptions) {
+    options = { method: 'delete', ...options };
     return this.makeRequest(this.getUrl(url), this.getOptions(options), schema);
   }
 
