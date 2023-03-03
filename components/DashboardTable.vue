@@ -1,6 +1,4 @@
 <script setup>
-import { boolean } from 'zod';
-
 const props = defineProps({
   headers: {
     type: Array,
@@ -11,13 +9,14 @@ const props = defineProps({
     required: true,
   },
   isDropdown: {
-    type: boolean,
     default: true,
     required: false,
   },
   isTemplateDefine: {
-    type: boolean,
     default: false,
+    required: false,
+  },
+  use: {
     required: false,
   },
 });
@@ -51,7 +50,14 @@ const isDropdown = ref(props.isDropdown);
           </td>
           <td>
             <DropdownTable v-if="isDropdown ?? true"></DropdownTable>
-            <UsePredefined v-if="isTemplateDefine ?? false"></UsePredefined>
+            <button
+              v-if="isTemplateDefine ?? false"
+              @click="props.use(row)"
+              class="text-primary hover:underline"
+              type="button"
+            >
+              Use
+            </button>
           </td>
         </tr>
       </tbody>

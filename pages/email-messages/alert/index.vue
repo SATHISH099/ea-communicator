@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+const config = useRuntimeConfig();
+const page = ref(1);
+const search = ref('');
+const searchField = ref('');
+
 const MessageHeaders = [
   { value: 'Recipients', image: '/arrow-and-direction.png' },
   'Subject',
@@ -6,71 +11,35 @@ const MessageHeaders = [
   'Sent Date',
   '',
 ];
-const MessageRows = [
+
+const { data, refresh } = await useFetch<any>(
+  () => `messages?search=${search.value}&pageNumber=${page.value}&pageSize=10`,
   {
-    Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
-    Subject: 'Request For API endpoints',
-    AlertMessage:
-      'It depefs largely on how much emphasis there is on visual design',
-    SentDate: 'Mon 19-sep-2022',
+    baseURL: config.public.API_BASE_URL,
+    transform: (data) => {
+      return {
+        total: data.total,
+        data: data.data.map((x: any) => ({
+          recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
+          title: x.title,
+          message: x.message,
+          sentDate: x.createdAt,
+        })),
+      };
+    },
   },
-  {
-    Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
-    Subject: 'Request For API endpoints',
-    AlertMessage:
-      'It depefs largely on how much emphasis there is on visual design',
-    SentDate: 'Mon 19-sep-2022',
-  },
-  {
-    Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
-    Subject: 'Request For API endpoints',
-    AlertMessage:
-      'It depefs largely on how much emphasis there is on visual design',
-    SentDate: 'Mon 19-sep-2022',
-  },
-  {
-    Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
-    Subject: 'Request For API endpoints',
-    AlertMessage:
-      'It depends largely on how much emphasis there is on visual design',
-    SentDate: 'Mon 19-sep-2022',
-  },
-  {
-    Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
-    Subject: 'Request For API endpoints',
-    AlertMessage:
-      'It depefs largely on how much emphasis there is on visual design',
-    SentDate: 'Mon 19-sep-2022',
-  },
-  {
-    Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
-    Subject: 'Request For API endpoints',
-    AlertMessage:
-      'It depefs largely on how much emphasis there is on visual design',
-    SentDate: 'Mon 19-sep-2022',
-  },
-  {
-    Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
-    Subject: 'Request For API endpoints',
-    AlertMessage:
-      'It depefs largely on how much emphasis there is on visual design',
-    SentDate: 'Mon 19-sep-2022',
-  },
-  {
-    Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
-    Subject: 'Request For API endpoints',
-    AlertMessage:
-      'It depefs largely on how much emphasis there is on visual design',
-    SentDate: 'Mon 19-sep-2022',
-  },
-  {
-    Recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
-    Subject: 'Request For API endpoints',
-    AlertMessage:
-      'It depefs largely on how much emphasis there is on visual design',
-    SentDate: 'Mon 19-sep-2022',
-  },
-];
+);
+
+const searchKeyword = () => {
+  search.value = searchField.value;
+  page.value = 1;
+  refresh();
+};
+
+const paginate = (pg: number) => {
+  page.value = pg;
+  refresh();
+};
 </script>
 
 <template>
@@ -102,18 +71,28 @@ const MessageRows = [
               prefix-icon="search"
               type="search"
               placeholder="Search"
+              v-model="searchField"
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
               outer-class="md:w-[34rem] w-full search-field"
             />
-            <button class="btn btn-primary md:w-30 w-full">Search</button>
+            <button
+              class="btn btn-primary md:w-30 w-full"
+              @click="searchKeyword"
+            >
+              Search
+            </button>
           </div>
         </div>
       </div>
       <div class="pb-10 pt-5">
-        <DashboardTable :headers="MessageHeaders" :rows="MessageRows" />
+        <DashboardTable :headers="MessageHeaders" :rows="data.data" />
         <div class="ml-8">
-          <PaginationTable></PaginationTable>
+          <PaginationTable
+            :totalRecords="data.total"
+            :currentPage="page"
+            v-bind:paginate="paginate"
+          ></PaginationTable>
         </div>
       </div>
     </div>
