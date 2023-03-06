@@ -4,7 +4,7 @@ const props = defineProps(['totalRecords', 'currentPage', 'paginate']);
 
 <template>
   <div>
-    <div class="mt-8">
+    <div v-if="props.totalRecords > 0" class="mt-8">
       <button class="btn-pagination">
         <img src="/left-arrow.png" />
       </button>
