@@ -11,6 +11,20 @@ const messageHeaders = [
   'Created Date',
   'Updated Date',
 ];
+
+interface GroupData {
+  groupName: string;
+  members: number;
+  status: string;
+  location: string;
+  city: string;
+  state: string;
+  country: string;
+  zipCode: string;
+  createdAt: string;
+  updatedAt: string | null;
+}
+
 const { data, refresh } = await useFetch<any>(
   () => `groups?search=${search.value}&pageNumber=${page.value}&pageSize=10`,
   {
@@ -18,13 +32,13 @@ const { data, refresh } = await useFetch<any>(
     transform: (data) => {
       return {
         total: data.total,
-        data: data.data.map((x: any) => ({
+        data: data.data.map((x: GroupData) => ({
           groupName: x.groupName,
           members: 0,
           status: x.status ? 'Active' : 'Inactive',
           location: `${x.location}, ${x.city}, ${x.state}, ${x.country}, ${x.zipCode}`,
           createdAt: x.createdAt,
-          updatedAt: x.updatedAt || x.createdAt,
+          updatedAt: x.updatedAt || null,
         })),
       };
     },

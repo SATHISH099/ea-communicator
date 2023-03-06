@@ -44,8 +44,8 @@ const isDropdown = ref(props.isDropdown);
         <tr v-for="row in props.rows" :key="row.id">
           <td v-for="(cell, index) in row" :key="index">
             <div flex items-center>
-              <img v-if="cell.image" class="pr-4" :src="cell.image" />
-              {{ cell.value ?? cell }}
+              <img v-if="cell && cell.image" class="pr-4" :src="cell.image" />
+              {{ cell?.value ?? cell }}
             </div>
           </td>
           <td>

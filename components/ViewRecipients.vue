@@ -5,20 +5,23 @@ const searchField = ref('');
 const page = ref(1);
 const config = useRuntimeConfig();
 
+interface RecipientData {
+  firstName: string;
+  lastName: string;
+}
+
 const { data, refresh } = await useFetch<any>(
   () =>
     `recipients?search=${search.value}&pageNumber=${page.value}&pageSize=10`,
   {
     baseURL: config.public.API_SMARTSUITE_BASE_URL,
-    transform: (data) => {
-      return {
-        total: data.total,
-        data: data.data.map((x: any) => ({
-          firstName: x.firstName,
-          lastName: x.lastName,
-        })),
-      };
-    },
+    transform: ({ total, data }) => ({
+      total,
+      data: data.map(({ firstName, lastName }: RecipientData) => ({
+        firstName,
+        lastName,
+      })),
+    }),
   },
 );
 
