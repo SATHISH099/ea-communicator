@@ -9,6 +9,7 @@ const nuxtConfig = defineNuxtConfig({
     // Keys within public are also exposed client-side
     public: {
       API_BASE_URL: process.env.API_BASE_URL,
+      API_SMARTSUITE_BASE_URL: process.env.API_SMARTSUITE_BASE_URL,
     },
     build: {
       transpile: ['@vuepic/vue-datepicker'],

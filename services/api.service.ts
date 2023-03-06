@@ -9,6 +9,7 @@ interface ServerError {
 
 export class ApiService {
   private url = '';
+  private mode = 'communicator';
 
   private options: FetchOptions = {
     onRequestError: () => {
@@ -88,7 +89,9 @@ export class ApiService {
 
   getBaseUrl() {
     const config = useRuntimeConfig();
-    return config.public.API_BASE_URL;
+    return this.mode === 'communicator'
+      ? config.public.API_BASE_URL
+      : config.public.API_SMARTSUITE_BASE_URL;
   }
 
   setOptions(options: FetchOptions) {
@@ -101,6 +104,10 @@ export class ApiService {
 
   getUrl(url?: string) {
     return url || this.url;
+  }
+
+  setMode(mode: string) {
+    this.mode = mode;
   }
 
   setUrl(url: string) {

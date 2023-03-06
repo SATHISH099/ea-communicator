@@ -1,32 +1,46 @@
 <script lang="ts" setup>
-const MessageHeaders = ['Title', 'Message', 'Created Date'];
-const MessageRows = [
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-    date: 'Mon, 19 Sep 2022 09:01 PM',
-  },
-  {
-    title: 'Keyword1',
-    message: 'This is a test message ',
-    date: 'Mon, 19 Sep 2022 09:01 PM',
-  },
-  {
-    title: 'Keyword2',
-    message: 'This is a test message ',
-    date: 'Mon, 19 Sep 2022 09:01 PM',
-  },
-  {
-    title: 'Keyword3',
-    message: 'This is a test message ',
-    date: 'Mon, 19 Sep 2022 09:01 PM',
-  },
-  {
-    title: 'Keyword4',
-    message: 'This is a test message ',
-    date: 'Mon, 19 Sep 2022 09:01 PM',
-  },
+const config = useRuntimeConfig();
+const page = ref(1);
+const search = ref('');
+const searchField = ref('');
+const messageHeaders = [
+  'Group Name',
+  'Members',
+  'Status',
+  'Location',
+  'Created Date',
+  'Updated Date',
 ];
+const { data, refresh } = await useFetch<any>(
+  () => `groups?search=${search.value}&pageNumber=${page.value}&pageSize=10`,
+  {
+    baseURL: config.public.API_SMARTSUITE_BASE_URL,
+    transform: (data) => {
+      return {
+        total: data.total,
+        data: data.data.map((x: any) => ({
+          groupName: x.groupName,
+          members: 0,
+          status: x.status ? 'Active' : 'Inactive',
+          location: `${x.location}, ${x.city}, ${x.state}, ${x.country}, ${x.zipCode}`,
+          createdAt: x.createdAt,
+          updatedAt: x.updatedAt || x.createdAt,
+        })),
+      };
+    },
+  },
+);
+
+const searchKeyword = () => {
+  search.value = searchField.value;
+  page.value = 1;
+  refresh();
+};
+
+const paginate = (pg: number) => {
+  page.value = pg;
+  refresh();
+};
 </script>
 
 <template>
@@ -57,17 +71,30 @@ const MessageRows = [
             <FormKit
               prefix-icon="search"
               type="search"
+              v-model="searchField"
               placeholder="Search"
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
               outer-class="md:w-[34rem] w-full search-field"
             />
-            <button class="btn btn-primary md:w-auto w-full">Search</button>
+            <button
+              class="btn btn-primary md:w-30 w-full"
+              @click="searchKeyword"
+            >
+              Search
+            </button>
           </div>
         </div>
       </div>
       <div class="pb-10 pt-5">
-        <DashboardTable :headers="MessageHeaders" :rows="MessageRows" />
+        <DashboardTable :headers="messageHeaders" :rows="data.data" />
+        <div class="ml-8">
+          <PaginationTable
+            :totalRecords="data.total"
+            :currentPage="page"
+            v-bind:paginate="paginate"
+          ></PaginationTable>
+        </div>
       </div>
     </div>
   </div>
