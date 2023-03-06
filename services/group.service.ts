@@ -23,7 +23,8 @@ export type Group = z.infer<typeof group>;
 
 export class GroupService {
   constructor(private apiService: ApiService) {
-    this.apiService.setMode('smartSuite');
+    const config = useRuntimeConfig();
+    this.apiService.setBaseUrl(config.public.API_SMARTSUITE_BASE_URL);
     this.apiService.setUrl('groups');
   }
 

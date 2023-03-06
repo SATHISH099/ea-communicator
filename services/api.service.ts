@@ -9,7 +9,7 @@ interface ServerError {
 
 export class ApiService {
   private url = '';
-  private mode = 'communicator';
+  private baseURL = '';
 
   private options: FetchOptions = {
     onRequestError: () => {
@@ -46,6 +46,8 @@ export class ApiService {
   constructor(options?: FetchOptions) {
     options ??= {};
     this.setOptions(options);
+    const config = useRuntimeConfig();
+    this.baseURL = config.public.API_BASE_URL;
   }
 
   get<T>(schema: z.ZodType<T>, url?: string, options?: FetchOptions) {
@@ -87,11 +89,12 @@ export class ApiService {
     return data;
   }
 
+  setBaseUrl(url: string) {
+    this.baseURL = url;
+  }
+
   getBaseUrl() {
-    const config = useRuntimeConfig();
-    return this.mode === 'communicator'
-      ? config.public.API_BASE_URL
-      : config.public.API_SMARTSUITE_BASE_URL;
+    return this.baseURL;
   }
 
   setOptions(options: FetchOptions) {
@@ -104,10 +107,6 @@ export class ApiService {
 
   getUrl(url?: string) {
     return url || this.url;
-  }
-
-  setMode(mode: string) {
-    this.mode = mode;
   }
 
   setUrl(url: string) {
