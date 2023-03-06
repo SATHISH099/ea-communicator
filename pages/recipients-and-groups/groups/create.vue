@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import Select from '@vueform/multiselect';
-import location from '@/locations.json';
 import type { Group } from '~~/services/group.service';
 
 interface CitiesData {
@@ -33,6 +32,9 @@ interface initialStateData {
 
 const groupService = useService('group');
 const statuses = ['Inactive', 'active'];
+
+const { data: location } = await useFetch<any>(() => `/json/locations.json`);
+
 const initialState: initialStateData = {
   groupName: '',
   alternateEmail: '',
@@ -54,7 +56,7 @@ function resetForm() {
   Object.assign(data, initialState);
 }
 const selectCountry = () => {
-  const selectLocation = location.filter(function (country) {
+  const selectLocation = location.value.filter(function (country: StateData) {
     return country.name === data.country;
   });
 
@@ -138,7 +140,7 @@ const submitHandler = async () => {
                 input-class="form-control"
                 placeholder="Select Country"
                 :options="
-                  location.map((item) => {
+                  location.map((item: StateData) => {
                     return item.name;
                   })
                 "
