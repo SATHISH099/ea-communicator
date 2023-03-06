@@ -33,7 +33,7 @@ const isDropdown = ref(props.isDropdown);
           <th
             v-for="(header, index) in headers"
             :key="index"
-            class="md:px-[32px] py-[18px] px-[24px]"
+            class="md:px-[30px] py-[18px] px-[24px]"
           >
             {{ header.value ?? header }}
             <img v-if="header.image" class="pl-4" :src="header.image" />
@@ -41,22 +41,45 @@ const isDropdown = ref(props.isDropdown);
         </tr>
       </thead>
       <tbody>
-        <tr v-for="row in props.rows" :key="row.id">
-          <td v-for="(cell, index) in row" :key="index">
-            <div flex items-center>
-              <img v-if="cell && cell.image" class="pr-4" :src="cell.image" />
-              {{ cell?.value ?? cell }}
-            </div>
-          </td>
-          <td>
-            <DropdownTable
-              v-if="isDropdown ?? true"
-              :detailId="row.id"
-              :type="props.type"
-            ></DropdownTable>
-            <UsePredefined v-if="isTemplateDefine ?? false"></UsePredefined>
-          </td>
-        </tr>
+        <template v-if="props.rows.length === 0">
+          <tr>
+            <td
+              class="text-center text-[14px] px-[30px] py-[18px]"
+              :colspan="headers.length"
+            >
+              No data found.
+            </td>
+          </tr>
+        </template>
+        <template v-else>
+          <tr v-for="row in props.rows" :key="row.id">
+            <td
+              v-for="(cell, index) in row"
+              :key="index"
+              class="text-left text-[14px] px-[30px] py-[18px]"
+            >
+              <div flex items-center>
+                <img v-if="cell && cell.image" class="pr-4" :src="cell.image" />
+                {{ cell?.value ?? cell }}
+              </div>
+            </td>
+            <td class="text-[14px] px-[30px] py-[18px]">
+              <DropdownTable
+                v-if="isDropdown ?? true"
+                :detail-id="row.id"
+                :type="props.type"
+              ></DropdownTable>
+              <button
+                v-if="isTemplateDefine ?? false"
+                @click="props.use(row)"
+                class="text-primary hover:underline"
+                type="button"
+              >
+                Use
+              </button>
+            </td>
+          </tr>
+        </template>
       </tbody>
     </table>
   </div>
@@ -73,7 +96,6 @@ const isDropdown = ref(props.isDropdown);
     thead {
       tr {
         th {
-          white-space: nowrap;
           font-size: 16px;
           font-weight: 400;
           text-align: left;
@@ -85,13 +107,6 @@ const isDropdown = ref(props.isDropdown);
       tr {
         &:nth-child(odd) {
           background: #f7f7f7;
-        }
-
-        td {
-          white-space: nowrap;
-          padding: 18px 30px;
-          font-size: 14px;
-          text-align: left;
         }
       }
     }

@@ -1,32 +1,68 @@
 <script lang="ts" setup>
-const MessageHeaders = ['Title', 'Message', 'Created Date'];
-const MessageRows = [
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-    date: 'Mon, 19 Sep 2022 09:01 PM',
-  },
-  {
-    title: 'Keyword1',
-    message: 'This is a test message ',
-    date: 'Mon, 19 Sep 2022 09:01 PM',
-  },
-  {
-    title: 'Keyword2',
-    message: 'This is a test message ',
-    date: 'Mon, 19 Sep 2022 09:01 PM',
-  },
-  {
-    title: 'Keyword3',
-    message: 'This is a test message ',
-    date: 'Mon, 19 Sep 2022 09:01 PM',
-  },
-  {
-    title: 'Keyword4',
-    message: 'This is a test message ',
-    date: 'Mon, 19 Sep 2022 09:01 PM',
-  },
+import type { Recipient } from '~~/services/recipient.service';
+
+const recipientService = useService('recipient');
+
+async function deleteRecipient(id: number) {
+  try {
+    await recipientService.delete(id);
+    window.location.reload();
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+const config = useRuntimeConfig();
+const page = ref(1);
+const search = ref('');
+const searchField = ref('');
+
+const recipientHeaders = [
+  'Full Name',
+  'Nick name',
+  'Mobile phone for voice calls',
+  'Mobile phone for SMS',
+  'Home phone number',
+  'Work phone Number',
+  'Primary email',
+  'Alternate email',
+  'Address',
 ];
+
+const { data, refresh } = await useFetch<any>(
+  () =>
+    `recipients?search=${search.value}&pageNumber=${page.value}&pageSize=10`,
+  {
+    baseURL: config.public.API_SMARTSUITE_BASE_URL,
+    transform: (data) => {
+      return {
+        total: data.total,
+        data: data.data.map((x: any) => ({
+          firstName: x.firstName,
+          nickName: x.nickName,
+          cellVoice: x.cellVoice,
+          cellText: x.cellText,
+          homeNumber: x.homeNumber,
+          workNumber: x.workNumber,
+          emailAddress: x.emailAddress,
+          alternateEmail: x.alternateEmail,
+          location: x.location,
+        })),
+      };
+    },
+  },
+);
+
+const searchKeyword = () => {
+  search.value = searchField.value;
+  page.value = 1;
+  refresh();
+};
+
+const paginate = (pg: number) => {
+  page.value = pg;
+  refresh();
+};
 </script>
 
 <template>
@@ -55,6 +91,7 @@ const MessageRows = [
         <div class="flex flex-wrap justify-between items-center gap-4">
           <div class="flex flex-wrap items-center gap-4">
             <FormKit
+              v-model="searchField"
               prefix-icon="search"
               type="search"
               placeholder="Search"
@@ -62,12 +99,24 @@ const MessageRows = [
               prefix-icon-class="search-icon"
               outer-class="search-field md:w-[34rem] w-full"
             />
-            <button class="btn btn-primary md:w-auto w-full">Search</button>
+            <button
+              class="btn btn-primary md:w-auto w-full"
+              @click="searchKeyword"
+            >
+              Search
+            </button>
           </div>
         </div>
       </div>
       <div class="pb-10 pt-5">
-        <DashboardTable :headers="MessageHeaders" :rows="MessageRows" />
+        <DashboardTable :headers="recipientHeaders" :rows="data.data" />
+        <div class="ml-8">
+          <PaginationTable
+            :total-records="data.total"
+            :current-page="page"
+            :paginate="paginate"
+          ></PaginationTable>
+        </div>
       </div>
     </div>
   </div>
