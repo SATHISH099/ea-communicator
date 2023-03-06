@@ -6,19 +6,21 @@ const searchField = ref('');
 
 const groupHeaders = ['Group Name', 'Group Status'];
 
+interface GroupData {
+  groupName: string;
+  status: boolean;
+}
 const { data, refresh } = await useFetch<any>(
   () => `groups?search=${search.value}&pageNumber=${page.value}&pageSize=10`,
   {
     baseURL: config.public.API_SMARTSUITE_BASE_URL,
-    transform: (data) => {
-      return {
-        total: data.total,
-        data: data.data.map((x: any) => ({
-          groupName: x.groupName,
-          status: x.status,
-        })),
-      };
-    },
+    transform: ({ total, data }) => ({
+      total,
+      data: data.map(({ groupName, status }: GroupData) => ({
+        groupName,
+        status,
+      })),
+    }),
   },
 );
 
