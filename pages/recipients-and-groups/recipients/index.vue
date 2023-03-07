@@ -38,7 +38,9 @@ const { data, refresh } = await useFetch<any>(
       return {
         total: data.total,
         data: data.data.map((x: any) => ({
-          firstName: x.firstName,
+          fullName: `${x.firstName} ${x.middleName ? x.middleName + ' ' : ''}${
+            x.lastName
+          }`,
           nickName: x.nickName,
           cellVoice: x.cellVoice,
           cellText: x.cellText,

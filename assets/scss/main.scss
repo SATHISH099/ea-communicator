@@ -280,3 +280,29 @@ a {
     }
   }
 }
+
+.recipient-list {
+  width: 100%;
+
+  .formkit-fieldset {
+    border: none;
+    width: 100%;
+
+    .formkit-options {
+      list-style-type: none;
+
+      .formkit-option {
+        &:hover {
+          background-color: $floral-white;
+        }
+
+        padding: 0.6rem 1rem;
+
+        .formkit-wrapper {
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+  }
+}

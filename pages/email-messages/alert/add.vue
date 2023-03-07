@@ -136,7 +136,6 @@ const useTemplate = (template: AlertData) => {
           </div>
           <div bg-white small-shadow>
             <div px-6 pt-6>
-              <h5 text-stone>Predefined Templates</h5>
               <div class="flex justify-start py-6">
                 <div class="flex items-center gap-1 md:gap-0 flex-wrap">
                   <div

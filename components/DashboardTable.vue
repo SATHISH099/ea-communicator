@@ -89,9 +89,9 @@ const onDeleteRecord = (id) => {
               ></DropdownTable>
               <button
                 v-if="isTemplateDefine ?? false"
-                @click="props.use(row)"
-                class="text-primary hover:underline"
+                class="text-primary hover:underline border-none bg-transparent cursor-pointer"
                 type="button"
+                @click="props.use(row)"
               >
                 Use
               </button>

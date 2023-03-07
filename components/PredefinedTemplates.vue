@@ -59,7 +59,7 @@ const paginate = (pg: number) => {
         :isTemplateDefine="true"
         :use="use"
       />
-      <div class="ml-8">
+      <div class="px-6 pb-6">
         <PaginationTable
           :totalRecords="data.total"
           :currentPage="page"
