@@ -223,33 +223,60 @@ const setCcGroupRecipients = (
                 />
               </button>
               <button
-                class="border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex justify-between text-[16px] text-silver items-center p-[1rem]"
+                class="relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[16px] text-silver items-center p-[1rem]"
                 @click="toggleModalCc"
               >
-                <span>CC</span>
-                <span v-for="recipient in ccRecipients" :key="recipient.id">
-                  {{ recipient.firstName }} {{ recipient.lastName }}
-                </span>
+                <span class="mr-5">CC</span>
+                <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
+                  <span
+                    v-for="recipient in ccRecipients"
+                    :key="recipient.id"
+                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                  >
+                    {{ recipient.firstName }} {{ recipient.lastName }}
+                  </span>
 
-                <span v-for="group in ccGroups" :key="group.id">
-                  {{ group.groupName }}
-                </span>
-
-                <img src="/plus.png" alt="plus" />
+                  <span
+                    v-for="group in ccGroups"
+                    :key="group.id"
+                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                  >
+                    {{ group.groupName }}
+                  </span>
+                </div>
+                <img
+                  class="absolute right-0 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                  src="/plus.png"
+                  alt="plus"
+                />
               </button>
               <button
-                class="border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex justify-between text-[16px] text-silver items-center p-[1rem]"
+                class="relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[16px] text-silver items-center p-[1rem]"
                 @click="toggleModalBcc"
               >
                 <span>BCC</span>
-                <span v-for="recipient in bccRecipients" :key="recipient.id">
-                  {{ recipient.firstName }} {{ recipient.lastName }}
-                </span>
+                <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
+                  <span
+                    v-for="recipient in bccRecipients"
+                    :key="recipient.id"
+                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                  >
+                    {{ recipient.firstName }} {{ recipient.lastName }}
+                  </span>
 
-                <span v-for="group in bccGroups" :key="group.id">
-                  {{ group.groupName }}
-                </span>
-                <img src="/plus.png" alt="plus" />
+                  <span
+                    v-for="group in bccGroups"
+                    :key="group.id"
+                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                  >
+                    {{ group.groupName }}
+                  </span>
+                </div>
+                <img
+                  class="absolute right-0 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                  src="/plus.png"
+                  alt="plus"
+                />
               </button>
               <FormKit
                 v-model="subject"

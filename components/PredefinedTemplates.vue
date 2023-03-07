@@ -37,8 +37,9 @@ const paginate = (pg: number) => {
 
 <template>
   <div>
-    <div>
-      <div px-6 pt-4>
+    <div bg-white small-shadow>
+      <div px-6 pt-6>
+        <h5 text-stone mb-5>Predefined Templates</h5>
         <FormKit
           prefix-icon="search"
           v-model="searchField"
