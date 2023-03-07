@@ -16,9 +16,9 @@ const { data, refresh } = await useFetch<any>(
     baseURL: config.public.API_SMARTSUITE_BASE_URL,
     transform: ({ total, data }) => ({
       total,
-      data: data.map(({ groupName, status }: GroupData) => ({
-        groupName,
-        status,
+      data: data.map((x: GroupData) => ({
+        groupName: x.groupName,
+        status: x.status ? 'Active' : 'In-Active',
       })),
     }),
   },
@@ -55,7 +55,11 @@ const paginate = (pg: number) => {
         </div>
       </div>
       <div class="pb-10">
-        <DashboardTable :headers="groupHeaders" :rows="data.data" />
+        <DashboardTable
+          :headers="groupHeaders"
+          :rows="data.data"
+          :is-dropdown="false"
+        />
         <div class="ml-8">
           <PaginationTable
             :total-records="data.total"

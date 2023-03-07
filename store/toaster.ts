@@ -18,7 +18,7 @@ export const useToasterStore = defineStore({
     async setMessage(message: string, type: Type = 'success') {
       this.type = type;
       this.message = message;
-      await delay(3000);
+      await delay(4000);
       this.message = '';
     },
   },

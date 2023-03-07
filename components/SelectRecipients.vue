@@ -63,8 +63,8 @@ const removeFromGroup = (id: number) => {
 
 <template>
   <div>
-    <div flex items-center gap-3>
-      <div px-6 pt-6>
+    <div grid md:grid-cols-2 grid-cols-1 gap-4 mb-5>
+      <div w-full>
         <FormKit
           v-model="searchRecipient"
           prefix-icon="search"
@@ -75,8 +75,7 @@ const removeFromGroup = (id: number) => {
           @change="searchRecipients"
         />
       </div>
-
-      <div px-6 pt-6>
+      <div w-full>
         <FormKit
           v-model="searchGroup"
           prefix-icon="search"
@@ -89,15 +88,17 @@ const removeFromGroup = (id: number) => {
       </div>
     </div>
     <div>
-      <table class="relative">
-        <tbody>
-          <tr>
-            <td>
-              <FormKit
-                v-if="type === 'recipients'"
-                v-model="form.recipients"
-                type="checkbox"
-                :options="
+      <div
+        class="shadow-[0_6px_12px_#F7F7F7] border-solid border border-[#F5F7FA] rounded-[4px] pb-5 max-h-[313px] overflow-y-auto"
+      >
+        <div v-if="type === 'recipients'">
+          <h6 class="text-[#B42424] font-medium mb-4 px-[1rem] pt-[1rem]">
+            Recipients
+          </h6>
+          <FormKit
+            v-model="form.recipients"
+            type="checkbox"
+            :options="
                   data.data.map((recipientItem: RecipientData) => {
                     return {
                       value: recipientItem,
@@ -105,15 +106,18 @@ const removeFromGroup = (id: number) => {
                     };
                   })
                 "
-                outer-class="radio-fieldset"
-                input-class="form-check-input"
-              />
-
-              <FormKit
-                v-if="type === 'groups'"
-                v-model="form.groups"
-                type="checkbox"
-                :options="
+            outer-class="recipient-list"
+            input-class="form-check-input mr-2"
+          />
+        </div>
+        <div v-if="type === 'groups'">
+          <h6 class="text-[#B42424] font-medium mb-4 px-[1rem] pt-[1rem]">
+            Groups
+          </h6>
+          <FormKit
+            v-model="form.groups"
+            type="checkbox"
+            :options="
                   data.data.map((groupItem: GroupData) => {
                     return {
                       value: groupItem,
@@ -121,32 +125,37 @@ const removeFromGroup = (id: number) => {
                     };
                   })
                 "
-                outer-class="radio-fieldset"
-                input-class="form-check-input"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div>
-        <span v-for="recipient in form.recipients" :key="recipient.id">
+            outer-class="recipient-list"
+            input-class="form-check-input mr-2"
+          />
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-3 mt-10">
+        <span
+          class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+          v-for="recipient in form.recipients"
+          :key="recipient.id"
+        >
           {{ recipient.firstName }} {{ recipient.lastName }}
           <button
-            @click="removeFromRecipient(recipient.id)"
-            class="text-primary hover:underline"
+            class="border-none outline-none bg-transparent text-primary mr-2"
             type="button"
+            @click="removeFromRecipient(recipient.id)"
           >
             X
           </button>
         </span>
 
-        <span v-for="group in form.groups" :key="group.id">
+        <span
+          class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary"
+          v-for="group in form.groups"
+          :key="group.id"
+        >
           {{ group.groupName }}
           <button
-            @click="removeFromGroup(group.id)"
-            class="text-primary hover:underline"
             type="button"
+            class="border-none outline-none bg-transparent text-primary mr-2"
+            @click="removeFromGroup(group.id)"
           >
             X
           </button>

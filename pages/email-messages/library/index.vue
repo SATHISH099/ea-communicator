@@ -19,7 +19,7 @@ const deleteMediaId = ref();
 const selectedMedia = ref();
 const viewUploadModal = ref(false);
 
-const handleAddNewItem = async (data: { file: any[] }) => {
+const handleAddMedia = async (data: { file: any[] }) => {
   const body = new FormData();
   data.file.forEach((fileItem: { file: string | Blob }) => {
     body.append('media', fileItem.file);
@@ -74,8 +74,8 @@ const viewMedia = (media: Media) => {
         </div>
         <div flex items-center gap-4>
           <button
-            @click="viewUploadModal = true"
             class="border-none outline-none flex items-center py-[16px] px-[32px] rounded-[4px] text-stone text-[1.125rem] gap-3 cursor-pointer"
+            @click="viewUploadModal = true"
           >
             <img src="/document-add.png" alt="" /> Add new item
           </button>
@@ -96,7 +96,7 @@ const viewMedia = (media: Media) => {
                       wrapperClass: 'flex justify-end',
                     }"
                     type="form"
-                    @submit="handleAddNewItem"
+                    @submit="handleAddMedia"
                   >
                     <FormKit
                       type="file"

@@ -37,9 +37,8 @@ const paginate = (pg: number) => {
 
 <template>
   <div>
-    <div bg-white small-shadow>
-      <div px-6 pt-6>
-        <h5 text-stone mb-5>Predefined Templates</h5>
+    <div>
+      <div px-6 pt-4>
         <FormKit
           prefix-icon="search"
           v-model="searchField"
@@ -59,7 +58,7 @@ const paginate = (pg: number) => {
         :isTemplateDefine="true"
         :use="use"
       />
-      <div class="ml-8">
+      <div class="px-6 pb-6">
         <PaginationTable
           :totalRecords="data.total"
           :currentPage="page"

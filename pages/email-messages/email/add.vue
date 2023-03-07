@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import Multiselect from '@vueform/multiselect';
 import type { Email } from '~~/services/email.service';
+import '~~/services/media.service';
 
 interface EmailData {
   title: string;
@@ -17,6 +18,8 @@ interface GroupData {
   id: number;
   groupName: string;
 }
+
+const mediaService = useService('media');
 
 const emailService = useService('email');
 const importanceLevel = ref('low');
@@ -76,14 +79,25 @@ const useTemplate = (template: EmailData) => {
   subject.value = template.title;
   body.value = template.message;
 };
+const handleAddMedia = async (data: { file: any[] }) => {
+  const body = new FormData();
+  data.file.forEach((fileItem: { file: string | Blob }) => {
+    body.append('media', fileItem.file);
+  });
 
-const submitHandler = async (formData: []) => {
+  const response = await mediaService.create(body);
+  return response;
+};
+
+const submitHandler = async (formData: { file: any[] }) => {
   if (checkvalidation()) {
+    const media = await handleAddMedia(formData);
     const data = {
       ...formData,
       body: body.value,
       sender: 'test',
       isPredefined: false,
+      medias: [{ id: media.id }],
       recipients: recipients.value.map(({ id }) => ({
         recipientId: id,
       })),
@@ -109,7 +123,6 @@ const submitHandler = async (formData: []) => {
     resetForm();
   }
 };
-
 const setGroupRecipients = (
   recipientSelected: RecipientData[],
   groupSelected: GroupData[],
@@ -168,8 +181,8 @@ const setCcGroupRecipients = (
                 <h6 text-stone>Priority</h6>
                 <div flex flex-wrap items-center gap-3>
                   <FormKit
-                    name="importanceLevel"
                     v-model="importanceLevel"
+                    name="importanceLevel"
                     type="radio"
                     validation="required"
                     outer-class="radio-fieldset"
@@ -181,19 +194,33 @@ const setCcGroupRecipients = (
             </div>
             <div grid md:grid-cols-2 grid-cols-1 gap-5 mt-8>
               <button
-                class="border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex justify-between text-[1rem] text-silver items-center p-[1rem] col-span-2"
+                class="relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[1rem] text-silver items-center p-[1rem] col-span-2"
                 @click="toggleModal"
               >
-                <span>TO</span>
-                <span v-for="recipient in recipients" :key="recipient.id">
-                  {{ recipient.firstName }} {{ recipient.lastName }}
-                </span>
+                <span class="mr-5">TO</span>
+                <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
+                  <span
+                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                    v-for="recipient in recipients"
+                    :key="recipient.id"
+                  >
+                    {{ recipient.firstName }} {{ recipient.lastName }}
+                  </span>
 
-                <span v-for="group in groups" :key="group.id">
-                  {{ group.groupName }}
-                </span>
+                  <span
+                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary"
+                    v-for="group in groups"
+                    :key="group.id"
+                  >
+                    {{ group.groupName }}
+                  </span>
+                </div>
 
-                <img src="/plus.png" alt="plus" />
+                <img
+                  class="absolute right-0 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                  src="/plus.png"
+                  alt="plus"
+                />
               </button>
               <button
                 class="border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex justify-between text-[16px] text-silver items-center p-[1rem]"
@@ -225,10 +252,10 @@ const setCcGroupRecipients = (
                 <img src="/plus.png" alt="plus" />
               </button>
               <FormKit
+                v-model="subject"
                 name="subject"
                 type="text"
                 validation="required"
-                v-model="subject"
                 placeholder="Subject"
                 input-class="form-control"
                 outer-class="mb-5 md:col-span-2 col-span-1"
@@ -238,7 +265,7 @@ const setCcGroupRecipients = (
               <ClientOnly>
                 <RichTextEditor
                   v-model="body"
-                  :contentValue="body"
+                  :content-value="body"
                   @update:contentValue="
                     (newValue) => {
                       setField(newValue);
@@ -246,17 +273,18 @@ const setCcGroupRecipients = (
                   "
                 />
               </ClientOnly>
-              <span class="error" v-if="errorBody">Please Enter Body</span>
+              <span v-if="errorBody" class="error">Please Enter Body</span>
             </div>
             <div flex flex-wrap justify-between items-center>
               <FormKit
                 type="file"
-                accept=".pdf,.doc,.docx,.xml,.md,.csv"
-                multiple="true"
+                name="file"
+                accept=".csv,.png,.jpg,.jpeg,.svg,.xml"
                 inner-class="file-uploader"
                 prefix-icon="link"
                 prefix-icon-class="mr-3"
-                outer-class="md:min-w-[20em] min-w-full"
+                outer-class="md:min-w-[20em] min-w-full mb-5"
+                multiple="true"
               />
               <div class="flex items-center mt-5 md:w-auto w-full">
                 <FormKit
@@ -283,7 +311,8 @@ const setCcGroupRecipients = (
               :recipients="recipients"
               :groups="groups"
               @set-groups-recipients="setGroupRecipients"
-            ></SelectRecipients>
+            >
+            </SelectRecipients>
           </div>
         </TheModal>
 
