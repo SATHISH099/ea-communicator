@@ -6,11 +6,23 @@ interface SmsData {
   title: string;
   message: string;
 }
+interface RecipientData {
+  id: number;
+  firstName: string;
+  lastName: string;
+}
+
+interface GroupData {
+  id: number;
+  groupName: string;
+}
 const smsService = useService('sms');
 const importanceLevel = ref('low');
 const successResponse = ref({ id: null });
 const title = ref('');
 const message = ref('');
+const recipients = ref<RecipientData[] | []>([]);
+const groups = ref<GroupData[] | []>([]);
 const showModal = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
@@ -20,6 +32,8 @@ const resetForm = () => {
   message.value = '';
   title.value = '';
   importanceLevel.value = '';
+  recipients.value = [];
+  groups.value = [];
 };
 
 const submitHandler = async (formData: []) => {
@@ -28,6 +42,12 @@ const submitHandler = async (formData: []) => {
     sender: 'test',
     tenantId: 'test',
     isPredefined: false,
+    recipients: recipients.value.map(({ id }) => ({
+      recipientId: id,
+    })),
+    groups: groups.value.map(({ id }) => ({
+      groupId: id,
+    })),
   };
   const response = await smsService.sendSms(data);
   successResponse.value = response;
@@ -37,6 +57,15 @@ const submitHandler = async (formData: []) => {
 const useTemplate = (template: SmsData) => {
   title.value = template.title;
   message.value = template.message;
+};
+
+const setGroupRecipients = (
+  recipientSelected: RecipientData[],
+  groupSelected: GroupData[],
+) => {
+  recipients.value = recipientSelected;
+  groups.value = groupSelected;
+  showModal.value = false;
 };
 </script>
 
@@ -87,6 +116,13 @@ const useTemplate = (template: SmsData) => {
                 @click="toggleModal"
               >
                 <span>Recepient</span>
+                <span v-for="recipient in recipients" :key="recipient.id">
+                  {{ recipient.firstName }} {{ recipient.lastName }}
+                </span>
+
+                <span v-for="group in groups" :key="group.id">
+                  {{ group.groupName }}
+                </span>
                 <img src="/plus.png" alt="plus" />
               </button>
 
@@ -134,22 +170,11 @@ const useTemplate = (template: SmsData) => {
           @close="toggleModal"
         >
           <div class="mt-10">
-            <div flex items-center gap-3>
-              <Multiselect
-                :options="['test1', 'test2']"
-                searchable="true"
-                mode="tags"
-                :create-option="true"
-                :close-on-select="false"
-                placeholder="Search"
-              />
-              <button class="form-control w-[3.5rem] cursor-pointer">
-                <img src="/add-user.png" alt="" />
-              </button>
-            </div>
-            <div flex justify-end mt-5>
-              <button class="btn btn-primary">Add</button>
-            </div>
+            <SelectRecipients
+              :recipients="recipients"
+              :groups="groups"
+              @set-groups-recipients="setGroupRecipients"
+            ></SelectRecipients>
           </div>
         </TheModal>
       </div>
