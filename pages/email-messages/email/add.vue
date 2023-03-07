@@ -26,9 +26,24 @@ const subject = ref('');
 const body = ref('');
 const recipients = ref<RecipientData[] | []>([]);
 const groups = ref<GroupData[] | []>([]);
+const ccRecipients = ref<RecipientData[] | []>([]);
+const ccGroups = ref<GroupData[] | []>([]);
+const bccRecipients = ref<RecipientData[] | []>([]);
+const bccGroups = ref<GroupData[] | []>([]);
 const showModal = ref(false);
+const showModalCc = ref(false);
+const showModalBcc = ref(false);
+
 const toggleModal = () => {
   showModal.value = !showModal.value;
+};
+
+const toggleModalCc = () => {
+  showModalCc.value = !showModalCc.value;
+};
+
+const toggleModalBcc = () => {
+  showModalBcc.value = !showModalBcc.value;
 };
 
 const setField = (data: string) => {
@@ -42,6 +57,10 @@ const resetForm = () => {
   importanceLevel.value = '';
   recipients.value = [];
   groups.value = [];
+  ccRecipients.value = [];
+  ccGroups.value = [];
+  bccRecipients.value = [];
+  bccGroups.value = [];
 };
 
 const checkvalidation = () => {
@@ -71,6 +90,18 @@ const submitHandler = async (formData: []) => {
       groups: groups.value.map(({ id }) => ({
         groupId: id,
       })),
+      ccRecipients: ccRecipients.value.map(({ id }) => ({
+        recipientId: id,
+      })),
+      ccGroups: ccGroups.value.map(({ id }) => ({
+        groupId: id,
+      })),
+      bccRecipients: bccRecipients.value.map(({ id }) => ({
+        recipientId: id,
+      })),
+      bccGroups: bccGroups.value.map(({ id }) => ({
+        groupId: id,
+      })),
     };
     const response = await emailService.sendEmail(data);
 
@@ -86,6 +117,24 @@ const setGroupRecipients = (
   recipients.value = recipientSelected;
   groups.value = groupSelected;
   showModal.value = false;
+};
+
+const setBccGroupRecipients = (
+  recipientSelected: RecipientData[],
+  groupSelected: GroupData[],
+) => {
+  bccRecipients.value = recipientSelected;
+  bccGroups.value = groupSelected;
+  showModalBcc.value = false;
+};
+
+const setCcGroupRecipients = (
+  recipientSelected: RecipientData[],
+  groupSelected: GroupData[],
+) => {
+  ccRecipients.value = recipientSelected;
+  ccGroups.value = groupSelected;
+  showModalCc.value = false;
 };
 </script>
 
@@ -148,16 +197,31 @@ const setGroupRecipients = (
               </button>
               <button
                 class="border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex justify-between text-[16px] text-silver items-center p-[1rem]"
-                @click="toggleModal"
+                @click="toggleModalCc"
               >
                 <span>CC</span>
+                <span v-for="recipient in ccRecipients" :key="recipient.id">
+                  {{ recipient.firstName }} {{ recipient.lastName }}
+                </span>
+
+                <span v-for="group in ccGroups" :key="group.id">
+                  {{ group.groupName }}
+                </span>
+
                 <img src="/plus.png" alt="plus" />
               </button>
               <button
                 class="border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex justify-between text-[16px] text-silver items-center p-[1rem]"
-                @click="toggleModal"
+                @click="toggleModalBcc"
               >
                 <span>BCC</span>
+                <span v-for="recipient in bccRecipients" :key="recipient.id">
+                  {{ recipient.firstName }} {{ recipient.lastName }}
+                </span>
+
+                <span v-for="group in bccGroups" :key="group.id">
+                  {{ group.groupName }}
+                </span>
                 <img src="/plus.png" alt="plus" />
               </button>
               <FormKit
@@ -219,6 +283,34 @@ const setGroupRecipients = (
               :recipients="recipients"
               :groups="groups"
               @set-groups-recipients="setGroupRecipients"
+            ></SelectRecipients>
+          </div>
+        </TheModal>
+
+        <TheModal
+          title="Select Recipient and Groups"
+          :show="showModalCc"
+          @close="toggleModalCc"
+        >
+          <div class="mt-10">
+            <SelectRecipients
+              :recipients="ccRecipients"
+              :groups="ccGroups"
+              @set-groups-recipients="setCcGroupRecipients"
+            ></SelectRecipients>
+          </div>
+        </TheModal>
+
+        <TheModal
+          title="Select Recipient and Groups"
+          :show="showModalBcc"
+          @close="toggleModalBcc"
+        >
+          <div class="mt-10">
+            <SelectRecipients
+              :recipients="bccRecipients"
+              :groups="bccGroups"
+              @set-groups-recipients="setBccGroupRecipients"
             ></SelectRecipients>
           </div>
         </TheModal>
