@@ -21,6 +21,7 @@ const onDeleteRecord = (deleteId) => {
 <template>
   <div>
     <DeleteRecord
+      v-if="props.dropDownOption.isDelete"
       :entity="`${props.type}`"
       :show="show"
       :deleteId="props.detailId"

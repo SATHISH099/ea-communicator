@@ -42,18 +42,20 @@ const submitHandler = async (formData: any) => {
   }
 };
 
-const saveEmail = async (formData: any) => {
+const saveEmail = (formData: any) => {
   const data = {
     subject: formData.title,
     sender: 'test',
     importanceLevel: 'low',
     body: body.value,
     isPredefined: true,
+    recipients: [],
+    groups: [],
   };
   return emailService.sendEmail(data);
 };
 
-const saveSms = async (formData: any) => {
+const saveSms = (formData: any) => {
   const data = {
     title: formData.title,
     message: message.value,
@@ -61,6 +63,8 @@ const saveSms = async (formData: any) => {
     importanceLevel: 'low',
     tenantId: 'test',
     isPredefined: true,
+    recipients: [],
+    groups: [],
   };
   return smsService.sendSms(data);
 };
