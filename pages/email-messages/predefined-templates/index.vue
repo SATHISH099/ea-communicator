@@ -3,33 +3,39 @@ import Multiselect from '@vueform/multiselect/src/Multiselect';
 import type { Sms } from '~~/services/sms.service';
 import type { Email } from '~~/services/email.service';
 
+const smsService = useService('sms');
+const emailService = useService('email');
+type Message = Sms & Email;
 const config = useRuntimeConfig();
 const type = ref('emails');
 const page = ref(1);
+const isDelete = ref(false);
+const orderType = ref('desc');
+const orderBy = ref('id');
 const search = ref('');
 const searchField = ref('');
 
 const MessageHeaders = [
-  { value: 'Title', image: '/arrow-and-direction.png' },
+  { value: 'Id', isSort: true, key: 'id' },
+  'Title',
   'Message',
-  { value: 'Created Date', image: '/arrow-and-direction.png' },
+  { value: 'Created Date', isSort: true, key: 'createdAt' },
 ];
 
 const { data, refresh } = await useFetch<any>(
   () =>
-    `${type.value}?search=${search.value}&pageNumber=${page.value}&pageSize=10&isPredefined=true`,
+    `${type.value}?search=${search.value}&pageNumber=${page.value}&pageSize=10&isPredefined=true&orderType=${orderType.value}&orderBy=${orderBy.value}`,
   {
     baseURL: config.public.API_BASE_URL,
-    transform: (data) => {
-      return {
-        total: data.total,
-        data: data.data.map((x: any) => ({
-          title: x.title ?? x.subject,
-          message: x.body ?? x.message,
-          sentDate: x.createdAt,
-        })),
-      };
-    },
+    transform: (data) => ({
+      total: data.total,
+      data: data.data.map((message: Message) => ({
+        id: message.id,
+        title: type.value === 'emails' ? message.subject : message.title,
+        message: type.value === 'emails' ? message.body : message.message,
+        sentDate: message.createdAt,
+      })),
+    }),
   },
 );
 
@@ -44,8 +50,24 @@ const paginate = (pg: number) => {
   refresh();
 };
 
+const deleteRecord = async (id: number) => {
+  const response =
+    type.value === 'emails'
+      ? await emailService.delete(id)
+      : await smsService.delete(id);
+  refresh();
+  isDelete.value = response.affected;
+};
+
+const sortRecord = (key: string) => {
+  orderType.value = orderType.value === 'desc' ? 'asc' : 'desc';
+  orderBy.value = key;
+  refresh();
+};
+
 const optionTypeSelected = (option: string) => {
   type.value = option;
+  orderBy.value = 'id';
   refresh();
 };
 </script>
@@ -72,6 +94,9 @@ const optionTypeSelected = (option: string) => {
       </div>
     </div>
     <div class="bg-white small-shadow">
+      <div v-if="isDelete" class="success alert-success">
+        Template Successfully Deleted
+      </div>
       <div class="p-6">
         <div class="flex flex-wrap justify-between items-center gap-4">
           <div class="flex flex-wrap items-center gap-4">
@@ -103,7 +128,13 @@ const optionTypeSelected = (option: string) => {
         </div>
       </div>
       <div class="pb-10 pt-5">
-        <DashboardTable :headers="MessageHeaders" :rows="data.data" />
+        <DashboardTable
+          :headers="MessageHeaders"
+          :rows="data.data"
+          :type="type"
+          @onDeleteRecord="deleteRecord"
+          @sortRecord="sortRecord"
+        />
         <div class="ml-8">
           <PaginationTable
             :totalRecords="data.total"

@@ -23,6 +23,9 @@ const props = defineProps({
     default: { isView: true, isEdit: false, isDelete: true },
     required: false,
   },
+  use: {
+    required: false,
+  },
 });
 const emit = defineEmits(['onDeleteRecord', 'sortRecord']);
 
