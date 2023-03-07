@@ -1,42 +1,42 @@
 <script lang="ts" setup>
 import type { Email } from '~~/services/email.service';
-
-interface Data {
-  data: Email[];
-  total: number;
-}
-
+const emailService = useService('email');
 const config = useRuntimeConfig();
 const page = ref(1);
+const isDelete = ref(false);
+const orderType = ref('desc');
+const orderBy = ref('id');
 const search = ref('');
 const searchField = ref('');
 
 const MessageHeaders = [
-  'Id',
-  { value: 'Recipients', image: '/arrow-and-direction.png' },
+  { value: 'Id', isSort: true, key: 'id' },
+  'Sender',
   'Subject',
+  'Recipients',
   'Email Message',
-  { value: 'Sent Date', image: '/arrow-and-direction.png' },
+  { value: 'Sent Date', isSort: true, key: 'createdAt' },
   '',
 ];
 
 const { data, refresh } = await useFetch<any>(
-  () => `emails?search=${search.value}&pageNumber=${page.value}&pageSize=10`,
+  () =>
+    `emails?search=${search.value}&pageNumber=${page.value}&pageSize=10&orderType=${orderType.value}&orderBy=${orderBy.value}`,
   {
     baseURL: config.public.API_BASE_URL,
     transform: (data) => {
       return {
         total: data.total,
-        data: data.data.map((x: any) => ({
-          id: x.id,
-          Recipients: {
-            value: 'johndoe@example.com',
-            image: '/Ellipse.png',
-          },
-          Subject: x.subject,
-          EmailMessage: x.body,
-          SentDate: x.createdAt,
-        })),
+        data: data.data.map(
+          ({ id, sender, subject, body, createdAt }: Email) => ({
+            id,
+            sender,
+            subject,
+            recipients: 0,
+            body,
+            createdAt,
+          }),
+        ),
       };
     },
   },
@@ -50,6 +50,18 @@ const searchKeyword = () => {
 
 const paginate = (pg: number) => {
   page.value = pg;
+  refresh();
+};
+
+const deleteRecord = async (id: number) => {
+  const response = await emailService.delete(id);
+  refresh();
+  isDelete.value = response.affected;
+};
+
+const sortRecord = (key: string) => {
+  orderType.value = orderType.value === 'desc' ? 'asc' : 'desc';
+  orderBy.value = key;
   refresh();
 };
 </script>
@@ -76,6 +88,9 @@ const paginate = (pg: number) => {
       </div>
     </div>
     <div class="bg-white small-shadow">
+      <div class="success alert-success" v-if="isDelete">
+        Email Successfully Deleted
+      </div>
       <div class="p-6">
         <div class="flex flex-wrap justify-between items-center gap-4">
           <div class="flex flex-wrap items-center gap-4">
@@ -102,6 +117,8 @@ const paginate = (pg: number) => {
           :headers="MessageHeaders"
           :rows="data.data"
           type="email"
+          @onDeleteRecord="deleteRecord"
+          @sortRecord="sortRecord"
         />
         <div class="ml-8">
           <PaginationTable

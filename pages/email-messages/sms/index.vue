@@ -1,38 +1,42 @@
 <script lang="ts" setup>
 import type { Sms } from '~~/services/sms.service';
-
-interface Data {
-  data: Sms[];
-  total: number;
-}
-
 const config = useRuntimeConfig();
 const page = ref(1);
+const isDelete = ref(false);
 const search = ref('');
+const orderType = ref('desc');
+const orderBy = ref('id');
 const searchField = ref('');
+const smsService = useService('sms');
 
 const MessageHeaders = [
-  { value: 'Recipients', image: '/arrow-and-direction.png' },
-  'Message Title',
+  { value: 'Id', isSort: true, key: 'id' },
   'Sender',
-  'Sms Message',
-  { value: 'Sent Date', image: '/arrow-and-direction.png' },
+  'Subject',
+  'Recipients',
+  'Email Message',
+  { value: 'Sent Date', isSort: true, key: 'createdAt' },
+  '',
 ];
 
 const { data, refresh } = await useFetch<any>(
-  () => `sms?search=${search.value}&pageNumber=${page.value}&pageSize=10`,
+  () =>
+    `sms?search=${search.value}&pageNumber=${page.value}&pageSize=10&orderType=${orderType.value}&orderBy=${orderBy.value}`,
   {
     baseURL: config.public.API_BASE_URL,
     transform: (data) => {
       return {
         total: data.total,
-        data: data.data.map((x: any) => ({
-          recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
-          messageTitle: x.title,
-          sender: x.sender,
-          smsMessage: x.message,
-          sentDate: x.createdAt,
-        })),
+        data: data.data.map(
+          ({ id, sender, title, message, createdAt }: Sms) => ({
+            id,
+            sender,
+            title,
+            recipients: 0,
+            message,
+            createdAt,
+          }),
+        ),
       };
     },
   },
@@ -47,6 +51,18 @@ const searchKeyword = () => {
 const paginate = (pg: number) => {
   page.value = pg;
   refresh();
+};
+
+const sortRecord = (key: string) => {
+  orderType.value = orderType.value === 'desc' ? 'asc' : 'desc';
+  orderBy.value = key;
+  refresh();
+};
+
+const deleteRecord = async (id: number) => {
+  const response = await smsService.delete(id);
+  refresh();
+  isDelete.value = response.affected;
 };
 </script>
 
@@ -72,6 +88,9 @@ const paginate = (pg: number) => {
       </div>
     </div>
     <div class="bg-white small-shadow">
+      <div class="success alert-success" v-if="isDelete">
+        SMS Successfully Deleted
+      </div>
       <div class="p-6">
         <div class="flex flex-wrap items-center gap-4">
           <FormKit
@@ -89,7 +108,13 @@ const paginate = (pg: number) => {
         </div>
       </div>
       <div class="pb-10 pt-5 overflow-auto scroll relative">
-        <DashboardTable :headers="MessageHeaders" :rows="data.data" />
+        <DashboardTable
+          :headers="MessageHeaders"
+          :rows="data.data"
+          type="sms"
+          @onDeleteRecord="deleteRecord"
+          @sortRecord="sortRecord"
+        />
         <div class="ml-8">
           <PaginationTable
             :totalRecords="data.total"

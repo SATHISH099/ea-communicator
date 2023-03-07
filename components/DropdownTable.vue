@@ -1,27 +1,65 @@
 <script setup>
-const props = defineProps(['detailId', 'type']);
+const props = defineProps(['detailId', 'type', 'dropDownOption']);
+const emit = defineEmits(['onDeleteRecord']);
 const isOpen = ref(false);
+const show = ref(false);
+
+const deleteShow = () => {
+  show.value = true;
+};
+
+const hideModal = () => {
+  show.value = false;
+};
+
+const onDeleteRecord = (deleteId) => {
+  hideModal();
+  emit('onDeleteRecord', deleteId);
+};
 </script>
 
 <template>
-  <div class="dropdown relative text-right">
-    <img class="cursor-pointer" src="/EditIcon.png" @click="isOpen = !isOpen" />
-    <ul
-      v-show="isOpen"
-      class="dropdown-menu z-10 absolute top-[30px] -right-[30px] bg-stone px-[12px] py-[4px] rounded-[4px] cursor-pointer text-white list-style-none"
-    >
-      <NuxtLink
-        :to="{
-          path: '/email-messages/' + props.type + '/detail',
-          query: { id: props.detailId },
-        }"
-        class="p-2 view"
-        >View</NuxtLink
-      >
+  <div>
+    <DeleteRecord
+      :entity="`${props.type}`"
+      :show="show"
+      :deleteId="props.detailId"
+      @onDeleteRecord="onDeleteRecord"
+      @hideModal="hideModal"
+    ></DeleteRecord>
 
-      <li class="p-2">Edit</li>
-      <li class="p-2">Delete</li>
-    </ul>
+    <div class="dropdown relative text-right">
+      <img
+        class="cursor-pointer"
+        src="/EditIcon.png"
+        @click="isOpen = !isOpen"
+      />
+      <ul
+        v-show="isOpen"
+        class="dropdown-menu z-10 absolute top-[30px] -right-[30px] bg-stone px-[12px] py-[4px] rounded-[4px] cursor-pointer text-white list-style-none"
+      >
+        <NuxtLink
+          v-if="props.dropDownOption.isView"
+          :to="{
+            path: '/email-messages/' + props.type + '/detail',
+            query: { id: props.detailId },
+          }"
+          class="p-2 view"
+          >View</NuxtLink
+        >
+
+        <li class="p-2" v-if="props.dropDownOption.isEdit">Edit</li>
+        <li class="p-2" v-if="props.dropDownOption.isDelete">
+          <button
+            @click="deleteShow()"
+            class="text-primary hover:underline"
+            type="button"
+          >
+            Delete
+          </button>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
