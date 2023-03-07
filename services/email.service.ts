@@ -5,8 +5,8 @@ const email = z.object({
   id: z.number(),
   createdAt: z.string(),
   updatedAt: z.string(),
-  title: z.string(),
-  message: z.string(),
+  subject: z.string(),
+  body: z.string(),
   sender: z.string(),
   isSms: z.boolean(),
   isVoice: z.boolean(),
@@ -26,6 +26,10 @@ export class EmailService {
 
   getAll() {
     return this.apiService.get(emails);
+  }
+
+  delete(id: number) {
+    return this.apiService.delete(emails, `emails/${id}`);
   }
 
   sendEmail(data: {}) {

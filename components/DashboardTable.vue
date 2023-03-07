@@ -19,10 +19,20 @@ const props = defineProps({
   type: {
     required: false,
   },
+  dropDownOption: {
+    type: object,
+    default: { isView: true, isEdit: false, isDelete: true },
+    required: false,
+  },
 });
+const emit = defineEmits(['onDeleteRecord', 'sortRecord']);
+
 const headers = ref(props.headers);
-const rows = ref(props.rows);
 const isDropdown = ref(props.isDropdown);
+
+const onDeleteRecord = (id) => {
+  emit('onDeleteRecord', id);
+};
 </script>
 
 <template>
@@ -36,6 +46,13 @@ const isDropdown = ref(props.isDropdown);
             class="md:px-[30px] py-[18px] px-[24px]"
           >
             {{ header.value ?? header }}
+            <img
+              v-if="header.isSort"
+              class="pl-4"
+              src="/arrow-and-direction.png"
+              @click="$emit('sortRecord', header?.key)"
+            />
+
             <img v-if="header.image" class="pl-4" :src="header.image" />
           </th>
         </tr>
@@ -68,6 +85,8 @@ const isDropdown = ref(props.isDropdown);
                 v-if="isDropdown ?? true"
                 :detail-id="row.id"
                 :type="props.type"
+                :dropDownOption="dropDownOption"
+                @onDeleteRecord="onDeleteRecord"
               ></DropdownTable>
               <button
                 v-if="isTemplateDefine ?? false"

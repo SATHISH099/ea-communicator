@@ -26,6 +26,10 @@ export class SmsService {
     return this.apiService.get(smsMessages);
   }
 
+  delete(id: number) {
+    return this.apiService.delete(smsMessages, `sms/${id}`);
+  }
+
   sendSms(data: {}) {
     return this.apiService.post(smsMessages, data);
   }
