@@ -7,12 +7,25 @@ interface EmailData {
   message: string;
 }
 
+interface RecipientData {
+  id: number;
+  firstName: string;
+  lastName: string;
+}
+
+interface GroupData {
+  id: number;
+  groupName: string;
+}
+
 const emailService = useService('email');
 const importanceLevel = ref('low');
 const successResponse = ref({ id: null });
 const errorBody = ref(false);
 const subject = ref('');
 const body = ref('');
+const recipients = ref<RecipientData[] | []>([]);
+const groups = ref<GroupData[] | []>([]);
 const showModal = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
@@ -27,6 +40,8 @@ const resetForm = () => {
   body.value = '';
   subject.value = '';
   importanceLevel.value = '';
+  recipients.value = [];
+  groups.value = [];
 };
 
 const checkvalidation = () => {
@@ -50,12 +65,27 @@ const submitHandler = async (formData: []) => {
       body: body.value,
       sender: 'test',
       isPredefined: false,
+      recipients: recipients.value.map(({ id }) => ({
+        recipientId: id,
+      })),
+      groups: groups.value.map(({ id }) => ({
+        groupId: id,
+      })),
     };
     const response = await emailService.sendEmail(data);
 
     successResponse.value = response;
     resetForm();
   }
+};
+
+const setGroupRecipients = (
+  recipientSelected: RecipientData[],
+  groupSelected: GroupData[],
+) => {
+  recipients.value = recipientSelected;
+  groups.value = groupSelected;
+  showModal.value = false;
 };
 </script>
 
@@ -106,6 +136,14 @@ const submitHandler = async (formData: []) => {
                 @click="toggleModal"
               >
                 <span>TO</span>
+                <span v-for="recipient in recipients" :key="recipient.id">
+                  {{ recipient.firstName }} {{ recipient.lastName }}
+                </span>
+
+                <span v-for="group in groups" :key="group.id">
+                  {{ group.groupName }}
+                </span>
+
                 <img src="/plus.png" alt="plus" />
               </button>
               <button
@@ -177,22 +215,11 @@ const submitHandler = async (formData: []) => {
           @close="toggleModal"
         >
           <div class="mt-10">
-            <div flex items-center gap-3>
-              <Multiselect
-                :options="['test1', 'test2']"
-                searchable="true"
-                mode="tags"
-                :create-option="true"
-                :close-on-select="false"
-                placeholder="Search"
-              />
-              <button class="form-control w-[3.5rem] cursor-pointer">
-                <img src="/add-user.png" alt="" />
-              </button>
-            </div>
-            <div flex justify-end mt-5>
-              <button class="btn btn-primary">Add</button>
-            </div>
+            <SelectRecipients
+              :recipients="recipients"
+              :groups="groups"
+              @set-groups-recipients="setGroupRecipients"
+            ></SelectRecipients>
           </div>
         </TheModal>
       </div>
