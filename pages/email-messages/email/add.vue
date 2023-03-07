@@ -90,16 +90,16 @@ const submitHandler = async (formData: []) => {
       groups: groups.value.map(({ id }) => ({
         groupId: id,
       })),
-      cc_recipients: ccRecipients.value.map(({ id }) => ({
+      ccRecipients: ccRecipients.value.map(({ id }) => ({
         recipientId: id,
       })),
-      cc_groups: ccGroups.value.map(({ id }) => ({
+      ccGroups: ccGroups.value.map(({ id }) => ({
         groupId: id,
       })),
-      bcc_recipients: bccRecipients.value.map(({ id }) => ({
+      bccRecipients: bccRecipients.value.map(({ id }) => ({
         recipientId: id,
       })),
-      bcc_groups: bccGroups.value.map(({ id }) => ({
+      bccGroups: bccGroups.value.map(({ id }) => ({
         groupId: id,
       })),
     };
