@@ -20,7 +20,6 @@ const props = defineProps({
     required: false,
   },
   dropDownOption: {
-    type: object,
     default: { isView: true, isEdit: false, isDelete: true },
     required: false,
   },
