@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import type { ApiService } from './api.service';
+import { ApiTarget } from './api.service';
 
 const group = z.object({
   id: z.number(),
@@ -23,8 +24,7 @@ export type Group = z.infer<typeof group>;
 
 export class GroupService {
   constructor(private apiService: ApiService) {
-    const config = useRuntimeConfig();
-    this.apiService.setBaseUrl(config.public.API_SMARTSUITE_BASE_URL);
+    this.apiService.setTarget(ApiTarget.SMARTSUITE);
     this.apiService.setUrl('groups');
   }
 
