@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import Multiselect from '@vueform/multiselect';
+const config = useRuntimeConfig();
+const route = useRoute();
+const id = ref(route.query?.id || 0);
 
 const MessageHeaders = ['Recipients', 'Email Address'];
 const MessageRows = [
@@ -28,6 +31,9 @@ const showModal = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
 };
+const { data, refresh } = await useFetch<any>(() => `sms/${id.value}`, {
+  baseURL: config.public.API_BASE_URL,
+});
 const activeTab = ref('alerts');
 </script>
 
@@ -54,16 +60,16 @@ const activeTab = ref('alerts');
             <div class="grid grid-cols-3">
               <div class="mb-10 grid gap-y-2">
                 <h5 class="text-stone">Sent Date</h5>
-                <p class="text-carbon">Monday, 19 sep 2022</p>
+                <p class="text-carbon">{{ data.createdAt }}</p>
               </div>
               <div class="mb-10 grid gap-y-2">
                 <h5 class="text-stone">Priority</h5>
-                <p class="text-carbon">High</p>
+                <p class="text-carbon">{{ data.importanceLevel }}</p>
               </div>
             </div>
             <div class="mb-10 grid gap-y-2">
               <h5 class="text-stone">Sender</h5>
-              <p class="text-carbon">Adnan Izhar</p>
+              <p class="text-carbon">{{ data.sender }}</p>
             </div>
             <div class="grid grid-cols-3">
               <div class="mb-10 grid gap-y-2">
@@ -81,18 +87,7 @@ const activeTab = ref('alerts');
             </div>
             <div class="mb-10 grid gap-y-2">
               <h5 class="text-stone">SMS Messages</h5>
-              <p class="text-carbon">
-                The impact of visual design on a project's success is
-                significant, and it depends largely on how much emphasis is
-                placed on it. Visual design refers to the aesthetic aspect of a
-                project, which includes the color palette, typography, layout,
-                and imagery. It can influence how users perceive and interact
-                with a product, website, or app. In some cases, visual design
-                may be the primary factor that attracts or repels users.
-                Therefore, it is important to consider the appropriate level of
-                emphasis on visual design when creating a project, as it can
-                make a significant difference in its success.
-              </p>
+              <p class="text-carbon">{{ data.message }}</p>
             </div>
           </div>
         </div>

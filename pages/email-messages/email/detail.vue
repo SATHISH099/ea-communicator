@@ -31,7 +31,7 @@ const showModal = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
 };
-const { data, refresh } = await useFetch<any>(() => `emails/${id.value}`, {
+const { data } = await useFetch<any>(() => `emails/${id.value}`, {
   baseURL: config.public.API_BASE_URL,
 });
 const activeTab = ref('alerts');
@@ -131,6 +131,7 @@ const activeTab = ref('alerts');
             mb-8
             :headers="MessageHeaders"
             :rows="MessageRows"
+            :isDropdown="false"
           />
         </div>
       </div>

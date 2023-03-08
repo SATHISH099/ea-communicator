@@ -131,7 +131,7 @@ const optionTypeSelected = (option: string) => {
         <DashboardTable
           :headers="MessageHeaders"
           :rows="data.data"
-          :type="type"
+          type="predefined-templates"
           @onDeleteRecord="deleteRecord"
           @sortRecord="sortRecord"
         />
