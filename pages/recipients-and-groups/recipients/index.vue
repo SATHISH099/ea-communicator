@@ -34,24 +34,22 @@ const { data, refresh } = await useFetch<any>(
     `recipients?search=${search.value}&pageNumber=${page.value}&pageSize=10`,
   {
     baseURL: config.public.API_SMARTSUITE_BASE_URL,
-    transform: (data) => {
-      return {
-        total: data.total,
-        data: data.data.map((x: any) => ({
-          fullName: `${x.firstName} ${x.middleName ? x.middleName + ' ' : ''}${
-            x.lastName
-          }`,
-          nickName: x.nickName,
-          cellVoice: x.cellVoice,
-          cellText: x.cellText,
-          homeNumber: x.homeNumber,
-          workNumber: x.workNumber,
-          emailAddress: x.emailAddress,
-          alternateEmail: x.alternateEmail,
-          location: x.location,
-        })),
-      };
-    },
+    transform: ({ total, data }) => ({
+      total,
+      data: data.map((x: any) => ({
+        fullName: `${x.firstName} ${x.middleName ? `${x.middleName}` : ''}${
+          x.lastName
+        }`,
+        nickName: x.nickName,
+        cellVoice: x.cellVoice,
+        cellText: x.cellText,
+        homeNumber: x.homeNumber,
+        workNumber: x.workNumber,
+        emailAddress: x.emailAddress,
+        alternateEmail: x.alternateEmail,
+        location: x.location,
+      })),
+    }),
   },
 );
 

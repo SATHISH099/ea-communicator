@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import type { ApiService } from './api.service';
+import { ApiTarget } from './api.service';
 
 const recipient = z.object({
   id: z.number(),
@@ -50,8 +51,7 @@ interface Data {
 
 export class RecipientService {
   constructor(private apiService: ApiService) {
-    const config = useRuntimeConfig();
-    this.apiService.setBaseUrl(config.public.API_SMARTSUITE_BASE_URL);
+    this.apiService.setTarget(ApiTarget.SMARTSUITE);
     this.apiService.setUrl('recipients');
   }
 

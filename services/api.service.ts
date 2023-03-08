@@ -1,5 +1,6 @@
 import type { z } from 'zod';
 import type { FetchOptions } from 'ofetch';
+import type { PublicRuntimeConfig } from 'nuxt/schema';
 import { useToasterStore } from '~~/store/toaster';
 
 interface ServerError {
@@ -7,9 +8,15 @@ interface ServerError {
   statusCode: number;
 }
 
+export enum ApiTarget {
+  SELF = 'self',
+  SMARTSUITE = 'smartsuite',
+}
+
 export class ApiService {
   private url = '';
-  private baseURL = '';
+  private config?: PublicRuntimeConfig;
+  private apiTarget: ApiTarget = ApiTarget.SELF;
 
   private options: FetchOptions = {
     onRequestError: () => {
@@ -25,19 +32,16 @@ export class ApiService {
               statusCode: 404,
               statusMessage: 'Page Not Found',
             });
-            break;
           case 401:
             throw showError({
               statusCode: 401,
               statusMessage: 'Unauthorized',
             });
-            break;
           default:
             throw showError({
               statusCode: 500,
               statusMessage: 'Internal Server Error',
             });
-            break;
         }
       }
     },
@@ -46,8 +50,10 @@ export class ApiService {
   constructor(options?: FetchOptions) {
     options ??= {};
     this.setOptions(options);
-    const config = useRuntimeConfig();
-    this.baseURL = config.public.API_BASE_URL;
+  }
+
+  initialize() {
+    this.config = useRuntimeConfig().public;
   }
 
   get<T>(schema: z.ZodType<T>, url?: string, options?: FetchOptions) {
@@ -81,11 +87,7 @@ export class ApiService {
     return this.makeRequest(this.getUrl(url), this.getOptions(options), schema);
   }
 
-  async makeRequest<T>(
-    url: string,
-    options: FetchOptions,
-    schema: z.ZodType<T>,
-  ) {
+  async makeRequest<T>(url: string, options: any, schema: z.ZodType<T>) {
     let response: unknown;
     const baseURL = this.getBaseUrl();
     options = { baseURL, ...options };
@@ -105,12 +107,11 @@ export class ApiService {
     return data;
   }
 
-  setBaseUrl(url: string) {
-    this.baseURL = url;
-  }
-
   getBaseUrl() {
-    return this.baseURL;
+    this.config = useRuntimeConfig().public;
+    return this.apiTarget === ApiTarget.SELF
+      ? this.config?.API_BASE_URL
+      : this.config?.API_SMARTSUITE_BASE_URL;
   }
 
   setOptions(options: FetchOptions) {
@@ -127,5 +128,9 @@ export class ApiService {
 
   setUrl(url: string) {
     this.url = url;
+  }
+
+  setTarget(target: ApiTarget) {
+    this.apiTarget = target;
   }
 }
