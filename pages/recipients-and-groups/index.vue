@@ -1,4 +1,4 @@
-<script lang="scss" setup></script>
+<script></script>
 
 <template>
   <div>

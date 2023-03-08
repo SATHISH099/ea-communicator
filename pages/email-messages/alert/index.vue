@@ -5,6 +5,7 @@ const search = ref('');
 const searchField = ref('');
 
 const MessageHeaders = [
+  'id',
   { value: 'Recipients', image: '/arrow-and-direction.png' },
   'Subject',
   'Alert Message',
@@ -20,6 +21,7 @@ const { data, refresh } = await useFetch<any>(
       return {
         total: data.total,
         data: data.data.map((x: any) => ({
+          id: x.id,
           recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
           title: x.title,
           message: x.message,
@@ -86,7 +88,11 @@ const paginate = (pg: number) => {
         </div>
       </div>
       <div class="pb-10 pt-5">
-        <DashboardTable :headers="MessageHeaders" :rows="data.data" />
+        <DashboardTable
+          :headers="MessageHeaders"
+          :rows="data.data"
+          type="alert"
+        />
         <div class="ml-8">
           <PaginationTable
             :totalRecords="data.total"
