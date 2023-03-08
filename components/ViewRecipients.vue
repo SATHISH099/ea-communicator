@@ -1,14 +1,26 @@
 <script lang="ts" setup>
-const messageHeaders = ['First Name', 'Last Name'];
+const props = defineProps(['recipients']);
+defineEmits(['setRecipients']);
 const search = ref('');
 const searchField = ref('');
 const page = ref(1);
 const config = useRuntimeConfig();
 
 interface RecipientData {
+  id: number;
   firstName: string;
   lastName: string;
 }
+
+interface initialStateData {
+  recipients: RecipientData[];
+}
+
+const initialState: initialStateData = {
+  recipients: props.recipients || [],
+};
+
+const form = reactive({ ...initialState });
 
 const { data, refresh } = await useFetch<any>(
   () =>
@@ -17,7 +29,8 @@ const { data, refresh } = await useFetch<any>(
     baseURL: config.public.API_SMARTSUITE_BASE_URL,
     transform: ({ total, data }) => ({
       total,
-      data: data.map(({ firstName, lastName }: RecipientData) => ({
+      data: data.map(({ id, firstName, lastName }: RecipientData) => ({
+        id,
         firstName,
         lastName,
       })),
@@ -43,8 +56,8 @@ const paginate = (pg: number) => {
       <div px-6 pt-6>
         <h5 text-stone mb-5>Recipient's List</h5>
         <FormKit
-          prefix-icon="search"
           v-model="searchField"
+          prefix-icon="search"
           type="search"
           placeholder="Search"
           input-class="form-control pl-[3.5rem]"
@@ -52,14 +65,33 @@ const paginate = (pg: number) => {
           @change="searchKeyword"
         />
       </div>
-      <DashboardTable
-        mt-3
-        mb-8
-        :headers="messageHeaders"
-        :rows="data.data"
-        :isDropdown="false"
-      />
-      <div class="ml-8 pb-6">
+
+      <div
+        class="shadow-[0_6px_12px_#F7F7F7] border-solid border border-[#F5F7FA] rounded-[4px] pb-5 max-h-[313px] overflow-y-auto"
+      >
+        <div>
+          <h6 class="text-[#B42424] font-medium mb-4 px-[1rem] pt-[1rem]">
+            Recipients
+          </h6>
+          <FormKit
+            v-model="form.recipients"
+            type="checkbox"
+            :options="
+                  data.data.map((recipientItem: RecipientData) => {
+                    return {
+                      value: recipientItem,
+                      label: `${recipientItem.firstName} ${recipientItem.lastName}`,
+                    };
+                  })
+                "
+            outer-class="recipient-list"
+            input-class="form-check-input mr-2"
+            @input="$emit('setRecipients', form.recipients)"
+          />
+        </div>
+      </div>
+
+      <div class="ml-8">
         <PaginationTable
           :totalRecords="data.total"
           :currentPage="page"

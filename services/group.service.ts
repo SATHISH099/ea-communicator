@@ -32,6 +32,10 @@ export class GroupService {
     return this.apiService.get(groups);
   }
 
+  delete(id: number) {
+    return this.apiService.delete(groups, `groups/${id}`);
+  }
+
   createGroup(data: {}) {
     return this.apiService.post(groups, data);
   }

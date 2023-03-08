@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import type { Email } from '~~/services/email.service';
+import type { Recipient } from '~~/services/recipient.service';
+import type { Group } from '~~/services/group.service';
+
 const emailService = useService('email');
 const config = useRuntimeConfig();
 const page = ref(1);
@@ -14,10 +17,16 @@ const MessageHeaders = [
   'Sender',
   'Subject',
   'Recipients',
+  'Groups',
   'Email Message',
   { value: 'Sent Date', isSort: true, key: 'createdAt' },
   '',
 ];
+
+interface GroupRecipientData {
+  recipients: Recipient[];
+  groups: Group[];
+}
 
 const { data, refresh } = await useFetch<any>(
   () =>
@@ -28,11 +37,20 @@ const { data, refresh } = await useFetch<any>(
       return {
         total: data.total,
         data: data.data.map(
-          ({ id, sender, subject, body, createdAt }: Email) => ({
+          ({
             id,
             sender,
             subject,
-            recipients: 0,
+            recipients,
+            groups,
+            body,
+            createdAt,
+          }: Email & GroupRecipientData) => ({
+            id,
+            sender,
+            subject,
+            recipients: recipients.length,
+            groups: groups.length,
             body,
             createdAt,
           }),

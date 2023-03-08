@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 const config = useRuntimeConfig();
 const page = ref(1);
+const isDelete = ref(false);
 const search = ref('');
 const searchField = ref('');
 const messageHeaders = [
+  'ID',
   'Group Name',
   'Members',
   'Status',
@@ -13,6 +15,7 @@ const messageHeaders = [
 ];
 
 interface GroupData {
+  id: number;
   groupName: string;
   members: number;
   status: string;
@@ -25,6 +28,7 @@ interface GroupData {
   updatedAt: string | null;
 }
 
+const groupService = useService('group');
 const { data, refresh } = await useFetch<any>(
   () => `groups?search=${search.value}&pageNumber=${page.value}&pageSize=10`,
   {
@@ -32,19 +36,34 @@ const { data, refresh } = await useFetch<any>(
     transform: (data) => {
       return {
         total: data.total,
-        data: data.data.map((x: GroupData) => ({
-          groupName: x.groupName,
-          members: 0,
-          status: x.status ? 'Active' : 'Inactive',
-          location: `${x.location}, ${x.city}, ${x.state}, ${x.country}, ${x.zipCode}`,
-          createdAt: x.createdAt,
-          updatedAt: x.updatedAt || null,
-        })),
+        data: data.data.map(
+          ({
+            id,
+            groupName,
+            status,
+            location,
+            city,
+            state,
+            country,
+            zipCode,
+            createdAt,
+            updatedAt,
+          }: GroupData) => ({
+            id,
+            groupName,
+            members: 0,
+            status: status ? 'Active' : 'Inactive',
+            location: `${location}, ${city}, ${state}, ${country}, ${zipCode}`,
+            createdAt,
+            updatedAt: updatedAt || null,
+          }),
+        ),
       };
     },
   },
 );
 
+console.log('dadd...', data);
 const searchKeyword = () => {
   search.value = searchField.value;
   page.value = 1;
@@ -54,6 +73,12 @@ const searchKeyword = () => {
 const paginate = (pg: number) => {
   page.value = pg;
   refresh();
+};
+
+const deleteRecord = async (id: number) => {
+  const response = await groupService.delete(id);
+  refresh();
+  isDelete.value = response.affected;
 };
 </script>
 
@@ -101,7 +126,20 @@ const paginate = (pg: number) => {
         </div>
       </div>
       <div class="pb-10 pt-5">
-        <DashboardTable :headers="messageHeaders" :rows="data.data" />
+        <NuxtLink
+          :to="{
+            path: '/recipients-and-groups/groups/edit/15',
+          }"
+          class="p-2 view"
+          >EDit ...
+        </NuxtLink>
+
+        <DashboardTable
+          :headers="messageHeaders"
+          :rows="data.data"
+          type="groups"
+          @onDeleteRecord="deleteRecord"
+        />
         <div class="ml-8">
           <PaginationTable
             :totalRecords="data.total"

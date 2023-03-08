@@ -1,32 +1,45 @@
 <script lang="ts" setup>
+import type { Message } from '~~/services/message.service';
+
 const config = useRuntimeConfig();
+const messageService = useService('message');
 const page = ref(1);
+const orderType = ref('desc');
+const orderBy = ref('id');
+const isDelete = ref(false);
 const search = ref('');
 const searchField = ref('');
 
 const MessageHeaders = [
-  'id',
-  { value: 'Recipients', image: '/arrow-and-direction.png' },
+  'Id',
+  'Sender',
   'Subject',
+  'Recipients',
+  'Groups',
   'Alert Message',
-  'Sent Date',
+  { value: 'Sent Date', isSort: true, key: 'createdAt' },
   '',
 ];
 
 const { data, refresh } = await useFetch<any>(
-  () => `messages?search=${search.value}&pageNumber=${page.value}&pageSize=10`,
+  () =>
+    `messages?search=${search.value}&pageNumber=${page.value}&pageSize=10&orderType=${orderType.value}&orderBy=${orderBy.value}`,
   {
     baseURL: config.public.API_BASE_URL,
     transform: (data) => {
       return {
         total: data.total,
-        data: data.data.map((x: any) => ({
-          id: x.id,
-          recipients: { value: 'johndoe@example.com', image: '/Ellipse.png' },
-          title: x.title,
-          message: x.message,
-          sentDate: x.createdAt,
-        })),
+        data: data.data.map(
+          ({ id, sender, title, message, createdAt }: Message) => ({
+            id,
+            sender,
+            title,
+            recipients: 0,
+            groups: 0,
+            message,
+            createdAt,
+          }),
+        ),
       };
     },
   },
@@ -40,6 +53,18 @@ const searchKeyword = () => {
 
 const paginate = (pg: number) => {
   page.value = pg;
+  refresh();
+};
+
+const deleteRecord = async (id: number) => {
+  const response = await messageService.delete(id);
+  refresh();
+  isDelete.value = response.affected;
+};
+
+const sortRecord = (key: string) => {
+  orderType.value = orderType.value === 'desc' ? 'asc' : 'desc';
+  orderBy.value = key;
   refresh();
 };
 </script>
@@ -91,7 +116,9 @@ const paginate = (pg: number) => {
         <DashboardTable
           :headers="MessageHeaders"
           :rows="data.data"
-          type="alert"
+          type="message"
+          @onDeleteRecord="deleteRecord"
+          @sortRecord="sortRecord"
         />
         <div class="ml-8">
           <PaginationTable

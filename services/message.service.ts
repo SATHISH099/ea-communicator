@@ -5,8 +5,8 @@ const message = z.object({
   id: z.number(),
   createdAt: z.string(),
   updatedAt: z.string(),
-  subject: z.string(),
-  body: z.string(),
+  title: z.string(),
+  message: z.string(),
   sender: z.string(),
   sendingStatus: z.string(),
   importanceLevel: z.string(),
@@ -24,6 +24,10 @@ export class MessageService {
 
   getAll() {
     return this.apiService.get(messages);
+  }
+
+  delete(id: number) {
+    return this.apiService.delete(messages, `messages/${id}`);
   }
 
   sendMessage(data: {}) {
