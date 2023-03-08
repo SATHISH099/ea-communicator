@@ -36,7 +36,7 @@ const closeModal = () => {
 <template>
   <div class="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-10 z-10">
     <div
-      class="md:max-w-[600px] max-w-full w-[26rem] max-h-[600px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-[1.875rem] rounded-[0.25rem] shadow-[0_0_10px_rgba(0,0,0,0.1)] overflow-auto"
+      class="md:max-w-[600px] max-w-full max-h-[600px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-[1.875rem] rounded-[0.25rem] shadow-[0_0_10px_rgba(0,0,0,0.1)] overflow-auto"
     >
       <div w-full>
         <div flex items-center justify-end>
