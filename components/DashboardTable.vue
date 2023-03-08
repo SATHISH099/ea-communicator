@@ -47,15 +47,17 @@ const onDeleteRecord = (id) => {
             :key="index"
             class="md:px-[30px] py-[18px] px-[24px]"
           >
-            {{ header.value ?? header }}
-            <img
-              v-if="header.isSort"
-              class="pl-4"
-              src="/arrow-and-direction.png"
-              @click="$emit('sortRecord', header?.key)"
-            />
+            <div flex items-center gap-2>
+              {{ header.value ?? header }}
+              <img
+                v-if="header.isSort"
+                class="pl-4 cursor-pointer"
+                src="/arrow-and-direction.png"
+                @click="$emit('sortRecord', header?.key)"
+              />
 
-            <img v-if="header.image" class="pl-4" :src="header.image" />
+              <img v-if="header.image" class="pl-4" :src="header.image" />
+            </div>
           </th>
         </tr>
       </thead>
