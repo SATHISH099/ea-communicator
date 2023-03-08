@@ -52,7 +52,7 @@ const closeModal = () => {
         </div>
         <div>
           <h5 text-primary mb-4>{{ props.title }}</h5>
-          <p text-stone>{{ props.message }}</p>
+          <p class="text-stone text-[16px]">{{ props.message }}</p>
           <slot />
         </div>
       </div>

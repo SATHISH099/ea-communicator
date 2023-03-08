@@ -42,18 +42,29 @@ const onDeleteRecord = (deleteId) => {
         <NuxtLink
           v-if="props.dropDownOption.isView"
           :to="{
-            path: '/email-messages/' + props.type + '/detail',
-            query: { id: props.detailId },
+            path: `${$route.path.split('/').slice(0, -1).join('/')}/${
+              props.type
+            }/${props.detailId}`,
           }"
-          class="p-2 view"
+          class="p-2 text-white"
           >View</NuxtLink
         >
 
-        <li class="p-2" v-if="props.dropDownOption.isEdit">Edit</li>
+        <li class="p-2" v-if="props.dropDownOption.isEdit">
+          <NuxtLink
+            :to="{
+              path: `${$route.path.split('/').slice(0, -1).join('/')}/${
+                props.type
+              }/edit/${props.detailId}`,
+            }"
+            class="p-2 text-white"
+            >Edit</NuxtLink
+          >
+        </li>
         <li class="p-2" v-if="props.dropDownOption.isDelete">
           <button
             @click="deleteShow()"
-            class="text-primary hover:underline"
+            class="bg-transparent border-none text-white cursor-pointer"
             type="button"
           >
             Delete
@@ -90,8 +101,5 @@ const onDeleteRecord = (deleteId) => {
   border-right: 10px solid transparent;
   border-bottom: 10px solid #555555;
   transform: translate(-50%, -50%);
-}
-.view {
-  color: white;
 }
 </style>

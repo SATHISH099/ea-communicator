@@ -1,16 +1,13 @@
 <script lang="ts" setup>
 import type { Recipient } from '~~/services/recipient.service';
+import { useToasterStore } from '~~/store/toaster';
+
+const { setMessage } = useToasterStore();
 
 const recipientService = useService('recipient');
 
-async function deleteRecipient(id: number) {
-  try {
-    await recipientService.delete(id);
-    window.location.reload();
-  } catch (error) {
-    console.error(error);
-  }
-}
+const orderType = ref('desc');
+const orderBy = ref('id');
 
 const config = useRuntimeConfig();
 const page = ref(1);
@@ -18,8 +15,9 @@ const search = ref('');
 const searchField = ref('');
 
 const recipientHeaders = [
-  'Full Name',
-  'Nick name',
+  { value: 'ID', isSort: true, key: 'id' },
+  { value: 'Full Name', isSort: true, key: 'firstName' },
+  { value: 'Nick Name', isSort: true, key: 'nickName' },
   'Mobile phone for voice calls',
   'Mobile phone for SMS',
   'Home phone number',
@@ -31,12 +29,13 @@ const recipientHeaders = [
 
 const { data, refresh } = await useFetch<any>(
   () =>
-    `recipients?search=${search.value}&pageNumber=${page.value}&pageSize=10`,
+    `recipients?search=${search.value}&pageNumber=${page.value}&pageSize=10&orderType=${orderType.value}&orderBy=${orderBy.value}`,
   {
     baseURL: config.public.API_SMARTSUITE_BASE_URL,
     transform: ({ total, data }) => ({
       total,
       data: data.map((x: any) => ({
+        id: x.id,
         fullName: `${x.firstName} ${x.middleName ? `${x.middleName}` : ''}${
           x.lastName
         }`,
@@ -62,6 +61,22 @@ const searchKeyword = () => {
 const paginate = (pg: number) => {
   page.value = pg;
   refresh();
+};
+
+const sortRecord = (key: string) => {
+  orderType.value = orderType.value === 'desc' ? 'asc' : 'desc';
+  orderBy.value = key;
+  refresh();
+};
+
+const deleteRecord = async (id: number) => {
+  try {
+    await recipientService.delete(id);
+    setMessage('Recipient Deleted Successfully.', 'success');
+    refresh();
+  } catch (error) {
+    console.error(error);
+  }
 };
 </script>
 
@@ -109,7 +124,13 @@ const paginate = (pg: number) => {
         </div>
       </div>
       <div class="pb-10 pt-5">
-        <DashboardTable :headers="recipientHeaders" :rows="data.data" />
+        <DashboardTable
+          :headers="recipientHeaders"
+          :rows="data.data"
+          type="recipients"
+          @sort-record="sortRecord"
+          @on-delete-record="deleteRecord"
+        />
         <div class="ml-8">
           <PaginationTable
             :total-records="data.total"

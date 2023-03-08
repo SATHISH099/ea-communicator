@@ -59,7 +59,7 @@ const paginate = (pg: number) => {
         :rows="data.data"
         :isDropdown="false"
       />
-      <div class="ml-8">
+      <div class="ml-8 pb-6">
         <PaginationTable
           :totalRecords="data.total"
           :currentPage="page"
