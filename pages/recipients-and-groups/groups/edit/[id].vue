@@ -36,7 +36,7 @@ interface initialStateData {
 }
 
 const groupService = useService('group');
-const { groupId } = useRoute().params;
+const { id: groupId } = useRoute().params;
 const statuses = ['Inactive', 'active'];
 
 const { data: location } = await useFetch<any>(() => `/json/locations.json`);
