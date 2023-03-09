@@ -22,7 +22,6 @@ interface RecipientData {
 
 interface initialStateData {
   groupName: string;
-  alternateEmail: string;
   status: boolean;
   notes: string;
   location: string;
@@ -47,7 +46,6 @@ const { data: groupDetail } = await useFetch<any>(() => `groups/${groupId}`, {
 const record = groupDetail.value.data;
 const initialState: initialStateData = {
   groupName: record.groupName,
-  alternateEmail: record.alternateEmail,
   status: record.status,
   notes: record.notes,
   location: record.location,
@@ -153,15 +151,6 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
                 name="name"
                 validation="required"
                 placeholder="Group Name"
-                input-class="form-control"
-              />
-
-              <FormKit
-                v-model="data.alternateEmail"
-                type="text"
-                name="alternate"
-                validation="required"
-                placeholder="Alternate Email"
                 input-class="form-control"
               />
 
