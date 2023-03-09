@@ -2,6 +2,7 @@
 import unocssConfig from './unocss.config';
 
 const nuxtConfig = defineNuxtConfig({
+  ssr: false,
   modules: ['@formkit/nuxt', '@unocss/nuxt', '@pinia/nuxt'],
   runtimeConfig: {
     // The private keys which are only available server-side
