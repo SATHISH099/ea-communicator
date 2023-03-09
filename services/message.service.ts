@@ -31,6 +31,6 @@ export class MessageService {
   }
 
   sendMessage(data: {}) {
-    return this.apiService.post(messages, data);
+    return this.apiService.post(message, data);
   }
 }

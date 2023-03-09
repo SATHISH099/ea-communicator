@@ -8,6 +8,7 @@ const group = z.object({
   updatedAt: z.string(),
   groupName: z.string(),
   alternateEmail: z.string(),
+  recipientCount: z.number(),
   status: z.boolean(),
   notes: z.string(),
   location: z.string(),
@@ -22,6 +23,19 @@ const groups = z.object({ data: z.array(group), total: z.number() });
 
 export type Group = z.infer<typeof group>;
 
+interface Data {
+  groupName: string;
+  alternateEmail: string;
+  status: boolean;
+  notes: string;
+  location: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+  deviceId: string;
+}
+
 export class GroupService {
   constructor(private apiService: ApiService) {
     this.apiService.setTarget(ApiTarget.SMARTSUITE);
@@ -32,11 +46,15 @@ export class GroupService {
     return this.apiService.get(groups);
   }
 
+  update(id: number, data: Data) {
+    return this.apiService.put(group, data, `/groups/${id}`);
+  }
+
   delete(id: number) {
     return this.apiService.delete(groups, `groups/${id}`);
   }
 
   createGroup(data: {}) {
-    return this.apiService.post(groups, data);
+    return this.apiService.post(group, data);
   }
 }

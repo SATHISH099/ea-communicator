@@ -33,6 +33,6 @@ export class EmailService {
   }
 
   sendEmail(data: {}) {
-    return this.apiService.post(emails, data);
+    return this.apiService.post(email, data);
   }
 }

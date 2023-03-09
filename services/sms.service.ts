@@ -31,6 +31,6 @@ export class SmsService {
   }
 
   sendSms(data: {}) {
-    return this.apiService.post(smsMessages, data);
+    return this.apiService.post(sms, data);
   }
 }
