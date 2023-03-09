@@ -1,9 +1,7 @@
 <script lang="ts" setup>
-import Multiselect from '@vueform/multiselect';
 import { useRoute } from 'vue-router';
 const config = useRuntimeConfig();
-const route = useRoute();
-const id = ref(route.query?.id || 0);
+const { id } = useRoute().params;
 
 const MessageHeaders = ['Recipients', 'Email Address'];
 const MessageRows = [
@@ -32,9 +30,10 @@ const showModal = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
 };
-const { data } = await useFetch<any>(() => `messages/${id.value}`, {
-  baseURL: config.public.API_BASE_URL,
+const { data } = await useFetch<any>(() => `groups/${id}`, {
+  baseURL: config.public.API_SMARTSUITE_BASE_URL,
 });
+
 const activeTab = ref('alerts');
 </script>
 
@@ -60,39 +59,39 @@ const activeTab = ref('alerts');
           <div class="max-w-3xl">
             <div class="grid grid-cols-3">
               <div class="mb-10 grid gap-y-2">
-                <h5 class="text-stone">Sent Date</h5>
-                <p class="text-carbon">{{ data.createdAt }}</p>
+                <h5 class="text-stone">Group Name</h5>
+                <p class="text-carbon">{{ data.data.createdAt }}</p>
               </div>
               <div class="mb-10 grid gap-y-2">
-                <h5 class="text-stone">Priority</h5>
-                <p class="text-carbon">{{ data.importanceLevel }}</p>
+                <h5 class="text-stone">Status</h5>
+                <p class="text-carbon">{{ data.data.status }}</p>
               </div>
             </div>
             <div class="mb-10 grid gap-y-2">
-              <h5 class="text-stone">Sender</h5>
-              <p class="text-carbon">{{ data.sender }}</p>
+              <h5 class="text-stone">Country</h5>
+              <p class="text-carbon">{{ data.data.country }}</p>
             </div>
-            <div class="grid grid-cols-3">
-              <div class="mb-10 grid gap-y-2">
-                <h5 class="text-stone">Recipients</h5>
-                <p class="text-carbon">12</p>
-              </div>
-              <div class="mb-10 grid gap-y-2">
-                <h5 class="text-stone">Groups</h5>
-                <p class="text-carbon">03</p>
-              </div>
+
+            <div class="mb-10 grid gap-y-2">
+              <h5 class="text-stone">Selected State / Territory</h5>
+              <p class="text-carbon">{{ data.data.state }}</p>
             </div>
             <div class="mb-10 grid gap-y-2">
-              <h5 class="text-stone">Subject</h5>
-              <p class="text-carbon">Request For API endpoints</p>
+              <h5 class="text-stone">City</h5>
+              <p class="text-carbon">{{ data.data.city }}</p>
+            </div>
+
+            <div class="mb-10 grid gap-y-2">
+              <h5 class="text-stone">Zip Code</h5>
+              <p class="text-carbon">{{ data.data.zipCode }}</p>
             </div>
             <div class="mb-10 grid gap-y-2">
-              <h5 class="text-stone">Alert Messages</h5>
-              <p class="text-carbon">{{ data.message }}</p>
+              <h5 class="text-stone">Location</h5>
+              <p class="text-carbon">{{ data.data.location }}</p>
             </div>
             <div class="mb-10 grid gap-y-2">
-              <h5 class="text-stone">Communication Channel</h5>
-              <p class="text-carbon">SMS, Email, Voice</p>
+              <h5 class="text-stone">Note</h5>
+              <p class="text-carbon">{{ data.data.notes }}</p>
             </div>
           </div>
         </div>
@@ -121,6 +120,7 @@ const activeTab = ref('alerts');
             mb-8
             :headers="MessageHeaders"
             :rows="MessageRows"
+            :isDropdown="false"
           />
         </div>
       </div>
