@@ -2,40 +2,15 @@
 import Multiselect from '@vueform/multiselect';
 import { useRoute } from 'vue-router';
 const config = useRuntimeConfig();
-const route = useRoute();
-const id = ref(route.query?.id || 0);
+const { id } = useRoute().params;
 
-const MessageHeaders = ['Recipients', 'Email Address'];
-const MessageRows = [
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-];
 const showModal = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
 };
-const { data } = await useFetch<any>(() => `messages/${id.value}`, {
+const { data } = await useFetch<any>(() => `messages/${id}`, {
   baseURL: config.public.API_BASE_URL,
 });
-const activeTab = ref('alerts');
 </script>
 
 <template>
@@ -96,33 +71,7 @@ const activeTab = ref('alerts');
             </div>
           </div>
         </div>
-        <div bg-white small-shadow>
-          <div px-6 pt-6>
-            <h5 text-stone mb-5>Recipient's list</h5>
-            <div class="flex items-center lex-wrap">
-              <div
-                class="tab"
-                :class="{ active: activeTab === 'alerts' }"
-                @click="activeTab = 'alerts'"
-              >
-                Recepients
-              </div>
-              <div
-                class="tab"
-                :class="{ active: activeTab === 'email' }"
-                @click="activeTab = 'email'"
-              >
-                Groups
-              </div>
-            </div>
-          </div>
-          <DashboardTable
-            mt-3
-            mb-8
-            :headers="MessageHeaders"
-            :rows="MessageRows"
-          />
-        </div>
+        <RecipientList />
       </div>
       <TheModal
         title="Select Recipient and Groups"

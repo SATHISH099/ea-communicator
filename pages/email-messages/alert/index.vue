@@ -116,7 +116,7 @@ const sortRecord = (key: string) => {
         <DashboardTable
           :headers="MessageHeaders"
           :rows="data.data"
-          type="message"
+          type="alert"
           @onDeleteRecord="deleteRecord"
           @sortRecord="sortRecord"
         />
