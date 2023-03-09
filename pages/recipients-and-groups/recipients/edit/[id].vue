@@ -1,64 +1,110 @@
-<script setup>
+<script setup lang="ts">
 import Select from '@vueform/multiselect';
 import '~~/services/recipient.service';
 import { useToasterStore } from '~~/store/toaster';
 
+const config = useRuntimeConfig();
 const { setMessage } = useToasterStore();
-const { id } = useRoute().params;
+const { id: recipientId } = useRoute().params;
 const router = useRouter();
 
+interface GroupData {
+  id: number;
+  groupName: string;
+  status: boolean;
+}
+
+interface initialStateData {
+  firstName: string;
+  lastName: string;
+  middleName: string;
+  nickName: string;
+  cellVoice: string;
+  cellText: string;
+  homeNumber: string;
+  workNumber: string;
+  emailAddress: string;
+  alternateEmail: string;
+  status: boolean;
+  location: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+  notes: string;
+}
+
+const { data: recipientDetail } = await useFetch<any>(
+  () => `recipients/${recipientId}`,
+  {
+    baseURL: config.public.API_SMARTSUITE_BASE_URL,
+  },
+);
+const record = recipientDetail.value.data;
 const recipientService = useService('recipient');
-const initialState = {
-  firstName: '',
-  middleName: '',
-  lastName: '',
-  nickName: '',
-  cellVoice: '',
-  cellText: '',
-  homeNumber: '',
-  workNumber: '',
-  emailAddress: '',
-  alternateEmail: '',
-  country: '',
-  state: '',
-  city: '',
-  zipCode: '',
-  location: '',
-  status: '',
+
+const initialState: initialStateData = {
+  firstName: record.firstName,
+  middleName: record.middleName,
+  lastName: record.lastName,
+  nickName: record.nickName,
+  cellVoice: record.cellVoice,
+  cellText: record.cellText,
+  homeNumber: record.homeNumber,
+  workNumber: record.workNumber,
+  emailAddress: record.emailAddress,
+  alternateEmail: record.alternateEmail,
+  country: record.country,
+  state: record.state,
+  city: record.city,
+  zipCode: record.zipCode,
+  location: record.location,
+  status: record.status,
+  notes: record.notes,
 };
 
 const data = reactive({ ...initialState });
+const groups = ref<GroupData[] | []>(
+  record.groups.map(({ id, groupName, status }: GroupData) => ({
+    id,
+    groupName,
+    status,
+  })),
+);
+
+function resetForm() {
+  Object.assign(data, initialState);
+  groups.value = [];
+}
 
 const submitUpdate = async () => {
   try {
-    const response = await recipientService.update(id, data);
+    const request = {
+      ...data,
+      groups: groups.value.map(({ id }) => ({
+        id,
+      })),
+    };
+    const response = await recipientService.update(
+      Number(recipientId),
+      request,
+    );
     if (response) {
       setMessage('Recipient updated successfully.', 'success');
+      resetForm();
       router.push('/recipients-and-groups/recipients');
     } else {
       setMessage('Error updating recipient data.', 'error');
-      router.push(`/recipients-and-groups/recipients/edit/${id}`);
+      router.push(`/recipients-and-groups/recipients/edit/${recipientId}`);
     }
   } catch (error) {
     setMessage('Error updating recipient data.', 'error');
   }
 };
 
-onMounted(async () => {
-  try {
-    const { data: recipients } = await recipientService.getAll();
-    const recipient = recipients.find(
-      (recipient) => recipient.id === Number(id),
-    );
-    if (recipient) {
-      Object.assign(data, recipient);
-    } else {
-      setMessage('Recipient not found.', 'error');
-    }
-  } catch (error) {
-    setMessage('Error retrieving recipient data.', 'error');
-  }
-});
+const setGroups = (groupSelected: GroupData[]) => {
+  groups.value = groupSelected;
+};
 </script>
 
 <template>
@@ -198,6 +244,18 @@ onMounted(async () => {
                 outer-class="md:col-span-2 col-span-1"
               />
             </div>
+            <div mb-5>
+              <h6 class="text-carbon mb-4">Groups Added</h6>
+              <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
+                <span
+                  v-for="group in groups"
+                  :key="group.id"
+                  class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                >
+                  {{ group.groupName }}
+                </span>
+              </div>
+            </div>
             <FormKit
               input-class="btn btn-primary"
               type="submit"
@@ -207,7 +265,7 @@ onMounted(async () => {
           </FormKit>
         </div>
         <div>
-          <ViewGroupsList />
+          <ViewGroupsList :groups="groups" @set-groups="setGroups" />
         </div>
       </div>
     </div>

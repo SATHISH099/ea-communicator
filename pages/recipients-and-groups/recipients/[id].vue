@@ -1,11 +1,17 @@
 <script lang="ts" setup>
 import { useRoute } from 'vue-router';
+import type { Group } from '~~/services/group.service';
 const config = useRuntimeConfig();
 const { id } = useRoute().params;
 
 const { data } = await useFetch<any>(() => `recipients/${id}`, {
   baseURL: config.public.API_SMARTSUITE_BASE_URL,
 });
+const messageHeaders = ['Group Name', 'Status'];
+const groups = data.value.data.groups.map(({ groupName, status }: Group) => ({
+  groupName,
+  status: status ? 'Active' : 'In-Active',
+}));
 </script>
 
 <template>
@@ -76,8 +82,17 @@ const { data } = await useFetch<any>(() => `recipients/${id}`, {
             </div>
           </div>
         </div>
-        <div>
-          <ViewRecipients />
+        <div bg-white small-shadow>
+          <div px-6 pt-6>
+            <h5 text-stone mb-5>Group's list</h5>
+          </div>
+          <DashboardTable
+            mt-3
+            mb-8
+            :headers="messageHeaders"
+            :rows="groups"
+            :is-dropdown="false"
+          />
         </div>
       </div>
     </div>

@@ -1,10 +1,16 @@
-<script setup>
+<script setup lang="ts">
 import Select from '@vueform/multiselect';
 import '~~/services/recipient.service';
 import { useToasterStore } from '~~/store/toaster';
 
 const { setMessage } = useToasterStore();
 const router = useRouter();
+
+interface GroupData {
+  id: number;
+  groupName: string;
+  status: boolean;
+}
 
 const recipientService = useService('recipient');
 const initialState = {
@@ -23,17 +29,25 @@ const initialState = {
   city: '',
   zipCode: '',
   location: '',
-  status: '',
+  status: false,
 };
 
 const data = reactive({ ...initialState });
+const groups = ref<GroupData[] | []>([]);
 
 const resetForm = () => {
   Object.assign(data, initialState);
+  groups.value = [];
 };
 const submitCreate = async () => {
   try {
-    const response = await recipientService.create(data);
+    const request = {
+      ...data,
+      groups: groups.value.map(({ id }) => ({
+        id,
+      })),
+    };
+    const response = await recipientService.create(request);
     if (response) {
       setMessage('Recipient created successfully.', 'success');
       resetForm();
@@ -45,6 +59,9 @@ const submitCreate = async () => {
   } catch (error) {
     console.error(new Error('Whoops, something went wrong.'));
   }
+};
+const setGroups = (groupSelected: GroupData[]) => {
+  groups.value = groupSelected;
 };
 </script>
 
@@ -185,6 +202,18 @@ const submitCreate = async () => {
                 outer-class="md:col-span-2 col-span-1"
               />
             </div>
+            <div mb-5>
+              <h6 class="text-carbon mb-4">Group Added</h6>
+              <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
+                <span
+                  v-for="group in groups"
+                  :key="group.id"
+                  class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                >
+                  {{ group.groupName }}
+                </span>
+              </div>
+            </div>
             <FormKit
               input-class="btn btn-primary"
               type="submit"
@@ -194,7 +223,7 @@ const submitCreate = async () => {
           </FormKit>
         </div>
         <div>
-          <ViewGroupsList />
+          <ViewGroupsList :groups="groups" @set-groups="setGroups" />
         </div>
       </div>
     </div>

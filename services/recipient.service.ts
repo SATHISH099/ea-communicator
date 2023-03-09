@@ -41,7 +41,6 @@ interface Data {
   emailAddress: string;
   alternateEmail: string;
   status: boolean;
-  notes: string;
   location: string;
   city: string;
   state: string;

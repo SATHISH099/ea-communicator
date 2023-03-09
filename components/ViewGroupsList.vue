@@ -1,15 +1,26 @@
 <script lang="ts" setup>
+const props = defineProps(['groups']);
+defineEmits(['setGroups']);
 const config = useRuntimeConfig();
 const page = ref(1);
 const search = ref('');
 const searchField = ref('');
 
-const groupHeaders = ['Group Name', 'Group Status'];
-
 interface GroupData {
+  id: number;
   groupName: string;
   status: boolean;
 }
+
+interface initialStateData {
+  groups: GroupData[];
+}
+
+const initialState: initialStateData = {
+  groups: props.groups || [],
+};
+
+const form = reactive({ ...initialState });
 const { data, refresh } = await useFetch<any>(
   () => `groups?search=${search.value}&pageNumber=${page.value}&pageSize=10`,
   {
@@ -17,8 +28,9 @@ const { data, refresh } = await useFetch<any>(
     transform: ({ total, data }) => ({
       total,
       data: data.map((x: GroupData) => ({
+        id: x.id,
         groupName: x.groupName,
-        status: x.status ? 'Active' : 'In-Active',
+        status: x.status,
       })),
     }),
   },
@@ -54,12 +66,24 @@ const paginate = (pg: number) => {
           />
         </div>
       </div>
-      <div class="pb-10">
-        <DashboardTable
-          :headers="groupHeaders"
-          :rows="data.data"
-          :is-dropdown="false"
-        />
+      <div class="pb-10 px-3">
+        <div>
+          <FormKit
+            v-model="form.groups"
+            type="checkbox"
+            :options="
+                  data.data.map((groupItem: GroupData) => {
+                    return {
+                      value: groupItem,
+                      label: `${groupItem.groupName}`,
+                    };
+                  })
+                "
+            outer-class="recipient-list"
+            input-class="form-check-input mr-2"
+            @input="$emit('setGroups', form.groups)"
+          />
+        </div>
         <div class="ml-8">
           <PaginationTable
             :total-records="data.total"
