@@ -63,7 +63,6 @@ const { data, refresh } = await useFetch<any>(
   },
 );
 
-console.log('dadd...', data);
 const searchKeyword = () => {
   search.value = searchField.value;
   page.value = 1;
@@ -126,14 +125,6 @@ const deleteRecord = async (id: number) => {
         </div>
       </div>
       <div class="pb-10 pt-5">
-        <NuxtLink
-          :to="{
-            path: '/recipients-and-groups/groups/edit/15',
-          }"
-          class="p-2 view"
-          >EDit ...
-        </NuxtLink>
-
         <DashboardTable
           :headers="messageHeaders"
           :rows="data.data"
