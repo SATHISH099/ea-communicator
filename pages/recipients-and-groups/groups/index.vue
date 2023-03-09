@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { Group } from '~~/services/group.service';
+
 const config = useRuntimeConfig();
 const page = ref(1);
 const isDelete = ref(false);
@@ -13,20 +15,6 @@ const messageHeaders = [
   'Created Date',
   'Updated Date',
 ];
-
-interface GroupData {
-  id: number;
-  groupName: string;
-  members: number;
-  status: string;
-  location: string;
-  city: string;
-  state: string;
-  country: string;
-  zipCode: string;
-  createdAt: string;
-  updatedAt: string | null;
-}
 
 const groupService = useService('group');
 const { data, refresh } = await useFetch<any>(
@@ -43,15 +31,16 @@ const { data, refresh } = await useFetch<any>(
             status,
             location,
             city,
+            recipientCount,
             state,
             country,
             zipCode,
             createdAt,
             updatedAt,
-          }: GroupData) => ({
+          }: Group) => ({
             id,
             groupName,
-            members: 0,
+            members: recipientCount,
             status: status ? 'Active' : 'Inactive',
             location: `${location}, ${city}, ${state}, ${country}, ${zipCode}`,
             createdAt,
@@ -130,6 +119,7 @@ const deleteRecord = async (id: number) => {
           :rows="data.data"
           type="groups"
           @onDeleteRecord="deleteRecord"
+          :dropDownOption="{ isView: true, isEdit: true, isDelete: true }"
         />
         <div class="ml-8">
           <PaginationTable
