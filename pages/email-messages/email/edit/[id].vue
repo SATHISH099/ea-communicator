@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 const emailService = useService('email');
+interface EditData {
+  title: string;
+}
 const config = useRuntimeConfig();
 const { id: emailId } = useRoute().params;
 const { data: emailDetail } = await useFetch<any>(() => `emails/${emailId}`, {
@@ -26,13 +29,12 @@ const checkvalidation = () => {
   return true;
 };
 
-const submitHandler = async (formData: any) => {
+const submitHandler = async (formData: EditData) => {
   if (checkvalidation()) {
-    const data = {
+    const response = await emailService.update(Number(emailId), {
       subject: formData.title,
       body: body.value,
-    };
-    const response = await emailService.update(Number(emailId), data);
+    });
     successResponse.value = response;
   }
 };

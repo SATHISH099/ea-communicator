@@ -1,5 +1,9 @@
 <script lang="ts" setup>
 const smsService = useService('sms');
+interface EditData {
+  title: string;
+  message: string;
+}
 const config = useRuntimeConfig();
 const { id: smsId } = useRoute().params;
 const { data: smsDetail } = await useFetch<any>(() => `sms/${smsId}`, {
@@ -11,12 +15,11 @@ const successResponse = ref({ id: null });
 const title = ref(record.title);
 const message = ref(record.message);
 
-const submitHandler = async (formData: any) => {
-  const data = {
+const submitHandler = async (formData: EditData) => {
+  const response = await smsService.update(Number(smsId), {
     title: formData.title,
     message: formData.message,
-  };
-  const response = await smsService.update(Number(smsId), data);
+  });
   successResponse.value = response;
 };
 </script>
