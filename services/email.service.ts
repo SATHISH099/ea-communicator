@@ -19,6 +19,11 @@ const emails = z.object({ data: z.array(email), total: z.number() });
 
 export type Email = z.infer<typeof email>;
 
+interface Data {
+  subject: string;
+  body: string;
+}
+
 export class EmailService {
   constructor(private apiService: ApiService) {
     this.apiService.setUrl('emails');
@@ -26,6 +31,10 @@ export class EmailService {
 
   getAll() {
     return this.apiService.get(emails);
+  }
+
+  update(id: number, data: Data) {
+    return this.apiService.patch(email, data, `/emails/${id}`);
   }
 
   delete(id: number) {

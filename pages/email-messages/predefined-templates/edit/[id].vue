@@ -106,10 +106,7 @@ const saveSms = (formData: any) => {
             <Multiselect
               v-model="type"
               placeholder="Predefined message type"
-              :options="[
-                { value: 'emails', label: 'Email' },
-                { value: 'sms', label: 'SMS' },
-              ]"
+              :options="['emails', 'sms']"
               class="mb-5"
             />
             <div mb-5 v-if="type == 'emails'">

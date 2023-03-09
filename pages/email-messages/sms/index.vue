@@ -116,6 +116,7 @@ const deleteRecord = async (id: number) => {
           type="sms"
           @onDeleteRecord="deleteRecord"
           @sortRecord="sortRecord"
+          :dropDownOption="{ isView: true, isEdit: false, isDelete: true }"
         />
         <div class="ml-8">
           <PaginationTable

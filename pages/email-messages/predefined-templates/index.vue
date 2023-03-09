@@ -120,8 +120,11 @@ const optionTypeSelected = (option: string) => {
             <Multiselect
               placeholder="Predefined Type"
               v-model="type"
+              :options="[
+                { value: 'emails', label: 'Email' },
+                { value: 'sms', label: 'SMS' },
+              ]"
               @select="optionTypeSelected"
-              :options="['emails', 'sms']"
               class="md:w-[14rem] w-full"
             />
           </div>
@@ -131,7 +134,7 @@ const optionTypeSelected = (option: string) => {
         <DashboardTable
           :headers="MessageHeaders"
           :rows="data.data"
-          type="predefined-templates"
+          :type="type === 'emails' ? 'email' : 'sms'"
           @onDeleteRecord="deleteRecord"
           @sortRecord="sortRecord"
         />
