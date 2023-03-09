@@ -16,7 +16,10 @@ const sms = z.object({
 const smsMessages = z.object({ data: z.array(sms), total: z.number() });
 
 export type Sms = z.infer<typeof sms>;
-
+interface Data {
+  title: string;
+  message: string;
+}
 export class SmsService {
   constructor(private apiService: ApiService) {
     this.apiService.setUrl('sms');
@@ -28,6 +31,10 @@ export class SmsService {
 
   delete(id: number) {
     return this.apiService.delete(smsMessages, `sms/${id}`);
+  }
+
+  update(id: number, data: Data) {
+    return this.apiService.patch(smsMessages, data, `/sms/${id}`);
   }
 
   sendSms(data: {}) {

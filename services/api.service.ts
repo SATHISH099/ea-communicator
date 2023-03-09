@@ -82,6 +82,17 @@ export class ApiService {
     return this.makeRequest(this.getUrl(url), this.getOptions(options), schema);
   }
 
+  patch<T>(
+    schema: z.ZodType<T>,
+    data: Record<string, any>,
+    url?: string,
+    options?: FetchOptions,
+  ) {
+    const body = data as Record<string, any>;
+    options = { method: 'PATCH', body, ...options };
+    return this.makeRequest(this.getUrl(url), this.getOptions(options), schema);
+  }
+
   delete<T>(schema: z.ZodType<T>, url?: string, options?: FetchOptions) {
     options = { method: 'delete', ...options };
     return this.makeRequest(this.getUrl(url), this.getOptions(options), schema);

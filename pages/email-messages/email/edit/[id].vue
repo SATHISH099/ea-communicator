@@ -1,29 +1,27 @@
 <script lang="ts" setup>
-import Multiselect from '@vueform/multiselect/src/Multiselect';
-import type { Sms } from '~~/services/sms.service';
-import type { Email } from '~~/services/email.service';
-
-const smsService = useService('sms');
 const emailService = useService('email');
-const type = ref('emails');
+interface EditData {
+  title: string;
+}
+const config = useRuntimeConfig();
+const { id: emailId } = useRoute().params;
+const { data: emailDetail } = await useFetch<any>(() => `emails/${emailId}`, {
+  baseURL: config.public.API_BASE_URL,
+});
+
+const record = emailDetail.value;
 const successResponse = ref({ id: null });
 const errorBody = ref(false);
-const title = ref('');
-const message = ref('');
-const body = ref('');
+const title = ref(record.subject);
+const body = ref(record.body);
 
 const setField = (data: string) => {
   errorBody.value = false;
   body.value = data;
 };
 
-const resetForm = () => {
-  message.value = '';
-  title.value = '';
-};
-
 const checkvalidation = () => {
-  if (!body.value && type.value === 'emails') {
+  if (!body.value) {
     errorBody.value = true;
     return false;
   }
@@ -31,42 +29,14 @@ const checkvalidation = () => {
   return true;
 };
 
-const submitHandler = async (formData: any) => {
+const submitHandler = async (formData: EditData) => {
   if (checkvalidation()) {
-    const response =
-      type.value === 'emails'
-        ? await saveEmail(formData)
-        : await saveSms(formData);
+    const response = await emailService.update(Number(emailId), {
+      subject: formData.title,
+      body: body.value,
+    });
     successResponse.value = response;
-    resetForm();
   }
-};
-
-const saveEmail = (formData: any) => {
-  const data = {
-    subject: formData.title,
-    sender: 'test',
-    importanceLevel: 'low',
-    body: body.value,
-    isPredefined: true,
-    recipients: [],
-    groups: [],
-  };
-  return emailService.sendEmail(data);
-};
-
-const saveSms = (formData: any) => {
-  const data = {
-    title: formData.title,
-    message: message.value,
-    sender: 'test',
-    importanceLevel: 'low',
-    tenantId: 'test',
-    isPredefined: true,
-    recipients: [],
-    groups: [],
-  };
-  return smsService.sendSms(data);
 };
 </script>
 
@@ -74,7 +44,7 @@ const saveSms = (formData: any) => {
   <div>
     <FormKit
       type="form"
-      id="sendTemplate"
+      id="updateTemplate"
       @submit="submitHandler"
       :actions="false"
       #default="{ value }"
@@ -84,7 +54,7 @@ const saveSms = (formData: any) => {
           <h4 class="mb-4 text-stone">Predefined Templates</h4>
           <p class="text-silver">
             Communicator / Email/Messages / Predefined Templates /
-            <span class="text-primary"> Add New Predefined Template</span>
+            <span class="text-primary"> Edit Predefined Template</span>
           </p>
         </div>
       </div>
@@ -92,7 +62,7 @@ const saveSms = (formData: any) => {
         <div class="p-6">
           <div class="max-w-[50rem]">
             <div class="success alert-success" v-if="successResponse.id">
-              Template Successfully Saved
+              Template Successfully Updated
             </div>
             <FormKit
               type="text"
@@ -103,16 +73,7 @@ const saveSms = (formData: any) => {
               input-class="form-control"
               outer-class="mb-5"
             />
-            <Multiselect
-              v-model="type"
-              placeholder="Predefined message type"
-              :options="[
-                { value: 'emails', label: 'Email' },
-                { value: 'sms', label: 'SMS' },
-              ]"
-              class="mb-5"
-            />
-            <div mb-5 v-if="type == 'emails'">
+            <div mb-5>
               <ClientOnly>
                 <RichTextEditor
                   v-model="body"
@@ -125,19 +86,6 @@ const saveSms = (formData: any) => {
                 />
               </ClientOnly>
               <span class="error" v-if="errorBody">Please Enter Body</span>
-            </div>
-
-            <div mb-5 v-if="type == 'sms'">
-              <FormKit
-                type="textarea"
-                name="message"
-                v-model="message"
-                rows="10"
-                placeholder="Message"
-                validation="required"
-                outer-class="w-full"
-                input-class="form-control"
-              />
             </div>
             <div class="flex justify-end">
               <FormKit
