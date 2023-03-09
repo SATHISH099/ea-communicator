@@ -1,40 +1,15 @@
 <script lang="ts" setup>
-import Multiselect from '@vueform/multiselect';
+import { useRoute } from 'vue-router';
 const config = useRuntimeConfig();
-const route = useRoute();
-const id = ref(route.query?.id || 0);
+const { id } = useRoute().params;
 
-const MessageHeaders = ['Recipients', 'Email Address'];
-const MessageRows = [
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-];
 const showModal = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
 };
-const { data, refresh } = await useFetch<any>(() => `sms/${id.value}`, {
+const { data } = await useFetch<any>(() => `emails/${id}`, {
   baseURL: config.public.API_BASE_URL,
 });
-const activeTab = ref('alerts');
 </script>
 
 <template>
@@ -47,7 +22,7 @@ const activeTab = ref('alerts');
           <span class="text-silver">/</span>
           <span class="sub-heading"> Email / Messages</span>
           <span class="text-silver">/</span>
-          <span class="sub-heading"> SMS</span>
+          <span class="sub-heading"> Email</span>
           <span class="text-silver">/</span>
           <span class="text-primary hover:no-underline ml-1">View Details</span>
         </p>
@@ -83,41 +58,30 @@ const activeTab = ref('alerts');
             </div>
             <div class="mb-10 grid gap-y-2">
               <h5 class="text-stone">Subject</h5>
-              <p class="text-carbon">Request For API endpoints</p>
+              <p class="text-carbon">{{ data.body }}</p>
             </div>
             <div class="mb-10 grid gap-y-2">
-              <h5 class="text-stone">SMS Messages</h5>
-              <p class="text-carbon">{{ data.message }}</p>
+              <h5 class="text-stone">Alert Messages</h5>
+              <p class="text-carbon">
+                The impact of visual design on a project's success is
+                significant, and it depends largely on how much emphasis is
+                placed on it. Visual design refers to the aesthetic aspect of a
+                project, which includes the color palette, typography, layout,
+                and imagery. It can influence how users perceive and interact
+                with a product, website, or app. In some cases, visual design
+                may be the primary factor that attracts or repels users.
+                Therefore, it is important to consider the appropriate level of
+                emphasis on visual design when creating a project, as it can
+                make a significant difference in its success.
+              </p>
+            </div>
+            <div class="mb-10 grid gap-y-2">
+              <h5 class="text-stone">Communication Channel</h5>
+              <p class="text-carbon">SMS, Email, Voice</p>
             </div>
           </div>
         </div>
-        <div bg-white small-shadow>
-          <div px-6 pt-6>
-            <h5 text-stone mb-5>Recipient's list</h5>
-            <div class="flex items-center lex-wrap">
-              <div
-                class="tab"
-                :class="{ active: activeTab === 'alerts' }"
-                @click="activeTab = 'alerts'"
-              >
-                Recepients
-              </div>
-              <div
-                class="tab"
-                :class="{ active: activeTab === 'email' }"
-                @click="activeTab = 'email'"
-              >
-                Groups
-              </div>
-            </div>
-          </div>
-          <DashboardTable
-            mt-3
-            mb-8
-            :headers="MessageHeaders"
-            :rows="MessageRows"
-          />
-        </div>
+        <RecipientList />
       </div>
       <TheModal
         title="Select Recipient and Groups"
