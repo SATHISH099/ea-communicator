@@ -23,7 +23,6 @@ interface RecipientData {
 
 interface initialStateData {
   groupName: string;
-  alternateEmail: string;
   status: boolean;
   notes: string;
   location: string;
@@ -43,7 +42,6 @@ const { data: location } = await useFetch<any>(() => `/json/locations.json`);
 
 const initialState: initialStateData = {
   groupName: '',
-  alternateEmail: '',
   status: true,
   notes: '',
   location: '',
@@ -136,15 +134,6 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
               />
 
               <FormKit
-                v-model="data.alternateEmail"
-                type="text"
-                name="alternate"
-                validation="required"
-                placeholder="Alternate Email"
-                input-class="form-control"
-              />
-
-              <FormKit
                 v-model="statusText"
                 type="select"
                 validation="required"
@@ -216,6 +205,7 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
                 type="text"
                 placeholder="Location"
                 input-class="form-control"
+                outer-class="md:col-span-2 col-span-1"
               />
               <FormKit
                 v-model="data.notes"

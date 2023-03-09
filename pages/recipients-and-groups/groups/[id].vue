@@ -1,40 +1,20 @@
 <script lang="ts" setup>
 import { useRoute } from 'vue-router';
+import type { Recipient } from '~~/services/recipient.service';
 const config = useRuntimeConfig();
 const { id } = useRoute().params;
 
-const MessageHeaders = ['Recipients', 'Email Address'];
-const MessageRows = [
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-];
-const showModal = ref(false);
-const toggleModal = () => {
-  showModal.value = !showModal.value;
-};
+const messageHeaders = ['Recipients', 'Email Address'];
 const { data } = await useFetch<any>(() => `groups/${id}`, {
   baseURL: config.public.API_SMARTSUITE_BASE_URL,
 });
 
-const activeTab = ref('alerts');
+const recipients = data.value.data.recipients.map(
+  ({ firstName, lastName, emailAddress }: Recipient) => ({
+    name: `${firstName} ${lastName}`,
+    emailAddress,
+  }),
+);
 </script>
 
 <template>
@@ -59,13 +39,20 @@ const activeTab = ref('alerts');
           <div class="max-w-3xl">
             <div class="grid grid-cols-3">
               <div class="mb-10 grid gap-y-2">
-                <h5 class="text-stone">Group Name</h5>
+                <h5 class="text-stone">Date</h5>
                 <p class="text-carbon">{{ data.data.createdAt }}</p>
               </div>
               <div class="mb-10 grid gap-y-2">
                 <h5 class="text-stone">Status</h5>
-                <p class="text-carbon">{{ data.data.status }}</p>
+                <p class="text-carbon">
+                  {{ data.data.status ? 'Active' : 'Inactive' }}
+                </p>
               </div>
+            </div>
+
+            <div class="mb-10 grid gap-y-2">
+              <h5 class="text-stone">Group Name</h5>
+              <p class="text-carbon">{{ data.data.groupName }}</p>
             </div>
             <div class="mb-10 grid gap-y-2">
               <h5 class="text-stone">Country</h5>
@@ -98,56 +85,16 @@ const activeTab = ref('alerts');
         <div bg-white small-shadow>
           <div px-6 pt-6>
             <h5 text-stone mb-5>Recipient's list</h5>
-            <div class="flex items-center lex-wrap">
-              <div
-                class="tab"
-                :class="{ active: activeTab === 'alerts' }"
-                @click="activeTab = 'alerts'"
-              >
-                Recepients
-              </div>
-              <div
-                class="tab"
-                :class="{ active: activeTab === 'email' }"
-                @click="activeTab = 'email'"
-              >
-                Groups
-              </div>
-            </div>
           </div>
           <DashboardTable
             mt-3
             mb-8
-            :headers="MessageHeaders"
-            :rows="MessageRows"
+            :headers="messageHeaders"
+            :rows="recipients"
             :isDropdown="false"
           />
         </div>
       </div>
-      <TheModal
-        title="Select Recipient and Groups"
-        :show="showModal"
-        @close="toggleModal"
-      >
-        <div class="mt-10">
-          <div flex items-center gap-3>
-            <Multiselect
-              :options="['test1', 'test2']"
-              searchable="true"
-              mode="tags"
-              :create-option="true"
-              :close-on-select="false"
-              placeholder="Search"
-            />
-            <button class="form-control w-[3.5rem] cursor-pointer">
-              <img src="/add-user.png" alt="" />
-            </button>
-          </div>
-          <div flex justify-end mt-5>
-            <button class="btn btn-primary">Add</button>
-          </div>
-        </div>
-      </TheModal>
     </div>
   </div>
 </template>

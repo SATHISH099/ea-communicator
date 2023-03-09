@@ -7,7 +7,6 @@ const group = z.object({
   createdAt: z.string(),
   updatedAt: z.string(),
   groupName: z.string(),
-  alternateEmail: z.string(),
   recipientCount: z.number(),
   status: z.boolean(),
   notes: z.string(),
@@ -25,7 +24,6 @@ export type Group = z.infer<typeof group>;
 
 interface Data {
   groupName: string;
-  alternateEmail: string;
   status: boolean;
   notes: string;
   location: string;
