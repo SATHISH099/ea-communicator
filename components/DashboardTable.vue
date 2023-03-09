@@ -20,7 +20,7 @@ const props = defineProps({
     required: false,
   },
   dropDownOption: {
-    default: { isView: true, isEdit: false, isDelete: true },
+    default: { isView: true, isEdit: true, isDelete: true },
     required: false,
   },
   use: {
@@ -38,7 +38,7 @@ const onDeleteRecord = (id) => {
 </script>
 
 <template>
-  <div class="admin-table overflow-auto scroll">
+  <div class="admin-table">
     <table class="relative">
       <thead>
         <tr>
@@ -111,7 +111,9 @@ const onDeleteRecord = (id) => {
 <style lang="scss" scoped>
 .admin-table {
   color: #2d2d2e;
-
+  @media screen and (max-width: 1366px) {
+    overflow-x: auto;
+  }
   table {
     width: 100%;
     border-collapse: collapse;

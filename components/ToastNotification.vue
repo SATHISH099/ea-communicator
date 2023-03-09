@@ -7,29 +7,19 @@ const { getMessage: message, getType: type } = storeToRefs(store);
 </script>
 
 <template>
-  <div v-if="!!message" class="toaster" :class="type">
+  <div
+    v-if="!!message"
+    class="fixed top-[8rem] right-[3rem] px-[24px] py-[12px] rounded-[4px] z-[999] font-medium"
+    :class="[
+      type,
+      type === 'success'
+        ? 'text-[#2D2D2E] bg-[#def0d7] border-solid border border-[#5ca044]'
+        : '',
+      type === 'error'
+        ? 'text-[#28293D] bg-[#FDE4E1] border-solid border border-[#F54336]'
+        : '',
+    ]"
+  >
     {{ message }}
   </div>
 </template>
-
-<style>
-.toaster {
-  position: fixed;
-  top: 8rem;
-  right: 3rem;
-  padding: 12px 24px;
-  border-radius: 4px;
-  z-index: 9999;
-  color: #2d2d2e;
-  font-weight: 500;
-}
-.success {
-  background: #def0d7;
-  border: 1px solid #5ca044;
-}
-.error {
-  color: white;
-  background: #da1313;
-  border: 1px solid #da1313;
-}
-</style>
