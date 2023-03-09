@@ -17,7 +17,7 @@
         <NuxtLink to="/recipients-and-groups/groups">
           <div class="w-[284px] h-[176px] rounded-[4px] small-shadow p-[25px]">
             <div class="flex flex-col justify-between items-center">
-              <img src="/groups.png" alt="messages" />
+              <svgsGroups />
               <p class="text-[20px] text-carbon font-medium mt-6">Groups</p>
             </div>
           </div>
@@ -25,7 +25,7 @@
         <NuxtLink to="/recipients-and-groups/recipients">
           <div class="w-[284px] h-[176px] rounded-[4px] small-shadow p-[25px]">
             <div class="flex flex-col justify-between items-center">
-              <img src="/recipients.png" alt="messages" />
+              <SvgsRecipients />
               <p class="text-[20px] text-carbon font-medium mt-6">Recipients</p>
             </div>
           </div>
