@@ -195,7 +195,7 @@ const setCcGroupRecipients = (
                 class="relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[1rem] text-silver items-center p-[1rem] col-span-2"
                 @click="toggleModal"
               >
-                <span class="mr-5">TO</span>
+                <span class="mr-3">TO</span>
                 <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
                   <span
                     class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
@@ -224,7 +224,7 @@ const setCcGroupRecipients = (
                 class="relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[16px] text-silver items-center p-[1rem]"
                 @click="toggleModalCc"
               >
-                <span class="mr-5">CC</span>
+                <span class="mr-3">CC</span>
                 <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
                   <span
                     v-for="recipient in ccRecipients"
@@ -252,7 +252,7 @@ const setCcGroupRecipients = (
                 class="relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[16px] text-silver items-center p-[1rem]"
                 @click="toggleModalBcc"
               >
-                <span>BCC</span>
+                <span class="mr-3">BCC</span>
                 <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
                   <span
                     v-for="recipient in bccRecipients"

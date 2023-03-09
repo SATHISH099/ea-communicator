@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Recipient } from '~~/services/recipient.service';
+import '~~/services/recipient.service';
 import { useToasterStore } from '~~/store/toaster';
 
 const { setMessage } = useToasterStore();
@@ -142,5 +142,3 @@ const deleteRecord = async (id: number) => {
     </div>
   </div>
 </template>
-
-<style lang="scss"></style>

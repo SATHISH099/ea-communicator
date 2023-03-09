@@ -129,11 +129,11 @@ const setGroupRecipients = (
             </div>
             <div grid md:grid-cols-2 grid-cols-1 gap-5 mt-8>
               <button
-                class="border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex justify-between text-[1rem] text-silver items-center p-[1rem] col-span-2"
+                class="relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[1rem] text-silver items-center p-[1rem] col-span-2"
                 type="button"
                 @click="toggleModal"
               >
-                <span>TO</span>
+                <span class="mr-3">TO</span>
                 <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
                   <span
                     class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
@@ -151,7 +151,11 @@ const setGroupRecipients = (
                     {{ group.groupName }}
                   </span>
                 </div>
-                <img src="/plus.png" alt="plus" />
+                <img
+                  class="absolute right-0 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                  src="/plus.png"
+                  alt="plus"
+                />
               </button>
               <FormKit
                 type="text"

@@ -4,6 +4,7 @@ import '~~/services/recipient.service';
 import { useToasterStore } from '~~/store/toaster';
 
 const { setMessage } = useToasterStore();
+const { id } = useRoute().params;
 const router = useRouter();
 
 const recipientService = useService('recipient');
@@ -28,24 +29,36 @@ const initialState = {
 
 const data = reactive({ ...initialState });
 
-const resetForm = () => {
-  Object.assign(data, initialState);
-};
-const submitCreate = async () => {
+const submitUpdate = async () => {
   try {
-    const response = await recipientService.create(data);
+    const response = await recipientService.update(id, data);
     if (response) {
-      setMessage('Recipient created successfully.', 'success');
-      resetForm();
+      setMessage('Recipient updated successfully.', 'success');
       router.push('/recipients-and-groups/recipients');
     } else {
-      router.push('/recipients-and-groups/recipients/add');
-      setMessage('Something went wrong unable to create Recipient.', 'error');
+      setMessage('Error updating recipient data.', 'error');
+      router.push(`/recipients-and-groups/recipients/edit/${id}`);
     }
   } catch (error) {
-    console.error(new Error('Whoops, something went wrong.'));
+    setMessage('Error updating recipient data.', 'error');
   }
 };
+
+onMounted(async () => {
+  try {
+    const { data: recipients } = await recipientService.getAll();
+    const recipient = recipients.find(
+      (recipient) => recipient.id === Number(id),
+    );
+    if (recipient) {
+      Object.assign(data, recipient);
+    } else {
+      setMessage('Recipient not found.', 'error');
+    }
+  } catch (error) {
+    setMessage('Error retrieving recipient data.', 'error');
+  }
+});
 </script>
 
 <template>
@@ -55,15 +68,15 @@ const submitCreate = async () => {
         <h4 class="mb-4 text-carbon">Recipients</h4>
         <p class="text-silver">
           Smart Suite / Communicator / Recipients /
-          <span class="text-primary"> Create New Recipient </span>
+          <span class="text-primary"> Edit Recipient </span>
         </p>
       </div>
     </div>
     <div w-full>
       <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>
         <div bg-white small-shadow p-6 md:col-span-2 col-span-1>
-          <h5 text-stone>Create New Recipient</h5>
-          <FormKit type="form" :actions="false" @submit="submitCreate">
+          <h5 text-stone>Edit Recipient</h5>
+          <FormKit type="form" :actions="false" @submit="submitUpdate">
             <div grid lg:grid-cols-2 grid-cols-1 gap-5 my-8>
               <FormKit
                 v-model="data.firstName"
@@ -147,8 +160,8 @@ const submitCreate = async () => {
                 v-model="data.status"
                 placeholder="Select Status"
                 :options="[
-                  { value: true, label: 'Active' },
-                  { value: false, label: 'In-Active' },
+                  { value: true, label: 'Completed' },
+                  { value: false, label: 'Uncompleted' },
                 ]"
               />
               <Select
@@ -188,7 +201,7 @@ const submitCreate = async () => {
             <FormKit
               input-class="btn btn-primary"
               type="submit"
-              label="Create Recipient"
+              label="Update"
               wrapper-class="flex justify-end"
             />
           </FormKit>
@@ -200,5 +213,3 @@ const submitCreate = async () => {
     </div>
   </div>
 </template>
-
-<style lang="scss"></style>
