@@ -81,12 +81,17 @@ const useTemplate = (template: EmailData) => {
 };
 const handleAddMedia = async (data: { file: any[] }) => {
   const body = new FormData();
-  data.file.forEach((fileItem: { file: string | Blob }) => {
-    body.append('media', fileItem.file);
-  });
 
-  const response = await mediaService.create(body);
-  return response;
+  if (data.file.length) {
+    data.file.forEach((fileItem: { file: string | Blob }) => {
+      body.append('media', fileItem.file);
+    });
+
+    const response = await mediaService.create(body);
+    return [{ id: response.id }];
+  } else {
+    return [];
+  }
 };
 
 const submitHandler = async (formData: { file: any[] }) => {
@@ -97,25 +102,18 @@ const submitHandler = async (formData: { file: any[] }) => {
       body: body.value,
       sender: 'test',
       isPredefined: false,
-      medias: [{ id: media.id }],
-      recipients: recipients.value.map(({ id }) => ({
-        recipientId: id,
-      })),
-      groups: groups.value.map(({ id }) => ({
-        groupId: id,
-      })),
-      ccRecipients: ccRecipients.value.map(({ id }) => ({
-        recipientId: id,
-      })),
-      ccGroups: ccGroups.value.map(({ id }) => ({
-        groupId: id,
-      })),
-      bccRecipients: bccRecipients.value.map(({ id }) => ({
-        recipientId: id,
-      })),
-      bccGroups: bccGroups.value.map(({ id }) => ({
-        groupId: id,
-      })),
+      medias: media,
+      recipients: {
+        to: recipients.value.map(({ id }) => id),
+        cc: ccRecipients.value.map(({ id }) => id),
+        bcc: bccRecipients.value.map(({ id }) => id),
+      },
+
+      groups: {
+        to: groups.value.map(({ id }) => id),
+        cc: ccGroups.value.map(({ id }) => id),
+        bcc: bccGroups.value.map(({ id }) => id),
+      },
     };
     const response = await emailService.sendEmail(data);
 

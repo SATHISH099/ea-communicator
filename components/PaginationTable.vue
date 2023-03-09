@@ -5,18 +5,29 @@ const props = defineProps(['totalRecords', 'currentPage', 'paginate']);
 <template>
   <div>
     <div v-if="props.totalRecords > 0" class="mt-8">
-      <button class="btn-pagination">
+      <button
+        class="btn-pagination"
+        type="button"
+        :disabled="currentPage === 1"
+        @click="props.paginate(currentPage - 1)"
+      >
         <img src="/left-arrow.png" />
       </button>
       <button
         v-for="index in Math.ceil(parseInt(props.totalRecords) / 10)"
         :key="index"
+        type="button"
         :class="`${currentPage === index ? 'active' : ''}  btn-pagination`"
         @click="props.paginate(index)"
       >
         {{ index }}
       </button>
-      <button class="btn-pagination">
+      <button
+        class="btn-pagination"
+        type="button"
+        :disabled="currentPage === Math.ceil(parseInt(props.totalRecords) / 10)"
+        @click="props.paginate(currentPage + 1)"
+      >
         <img src="/right-arrow.png" />
       </button>
     </div>

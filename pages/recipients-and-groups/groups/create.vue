@@ -15,6 +15,12 @@ interface CountryData {
   states: StateData[];
 }
 
+interface RecipientData {
+  id: number;
+  firstName: string;
+  lastName: string;
+}
+
 interface initialStateData {
   groupName: string;
   alternateEmail: string;
@@ -52,8 +58,11 @@ const initialState: initialStateData = {
 const data = reactive({ ...initialState });
 const statusText = ref<string>('active');
 const successResponse = ref({ data: { id: null } });
+const recipients = ref<RecipientData[] | []>([]);
+
 function resetForm() {
   Object.assign(data, initialState);
+  recipients.value = [];
 }
 const selectCountry = () => {
   const selectLocation = location.value.filter(function (country: StateData) {
@@ -73,9 +82,21 @@ const selectState = () => {
 
 const submitHandler = async () => {
   data.status = statusText.value === 'active';
-  const response = await groupService.createGroup(data);
+
+  const request = {
+    ...data,
+    status: statusText.value === 'active',
+    recipients: recipients.value.map(({ id }) => ({
+      id,
+    })),
+  };
+  const response = await groupService.createGroup(request);
   successResponse.value = response;
   resetForm();
+};
+
+const setRecipients = (recipientSelected: RecipientData[]) => {
+  recipients.value = recipientSelected;
 };
 </script>
 
@@ -209,6 +230,15 @@ const submitHandler = async () => {
             </div>
             <div>
               <h6 class="text-carbon">Recipient Added</h6>
+              <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
+                <span
+                  class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                  v-for="recipient in recipients"
+                  :key="recipient.id"
+                >
+                  {{ recipient.firstName }} {{ recipient.lastName }}
+                </span>
+              </div>
             </div>
             <div class="flex justify-end items-center mt-5 md:w-auto w-full">
               <button class="btn btn-primary md:w-auto w-full">
@@ -216,7 +246,10 @@ const submitHandler = async () => {
               </button>
             </div>
           </div>
-          <ViewRecipients></ViewRecipients>
+          <ViewRecipients
+            :recipients="recipients"
+            @set-recipients="setRecipients"
+          ></ViewRecipients>
         </div>
       </div>
     </FormKit>

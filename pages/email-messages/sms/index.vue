@@ -9,11 +9,12 @@ const orderBy = ref('id');
 const searchField = ref('');
 const smsService = useService('sms');
 
-const MessageHeaders = [
+const messageHeaders = [
   { value: 'Id', isSort: true, key: 'id' },
   'Sender',
   'Subject',
   'Recipients',
+  'Groups',
   'Email Message',
   { value: 'Sent Date', isSort: true, key: 'createdAt' },
   '',
@@ -33,6 +34,7 @@ const { data, refresh } = await useFetch<any>(
             sender,
             title,
             recipients: 0,
+            groups: 0,
             message,
             createdAt,
           }),
@@ -109,7 +111,7 @@ const deleteRecord = async (id: number) => {
       </div>
       <div class="pb-10 pt-5 overflow-auto scroll relative">
         <DashboardTable
-          :headers="MessageHeaders"
+          :headers="messageHeaders"
           :rows="data.data"
           type="sms"
           @onDeleteRecord="deleteRecord"

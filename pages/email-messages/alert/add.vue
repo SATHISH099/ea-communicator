@@ -6,26 +6,52 @@ interface AlertData {
   title: string;
   message: string;
 }
+interface RecipientData {
+  id: number;
+  firstName: string;
+  lastName: string;
+}
+
+interface GroupData {
+  id: number;
+  groupName: string;
+}
+
+interface initialStateData {
+  importanceLevel: string;
+  title: string;
+  message: string;
+  isSms: boolean;
+  isEmail: boolean;
+  isVoice: boolean;
+}
 
 const messageService = useService('message');
-const data = reactive({
+const initialState: initialStateData = {
   importanceLevel: 'low',
   title: '',
   message: '',
   isSms: false,
   isEmail: false,
   isVoice: false,
-});
-
+};
+const data = reactive({ ...initialState });
 const communicationChannel = ref<string[]>([]);
 const successResponse = ref({ id: null });
 const channels: string[] = ['Sms', 'Email', 'Voice'];
+const recipients = ref<RecipientData[] | []>([]);
+const groups = ref<GroupData[] | []>([]);
 const showModal = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
 };
 const activeTab = ref('emails');
 
+function resetForm() {
+  Object.assign(data, initialState);
+  recipients.value = [];
+  groups.value = [];
+}
 const submitHandler = async () => {
   const formData = {
     ...data,
@@ -33,14 +59,30 @@ const submitHandler = async () => {
     isEmail: communicationChannel.value.includes(channels[1]),
     isVoice: communicationChannel.value.includes(channels[2]),
     isPredefined: false,
+    recipients: recipients.value.map(({ id }) => ({
+      recipientId: id,
+    })),
+    groups: groups.value.map(({ id }) => ({
+      groupId: id,
+    })),
   };
   const response = await messageService.sendMessage(formData);
   successResponse.value = response;
+  resetForm();
 };
 
 const useTemplate = (template: AlertData) => {
   data.title = template.title;
   data.message = template.message;
+};
+
+const setGroupRecipients = (
+  recipientSelected: RecipientData[],
+  groupSelected: GroupData[],
+) => {
+  recipients.value = recipientSelected;
+  groups.value = groupSelected;
+  showModal.value = false;
 };
 </script>
 
@@ -88,9 +130,27 @@ const useTemplate = (template: AlertData) => {
             <div grid md:grid-cols-2 grid-cols-1 gap-5 mt-8>
               <button
                 class="border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex justify-between text-[1rem] text-silver items-center p-[1rem] col-span-2"
+                type="button"
                 @click="toggleModal"
               >
                 <span>TO</span>
+                <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
+                  <span
+                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                    v-for="recipient in recipients"
+                    :key="recipient.id"
+                  >
+                    {{ recipient.firstName }} {{ recipient.lastName }}
+                  </span>
+
+                  <span
+                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary"
+                    v-for="group in groups"
+                    :key="group.id"
+                  >
+                    {{ group.groupName }}
+                  </span>
+                </div>
                 <img src="/plus.png" alt="plus" />
               </button>
               <FormKit
@@ -188,22 +248,11 @@ const useTemplate = (template: AlertData) => {
           @close="toggleModal"
         >
           <div class="mt-10">
-            <div flex items-center gap-3>
-              <Multiselect
-                :options="['test1', 'test2']"
-                searchable="true"
-                mode="tags"
-                :create-option="true"
-                :close-on-select="false"
-                placeholder="Search"
-              />
-              <button class="form-control w-[3.5rem] cursor-pointer">
-                <img src="/add-user.png" alt="" />
-              </button>
-            </div>
-            <div flex justify-end mt-5>
-              <button class="btn btn-primary">Add</button>
-            </div>
+            <SelectRecipients
+              :recipients="recipients"
+              :groups="groups"
+              @set-groups-recipients="setGroupRecipients"
+            ></SelectRecipients>
           </div>
         </TheModal>
       </div>
