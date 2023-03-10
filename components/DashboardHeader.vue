@@ -43,7 +43,7 @@ const isOpens = ref(false);
         class="abc h-10 mr-4 cursor-pointer"
         @click="isOpen = !isOpen"
       />
-      <ul v-show="isOpen" class="dropdown-menu right-15 top-20">
+      <ul v-show="isOpen" class="dropdown-menus right-15 top-20">
         <li class="p-2">View Profile</li>
         <li class="p-2">Logout</li>
       </ul>
@@ -79,6 +79,32 @@ const isOpens = ref(false);
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   border-bottom: 10px solid white;
+  transform: translate(-50%, -50%);
+}
+.dropdown-menus {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #555555;
+  color: white;
+  border: 1px solid white;
+  border-radius: 6px;
+  padding: 4px 8px 4px 8px;
+  position: absolute;
+  cursor: pointer;
+  list-style: none;
+}
+.dropdown-menus:after {
+  position: absolute;
+  content: '';
+  left: 50%;
+  top: -4px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #555555;
   transform: translate(-50%, -50%);
 }
 </style>

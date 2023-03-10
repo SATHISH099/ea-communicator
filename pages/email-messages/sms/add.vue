@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import Multiselect from '@vueform/multiselect';
-import type { Sms } from '~~/services/sms.service';
+import { useToasterStore } from '~~/store/toaster';
+const { setMessage } = useToasterStore();
+const router = useRouter();
 
 interface SmsData {
   title: string;
@@ -49,9 +50,19 @@ const submitHandler = async (formData: []) => {
       groupId: id,
     })),
   };
-  const response = await smsService.sendSms(data);
-  successResponse.value = response;
-  resetForm();
+  try {
+    const response = await smsService.sendSms(data);
+    if (response) {
+      setMessage('Sms created successfully.', 'success');
+      resetForm();
+      router.push('/email-messages/sms');
+    } else {
+      router.push('/email-messages/sms/add');
+      setMessage('Something went wrong unable to create Sms.', 'error');
+    }
+  } catch (error) {
+    console.error(new Error('Whoops, something went wrong.'));
+  }
 };
 
 const useTemplate = (template: SmsData) => {

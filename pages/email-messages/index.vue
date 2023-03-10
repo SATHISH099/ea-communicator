@@ -5,7 +5,9 @@
     <div class="mb-10">
       <h4 class="mb-4 text-stone">Email / Messages</h4>
       <p class="text-silver hover:text-primary">
-        <span class="hover:underline mr-1 transition duration-700">
+        <span
+          class="hover:underline mr-1 transition duration-700 cursor-pointer"
+        >
           Communicator</span
         >
         <span class="text-silver">/</span>
