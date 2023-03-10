@@ -70,9 +70,6 @@ const submitHandler = async () => {
       groupId: id,
     })),
   };
-  // const response = await messageService.sendMessage(formData);
-  // successResponse.value = response;
-  // resetForm();
   try {
     const response = await messageService.sendMessage(data);
     if (response) {
