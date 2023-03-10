@@ -2,6 +2,10 @@
 import Multiselect from '@vueform/multiselect';
 import type { Email } from '~~/services/email.service';
 import '~~/services/media.service';
+import '~~/services/email.service';
+import { useToasterStore } from '~~/store/toaster';
+const { setMessage } = useToasterStore();
+const router = useRouter();
 
 interface EmailData {
   title: string;
@@ -115,10 +119,20 @@ const submitHandler = async (formData: { file: any[] }) => {
         bcc: bccGroups.value.map(({ id }) => id),
       },
     };
-    const response = await emailService.sendEmail(data);
 
-    successResponse.value = response;
-    resetForm();
+    try {
+      const response = await emailService.sendEmail(data);
+      if (response) {
+        setMessage('Email created successfully.', 'success');
+        resetForm();
+        router.push('/email-messages/email');
+      } else {
+        router.push('/email-messages/email/add');
+        setMessage('Something went wrong unable to create Email.', 'error');
+      }
+    } catch (error) {
+      console.error(new Error('Whoops, something went wrong.'));
+    }
   }
 };
 const setGroupRecipients = (
@@ -168,9 +182,6 @@ const setCcGroupRecipients = (
         </div>
       </div>
       <div w-full>
-        <div class="success alert-success" v-if="successResponse.id">
-          Email Successfully Sent
-        </div>
         <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>
           <div bg-white small-shadow p-6 md:col-span-2 col-span-1>
             <div md:flex flex-wrap justify-between items-center>

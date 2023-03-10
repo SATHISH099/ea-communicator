@@ -90,9 +90,7 @@ watchEffect(() => {
         <img
           alt="logo"
           :src="`/${
-            SidebarOpen
-              ? 'smartsuite-communicator-logo.png'
-              : 'smartsuite-communicator-emblem.png'
+            SidebarOpen ? 'SmartSuitLogo.png' : 'CommunicatorLogo.png'
           }`"
         />
       </div>

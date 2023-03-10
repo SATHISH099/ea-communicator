@@ -7,6 +7,7 @@ const layout = store.layout;
 
 <template>
   <div>
+    <title>Communicator</title>
     <NuxtLayout :name="layout">
       <NuxtPage />
     </NuxtLayout>

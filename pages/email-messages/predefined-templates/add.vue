@@ -2,6 +2,10 @@
 import Multiselect from '@vueform/multiselect/src/Multiselect';
 import type { Sms } from '~~/services/sms.service';
 import type { Email } from '~~/services/email.service';
+import '~~/services/email.service';
+import { useToasterStore } from '~~/store/toaster';
+const { setMessage } = useToasterStore();
+const router = useRouter();
 
 const smsService = useService('sms');
 const emailService = useService('email');
@@ -30,18 +34,6 @@ const checkvalidation = () => {
 
   return true;
 };
-
-const submitHandler = async (formData: any) => {
-  if (checkvalidation()) {
-    const response =
-      type.value === 'emails'
-        ? await saveEmail(formData)
-        : await saveSms(formData);
-    successResponse.value = response;
-    resetForm();
-  }
-};
-
 const saveEmail = (formData: any) => {
   const data = {
     subject: formData.title,
@@ -67,6 +59,26 @@ const saveSms = (formData: any) => {
     groups: [],
   };
   return smsService.sendSms(data);
+};
+const submitHandler = async (formData: any) => {
+  if (checkvalidation()) {
+    try {
+      const response =
+        type.value === 'emails'
+          ? await saveEmail(formData)
+          : await saveSms(formData);
+      if (response) {
+        setMessage('Template created successfully.', 'success');
+        resetForm();
+        router.push('/email-messages/email');
+      } else {
+        router.push('/email-messages/email/add');
+        setMessage('Something went wrong unable to create Email.', 'error');
+      }
+    } catch (error) {
+      console.error(new Error('Whoops, something went wrong.'));
+    }
+  }
 };
 </script>
 

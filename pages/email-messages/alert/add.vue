@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import Multiselect from '@vueform/multiselect';
 import type { Message } from '~~/services/message.service';
+import '~~/services/message.service';
+import { useToasterStore } from '~~/store/toaster';
+const { setMessage } = useToasterStore();
+const router = useRouter();
 
 interface AlertData {
   title: string;
@@ -66,9 +70,19 @@ const submitHandler = async () => {
       groupId: id,
     })),
   };
-  const response = await messageService.sendMessage(formData);
-  successResponse.value = response;
-  resetForm();
+  try {
+    const response = await messageService.sendMessage(data);
+    if (response) {
+      setMessage('Message created successfully.', 'success');
+      resetForm();
+      router.push('/email-messages/alert');
+    } else {
+      router.push('/email-messages/alert/add');
+      setMessage('Something went wrong unable to create Messages.', 'error');
+    }
+  } catch (error) {
+    console.error(new Error('Whoops, something went wrong.'));
+  }
 };
 
 const useTemplate = (template: AlertData) => {

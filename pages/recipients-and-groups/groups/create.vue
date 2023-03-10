@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import Select from '@vueform/multiselect';
 import type { Group } from '~~/services/group.service';
+import '~~/services/group.service';
+import { useToasterStore } from '~~/store/toaster';
+const { setMessage } = useToasterStore();
+const router = useRouter();
 
 interface CitiesData {
   name: string;
@@ -88,9 +92,19 @@ const submitHandler = async () => {
       id,
     })),
   };
-  const response = await groupService.createGroup(request);
-  successResponse.value = response;
-  resetForm();
+  try {
+    const response = await groupService.createGroup(request);
+    if (response) {
+      setMessage('Group created successfully.', 'success');
+      resetForm();
+      router.push('/recipients-and-groups/groups');
+    } else {
+      router.push('/recipients-and-groups/groups/add');
+      setMessage('Something went wrong unable to create Recipient.', 'error');
+    }
+  } catch (error) {
+    console.error(new Error('Whoops, something went wrong.'));
+  }
 };
 
 const setRecipients = (recipientSelected: RecipientData[]) => {
@@ -219,7 +233,7 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
               />
             </div>
             <div>
-              <h6 class="text-carbon">Recipient Added</h6>
+              <!-- <h6 class="text-carbon">Recipient Added</h6> -->
               <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
                 <span
                   class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
