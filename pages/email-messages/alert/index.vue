@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import type { Message } from '~~/services/message.service';
+import type { Recipient } from '~~/services/recipient.service';
+import type { Group } from '~~/services/group.service';
 
 const config = useRuntimeConfig();
 const messageService = useService('message');
@@ -9,6 +11,11 @@ const orderBy = ref('id');
 const isDelete = ref(false);
 const search = ref('');
 const searchField = ref('');
+
+interface GroupRecipientData {
+  recipients: Recipient[];
+  groups: Group[];
+}
 
 const MessageHeaders = [
   'Id',
@@ -30,12 +37,20 @@ const { data, refresh } = await useFetch<any>(
       return {
         total: data.total,
         data: data.data.map(
-          ({ id, sender, title, message, createdAt }: Message) => ({
+          ({
             id,
             sender,
             title,
-            recipients: 0,
-            groups: 0,
+            message,
+            recipients,
+            groups,
+            createdAt,
+          }: Message & GroupRecipientData) => ({
+            id,
+            sender,
+            title,
+            recipients: recipients.length,
+            groups: groups.length,
             message,
             createdAt,
           }),

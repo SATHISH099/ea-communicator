@@ -1,5 +1,13 @@
 <script lang="ts" setup>
 import Multiselect from '@vueform/multiselect';
+
+interface RecipientData {
+  recipientId: number;
+}
+
+interface GroupData {
+  groupId: number;
+}
 const config = useRuntimeConfig();
 const { id } = useRoute().params;
 
@@ -10,6 +18,14 @@ const toggleModal = () => {
 const { data } = await useFetch<any>(() => `sms/${id}`, {
   baseURL: config.public.API_BASE_URL,
 });
+
+const recipients = ref<RecipientData[] | []>(
+  data.value.recipients.map(({ recipientId }: RecipientData) => recipientId),
+);
+
+const groups = ref<GroupData[] | []>(
+  data.value.groups.map(({ groupId }: GroupData) => groupId),
+);
 </script>
 
 <template>
@@ -66,7 +82,7 @@ const { data } = await useFetch<any>(() => `sms/${id}`, {
             </div>
           </div>
         </div>
-        <RecipientList />
+        <RecipientList :recipients="recipients" :groups="groups" />
       </div>
       <TheModal
         title="Select Recipient and Groups"

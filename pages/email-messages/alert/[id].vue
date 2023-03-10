@@ -4,6 +4,13 @@ import { useRoute } from 'vue-router';
 const config = useRuntimeConfig();
 const { id } = useRoute().params;
 
+interface RecipientData {
+  recipientId: number;
+}
+
+interface GroupData {
+  groupId: number;
+}
 const showModal = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
@@ -11,6 +18,14 @@ const toggleModal = () => {
 const { data } = await useFetch<any>(() => `messages/${id}`, {
   baseURL: config.public.API_BASE_URL,
 });
+
+const recipients = ref<RecipientData[] | []>(
+  data.value.recipients.map(({ recipientId }: RecipientData) => recipientId),
+);
+
+const groups = ref<GroupData[] | []>(
+  data.value.groups.map(({ groupId }: GroupData) => groupId),
+);
 </script>
 
 <template>
@@ -71,7 +86,7 @@ const { data } = await useFetch<any>(() => `messages/${id}`, {
             </div>
           </div>
         </div>
-        <RecipientList />
+        <RecipientList :recipients="recipients" :groups="groups" />
       </div>
       <TheModal
         title="Select Recipient and Groups"

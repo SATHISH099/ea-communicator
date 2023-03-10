@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { any, z } from 'zod';
 import type { ApiService } from './api.service';
 import { ApiTarget } from './api.service';
 
@@ -24,6 +24,8 @@ const recipient = z.object({
   deviceId: z.string(),
   groups: z.array(z.unknown()),
 });
+
+const noSchema = z.object({});
 
 const recipients = z.object({ data: z.array(recipient), total: z.number() });
 
@@ -60,6 +62,10 @@ export class RecipientService {
 
   create(data: Data) {
     return this.apiService.post(recipients, data);
+  }
+
+  fetch(data: Data) {
+    return this.apiService.post(noSchema, data, `/recipients/fetch`);
   }
 
   update(id: number, data: Data) {

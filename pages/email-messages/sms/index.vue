@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import type { Sms } from '~~/services/sms.service';
+import type { Recipient } from '~~/services/recipient.service';
+import type { Group } from '~~/services/group.service';
+
 const config = useRuntimeConfig();
 const page = ref(1);
 const isDelete = ref(false);
@@ -20,6 +23,11 @@ const messageHeaders = [
   '',
 ];
 
+interface GroupRecipientData {
+  recipients: Recipient[];
+  groups: Group[];
+}
+
 const { data, refresh } = await useFetch<any>(
   () =>
     `sms?search=${search.value}&pageNumber=${page.value}&pageSize=10&orderType=${orderType.value}&orderBy=${orderBy.value}`,
@@ -29,12 +37,20 @@ const { data, refresh } = await useFetch<any>(
       return {
         total: data.total,
         data: data.data.map(
-          ({ id, sender, title, message, createdAt }: Sms) => ({
+          ({
             id,
             sender,
             title,
-            recipients: 0,
-            groups: 0,
+            message,
+            recipients,
+            groups,
+            createdAt,
+          }: Sms & GroupRecipientData) => ({
+            id,
+            sender,
+            title,
+            recipients: recipients.length,
+            groups: groups.length,
             message,
             createdAt,
           }),
