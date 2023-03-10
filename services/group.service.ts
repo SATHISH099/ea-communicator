@@ -18,6 +18,8 @@ const group = z.object({
   deviceId: z.string(),
 });
 
+const noSchema = z.object({});
+
 const groups = z.object({ data: z.array(group), total: z.number() });
 
 export type Group = z.infer<typeof group>;
@@ -46,6 +48,10 @@ export class GroupService {
 
   update(id: number, data: Data) {
     return this.apiService.put(group, data, `/groups/${id}`);
+  }
+
+  fetch(data: Data) {
+    return this.apiService.post(noSchema, data, `/groups/fetch`);
   }
 
   delete(id: number) {

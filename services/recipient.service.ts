@@ -25,6 +25,8 @@ const recipient = z.object({
   groups: z.array(z.unknown()),
 });
 
+const noSchema = z.object({});
+
 const recipients = z.object({ data: z.array(recipient), total: z.number() });
 
 export type Recipient = z.infer<typeof recipient>;
@@ -60,6 +62,10 @@ export class RecipientService {
 
   create(data: Data) {
     return this.apiService.post(recipients, data);
+  }
+
+  fetch(data: Data) {
+    return this.apiService.post(noSchema, data, `/recipients/fetch`);
   }
 
   update(id: number, data: Data) {

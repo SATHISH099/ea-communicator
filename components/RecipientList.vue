@@ -1,29 +1,36 @@
 <script lang="ts" setup>
-const MessageHeaders = ['Recipients', 'Email Address'];
-const MessageRows = [
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-  {
-    title: 'Keyword',
-    message: 'This is a test message ',
-  },
-];
+const props = defineProps(['recipients', 'groups']);
+const recipientService = useService('recipient');
+const groupService = useService('group');
 
-const activeTab = ref('alerts');
+interface RecipientData {
+  firstName: string;
+  lastName: string;
+}
+
+interface GroupData {
+  groupName: string;
+  recipientCount: number;
+}
+
+const activeTab = ref('recipients');
+const recipientHeaders = ['Recipients', 'Email Address'];
+const groupHeaders = ['Group Name', 'Member Count'];
+const response = ref<RecipientData[] & GroupData[]>([]);
+
+const loadRecipients = async (tab: string) => {
+  activeTab.value = tab;
+  const recipientData =
+    activeTab.value === 'recipients'
+      ? await recipientService.fetch(props.recipients)
+      : await groupService.fetch(props.groups);
+
+  if (recipientData) {
+    response.value = recipientData.data;
+  }
+};
+
+loadRecipients(activeTab.value);
 </script>
 
 <template>
@@ -33,20 +40,40 @@ const activeTab = ref('alerts');
       <div class="flex items-center lex-wrap">
         <div
           class="tab"
-          :class="{ active: activeTab === 'alerts' }"
-          @click="activeTab = 'alerts'"
+          :class="{ active: activeTab === 'recipients' }"
+          @click="loadRecipients('recipients')"
         >
           Recepients
         </div>
         <div
           class="tab"
-          :class="{ active: activeTab === 'email' }"
-          @click="activeTab = 'email'"
+          :class="{ active: activeTab === 'groups' }"
+          @click="loadRecipients('groups')"
         >
           Groups
         </div>
       </div>
     </div>
-    <DashboardTable mt-3 mb-8 :headers="MessageHeaders" :rows="MessageRows" />
+    <DashboardTable
+      v-if="activeTab === 'recipients'"
+      mt-3
+      mb-8
+      :headers="recipientHeaders"
+      :rows="response.map(({ firstName, lastName }: RecipientData) => ({
+            firstName,
+            lastName,
+          }))"
+    />
+
+    <DashboardTable
+      v-if="activeTab === 'groups'"
+      mt-3
+      mb-8
+      :headers="groupHeaders"
+      :rows="response.map(({ groupName, recipientCount }: GroupData) => ({
+            groupName,
+            recipientCount,
+          }))"
+    />
   </div>
 </template>
