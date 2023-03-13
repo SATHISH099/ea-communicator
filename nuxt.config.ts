@@ -17,6 +17,7 @@ const nuxtConfig = defineNuxtConfig({
     },
   },
   css: ['~/assets/scss/main.scss', '@vueform/multiselect/themes/default.css'],
+  build: { transpile: ['trpc-nuxt'] },
 });
 
 export default { ...nuxtConfig, unocss: { ...unocssConfig } };
