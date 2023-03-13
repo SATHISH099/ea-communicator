@@ -26,6 +26,11 @@ const props = defineProps({
   use: {
     required: false,
   },
+  showBulkDelete: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
 });
 const emit = defineEmits(['onDeleteRecord', 'sortRecord']);
 
@@ -42,6 +47,9 @@ const onDeleteRecord = (id) => {
     <table class="relative">
       <thead>
         <tr>
+          <th v-if="props.showBulkDelete" class="px-[30px] py-[18px]">
+            <input class="form-check-input" type="checkbox" />
+          </th>
           <th
             v-for="(header, index) in headers"
             :key="index"
@@ -54,9 +62,15 @@ const onDeleteRecord = (id) => {
                 class="pl-4 cursor-pointer"
                 src="/arrow-and-direction.png"
                 @click="$emit('sortRecord', header?.key)"
+                alt=""
               />
 
-              <img v-if="header.image" class="pl-4" :src="header.image" />
+              <img
+                v-if="header.image"
+                class="pl-4"
+                :src="header.image"
+                alt=""
+              />
             </div>
           </th>
         </tr>
@@ -74,6 +88,9 @@ const onDeleteRecord = (id) => {
         </template>
         <template v-else>
           <tr v-for="row in props.rows" :key="row.id">
+            <td v-if="props.showBulkDelete" class="px-[30px] py-[18px]">
+              <input class="form-check-input" type="checkbox" :value="row.id" />
+            </td>
             <td
               v-for="(cell, index) in row"
               :key="index"

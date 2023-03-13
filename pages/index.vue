@@ -3,15 +3,17 @@
 <template>
   <div>
     <div class="mb-12">
-      <h4 class="mb-2 text-stone">Dashboard</h4>
       <div class="md:flex justify-between">
-        <p class="text-silver mb-10 md:mb-0 flex items-center">
-          Communicator /
-          <span class="text-primary">&nbsp; Dashboard</span>
-        </p>
+        <div>
+          <h4 class="mb-2 text-stone">Dashboard</h4>
+          <p class="text-silver mb-10 md:mb-0 flex items-center">
+            Communicator /
+            <span class="text-primary">&nbsp; Dashboard</span>
+          </p>
+        </div>
         <NuxtLink
           :to="{ name: 'email-messages-alert-add' }"
-          class="btn btn-primary flex justify-center items-center"
+          class="btn btn-primary"
           >Send a Message</NuxtLink
         >
       </div>
