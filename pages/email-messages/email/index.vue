@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import moment from 'moment';
 import type { Email } from '~~/services/email.service';
 import type { Recipient } from '~~/services/recipient.service';
 import type { Group } from '~~/services/group.service';
@@ -52,7 +53,7 @@ const { data, refresh } = await useFetch<any>(
             recipients: recipients.length,
             groups: groups.length,
             body,
-            createdAt,
+            createdAt: moment(createdAt).format('dddd, Do MMMM YYYY h:mm A'),
           }),
         ),
       };
@@ -135,6 +136,7 @@ const sortRecord = (key: string) => {
           :headers="MessageHeaders"
           :rows="data.data"
           type="email"
+          :show-bulk-delete="true"
           @onDeleteRecord="deleteRecord"
           @sortRecord="sortRecord"
           :dropDownOption="{ isView: true, isEdit: false, isDelete: true }"

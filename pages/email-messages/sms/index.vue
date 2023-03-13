@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import moment from 'moment';
 import type { Sms } from '~~/services/sms.service';
 import type { Recipient } from '~~/services/recipient.service';
 import type { Group } from '~~/services/group.service';
@@ -52,7 +53,7 @@ const { data, refresh } = await useFetch<any>(
             recipients: recipients.length,
             groups: groups.length,
             message,
-            createdAt,
+            createdAt: moment(createdAt).format('dddd, Do MMMM YYYY h:mm A'),
           }),
         ),
       };

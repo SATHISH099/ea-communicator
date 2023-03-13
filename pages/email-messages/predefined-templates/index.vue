@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import Multiselect from '@vueform/multiselect/src/Multiselect';
+import moment from 'moment';
 import type { Sms } from '~~/services/sms.service';
 import type { Email } from '~~/services/email.service';
 
@@ -33,7 +34,7 @@ const { data, refresh } = await useFetch<any>(
         id: message.id,
         title: type.value === 'emails' ? message.subject : message.title,
         message: type.value === 'emails' ? message.body : message.message,
-        sentDate: message.createdAt,
+        sentDate: moment(message.createdAt).format('dddd, Do MMMM YYYY h:mm A'),
       })),
     }),
   },

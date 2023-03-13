@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import moment from 'moment';
 import type { Group } from '~~/services/group.service';
 
 const config = useRuntimeConfig();
@@ -43,8 +44,9 @@ const { data, refresh } = await useFetch<any>(
             members: recipientCount,
             status: status ? 'Active' : 'Inactive',
             location: `${location}, ${city}, ${state}, ${country}, ${zipCode}`,
-            createdAt,
-            updatedAt: updatedAt || null,
+            createdAt: moment(createdAt).format('dddd, Do MMMM YYYY h:mm A'),
+            updatedAt:
+              moment(updatedAt).format('dddd, Do MMMM YYYY h:mm A') || null,
           }),
         ),
       };
