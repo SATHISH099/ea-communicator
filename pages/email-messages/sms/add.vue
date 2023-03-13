@@ -159,7 +159,7 @@ const setGroupRecipients = (
                 input-class="form-control"
               />
             </div>
-            <div flex flex-wrap justify-between items-center>
+            <div flex flex-wrap justify-end items-center>
               <div class="flex items-center mt-5 md:w-auto w-full">
                 <FormKit
                   type="submit"
