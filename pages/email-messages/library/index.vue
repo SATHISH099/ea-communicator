@@ -6,12 +6,43 @@ import { useToasterStore } from '~~/store/toaster';
 const { setMessage } = useToasterStore();
 
 const mediaService = useService('media');
+const extensions = {
+  photos: ['jpg', 'jpeg', 'png', 'webp', 'svg'],
+  others: ['pdf', 'xls', 'xlsx', 'doc', 'docx', 'csv', 'ppt', 'pptx'],
+};
 
-const medias = ref<Media[]>([]);
-const response = await mediaService.getAll();
-if (response) {
-  medias.value = response.data;
-}
+const config = useRuntimeConfig();
+const page = ref(1);
+const orderType = ref('desc');
+const orderBy = ref('id');
+const search = ref('');
+const extensionType = ref('');
+const searchField = ref('');
+
+const { data: medias, refresh } = await useFetch<any>(
+  () =>
+    `medias?search=${search.value}&pageNumber=${page.value}&pageSize=10&orderType=${orderType.value}&orderBy=${orderBy.value}`,
+  {
+    baseURL: config.public.API_BASE_URL,
+  },
+);
+
+const searchKeyword = () => {
+  search.value = searchField.value;
+  page.value = 1;
+  refresh();
+};
+
+const searchCategory = () => {
+  search.value = `${searchField.value}.${extensionType.value}`;
+  page.value = 1;
+  refresh();
+};
+
+const paginate = (pg: number) => {
+  page.value = pg;
+  refresh();
+};
 
 const showModal = ref(false);
 const viewImageModal = ref(false);
@@ -45,8 +76,12 @@ async function deleteMedia(id: number) {
   }
 }
 const viewMedia = (media: Media) => {
-  viewImageModal.value = true;
-  selectedMedia.value = media;
+  if (extensions.photos.includes(media.extension)) {
+    viewImageModal.value = true;
+    selectedMedia.value = media;
+  } else {
+    window.open(media.fileUrl);
+  }
 };
 </script>
 
@@ -65,12 +100,15 @@ const viewMedia = (media: Media) => {
           <FormKit
             prefix-icon="search"
             type="search"
-            placeholder="Search media items"
+            v-model="searchField"
+            placeholder="Search"
             input-class="form-control pl-[3.5rem]"
             prefix-icon-class="search-icon"
             outer-class="md:w-[34rem] w-full search-field"
           />
-          <button class="btn btn-primary md:w-30 w-full">Search</button>
+          <button class="btn btn-primary md:w-30 w-full" @click="searchKeyword">
+            Search
+          </button>
         </div>
         <div flex items-center gap-4>
           <button
@@ -101,7 +139,7 @@ const viewMedia = (media: Media) => {
                     <FormKit
                       type="file"
                       name="file"
-                      accept=".csv,.png,.jpg,.jpeg,.svg,.xml"
+                      :accept="`${extensions.photos.toString()},${extensions.others.toString()}`"
                       inner-class="file-uploader"
                       prefix-icon="link"
                       prefix-icon-class="mr-3"
@@ -114,8 +152,10 @@ const viewMedia = (media: Media) => {
             </div>
           </teleport>
           <Multiselect
+            v-model="extensionType"
             placeholder="Category"
-            :options="['test1', 'test2']"
+            :options="[...extensions.photos, ...extensions.others]"
+            @select="searchCategory"
             class="md:w-[14rem] w-full"
           />
         </div>
@@ -126,11 +166,18 @@ const viewMedia = (media: Media) => {
         class="grid lg:grid-cols-7 md:grid-cols-3 grid-cols-1 gap-3 media-gallery"
       >
         <div
-          v-for="media in medias"
+          v-for="media in medias.data"
           :key="media.id"
           class="cursor-pointer relative overlay"
         >
           <img
+            v-if="extensions.others.includes(media.extension)"
+            class="w-[12rem] h-[12rem] w-full object-cover object-center"
+            :src="`/icon/${media.extension}.png`"
+            alt=""
+          />
+          <img
+            v-if="extensions.photos.includes(media.extension)"
             class="w-[12rem] h-[12rem] w-full object-cover object-center"
             :src="media.fileUrl"
             alt=""
@@ -175,6 +222,13 @@ const viewMedia = (media: Media) => {
           </teleport>
         </div>
       </div>
+    </div>
+    <div class="ml-8">
+      <PaginationTable
+        :totalRecords="medias.total"
+        :currentPage="page"
+        v-bind:paginate="paginate"
+      ></PaginationTable>
     </div>
   </div>
 </template>
