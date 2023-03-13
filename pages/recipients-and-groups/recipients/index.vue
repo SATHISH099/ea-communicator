@@ -84,7 +84,7 @@ const uploadFile = async (data: { file: any }) => {
   const formData = new FormData();
   formData.append('file', data.file[0].file);
 
-  if (data.file.type !== 'text/csv') {
+  if (data.file[0].file.type !== 'text/csv') {
     setMessage('Please upload a CSV file.', 'error');
     return;
   }
