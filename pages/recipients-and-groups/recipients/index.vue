@@ -8,6 +8,7 @@ const recipientService = useService('recipient');
 
 const orderType = ref('desc');
 const orderBy = ref('id');
+const viewUploadModal = ref(false);
 
 const config = useRuntimeConfig();
 const page = ref(1);
@@ -78,6 +79,23 @@ const deleteRecord = async (id: number) => {
     console.error(error);
   }
 };
+
+const uploadFile = async (data: { file: any }) => {
+  const formData = new FormData();
+  formData.append('file', data.file[0].file);
+
+  if (data.file.type !== 'text/csv') {
+    setMessage('Please upload a CSV file.', 'error');
+    return;
+  }
+  const res = await recipientService.bulkCreate(formData);
+  if (res) {
+    setMessage('File Uploaded Successfully.', 'success');
+    window.location.reload();
+  } else {
+    setMessage('File not Uploaded.', 'error');
+  }
+};
 </script>
 
 <template>
@@ -93,7 +111,48 @@ const deleteRecord = async (id: number) => {
           <span class="text-primary hover:no-underline ml-1">Recipients</span>
         </p>
       </div>
-      <div md:w-auto w-full>
+      <div md:w-auto w-full flex items-center gap-4>
+        <div>
+          <button
+            class="btn btn-secondary flex items-center gap-3"
+            @click="viewUploadModal = true"
+          >
+            <img src="/upload.png" alt="" /> Upload CSV
+          </button>
+        </div>
+        <teleport to="body">
+          <div v-if="viewUploadModal">
+            <CModal
+              :show-confirm-button="false"
+              :show-close-button="false"
+              @close="viewUploadModal = false"
+            >
+              <div class="md:w-[500px] w-full">
+                <h5 class="text-stone mb-5">Add New Item</h5>
+                <h6 class="text-stone mb-4">Upload Files</h6>
+                <FormKit
+                  id="file"
+                  :submit-attrs="{
+                    inputClass: 'btn btn-primary',
+                    wrapperClass: 'flex justify-end',
+                  }"
+                  type="form"
+                  @submit="uploadFile"
+                >
+                  <FormKit
+                    type="file"
+                    name="file"
+                    accept="csv"
+                    inner-class="file-uploader"
+                    prefix-icon="link"
+                    prefix-icon-class="mr-3"
+                    outer-class="md:min-w-[20em] min-w-full mb-5"
+                  />
+                </FormKit>
+              </div>
+            </CModal>
+          </div>
+        </teleport>
         <NuxtLink
           :to="{ name: 'recipients-and-groups-recipients-add' }"
           class="btn btn-primary block md:w-auto w-full text-center"
