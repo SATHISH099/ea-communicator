@@ -1,21 +1,25 @@
-import { DeepPartial, FindOneOptions } from 'typeorm';
+import _ from 'lodash';
+import type { FindOneOptions } from 'typeorm';
 import appDataSource from '../database/config/app.datasource';
 import { EmailGroup } from '../database/entities/emails/email-groups.entity';
 import { EmailRecipient } from '../database/entities/emails/email-recipients.entity';
 import { Email } from '../database/entities/emails/email.entity';
-import {
+import type {
   CreateEmailDto,
   EmailGroupDto,
   EmailRecipientDto,
 } from '../dtos/emails/create-email.dto';
-import { UpdateEmailDto } from '../dtos/emails/update-email.dto';
+import type { UpdateEmailDto } from '../dtos/emails/update-email.dto';
 import { RecipientType } from '../enums/recipient-type.enum';
 import { SendingStatus } from '../enums/sending-status.enum';
 import { BaseService } from './base.service';
+import { UserService } from './user.service';
 
 export class EmailService extends BaseService<Email> {
+  private userService: UserService;
   constructor() {
     super();
+    this.userService = new UserService();
     this.repository = appDataSource.getRepository(Email);
   }
 
@@ -32,7 +36,7 @@ export class EmailService extends BaseService<Email> {
 
     const email = await super.create({
       ...emailObject,
-      tenantId: tenantId,
+      tenantId,
       creatorId: { id },
       sendingStatus: SendingStatus.PENDING,
     });
@@ -47,7 +51,7 @@ export class EmailService extends BaseService<Email> {
 
   async recipientBind(
     recipients: EmailRecipientDto,
-    email: DeepPartial<Email>,
+    email: Email,
   ): Promise<void> {
     await Promise.all(
       recipients[RecipientType.TO].map((recipientId: number) => {
@@ -83,12 +87,9 @@ export class EmailService extends BaseService<Email> {
     );
   }
 
-  async groupBind(
-    groups: EmailGroupDto,
-    email: DeepPartial<Email>,
-  ): Promise<void> {
+  async groupBind(groups: EmailGroupDto, email: Email): Promise<void> {
     await Promise.all(
-      groups[RecipientType.TO].map(async (groupId: number) => {
+      groups[RecipientType.TO].map((groupId: number) => {
         const emailGroupForTo = new EmailGroup();
         emailGroupForTo.emailId = email.id;
         emailGroupForTo.groupId = groupId;
@@ -99,7 +100,7 @@ export class EmailService extends BaseService<Email> {
     );
 
     await Promise.all(
-      groups[RecipientType.CC].map(async (groupId: number) => {
+      groups[RecipientType.CC].map((groupId: number) => {
         const emailGroupForCc = new EmailGroup();
         emailGroupForCc.emailId = email.id;
         emailGroupForCc.groupId = groupId;
@@ -110,7 +111,7 @@ export class EmailService extends BaseService<Email> {
     );
 
     await Promise.all(
-      groups[RecipientType.BCC].map(async (groupId: number) => {
+      groups[RecipientType.BCC].map((groupId: number) => {
         const emailGroupForBcc = new EmailGroup();
         emailGroupForBcc.emailId = email.id;
         emailGroupForBcc.groupId = groupId;
@@ -123,17 +124,17 @@ export class EmailService extends BaseService<Email> {
 
   async updateEmail(id: number, body: UpdateEmailDto) {
     const { tenantId, userId } = await this.userService.getLoginUser();
-    const { recipients, groups, ...emailObject } = body;
+    const emailObject = _.omit(body, ['recipients', 'groups']);
 
     return super.update(id, {
       ...emailObject,
-      tenantId: tenantId,
+      tenantId,
       creatorId: { userId },
       sendingStatus: SendingStatus.PENDING,
     });
   }
 
-  async delete(id: number) {
+  delete(id: number) {
     return this.repository.softDelete(id);
   }
 }

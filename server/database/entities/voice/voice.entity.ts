@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { ImportanceLevel } from '~~/server/enums/importance-level.enum';
 import { BaseEntity } from '../../base.entity';
 import { User } from '../user/user.entity';
+import type { ImportanceLevel } from '~~/server/enums/importance-level.enum';
 
 @Entity('voices')
 export class Voice extends BaseEntity {

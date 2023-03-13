@@ -1,6 +1,6 @@
-import { DeepPartial, FindManyOptions, FindOneOptions } from 'typeorm';
-import { H3Event } from 'h3';
-import { Query } from '@/server/types';
+import type { DeepPartial, FindManyOptions, FindOneOptions } from 'typeorm';
+import type { H3Event } from 'h3';
+import type { Query } from '@/server/types';
 
 export interface BaseServiceInterface<EntityType> {
   findManyOptions(query: Query): FindManyOptions<EntityType>;

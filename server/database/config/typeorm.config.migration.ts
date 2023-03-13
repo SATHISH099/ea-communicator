@@ -5,7 +5,7 @@ dotenv.config();
 
 const options = {
   ...typeOrmConfig(),
-  migrations: ['server/database/migrations/*.ts'],
+  migrations: ['server/database/migrations/**/*.ts'],
 };
 
 export default new DataSource(options);

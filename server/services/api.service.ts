@@ -1,23 +1,24 @@
 import type { z } from 'zod';
-import { FetchOptions, $fetch } from 'ofetch';
+import type { FetchOptions } from 'ofetch';
+import { $fetch } from 'ofetch';
 import { showError } from 'nuxt/app';
 
-type ServerError = {
+interface ServerError {
   message: string;
   statusCode: number;
   error_description: string;
-};
-type Post<T> = {
+}
+interface Post<T> {
   data: unknown;
   schema?: z.ZodType<T>;
   url?: string;
   options?: FetchOptions;
-};
-type Get<T> = {
+}
+interface Get<T> {
   schema?: z.ZodType<T>;
   url?: string;
   options?: FetchOptions;
-};
+}
 
 export class ApiService {
   private url = '';

@@ -8,13 +8,13 @@ import {
   OneToMany,
 } from 'typeorm';
 
-import { MessageRecipient } from './message-recipients.entity';
-import { MessageGroup } from './message-groups.entity';
 import { BaseEntity } from '../../base.entity';
-import { SendingStatus } from '~~/server/enums/sending-status.enum';
-import { ImportanceLevel } from '~~/server/enums/importance-level.enum';
 import { User } from '../user/user.entity';
 import { Media } from '../media/media.entity';
+import { MessageRecipient } from './message-recipients.entity';
+import { MessageGroup } from './message-groups.entity';
+import type { SendingStatus } from '~~/server/enums/sending-status.enum';
+import type { ImportanceLevel } from '~~/server/enums/importance-level.enum';
 
 @Entity('messages')
 export class Message extends BaseEntity {

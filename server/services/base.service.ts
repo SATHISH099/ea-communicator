@@ -1,14 +1,14 @@
-import {
+import type {
   DeepPartial,
   FindManyOptions,
-  Repository,
   FindOneOptions,
+  Repository,
 } from 'typeorm';
 import _ from 'lodash';
-import { H3Event } from 'h3';
-import { BaseEntity } from '../database/base.entity';
-import { BaseServiceInterface } from './base.service.interface';
-import { Query } from '@/server/types';
+import type { H3Event } from 'h3';
+import type { BaseEntity } from '../database/base.entity';
+import type { BaseServiceInterface } from './base.service.interface';
+import type { Query } from '@/server/types';
 
 export class BaseService<EntityType extends BaseEntity>
   implements BaseServiceInterface<EntityType>

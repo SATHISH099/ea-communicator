@@ -1,18 +1,17 @@
 import {
-  Entity,
   Column,
-  DeleteDateColumn,
-  ManyToOne,
+  Entity,
   JoinColumn,
-  OneToMany,
   JoinTable,
+  ManyToOne,
+  OneToMany,
 } from 'typeorm';
+import { BaseEntity } from '../../base.entity';
+import { User } from '../user/user.entity';
 import { SmsRecipient } from './sms-recipients.entity';
 import { SmsGroup } from './sms-groups.entity';
-import { BaseEntity } from '../../base.entity';
-import { SendingStatus } from '~~/server/enums/sending-status.enum';
-import { ImportanceLevel } from '~~/server/enums/importance-level.enum';
-import { User } from '../user/user.entity';
+import type { SendingStatus } from '~~/server/enums/sending-status.enum';
+import type { ImportanceLevel } from '~~/server/enums/importance-level.enum';
 
 @Entity('sms')
 export class Sms extends BaseEntity {
@@ -31,10 +30,10 @@ export class Sms extends BaseEntity {
   @Column({ name: 'importance_level', type: 'simple-enum', default: 'low' })
   importanceLevel: ImportanceLevel;
 
-  @Column({ default: true, name: 'is_predefined' })
+  @Column({ default: true, name: 'is_predefined', type: 'boolean' })
   isPredefined: boolean;
 
-  @Column({ name: 'tenant_id' })
+  @Column({ name: 'tenant_id', type: 'varchar' })
   tenantId: string;
 
   @ManyToOne(() => User)

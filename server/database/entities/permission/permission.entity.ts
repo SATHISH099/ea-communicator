@@ -1,33 +1,19 @@
 import { IsOptional } from 'class-validator';
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
+import { BaseEntity } from '../../base.entity';
 import { Role } from '../role/role.entity';
 
 @Entity('permissions')
-export class Permission {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
+export class Permission extends BaseEntity {
+  @Column({ type: 'varchar' })
   name: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, type: 'varchar' })
   slug: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   @IsOptional()
   description: string;
-
-  @Column({ name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
-
-  @Column({ name: 'updated_at', default: () => 'CURRENT_TIMESTAMP' })
-  updatedAt: Date;
 
   @ManyToMany(() => Role, (role) => role.permissions, {
     onDelete: 'CASCADE',

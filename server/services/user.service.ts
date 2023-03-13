@@ -1,8 +1,8 @@
-import { DeepPartial } from 'typeorm';
+import type { DeepPartial } from 'typeorm';
 
 import appDataSource from '../database/config/app.datasource';
-import { BaseService } from './base.service';
 import { User } from '../database/entities/user/user.entity';
+import { BaseService } from './base.service';
 
 export class UserService extends BaseService<User> {
   constructor() {
@@ -10,9 +10,9 @@ export class UserService extends BaseService<User> {
     this.repository = appDataSource.getRepository(User);
   }
 
-  findOneUser(user_id: number) {
+  findOneUser(userId: number) {
     return this.repository.findOne({
-      where: { userId: user_id },
+      where: { id: userId },
     });
   }
 
@@ -21,6 +21,6 @@ export class UserService extends BaseService<User> {
   }
 
   async getLoginUser() {
-    return this.repository.createQueryBuilder().getOne();
+    return (await this.repository.createQueryBuilder().getOne())!;
   }
 }

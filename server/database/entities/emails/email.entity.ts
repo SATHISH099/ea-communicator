@@ -7,13 +7,13 @@ import {
   ManyToOne,
   OneToMany,
 } from 'typeorm';
+import { BaseEntity } from '../../base.entity';
+import { Media } from '../media/media.entity';
+import { User } from '../user/user.entity';
 import { EmailRecipient } from './email-recipients.entity';
 import { EmailGroup } from './email-groups.entity';
-import { BaseEntity } from '../../base.entity';
-import { SendingStatus } from '~~/server/enums/sending-status.enum';
-import { ImportanceLevel } from '~~/server/enums/importance-level.enum';
-import { User } from '../user/user.entity';
-import { Media } from '../media/media.entity';
+import type { SendingStatus } from '~~/server/enums/sending-status.enum';
+import type { ImportanceLevel } from '~~/server/enums/importance-level.enum';
 
 @Entity('emails')
 export class Email extends BaseEntity {

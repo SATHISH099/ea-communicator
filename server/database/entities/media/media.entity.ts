@@ -1,4 +1,4 @@
-import { Entity, Column, AfterLoad, ManyToMany } from 'typeorm';
+import { AfterLoad, Column, Entity, ManyToMany } from 'typeorm';
 import { IsOptional } from 'class-validator';
 import { BaseEntity } from '../../base.entity';
 import { Email } from '../emails/email.entity';
@@ -26,7 +26,7 @@ export class Media extends BaseEntity {
 
   @AfterLoad()
   updateImageUrl() {
-    const appUrl: string = process.env.APP_URL;
+    const appUrl: string = process.env.APP_URL || '';
     this.fileUrl = `${appUrl}${this.fileUrl}`;
   }
 

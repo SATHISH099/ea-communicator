@@ -1,11 +1,12 @@
-import { DeepPartial, FindOneOptions } from 'typeorm';
+import type { DeepPartial, FindOneOptions } from 'typeorm';
 import appDataSource from '../database/config/app.datasource';
 import { SmsGroup } from '../database/entities/sms/sms-groups.entity';
 import { SmsRecipient } from '../database/entities/sms/sms-recipients.entity';
 import { Sms } from '../database/entities/sms/sms.entity';
+import { CreateSmsDto } from '../dtos/sms/create-sms.dto';
 import { SendingStatus } from '../enums/sending-status.enum';
 import { BaseService } from './base.service';
-import { UserService } from './user.service';
+import type { UserService } from './user.service';
 
 export class SmsService extends BaseService<Sms> {
   constructor(private userService: UserService) {
@@ -23,18 +24,18 @@ export class SmsService extends BaseService<Sms> {
     });
   }
 
-  async create(body: DeepPartial<Sms>) {
+  async create(body: CreateSmsDto) {
     const { tenantId, id } = await this.userService.getLoginUser();
 
     const sms = await super.create({
       ...body,
-      tenantId: tenantId,
+      tenantId,
       creatorId: { id },
       sendingStatus: SendingStatus.PENDING,
     });
 
     await Promise.all(
-      body.recipients.map(async (recipient: any) => {
+      body.recipients.map((recipient: any) => {
         const smsRecipient = new SmsRecipient();
         smsRecipient.smsId = sms.id;
         smsRecipient.recipientId = recipient.recipientId;
@@ -44,7 +45,7 @@ export class SmsService extends BaseService<Sms> {
     );
 
     await Promise.all(
-      body.groups.map(async (groups: any) => {
+      body.groups.map((groups: any) => {
         const smsGroup = new SmsGroup();
         smsGroup.smsId = sms.id;
         smsGroup.groupId = groups.groupId;
@@ -56,7 +57,7 @@ export class SmsService extends BaseService<Sms> {
     return sms;
   }
 
-  async delete(id: number) {
+  delete(id: number) {
     return this.repository.softDelete(id);
   }
 }

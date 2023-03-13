@@ -1,12 +1,10 @@
 import {
-  Entity,
   Column,
-  ManyToOne,
+  Entity,
   JoinColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  ManyToMany,
   JoinTable,
+  ManyToMany,
+  ManyToOne,
 } from 'typeorm';
 import { IsOptional } from 'class-validator';
 import { BaseEntity } from '../../base.entity';
@@ -14,28 +12,28 @@ import { Role } from '../role/role.entity';
 
 @Entity('users')
 export class User extends BaseEntity {
-  @Column({ name: 'user_id' })
+  @Column({ type: 'integer', name: 'user_id' })
   userId: number;
 
-  @Column({ default: true })
+  @Column({ type: 'boolean', default: true })
   status: boolean;
 
-  @Column({ nullable: true, name: 'tenant_id' })
+  @Column({ type: 'varchar', nullable: true, name: 'tenant_id' })
   tenantId: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   department: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   team: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   notes: string;
 
   @ManyToOne(() => User)
   @IsOptional()
   @JoinColumn({ name: 'creator_id' })
-  creatorId: User;
+  creatorId: number;
 
   @ManyToMany(() => Role, (role) => role.users, {
     onDelete: 'CASCADE',

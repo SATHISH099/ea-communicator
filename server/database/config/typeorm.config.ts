@@ -1,4 +1,4 @@
-import { DataSourceOptions } from 'typeorm';
+import type { DataSourceOptions } from 'typeorm';
 import { entities } from '../entities';
 
 export const typeormConfigs = () => {

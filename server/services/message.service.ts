@@ -1,10 +1,10 @@
-import { DeepPartial, FindOneOptions, Repository } from 'typeorm';
+import type { DeepPartial, FindOneOptions, Repository } from 'typeorm';
 import { MessageGroup } from '../database/entities/message/message-groups.entity';
 import { MessageRecipient } from '../database/entities/message/message-recipients.entity';
-import { Message } from '../database/entities/message/message.entity';
+import type { Message } from '../database/entities/message/message.entity';
 import { SendingStatus } from '../enums/sending-status.enum';
 import { BaseService } from './base.service';
-import { UserService } from './user.service';
+import type { UserService } from './user.service';
 
 export class MessageService extends BaseService<Message> {
   constructor(
@@ -33,13 +33,13 @@ export class MessageService extends BaseService<Message> {
 
     const message = await super.create({
       ...body,
-      tenantId: tenantId,
+      tenantId,
       creatorId: { id },
       sendingStatus: SendingStatus.PENDING,
     });
 
     await Promise.all(
-      body.recipients.map(async (recipient: any) => {
+      body.recipients.map((recipient: any) => {
         const messageRecipient = new MessageRecipient();
         messageRecipient.messageId = message.id;
         messageRecipient.recipientId = recipient.recipientId;
@@ -49,7 +49,7 @@ export class MessageService extends BaseService<Message> {
     );
 
     await Promise.all(
-      body.groups.map(async (groups: any) => {
+      body.groups.map((groups: any) => {
         const messageGroup = new MessageGroup();
         messageGroup.messageId = message.id;
         messageGroup.groupId = groups.groupId;
@@ -61,7 +61,7 @@ export class MessageService extends BaseService<Message> {
     return message;
   }
 
-  async delete(id: number) {
+  delete(id: number) {
     return this.repository.softDelete(id);
   }
 }
