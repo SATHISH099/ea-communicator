@@ -1,11 +1,6 @@
 <script lang="ts" setup>
 import moment from 'moment';
-import type { Email } from '~~/services/email.service';
-import type { Recipient } from '~~/services/recipient.service';
-import type { Group } from '~~/services/group.service';
-
 const emailService = useService('email');
-const config = useRuntimeConfig();
 const page = ref(1);
 const isDelete = ref(false);
 const orderType = ref('desc');
@@ -24,16 +19,11 @@ const MessageHeaders = [
   '',
 ];
 
-interface GroupRecipientData {
-  recipients: Recipient[];
-  groups: Group[];
-}
+const { $trpc } = useNuxtApp();
 
-const { data, refresh } = await useFetch<any>(
-  () =>
-    `emails?search=${search.value}&pageNumber=${page.value}&pageSize=10&orderType=${orderType.value}&orderBy=${orderBy.value}`,
+const { data, refresh } = $trpc.email.list.useQuery(
+  {},
   {
-    baseURL: config.public.API_BASE_URL,
     transform: (data) => {
       return {
         total: data.total,
@@ -46,7 +36,7 @@ const { data, refresh } = await useFetch<any>(
             groups,
             body,
             createdAt,
-          }: Email & GroupRecipientData) => ({
+          }: any) => ({
             id,
             sender,
             subject,
@@ -73,7 +63,7 @@ const paginate = (pg: number) => {
 };
 
 const deleteRecord = async (id: number) => {
-  const response = await emailService.delete(id);
+  const response = await $trpc.email.delete(id);
   refresh();
   isDelete.value = response.affected;
 };

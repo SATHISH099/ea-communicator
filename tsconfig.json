@@ -9,6 +9,5 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false
-    
   }
 }

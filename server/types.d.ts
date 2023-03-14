@@ -3,13 +3,6 @@ declare interface Session {
   count: number;
 }
 
-export interface Query {
-  orderBy?: string;
-  orderType?: string;
-  pageNumber?: string;
-  pageSize?: string;
-  search?: string;
-}
 export interface FindTypes {
   one: 'one';
   many: 'many';

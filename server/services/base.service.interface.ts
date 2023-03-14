@@ -1,14 +1,13 @@
 import type { DeepPartial, FindManyOptions, FindOneOptions } from 'typeorm';
-import type { H3Event } from 'h3';
-import type { Query } from '@/server/types';
+import type { QueryList } from '../validations/base';
 
 export interface BaseServiceInterface<EntityType> {
-  findManyOptions(query: Query): FindManyOptions<EntityType>;
+  findManyOptions(query: QueryList): FindManyOptions<EntityType>;
 
-  findOneOptions(query?: Query): FindOneOptions<EntityType>;
+  findOneOptions(query?: QueryList): FindOneOptions<EntityType>;
 
   findAll(
-    event?: H3Event,
+    query?: QueryList,
     overrideOptions?: FindManyOptions<EntityType>,
   ): Promise<{ data: EntityType[]; total: number }>;
 

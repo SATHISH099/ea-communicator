@@ -5,29 +5,28 @@ import type {
   Repository,
 } from 'typeorm';
 import _ from 'lodash';
-import type { H3Event } from 'h3';
 import type { BaseEntity } from '../database/base.entity';
+import type { QueryList } from '../validations/base';
 import type { BaseServiceInterface } from './base.service.interface';
-import type { Query } from '@/server/types';
 
 export class BaseService<EntityType extends BaseEntity>
   implements BaseServiceInterface<EntityType>
 {
   protected repository: Repository<EntityType>;
 
-  findManyOptions(query: Query) {
+  findManyOptions(query: QueryList) {
     const options = {
       order: {
-        [query.orderBy || 'createdAt']: query.orderType || 'desc',
+        [query.orderBy]: query.orderType,
       },
     } as FindManyOptions<EntityType>;
 
     options.relations = {};
-    const pageSize = parseInt(query.pageSize || '10');
+    const pageSize = query.pageSize;
     if (pageSize !== -1) {
-      let pageNumber = parseInt(query.pageNumber || '1');
+      let pageNumber = query.pageNumber;
       pageNumber = pageNumber > 0 ? pageNumber : 1;
-      const offset = pageSize * (pageNumber - 1);
+      const offset = pageSize * pageNumber;
       options.take = pageSize;
       options.skip = offset;
     }
@@ -42,10 +41,9 @@ export class BaseService<EntityType extends BaseEntity>
   }
 
   async findAll(
-    event?: H3Event,
+    query: QueryList,
     overrideOptions?: FindManyOptions<EntityType>,
   ) {
-    const query: Query = event ? getQuery(event) : {};
     let options = this.findManyOptions(query);
     if (overrideOptions) {
       options = _.merge(options, overrideOptions);
