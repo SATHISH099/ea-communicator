@@ -23,8 +23,9 @@ export class Email extends BaseEntity {
   @Column({ type: 'text' })
   body: string;
 
-  @Column({ type: 'varchar' })
-  sender: string;
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'sender_id' })
+  sender: User;
 
   @Column({ name: 'sending_status', type: 'simple-enum' })
   sendingStatus: SendingStatus;
@@ -39,10 +40,10 @@ export class Email extends BaseEntity {
     onDelete: 'SET NULL',
   })
   @JoinColumn({ name: 'creator_id' })
-  creatorId: User;
+  creator: User;
 
   @Column({ name: 'tenant_id', type: 'varchar' })
-  tenantId: string;
+  tenantId: number;
 
   @ManyToMany(() => Media, (medias) => medias.emails, {
     onDelete: 'CASCADE',

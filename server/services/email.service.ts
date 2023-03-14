@@ -31,13 +31,15 @@ export class EmailService extends BaseService<Email> {
   }
 
   async createEmail(body: CreateEmailDto) {
-    const { tenantId, id } = await this.userService.getLoginUser();
+    const user = await this.userService.getLoginUser();
+    const sender = (await this.userService.findOne(body.sender))!;
     const { recipients, groups, ...emailObject } = body;
 
     const email = await super.create({
       ...emailObject,
-      tenantId,
-      creatorId: { id },
+      tenantId: user.tenantId,
+      creator: user,
+      sender,
       sendingStatus: SendingStatus.PENDING,
     });
 
@@ -123,13 +125,15 @@ export class EmailService extends BaseService<Email> {
   }
 
   async updateEmail(id: number, body: UpdateEmailDto) {
-    const { tenantId, userId } = await this.userService.getLoginUser();
+    const user = await this.userService.getLoginUser();
+    const sender = (await this.userService.findOne(body.sender))!;
     const emailObject = _.omit(body, ['recipients', 'groups']);
 
     return super.update(id, {
       ...emailObject,
-      tenantId,
-      creatorId: { userId },
+      tenantId: user.tenantId,
+      creator: user,
+      sender,
       sendingStatus: SendingStatus.PENDING,
     });
   }

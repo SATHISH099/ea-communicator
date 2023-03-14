@@ -24,8 +24,8 @@ export class CreateEmailTable1675261343890 implements MigrationInterface {
             type: 'text',
           },
           {
-            name: 'sender',
-            type: 'varchar',
+            name: 'sender_id',
+            type: 'integer',
           },
           {
             name: 'sending_status',
@@ -46,7 +46,7 @@ export class CreateEmailTable1675261343890 implements MigrationInterface {
           },
           {
             name: 'tenant_id',
-            type: 'varchar',
+            type: 'integer',
           },
           {
             name: 'created_at',

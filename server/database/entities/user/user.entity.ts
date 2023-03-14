@@ -15,11 +15,17 @@ export class User extends BaseEntity {
   @Column({ type: 'integer', name: 'user_id' })
   userId: number;
 
+  @Column({ type: 'varchar' })
+  name: string;
+
+  @Column({ type: 'varchar' })
+  email: string;
+
   @Column({ type: 'boolean', default: true })
   status: boolean;
 
-  @Column({ type: 'varchar', nullable: true, name: 'tenant_id' })
-  tenantId: string;
+  @Column({ type: 'integer', nullable: true, name: 'tenant_id' })
+  tenantId: number;
 
   @Column({ type: 'varchar', nullable: true })
   department: string;

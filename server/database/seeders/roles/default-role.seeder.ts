@@ -4,28 +4,31 @@ import { Role } from '../../entities/role/role.entity';
 import { Roles } from '~~/server/enums/role.enum';
 
 export class DefaultRoleSeeder implements Seeder {
-  public async run(factory: Factory, connection: DataSource) {
+  public async run(_factory: Factory, connection: DataSource) {
     const roleRepository = connection.getRepository(Role);
     for (const roleKey in Roles) {
-      const role: any = roleKey;
+      const enumKey = roleKey as keyof typeof Roles;
       const tenantId = '1';
-      const name = role;
-      const slug = Roles[roleKey];
-      let rolerepo = await roleRepository.findOneBy({ name });
-      const roleData = await factory(Role)().make({
+      const name = roleKey;
+      const slug = Roles[enumKey];
+      const existingRole = await roleRepository.findOneBy({ name });
+
+      let role: Role;
+      const roleData = {
         tenantId,
         name,
         slug,
-      });
-      if (rolerepo) {
-        rolerepo = roleRepository.create({
-          ...Object.assign(rolerepo, roleData),
+      };
+
+      if (existingRole) {
+        role = roleRepository.create({
+          ...Object.assign(existingRole, roleData),
         });
       } else {
-        rolerepo = roleRepository.create(roleData);
+        role = roleRepository.create(roleData);
       }
 
-      await roleRepository.save(rolerepo).catch((error: QueryFailedError) => {
+      await roleRepository.save(role).catch((error: QueryFailedError) => {
         console.log(error.message);
       });
     }

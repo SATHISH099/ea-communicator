@@ -1,9 +1,5 @@
-import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
-  TableForeignKey,
-} from 'typeorm';
+import type { MigrationInterface, QueryRunner } from 'typeorm';
+import { Table, TableForeignKey } from 'typeorm';
 
 export class CreateUserTable1675255863730 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -24,20 +20,31 @@ export class CreateUserTable1675255863730 implements MigrationInterface {
             type: 'integer',
           },
           {
+            name: 'name',
+            type: 'varchar',
+          },
+          {
+            name: 'email',
+            type: 'varchar',
+          },
+          {
             name: 'status',
             type: 'boolean',
+            default: true,
           },
           {
             name: 'tenant_id',
-            type: 'varchar',
+            type: 'integer',
           },
           {
             name: 'department',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'team',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'notes',
@@ -56,6 +63,12 @@ export class CreateUserTable1675255863730 implements MigrationInterface {
           },
           {
             name: 'updated_at',
+            type: 'timestamp',
+            default: 'now()',
+            isNullable: true,
+          },
+          {
+            name: 'deleted_at',
             type: 'timestamp',
             default: 'now()',
             isNullable: true,

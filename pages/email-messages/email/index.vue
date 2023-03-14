@@ -63,9 +63,9 @@ const paginate = (pg: number) => {
 };
 
 const deleteRecord = async (id: number) => {
-  const response = await $trpc.email.delete(id);
+  const response = await $trpc.email.delete.mutate(id);
   refresh();
-  isDelete.value = response.affected;
+  isDelete.value = response.affected !== undefined;
 };
 
 const sortRecord = (key: string) => {

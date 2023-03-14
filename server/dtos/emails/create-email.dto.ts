@@ -3,14 +3,15 @@ import {
   IsArray,
   IsBoolean,
   IsEnum,
+  IsInt,
   IsNotEmpty,
   IsOptional,
   IsString,
   MaxLength,
   ValidateNested,
 } from 'class-validator';
-import { ImportanceLevel } from '~~/server/enums/importance-level.enum';
 import { MediaDto } from '../media/media.dto';
+import { ImportanceLevel } from '~~/server/enums/importance-level.enum';
 
 export class EmailRecipientDto {
   to: number[];
@@ -32,8 +33,8 @@ export class CreateEmailDto {
   @IsNotEmpty()
   body: string;
 
-  @IsString()
-  sender: string;
+  @IsInt()
+  sender: number;
 
   @IsEnum(ImportanceLevel)
   importanceLevel: ImportanceLevel;
