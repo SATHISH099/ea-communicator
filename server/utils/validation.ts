@@ -9,23 +9,6 @@ interface AppError {
 }
 type Errors = AppError[];
 
-export const validationPipe = async (
-  schema: new () => {},
-  requestObject: object,
-) => {
-  const transformedClass: any = plainToInstance(schema, requestObject);
-  const errors = await validate(transformedClass);
-  if (errors.length > 0) {
-    throw createError({
-      statusCode: 400,
-      message: 'Please fix all the validations errors.',
-      data: mapErrors(errors),
-    });
-  }
-
-  return true;
-};
-
 const getErrorMessage = (error: any) => {
   let errorMessage = '';
   if (error.children?.length > 0) {
@@ -46,4 +29,21 @@ export const mapErrors = (errors: any[]) => {
     });
   });
   return errMsg;
+};
+
+export const validationPipe = async (
+  schema: new () => {},
+  requestObject: object,
+) => {
+  const transformedClass: any = plainToInstance(schema, requestObject);
+  const errors = await validate(transformedClass);
+  if (errors.length > 0) {
+    throw createError({
+      statusCode: 400,
+      message: 'Please fix all the validations errors.',
+      data: mapErrors(errors),
+    });
+  }
+
+  return true;
 };

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import moment from 'moment';
-const emailService = useService('email');
 const page = ref(1);
 const isDelete = ref(false);
 const orderType = ref('desc');
@@ -21,7 +20,7 @@ const MessageHeaders = [
 
 const { $trpc } = useNuxtApp();
 
-const { data, refresh } = $trpc.email.list.useQuery(
+const { data, refresh } = await $trpc.email.list.useQuery(
   {},
   {
     transform: (data) => {

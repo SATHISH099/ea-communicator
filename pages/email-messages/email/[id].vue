@@ -1,31 +1,14 @@
 <script lang="ts" setup>
 import { useRoute } from 'vue-router';
 
-interface RecipientData {
-  recipientId: number;
-}
-
-interface GroupData {
-  groupId: number;
-}
-
-const config = useRuntimeConfig();
+const { $trpc } = useNuxtApp();
 const { id } = useRoute().params;
 const showModal = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
 };
-const { data } = await useFetch<any>(() => `emails/${id}`, {
-  baseURL: config.public.API_BASE_URL,
-});
 
-const recipients = ref<RecipientData[] | []>(
-  data.value.recipients.map(({ recipientId }: RecipientData) => recipientId),
-);
-
-const groups = ref<GroupData[] | []>(
-  data.value.groups.map(({ groupId }: GroupData) => groupId),
-);
+const data = await $trpc.email.show.query(parseInt(id as string));
 </script>
 
 <template>
@@ -97,7 +80,7 @@ const groups = ref<GroupData[] | []>(
             </div>
           </div>
         </div>
-        <RecipientList :recipients="recipients" :groups="groups" />
+        <RecipientList :recipients="data.recipients" :groups="data.groups" />
       </div>
       <TheModal
         title="Select Recipient and Groups"

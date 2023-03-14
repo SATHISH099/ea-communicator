@@ -20,13 +20,12 @@ export class BaseService<EntityType extends BaseEntity>
         [query.orderBy]: query.orderType,
       },
     } as FindManyOptions<EntityType>;
-
     options.relations = {};
     const pageSize = query.pageSize;
     if (pageSize !== -1) {
       let pageNumber = query.pageNumber;
       pageNumber = pageNumber > 0 ? pageNumber : 1;
-      const offset = pageSize * pageNumber;
+      const offset = pageSize * (pageNumber - 1);
       options.take = pageSize;
       options.skip = offset;
     }

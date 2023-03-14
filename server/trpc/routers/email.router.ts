@@ -32,7 +32,13 @@ const deleteEmail = procedure.input(z.number()).mutation(({ input }) => {
   return emailService.delete(input);
 });
 
+const show = procedure.input(z.number()).query(({ input }) => {
+  const emailService = new EmailService();
+  return emailService.findOne(input);
+});
+
 export const email = router({
   list,
+  show,
   delete: deleteEmail,
 });
