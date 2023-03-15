@@ -1,15 +1,19 @@
 <script lang="ts" setup>
 import Multiselect from '@vueform/multiselect/src/Multiselect';
-import type { Sms } from '~~/services/sms.service';
-import type { Email } from '~~/services/email.service';
 import '~~/services/email.service';
 import { useToasterStore } from '~~/store/toaster';
 const { setMessage } = useToasterStore();
 const router = useRouter();
 
+interface AddData {
+  title: string;
+  body: string;
+  message: string;
+}
+
 const smsService = useService('sms');
 const emailService = useService('email');
-const type = ref('emails');
+const type = ref('');
 const successResponse = ref({ id: null });
 const errorBody = ref(false);
 const title = ref('');
@@ -34,7 +38,7 @@ const checkvalidation = () => {
 
   return true;
 };
-const saveEmail = (formData: any) => {
+const saveEmail = (formData: AddData) => {
   const data = {
     subject: formData.title,
     sender: 'test',
@@ -47,7 +51,7 @@ const saveEmail = (formData: any) => {
   return emailService.sendEmail(data);
 };
 
-const saveSms = (formData: any) => {
+const saveSms = (formData: AddData) => {
   const data = {
     title: formData.title,
     message: message.value,
@@ -70,9 +74,9 @@ const submitHandler = async (formData: any) => {
       if (response) {
         setMessage('Template created successfully.', 'success');
         resetForm();
-        router.push('/email-messages/email');
+        router.push('/email-messages/predefined-templates');
       } else {
-        router.push('/email-messages/email/add');
+        router.push('/email-messages/predefined-templates/add');
         setMessage('Something went wrong unable to create Email.', 'error');
       }
     } catch (error) {
@@ -115,15 +119,20 @@ const submitHandler = async (formData: any) => {
               input-class="form-control"
               outer-class="mb-5"
             />
-            <Multiselect
+
+            <FormKit
               v-model="type"
+              type="select"
+              validation="required"
+              name="type"
+              input-class="form-control mb-5"
               placeholder="Predefined message type"
               :options="[
                 { value: 'emails', label: 'Email' },
                 { value: 'sms', label: 'SMS' },
               ]"
-              class="mb-5"
             />
+
             <div mb-5 v-if="type == 'emails'">
               <ClientOnly>
                 <RichTextEditor

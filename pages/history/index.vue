@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import moment from 'moment';
 import type { Email } from '~~/services/email.service';
 import type { Sms } from '~~/services/sms.service';
 import type { Message } from '~~/services/message.service';
@@ -77,8 +78,8 @@ const setDate = (dateStr: string[] | null) => {
     startDate.value = '';
     endDate.value = '';
   } else {
-    startDate.value = dateStr[0];
-    endDate.value = dateStr[1];
+    startDate.value = dateStr[0] ? moment(dateStr[0]).format('YYYY-MM-DD') : '';
+    endDate.value = dateStr[1] ? moment(dateStr[1]).format('YYYY-MM-DD') : '';
   }
 
   refresh();
