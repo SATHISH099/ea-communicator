@@ -1,17 +1,19 @@
-import type { DeepPartial, FindOneOptions, Repository } from 'typeorm';
+import type { FindOneOptions } from 'typeorm';
+import appDataSource from '../database/config/app.datasource';
 import { MessageGroup } from '../database/entities/message/message-groups.entity';
 import { MessageRecipient } from '../database/entities/message/message-recipients.entity';
-import type { Message } from '../database/entities/message/message.entity';
+import { Message } from '../database/entities/message/message.entity';
 import { SendingStatus } from '../enums/sending-status.enum';
+import { CreateMessageDto } from '../validations/messages/create.dto';
 import { BaseService } from './base.service';
-import type { UserService } from './user.service';
+import { UserService } from './user.service';
 
 export class MessageService extends BaseService<Message> {
-  constructor(
-    protected repository: Repository<Message>,
-    private userService: UserService,
-  ) {
+  private userService: UserService;
+  constructor() {
     super();
+    this.userService = new UserService();
+    this.repository = appDataSource.getRepository(Message);
   }
 
   findOne(
@@ -28,13 +30,12 @@ export class MessageService extends BaseService<Message> {
     });
   }
 
-  async create(body: DeepPartial<Message>) {
-    const { tenantId, id } = await this.userService.getLoginUser();
-
+  async createMessage(body: CreateMessageDto) {
+    const user = await this.userService.getLoginUser();
     const message = await super.create({
       ...body,
-      tenantId,
-      creatorId: { id },
+      tenantId: user.tenantId,
+      creatorId: user,
       sendingStatus: SendingStatus.PENDING,
     });
 
@@ -42,7 +43,7 @@ export class MessageService extends BaseService<Message> {
       body.recipients.map((recipient: any) => {
         const messageRecipient = new MessageRecipient();
         messageRecipient.messageId = message.id;
-        messageRecipient.recipientId = recipient.recipientId;
+        messageRecipient.recipientId = recipient;
 
         return this.repository.manager.save(messageRecipient);
       }),
@@ -52,7 +53,7 @@ export class MessageService extends BaseService<Message> {
       body.groups.map((groups: any) => {
         const messageGroup = new MessageGroup();
         messageGroup.messageId = message.id;
-        messageGroup.groupId = groups.groupId;
+        messageGroup.groupId = groups;
 
         return this.repository.manager.save(messageGroup);
       }),

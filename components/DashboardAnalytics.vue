@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 const config = useRuntimeConfig();
 
-const { data } = await useFetch<any>(() => `dashboard/counters`, {
-  baseURL: config.public.API_BASEURL,
-});
+const { $trpc } = useNuxtApp();
+
+const data = await $trpc.dashboard.modelsCounts.query();
 </script>
 
 <template>

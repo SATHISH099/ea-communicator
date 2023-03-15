@@ -13,6 +13,8 @@ const isDelete = ref(false);
 const search = ref('');
 const searchField = ref('');
 
+const { $trpc } = useNuxtApp();
+
 interface GroupRecipientData {
   recipients: Recipient[];
   groups: Group[];
@@ -29,9 +31,8 @@ const MessageHeaders = [
   '',
 ];
 
-const { data, refresh } = await useFetch<any>(
-  () =>
-    `messages?search=${search.value}&pageNumber=${page.value}&pageSize=10&orderType=${orderType.value}&orderBy=${orderBy.value}`,
+const { data, refresh } = $trpc.message.findAll.useQuery(
+  {},
   {
     baseURL: config.public.API_BASEURL,
     transform: (data) => {
@@ -46,7 +47,7 @@ const { data, refresh } = await useFetch<any>(
             recipients,
             groups,
             createdAt,
-          }: Message & GroupRecipientData) => ({
+          }: any) => ({
             id,
             sender,
             title,
@@ -73,9 +74,9 @@ const paginate = (pg: number) => {
 };
 
 const deleteRecord = async (id: number) => {
-  const response = await messageService.delete(id);
+  const response = await $trpc.message.delete.mutate(id);
   refresh();
-  isDelete.value = response.affected;
+  isDelete.value = response.affected !== undefined;
 };
 
 const sortRecord = (key: string) => {

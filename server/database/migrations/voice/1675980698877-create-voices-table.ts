@@ -63,6 +63,11 @@ export class CreateVoicesTable1675980698877 implements MigrationInterface {
             default: 'now()',
             isNullable: true,
           },
+          {
+            name: 'deleted_at',
+            type: 'timestamp',
+            isNullable: true,
+          },
         ],
       }),
       true,
