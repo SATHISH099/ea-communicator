@@ -10,7 +10,7 @@ const { data, refresh } = await useFetch<any>(
   () =>
     `${props.type}?search=${search.value}&pageNumber=${page.value}&pageSize=10&isPredefined=true`,
   {
-    baseURL: config.public.API_BASE_URL,
+    baseURL: config.public.API_BASEURL,
     transform: (data) => {
       return {
         total: data.total,

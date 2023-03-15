@@ -28,7 +28,7 @@ const { data, refresh } = await useFetch<any>(
       type.value === 'recipients' ? searchRecipient.value : searchGroup.value
     }&pageNumber=1&pageSize=10`,
   {
-    baseURL: config.public.API_SMARTSUITE_BASE_URL,
+    baseURL: config.public.API_SMARTSUITE_BASEURL,
   },
 );
 

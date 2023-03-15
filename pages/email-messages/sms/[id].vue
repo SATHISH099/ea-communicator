@@ -16,7 +16,7 @@ const toggleModal = () => {
   showModal.value = !showModal.value;
 };
 const { data } = await useFetch<any>(() => `sms/${id}`, {
-  baseURL: config.public.API_BASE_URL,
+  baseURL: config.public.API_BASEURL,
 });
 
 const recipients = ref<RecipientData[] | []>(

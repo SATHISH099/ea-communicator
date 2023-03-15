@@ -10,10 +10,12 @@ import { Role } from './entities/role/role.entity';
 import { SmsGroup } from './entities/sms/sms-groups.entity';
 import { SmsRecipient } from './entities/sms/sms-recipients.entity';
 import { Sms } from './entities/sms/sms.entity';
+import { Token } from './entities/token/token.entity';
 import { User } from './entities/user/user.entity';
 import { Voice } from './entities/voice/voice.entity';
 
 export const entities = [
+  Token,
   User,
   Email,
   Sms,

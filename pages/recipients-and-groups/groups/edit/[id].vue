@@ -40,7 +40,7 @@ const statuses = ['Inactive', 'active'];
 
 const { data: location } = await useFetch<any>(() => `/json/locations.json`);
 const { data: groupDetail } = await useFetch<any>(() => `groups/${groupId}`, {
-  baseURL: config.public.API_SMARTSUITE_BASE_URL,
+  baseURL: config.public.API_SMARTSUITE_BASEURL,
 });
 
 const record = groupDetail.value.data;

@@ -37,7 +37,7 @@ interface initialStateData {
 const { data: recipientDetail } = await useFetch<any>(
   () => `recipients/${recipientId}`,
   {
-    baseURL: config.public.API_SMARTSUITE_BASE_URL,
+    baseURL: config.public.API_SMARTSUITE_BASEURL,
   },
 );
 const record = recipientDetail.value.data;

@@ -32,7 +32,7 @@ const toggleModal = () => {
   showModal.value = !showModal.value;
 };
 const { data } = await useFetch<any>(() => `emails/${id.value}`, {
-  baseURL: config.public.API_BASE_URL,
+  baseURL: config.public.API_BASEURL,
 });
 const activeTab = ref('alerts');
 </script>

@@ -7,9 +7,11 @@ import { sms } from './sms.router';
 import { message } from './message.router';
 import { voice } from './voice.router';
 import { media } from './media.router';
+import { profile } from './profile.router';
 
 export const appRouter = router({
   app,
+  profile,
   auth,
   dashboard,
   email,

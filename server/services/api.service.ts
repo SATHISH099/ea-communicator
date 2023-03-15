@@ -83,7 +83,7 @@ export class ApiService {
   }
 
   getBaseUrl() {
-    return useRuntimeConfig().SSO_API_URL;
+    return useRuntimeConfig().public.API_SMARTSUITE_BASEURL;
   }
 
   setOptions(options: FetchOptions) {

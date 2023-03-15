@@ -6,7 +6,7 @@ export const userData = () => {
   const user = new User();
   user.userId = 1;
   user.status = true;
-  user.tenantId = faker.random.words();
+  user.tenantId = 1;
   user.department = faker.random.words();
   user.team = faker.random.words();
   user.notes = faker.random.words();

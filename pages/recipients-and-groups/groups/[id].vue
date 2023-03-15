@@ -6,7 +6,7 @@ const { id } = useRoute().params;
 
 const messageHeaders = ['Recipients', 'Email Address'];
 const { data } = await useFetch<any>(() => `groups/${id}`, {
-  baseURL: config.public.API_SMARTSUITE_BASE_URL,
+  baseURL: config.public.API_SMARTSUITE_BASEURL,
 });
 
 const recipients = data.value.data.recipients.map(

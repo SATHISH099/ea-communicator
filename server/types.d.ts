@@ -1,3 +1,5 @@
+import { User } from './database/entities/user/user.entity';
+
 declare interface Session {
   userId?: number;
   count: number;
@@ -15,4 +17,11 @@ export interface InputFile {
   data: Buffer;
   mimeType: string;
   extension: string;
+}
+
+export interface AuthSessionPayload
+  extends Pick<User, 'name' | 'email' | 'status'> {
+  id: number;
+  roles: string[];
+  tokenId: number;
 }

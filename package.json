@@ -55,6 +55,7 @@
     "@nuxtjs/dayjs": "^1.4.1",
     "@nuxtjs/html-validator": "^1.2.4",
     "@pinia/nuxt": "^0.4.7",
+    "@sidebase/nuxt-session": "^0.2.7",
     "@trpc/client": "^10.13.2",
     "@trpc/server": "^10.13.2",
     "@unocss/nuxt": "^0.50.4",

@@ -21,7 +21,7 @@ const groupService = useService('group');
 const { data, refresh } = await useFetch<any>(
   () => `groups?search=${search.value}&pageNumber=${page.value}&pageSize=10`,
   {
-    baseURL: config.public.API_SMARTSUITE_BASE_URL,
+    baseURL: config.public.API_SMARTSUITE_BASEURL,
     transform: (data) => {
       return {
         total: data.total,

@@ -1,15 +1,13 @@
 import { z } from 'zod';
-import { router, procedure } from '~~/server/trpc/trpc';
+import { AuthService } from '~~/server/services/auth.service';
+import { procedure, router } from '~~/server/trpc/trpc';
 
 const login = procedure
-  .input(
-    z.object({
-      email: z.string().min(1),
-      password: z.string().min(1),
-    }),
-  )
-  .mutation(async ({ input: { email, password }, ctx: { session } }) => {
-    return [];
+  .input(z.string())
+  .mutation(({ input, ctx: { session } }) => {
+    const service = new AuthService();
+
+    return service.login(input, session);
   });
 
 const logout = procedure.mutation(({ ctx: { session } }) => {

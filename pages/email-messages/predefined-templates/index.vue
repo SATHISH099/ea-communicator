@@ -27,7 +27,7 @@ const { data, refresh } = await useFetch<any>(
   () =>
     `${type.value}?search=${search.value}&pageNumber=${page.value}&pageSize=10&isPredefined=true&orderType=${orderType.value}&orderBy=${orderBy.value}`,
   {
-    baseURL: config.public.API_BASE_URL,
+    baseURL: config.public.API_BASEURL,
     transform: (data) => ({
       total: data.total,
       data: data.data.map((message: Message) => ({

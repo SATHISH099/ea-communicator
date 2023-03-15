@@ -14,8 +14,4 @@ export const authUserSchema = z.object({
 
 export type AuthUser = z.infer<typeof authUserSchema>;
 
-export const useAuthUser = defineStore('auth-user', {
-  state() {
-    return null;
-  },
-});
+export const useAuthUser = defineStore('auth-user', {});

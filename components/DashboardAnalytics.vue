@@ -2,7 +2,7 @@
 const config = useRuntimeConfig();
 
 const { data } = await useFetch<any>(() => `dashboard/counters`, {
-  baseURL: config.public.API_BASE_URL,
+  baseURL: config.public.API_BASEURL,
 });
 </script>
 

@@ -5,7 +5,7 @@ const config = useRuntimeConfig();
 const { id } = useRoute().params;
 
 const { data } = await useFetch<any>(() => `recipients/${id}`, {
-  baseURL: config.public.API_SMARTSUITE_BASE_URL,
+  baseURL: config.public.API_SMARTSUITE_BASEURL,
 });
 const messageHeaders = ['Group Name', 'Status'];
 const groups = data.value.data.groups.map(({ groupName, status }: Group) => ({

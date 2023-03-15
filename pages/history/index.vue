@@ -35,7 +35,7 @@ const { data, refresh } = await useFetch<any>(
   () =>
     `${type.value}?search=${search.value}&pageNumber=${page.value}&pageSize=10&startDate=${startDate.value}&endDate=${endDate.value}&orderType=${orderType.value}&orderBy=${orderBy.value}`,
   {
-    baseURL: config.public.API_BASE_URL,
+    baseURL: config.public.API_BASEURL,
     transform: (data) => {
       return {
         total: data.total,

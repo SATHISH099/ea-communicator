@@ -5,10 +5,12 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import { IsOptional } from 'class-validator';
 import { BaseEntity } from '../../base.entity';
 import { Role } from '../role/role.entity';
+import { Token } from '../token/token.entity';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -51,4 +53,7 @@ export class User extends BaseEntity {
     inverseJoinColumn: { name: 'role_id', referencedColumnName: 'id' },
   })
   roles: Role[];
+
+  @OneToMany(() => Token, (token) => token.user)
+  token: Token;
 }

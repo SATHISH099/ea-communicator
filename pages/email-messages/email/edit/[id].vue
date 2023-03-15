@@ -6,7 +6,7 @@ interface EditData {
 const config = useRuntimeConfig();
 const { id: emailId } = useRoute().params;
 const { data: emailDetail } = await useFetch<any>(() => `emails/${emailId}`, {
-  baseURL: config.public.API_BASE_URL,
+  baseURL: config.public.API_BASEURL,
 });
 
 const record = emailDetail.value;

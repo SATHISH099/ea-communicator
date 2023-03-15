@@ -36,7 +36,7 @@ const { data, refresh } = await useFetch<any>(
       startDate.value && endDate.value ? 'date-range-counters' : 'counters'
     }?startDate=${startDate.value}&endDate=${endDate.value}`,
   {
-    baseURL: config.public.API_BASE_URL,
+    baseURL: config.public.API_BASEURL,
   },
 );
 

@@ -26,7 +26,7 @@ const { data, refresh } = await useFetch<any>(
   () =>
     `recipients?search=${search.value}&pageNumber=${page.value}&pageSize=10`,
   {
-    baseURL: config.public.API_SMARTSUITE_BASE_URL,
+    baseURL: config.public.API_SMARTSUITE_BASEURL,
     transform: ({ total, data }) => ({
       total,
       data: data.map(({ id, firstName, lastName }: RecipientData) => ({

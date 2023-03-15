@@ -13,7 +13,7 @@ export class DashboardService {
     this.userService = new UserService();
   }
 
-  async getModelsCount(req) {
+  async getModelsCount(req: any) {
     const { tenantId } = await this.userService.getLoginUser();
 
     const emailCount = await appDataSource.getRepository(Email).count({

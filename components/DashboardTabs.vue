@@ -10,7 +10,7 @@ const config = useRuntimeConfig();
 const { data } = await useFetch<any>(
   () => `${activeTab.value}?pageSize=6&orderType=desc&orderBy=id`,
   {
-    baseURL: config.public.API_BASE_URL,
+    baseURL: config.public.API_BASEURL,
     transform: (data) => {
       return {
         total: data.total,

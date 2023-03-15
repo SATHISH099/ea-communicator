@@ -33,7 +33,7 @@ const { data, refresh } = await useFetch<any>(
   () =>
     `messages?search=${search.value}&pageNumber=${page.value}&pageSize=10&orderType=${orderType.value}&orderBy=${orderBy.value}`,
   {
-    baseURL: config.public.API_BASE_URL,
+    baseURL: config.public.API_BASEURL,
     transform: (data) => {
       return {
         total: data.total,
