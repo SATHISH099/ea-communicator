@@ -124,12 +124,23 @@ const setGroupRecipients = (
             <div grid md:grid-cols-2 grid-cols-1 gap-5 mt-8>
               <button
                 class="col-span-2 border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex justify-between text-[16px] text-silver items-center p-[1rem]"
+                title="Click Me"
                 @click="toggleModal"
               >
-                <span>Recepient</span>
-                <span v-for="recipient in recipients" :key="recipient.id">
-                  {{ recipient.firstName }} {{ recipient.lastName }}
-                </span>
+                <div class="flex items-center">
+                  <span class="mr-3">Recipient</span>
+                  <div
+                    class="flex flex-wrap items-center gap-2 overflow-x-auto"
+                  >
+                    <span
+                      v-for="recipient in recipients"
+                      :key="recipient.id"
+                      class="p-[0.2rem] border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                    >
+                      {{ recipient.firstName }} {{ recipient.lastName }}
+                    </span>
+                  </div>
+                </div>
 
                 <span v-for="group in groups" :key="group.id">
                   {{ group.groupName }}
@@ -185,7 +196,8 @@ const setGroupRecipients = (
               :recipients="recipients"
               :groups="groups"
               @set-groups-recipients="setGroupRecipients"
-            ></SelectRecipients>
+            >
+            </SelectRecipients>
           </div>
         </TheModal>
       </div>
