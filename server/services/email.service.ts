@@ -5,13 +5,13 @@ import { EmailGroup } from '../database/entities/emails/email-groups.entity';
 import { EmailRecipient } from '../database/entities/emails/email-recipients.entity';
 import { Email } from '../database/entities/emails/email.entity';
 import type {
-  CreateEmailDto,
   EmailGroupDto,
   EmailRecipientDto,
 } from '../dtos/emails/create-email.dto';
 import type { UpdateEmailDto } from '../dtos/emails/update-email.dto';
 import { RecipientType } from '../enums/recipient-type.enum';
 import { SendingStatus } from '../enums/sending-status.enum';
+import type { CreateEmailDto } from '../validations/emails/create.dto';
 import { BaseService } from './base.service';
 import { UserService } from './user.service';
 
@@ -32,9 +32,8 @@ export class EmailService extends BaseService<Email> {
 
   async createEmail(body: CreateEmailDto) {
     const user = await this.userService.getLoginUser();
-    const sender = (await this.userService.findOne(body.sender))!;
+    const sender = user;
     const { recipients, groups, ...emailObject } = body;
-
     const email = await super.create({
       ...emailObject,
       tenantId: user.tenantId,

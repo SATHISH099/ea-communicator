@@ -21,7 +21,10 @@ const MessageHeaders = [
 const { $trpc } = useNuxtApp();
 
 const { data, refresh } = await $trpc.email.list.useQuery(
-  {},
+  {
+    search: search.value,
+    pageNumber: page.value,
+  },
   {
     transform: (data) => {
       return {
@@ -103,9 +106,9 @@ const sortRecord = (key: string) => {
         <div class="flex flex-wrap justify-between items-center gap-4">
           <div class="flex flex-wrap items-center gap-4">
             <FormKit
+              v-model="searchField"
               prefix-icon="search"
               type="search"
-              v-model="searchField"
               placeholder="Search"
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
@@ -123,7 +126,7 @@ const sortRecord = (key: string) => {
       <div class="pb-10 pt-5 overflow-auto scroll">
         <DashboardTable
           :headers="MessageHeaders"
-          :rows="data.data"
+          :rows="data?.data"
           type="email"
           :show-bulk-delete="true"
           @onDeleteRecord="deleteRecord"
@@ -132,7 +135,7 @@ const sortRecord = (key: string) => {
         />
         <div class="ml-8">
           <PaginationTable
-            :totalRecords="data.total"
+            :totalRecords="data?.total"
             :currentPage="page"
             v-bind:paginate="paginate"
           ></PaginationTable>

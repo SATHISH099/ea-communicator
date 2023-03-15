@@ -61,8 +61,8 @@ const onDeleteRecord = (id) => {
                 v-if="header.isSort"
                 class="pl-4 cursor-pointer"
                 src="/arrow-and-direction.png"
-                @click="$emit('sortRecord', header?.key)"
                 alt=""
+                @click="$emit('sortRecord', header?.key)"
               />
 
               <img
@@ -106,7 +106,7 @@ const onDeleteRecord = (id) => {
                 v-if="isDropdown ?? true"
                 :detail-id="row.id"
                 :type="props.type"
-                :dropDownOption="dropDownOption"
+                :drop-down-option="dropDownOption"
                 @onDeleteRecord="onDeleteRecord"
               ></DropdownTable>
               <button

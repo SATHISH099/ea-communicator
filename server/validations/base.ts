@@ -8,4 +8,8 @@ export const queryListSchema = z.object({
   search: z.string().optional(),
 });
 
+export const mediaIdSchema = z.object({
+  id: z.number(),
+});
+
 export type QueryList = z.infer<typeof queryListSchema>;

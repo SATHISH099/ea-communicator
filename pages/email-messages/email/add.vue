@@ -4,6 +4,7 @@ import type { Email } from '~~/services/email.service';
 import '~~/services/media.service';
 import '~~/services/email.service';
 import { useToasterStore } from '~~/store/toaster';
+import { ImportanceLevel } from '~~/server/enums/importance-level.enum';
 const { setMessage } = useToasterStore();
 const router = useRouter();
 
@@ -23,10 +24,12 @@ interface GroupData {
   groupName: string;
 }
 
+const { $trpc } = useNuxtApp();
 const mediaService = useService('media');
 
 const emailService = useService('email');
-const importanceLevel = ref('low');
+
+const importanceLevel = ref<ImportanceLevel>(ImportanceLevel.LOW);
 const successResponse = ref({ id: null });
 const errorBody = ref(false);
 const subject = ref('');
@@ -61,7 +64,7 @@ const setField = (data: string) => {
 const resetForm = () => {
   body.value = '';
   subject.value = '';
-  importanceLevel.value = '';
+  importanceLevel.value = ImportanceLevel.LOW;
   recipients.value = [];
   groups.value = [];
   ccRecipients.value = [];
@@ -104,7 +107,6 @@ const submitHandler = async (formData: { file: any[] }) => {
     const data = {
       ...formData,
       body: body.value,
-      sender: 'test',
       isPredefined: false,
       medias: media,
       recipients: {
@@ -112,7 +114,6 @@ const submitHandler = async (formData: { file: any[] }) => {
         cc: ccRecipients.value.map(({ id }) => id),
         bcc: bccRecipients.value.map(({ id }) => id),
       },
-
       groups: {
         to: groups.value.map(({ id }) => id),
         cc: ccGroups.value.map(({ id }) => id),
@@ -121,7 +122,22 @@ const submitHandler = async (formData: { file: any[] }) => {
     };
 
     try {
-      const response = await emailService.sendEmail(data);
+      const response = await $trpc.email.create.mutate({
+        subject: subject.value,
+        body: body.value,
+        importanceLevel: importanceLevel.value,
+        medias: media,
+        recipients: {
+          to: recipients.value.map(({ id }) => id),
+          cc: ccRecipients.value.map(({ id }) => id),
+          bcc: bccRecipients.value.map(({ id }) => id),
+        },
+        groups: {
+          to: groups.value.map(({ id }) => id),
+          cc: ccGroups.value.map(({ id }) => id),
+          bcc: bccGroups.value.map(({ id }) => id),
+        },
+      });
       if (response) {
         setMessage('Email created successfully.', 'success');
         resetForm();
@@ -196,7 +212,11 @@ const setCcGroupRecipients = (
                     validation="required"
                     outer-class="radio-fieldset"
                     input-class="form-check-input"
-                    :options="['low', 'medium', 'high']"
+                    :options="{
+                      low: 'Low',
+                      medium: 'Medium',
+                      high: 'High',
+                    }"
                   />
                 </div>
               </div>

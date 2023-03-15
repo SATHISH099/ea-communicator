@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { procedure, router } from '~/server/trpc/trpc';
 import { EmailService } from '~~/server/services/email.service';
 import { queryListSchema } from '~~/server/validations/base';
+import { createEmailDto } from '~~/server/validations/emails/create.dto';
 
 const list = procedure
   .input(
@@ -37,8 +38,14 @@ const show = procedure.input(z.number()).query(({ input }) => {
   return emailService.findOne(input);
 });
 
+const create = procedure.input(createEmailDto).mutation(({ input }) => {
+  const emailService = new EmailService();
+  return emailService.createEmail(input);
+});
+
 export const email = router({
   list,
   show,
   delete: deleteEmail,
+  create,
 });

@@ -136,7 +136,11 @@ const setGroupRecipients = (
                     validation="required"
                     outer-class="radio-fieldset"
                     input-class="form-check-input"
-                    :options="['high', 'normal', 'low']"
+                    :options="{
+                      low: 'Low',
+                      medium: 'Medium',
+                      high: 'High',
+                    }"
                   />
                 </div>
               </div>
