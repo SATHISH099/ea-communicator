@@ -4,7 +4,6 @@ import { UserService } from '~~/server/services/user.service';
 
 const isAuthenticated = middleware(async ({ ctx, next }) => {
   const userService = new UserService();
-  console.log('user', ctx.session.user);
   if (
     !ctx.session.user?.id ||
     (await userService.getRespository().countBy({ id: ctx.session.user?.id })) <

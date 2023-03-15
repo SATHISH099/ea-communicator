@@ -1,9 +1,8 @@
 import { z } from 'zod';
 import type { Repository } from 'typeorm';
 import { showError } from 'nuxt/app';
-import type { Session } from '@sidebase/nuxt-session';
 import { TRPCError } from '@trpc/server';
-import type { AuthSessionPayload } from '../types';
+import type { AuthSessionPayload, Session } from '../types';
 import { User } from '../database/entities/user/user.entity';
 import { Token } from '../database/entities/token/token.entity';
 import { ApiService } from './api.service';
