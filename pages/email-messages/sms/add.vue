@@ -1,7 +1,10 @@
 <script lang="ts" setup>
+import { ImportanceLevel } from '~~/server/enums/importance-level.enum';
 import { useToasterStore } from '~~/store/toaster';
 const { setMessage } = useToasterStore();
 const router = useRouter();
+
+const { $trpc } = useNuxtApp();
 
 interface SmsData {
   title: string;
@@ -17,8 +20,8 @@ interface GroupData {
   id: number;
   groupName: string;
 }
-const smsService = useService('sms');
-const importanceLevel = ref('low');
+
+const importanceLevel = ref<ImportanceLevel>(ImportanceLevel.LOW);
 const successResponse = ref({ id: null });
 const title = ref('');
 const message = ref('');
@@ -32,14 +35,13 @@ const toggleModal = () => {
 const resetForm = () => {
   message.value = '';
   title.value = '';
-  importanceLevel.value = '';
+  importanceLevel.value = ImportanceLevel.LOW;
   recipients.value = [];
   groups.value = [];
 };
 
-const submitHandler = async (formData: []) => {
+const submitHandler = async () => {
   const data = {
-    ...formData,
     sender: 'test',
     tenantId: 'test',
     isPredefined: false,
@@ -50,8 +52,15 @@ const submitHandler = async (formData: []) => {
       groupId: id,
     })),
   };
+
   try {
-    const response = await smsService.sendSms(data);
+    const response = await $trpc.sms.create.mutate({
+      title: title.value,
+      message: message.value,
+      importanceLevel: importanceLevel.value,
+      recipients: recipients.value.map(({ id }) => id),
+      groups: groups.value.map(({ id }) => id),
+    });
     if (response) {
       setMessage('Sms created successfully.', 'success');
       resetForm();
