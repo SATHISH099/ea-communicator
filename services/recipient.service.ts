@@ -75,4 +75,8 @@ export class RecipientService {
   delete(id: number) {
     return this.apiService.delete(recipient, `/recipients/${id}`);
   }
+
+  bulkCreate(formData: FormData) {
+    return this.apiService.post(recipient, formData, `/recipients/bulk`);
+  }
 }

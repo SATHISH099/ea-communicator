@@ -1,16 +1,20 @@
 import jwt, { verify } from 'jsonwebtoken';
 import { instanceToPlain } from 'class-transformer';
+import type { RuntimeConfig } from 'nuxt/schema';
 
 export class JwtService {
   private secret: string;
+  private config: RuntimeConfig;
 
   constructor() {
-    this.secret = useRuntimeConfig().jwtSecret;
-    console.log(this.secret);
+    this.config = useRuntimeConfig();
+    this.secret = this.config.apiSecret;
   }
 
   sign(data: object) {
-    return jwt.sign(instanceToPlain(data), this.secret);
+    return jwt.sign(instanceToPlain(data), this.secret, {
+      expiresIn: this.config.sessionExpirySeconds,
+    });
   }
 
   verify(token: string) {

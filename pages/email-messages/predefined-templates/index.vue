@@ -23,9 +23,16 @@ const MessageHeaders = [
   { value: 'Created Date', isSort: true, key: 'createdAt' },
 ];
 
+const showLess = (input: string) =>
+  input && input.length > 100 ? `${input.substring(0, 100)}...` : input;
+
 const { data, refresh } = await useFetch<any>(
   () =>
-    `${type.value}?search=${search.value}&pageNumber=${page.value}&pageSize=10&isPredefined=true&orderType=${orderType.value}&orderBy=${orderBy.value}`,
+    `${type.value || 'emails'}?search=${search.value}&pageNumber=${
+      page.value
+    }&pageSize=10&isPredefined=true&orderType=${orderType.value}&orderBy=${
+      orderBy.value
+    }`,
   {
     baseURL: config.public.API_BASEURL,
     transform: (data) => ({
@@ -33,7 +40,10 @@ const { data, refresh } = await useFetch<any>(
       data: data.data.map((message: Message) => ({
         id: message.id,
         title: type.value === 'emails' ? message.subject : message.title,
-        message: type.value === 'emails' ? message.body : message.message,
+        message:
+          type.value === 'emails'
+            ? showLess(message.body)
+            : showLess(message.message),
         sentDate: moment(message.createdAt).format('dddd, Do MMMM YYYY h:mm A'),
       })),
     }),
@@ -70,6 +80,14 @@ const optionTypeSelected = (option: string) => {
   type.value = option;
   orderBy.value = 'id';
   refresh();
+};
+
+const searchEmpty = () => {
+  if (!searchField.value) {
+    search.value = '';
+    orderBy.value = 'id';
+    refresh();
+  }
 };
 </script>
 
@@ -109,6 +127,7 @@ const optionTypeSelected = (option: string) => {
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
               outer-class="md:w-[34rem] w-full search-field"
+              @input="searchEmpty"
             />
             <button
               class="btn btn-primary md:w-30 w-full"
@@ -119,8 +138,8 @@ const optionTypeSelected = (option: string) => {
           </div>
           <div class="flex flex-wrap items-center gap-3 md:w-auto w-full">
             <Multiselect
-              placeholder="Predefined Type"
               v-model="type"
+              placeholder="Predefined Type"
               :options="[
                 { value: 'emails', label: 'Email' },
                 { value: 'sms', label: 'SMS' },

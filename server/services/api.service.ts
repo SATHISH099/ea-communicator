@@ -68,7 +68,9 @@ export class ApiService {
   ) {
     const baseURL = this.getBaseUrl();
     options = { baseURL, ...options };
+    console.log(baseURL, url);
     const response = await $fetch(url, options);
+    console.log('response', response);
     return this.checkSchema(response, schema);
   }
 

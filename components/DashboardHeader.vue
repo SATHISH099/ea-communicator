@@ -8,7 +8,10 @@ const isOpens = ref(false);
     class="bg-[#F5F5F5] h-[90px] w-full flex justify-end items-center cursor-pointer"
   >
     <img src="/Component.png" @click="isOpens = !isOpens" class="mr-8" />
-    <div v-show="isOpens" class="dropdown-menu shadow-xl right-30 top-20 p-40">
+    <div
+      v-show="isOpens"
+      class="dropdown-menu shadow-xl right-30 top-20 p-40 z-2"
+    >
       <div class="grid grid-cols-2 gap-4">
         <div class="flex flex-col items-center">
           <img class="w-10" src="/SituationalAwareness.png" />
@@ -43,10 +46,14 @@ const isOpens = ref(false);
         class="abc h-10 mr-4 cursor-pointer"
         @click="isOpen = !isOpen"
       />
-      <ul v-show="isOpen" class="dropdown-menus right-15 top-20">
-        <li class="p-2">View Profile</li>
+      <div v-show="isOpen" class="dropdown-menus right-15 top-20">
+        <li class="p-2">
+          <NuxtLink :to="{ name: 'email-messages-profile' }" class="text-white"
+            >View Profile</NuxtLink
+          >
+        </li>
         <li class="p-2">Logout</li>
-      </ul>
+      </div>
     </div>
     <p class="mr-10">Admin</p>
   </div>

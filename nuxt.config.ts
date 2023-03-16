@@ -11,8 +11,8 @@ const nuxtConfig = defineNuxtConfig({
   ],
   runtimeConfig: {
     // The private keys which are only available server-side
-    jwtSecret: process.env.JWT_SECRET,
     apiSecret: process.env.NUXT_API_SECRET,
+    sessionExpirySeconds: process.env.SESSION_EXPIRY_SECONDS,
     // Keys within public are also exposed client-side
     public: {
       APP_URL: process.env.APP_URL,
@@ -32,7 +32,7 @@ const session: ModuleOptions = {
   isEnabled: true,
   session: {
     // Sessions expire after 3600 seconds = 60 minutes
-    expiryInSeconds: 60 * 60,
+    expiryInSeconds: parseInt(process.env.SESSION_EXPIRY_SECONDS || '3600'),
   },
   api: { isEnabled: false },
 };
