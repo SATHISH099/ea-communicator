@@ -43,12 +43,6 @@ export class CreateMessageDto {
 
   @IsOptional()
   @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => MediaDto)
-  medias: MediaDto[];
-
-  @IsOptional()
-  @IsArray()
   recipients: CreateMessageRecipientDto[];
 
   @IsOptional()

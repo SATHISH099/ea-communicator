@@ -4,22 +4,23 @@ const messageHeaders = ['Title', 'Message'];
 const search = ref('');
 const searchField = ref('');
 const page = ref(1);
-const config = useRuntimeConfig();
+const { $trpc } = useNuxtApp();
+// const moduleType: 'email' | 'sms' = props.type === 'emails' ? 'email' : 'sms';
+const moduleType = 'email';
 
-const { data, refresh } = await useFetch<any>(
-  () =>
-    `${props.type}?search=${search.value}&pageNumber=${page.value}&pageSize=10&isPredefined=true`,
+const { data, refresh } = await $trpc[moduleType].list.useQuery(
   {
-    baseURL: config.public.API_BASEURL,
-    transform: (data) => {
-      return {
-        total: data.total,
-        data: data.data.map((x: any) => ({
-          title: x.subject || x.title,
-          message: x.body || x.message,
-        })),
-      };
-    },
+    search: search.value,
+    pageNumber: page.value,
+  },
+  {
+    transform: ({ total, data }) => ({
+      total,
+      data: data.map((x: any) => ({
+        title: x.subject || x.title,
+        message: x.body || x.message,
+      })),
+    }),
   },
 );
 

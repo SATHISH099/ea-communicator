@@ -2,6 +2,7 @@
 import Multiselect from '@vueform/multiselect';
 import { useRoute } from 'vue-router';
 const config = useRuntimeConfig();
+const { $trpc } = useNuxtApp();
 const { id } = useRoute().params;
 
 interface RecipientData {
@@ -15,16 +16,15 @@ const showModal = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
 };
-const { data } = await useFetch<any>(() => `messages/${id}`, {
-  baseURL: config.public.API_BASEURL,
-});
+
+const data = await $trpc.message.show.query(parseInt(id as string));
 
 const recipients = ref<RecipientData[] | []>(
-  data.value.recipients.map(({ recipientId }: RecipientData) => recipientId),
+  data.value?.recipients.map(({ recipientId }: RecipientData) => recipientId),
 );
 
 const groups = ref<GroupData[] | []>(
-  data.value.groups.map(({ groupId }: GroupData) => groupId),
+  data.value?.groups.map(({ groupId }: GroupData) => groupId),
 );
 </script>
 

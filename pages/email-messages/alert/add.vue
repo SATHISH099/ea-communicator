@@ -3,7 +3,9 @@ import Multiselect from '@vueform/multiselect';
 import type { Message } from '~~/services/message.service';
 import '~~/services/message.service';
 import { useToasterStore } from '~~/store/toaster';
+import { ImportanceLevel } from '~~/server/enums/importance-level.enum';
 const { setMessage } = useToasterStore();
+const { $trpc } = useNuxtApp();
 const router = useRouter();
 
 interface AlertData {
@@ -31,14 +33,16 @@ interface initialStateData {
 }
 
 const messageService = useService('message');
+const importanceLevel = ref<ImportanceLevel>(ImportanceLevel.LOW);
 const initialState: initialStateData = {
-  importanceLevel: 'low',
+  importanceLevel: ImportanceLevel.LOW,
   title: '',
   message: '',
   isSms: false,
   isEmail: false,
   isVoice: false,
 };
+
 const data = reactive({ ...initialState });
 const communicationChannel = ref<string[]>([]);
 const successResponse = ref({ id: null });
@@ -71,7 +75,17 @@ const submitHandler = async () => {
     })),
   };
   try {
-    const response = await messageService.sendMessage(data);
+    const response = await $trpc.message.create.mutate({
+      title: data.title,
+      message: data.message,
+      importanceLevel: importanceLevel.value,
+      isSms: communicationChannel.value.includes(channels[0]),
+      isEmail: communicationChannel.value.includes(channels[1]),
+      isVoice: communicationChannel.value.includes(channels[2]),
+      isPredefined: false,
+      recipients: recipients.value.map(({ id }) => id),
+      groups: groups.value.map(({ id }) => id),
+    });
     if (response) {
       setMessage('Message created successfully.', 'success');
       resetForm();

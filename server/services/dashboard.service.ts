@@ -9,11 +9,12 @@ import type { DateRangeCounterDto } from '../dtos/dashboard/date-range-counter.d
 import { UserService } from './user.service';
 
 export class DashboardService {
-  constructor(private userService: UserService) {
+  private userService: UserService;
+  constructor() {
     this.userService = new UserService();
   }
 
-  async getModelsCount(req: any) {
+  async getModelsCount(req?: any) {
     const { tenantId } = await this.userService.getLoginUser();
 
     const emailCount = await appDataSource.getRepository(Email).count({
@@ -86,7 +87,10 @@ export class DashboardService {
   }
 
   getDateRangeCount(req: DateRangeCounterDto) {
-    req.endDate.setUTCHours(23, 59, 59, 999);
+    if (req.endDate) {
+      req.endDate?.setUTCHours(23, 59, 59, 999);
+    }
+
     return this.getModelsCount(req);
   }
 }
