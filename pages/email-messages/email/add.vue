@@ -204,7 +204,7 @@ const setCcGroupRecipients = (
             <div grid md:grid-cols-2 grid-cols-1 gap-5 mt-8>
               <Multiselect
                 placeholder="From"
-                class="DownArrow"
+                class="down-arrow"
                 :options="['test1', 'test2']"
               />
 
