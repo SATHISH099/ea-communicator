@@ -72,7 +72,7 @@ const submitHandler = async (formData: any) => {
           ? await saveEmail(formData)
           : await saveSms(formData);
       if (response) {
-        setMessage('Template created successfully.', 'success');
+        setMessage('Template created successfully', 'success');
         resetForm();
         router.push('/email-messages/predefined-templates');
       } else {

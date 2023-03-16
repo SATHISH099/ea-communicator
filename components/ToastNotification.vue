@@ -9,7 +9,7 @@ const { getMessage: message, getType: type } = storeToRefs(store);
 <template>
   <div
     v-if="!!message"
-    class="fixed top-[8rem] right-[3rem] px-[24px] py-[12px] rounded-[4px] z-[999] font-medium"
+    class="fixed bottom-[2rem] right-[3rem] px-[24px] py-[12px] rounded-[4px] z-[999] font-medium"
     :class="[
       type,
       type === 'success'

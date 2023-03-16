@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { useToasterStore } from '~~/store/toaster';
+const { setMessage } = useToasterStore();
 const emailService = useService('email');
 interface EditData {
   title: string;
@@ -35,7 +37,18 @@ const submitHandler = async (formData: EditData) => {
       subject: formData.title,
       body: body.value,
     });
-    successResponse.value = response;
+    try {
+      if (response) {
+        setMessage('Template Successfully Updated', 'success');
+      } else {
+        setMessage(
+          'Something went wrong unable to create update template.',
+          'error',
+        );
+      }
+    } catch (error) {
+      console.error(new Error('Whoops, something went wrong.'));
+    }
   }
 };
 </script>
