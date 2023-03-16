@@ -202,8 +202,14 @@ const setCcGroupRecipients = (
               </div>
             </div>
             <div grid md:grid-cols-2 grid-cols-1 gap-5 mt-8>
+              <Multiselect
+                placeholder="From"
+                class="down-arrow"
+                :options="['test1', 'test2']"
+              />
+
               <button
-                class="relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[1rem] text-silver items-center p-[1rem] col-span-2"
+                class="relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[1rem] text-silver items-center p-[1rem]"
                 @click="toggleModal"
               >
                 <span class="mr-3">TO</span>
@@ -231,6 +237,7 @@ const setCcGroupRecipients = (
                   alt="plus"
                 />
               </button>
+
               <button
                 class="relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[16px] text-silver items-center p-[1rem]"
                 @click="toggleModalCc"
@@ -362,7 +369,8 @@ const setCcGroupRecipients = (
               :recipients="ccRecipients"
               :groups="ccGroups"
               @set-groups-recipients="setCcGroupRecipients"
-            ></SelectRecipients>
+            >
+            </SelectRecipients>
           </div>
         </TheModal>
 

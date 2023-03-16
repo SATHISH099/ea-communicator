@@ -306,3 +306,26 @@ a {
     }
   }
 }
+
+.down-arrow {
+  .multiselect-caret {
+    background-image: url('/arrow-down.png');
+    width: 18px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    -webkit-mask-image: none !important;
+    top: 8px;
+    &.is-open {
+      top: -3px;
+    }
+  }
+}
+
+.ql-snow {
+  .ql-editor {
+    position: absolute;
+    top: 0%;
+    bottom: 0%;
+    width: 100%;
+  }
+}

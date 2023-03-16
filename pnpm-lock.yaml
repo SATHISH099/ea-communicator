@@ -20,6 +20,7 @@ specifiers:
   eslint-config-prettier: ^8.7.0
   eslint-plugin-prettier: ^4.2.1
   lint-staged: ^13.1.2
+  moment: ^2.29.4
   nuxt: 3.2.3
   pinia: ^2.0.33
   prettier: ^2.8.4
@@ -48,6 +49,7 @@ dependencies:
   '@vueup/vue-quill': 1.1.1
   chart.js: 4.2.1
   lint-staged: 13.1.2
+  moment: 2.29.4
   pinia: 2.0.33_typescript@4.9.5
   typescript: 4.9.5
   vee-validate: 4.7.4
@@ -6870,6 +6872,10 @@ packages:
       pathe: 1.1.0
       pkg-types: 1.0.2
       ufo: 1.1.1
+
+  /moment/2.29.4:
+    resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}
+    dev: false
 
   /mri/1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
