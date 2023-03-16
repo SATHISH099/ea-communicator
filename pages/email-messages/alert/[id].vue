@@ -65,11 +65,11 @@ const groups = ref<GroupData[] | []>(
             <div class="grid grid-cols-3">
               <div class="mb-10 grid gap-y-2">
                 <h5 class="text-stone">Recipients</h5>
-                <p class="text-carbon">12</p>
+                <p class="text-carbon">{{ data.recipients.length }}</p>
               </div>
               <div class="mb-10 grid gap-y-2">
                 <h5 class="text-stone">Groups</h5>
-                <p class="text-carbon">03</p>
+                <p class="text-carbon">{{ data.groups.length }}</p>
               </div>
             </div>
             <div class="mb-10 grid gap-y-2">
