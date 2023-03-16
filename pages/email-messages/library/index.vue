@@ -11,21 +11,20 @@ const extensions = {
   others: ['pdf', 'xls', 'xlsx', 'doc', 'docx', 'csv', 'ppt', 'pptx'],
 };
 
-const config = useRuntimeConfig();
 const page = ref(1);
-const orderType = ref('desc');
+const orderType = ref<'desc' | 'asc'>('desc');
 const orderBy = ref('id');
 const search = ref('');
 const extensionType = ref('');
 const searchField = ref('');
+const { $trpc } = useNuxtApp();
 
-const { data: medias, refresh } = await useFetch<any>(
-  () =>
-    `medias?search=${search.value}&pageNumber=${page.value}&pageSize=10&orderType=${orderType.value}&orderBy=${orderBy.value}`,
-  {
-    baseURL: config.public.API_BASE_URL,
-  },
-);
+const { data: medias, refresh } = await $trpc.library.list.useQuery({
+  search: search.value,
+  pageNumber: page.value,
+  orderType: orderType.value,
+  orderBy: orderBy.value,
+});
 
 const searchKeyword = () => {
   search.value = searchField.value;
@@ -53,7 +52,7 @@ const viewUploadModal = ref(false);
 const handleAddMedia = async (data: { file: any[] }) => {
   const body = new FormData();
   data.file.forEach((fileItem: { file: string | Blob }) => {
-    body.append('media', fileItem.file);
+    body.append('media[]', fileItem.file);
   });
 
   const res = await mediaService.create(body);
@@ -68,7 +67,8 @@ const handleAddMedia = async (data: { file: any[] }) => {
 
 async function deleteMedia(id: number) {
   try {
-    await mediaService.delete(id);
+    await $trpc.library.delete.mutate(id);
+
     setMessage('Deleted Successfully.', 'success');
     window.location.reload();
   } catch (error) {
@@ -80,7 +80,7 @@ const viewMedia = (media: Media) => {
     viewImageModal.value = true;
     selectedMedia.value = media;
   } else {
-    window.open(media.fileUrl);
+    window.open(media.filePath);
   }
 };
 </script>
@@ -166,7 +166,7 @@ const viewMedia = (media: Media) => {
         class="grid lg:grid-cols-7 md:grid-cols-3 grid-cols-1 gap-3 media-gallery"
       >
         <div
-          v-for="media in medias.data"
+          v-for="media in medias?.data || []"
           :key="media.id"
           class="cursor-pointer relative overlay"
         >
@@ -179,7 +179,7 @@ const viewMedia = (media: Media) => {
           <img
             v-if="extensions.photos.includes(media.extension)"
             class="w-[12rem] h-[12rem] w-full object-cover object-center"
-            :src="media.fileUrl"
+            :src="media.filePath"
             alt=""
           />
           <button class="view-btn" @click="viewMedia(media)">View</button>
@@ -193,7 +193,7 @@ const viewMedia = (media: Media) => {
                 <div>
                   <img
                     class="w-full h-full"
-                    :src="selectedMedia.fileUrl"
+                    :src="selectedMedia.filePath"
                     alt=""
                   />
                 </div>
@@ -225,7 +225,7 @@ const viewMedia = (media: Media) => {
     </div>
     <div class="ml-8">
       <PaginationTable
-        :totalRecords="medias.total"
+        :totalRecords="medias?.total || 0"
         :currentPage="page"
         v-bind:paginate="paginate"
       ></PaginationTable>

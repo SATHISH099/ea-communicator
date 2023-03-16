@@ -19,6 +19,10 @@ export class CreateAttachmentTable1675261557349 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'file_path',
+            type: 'varchar',
+          },
+          {
             name: 'file_url',
             type: 'varchar',
           },
@@ -36,7 +40,7 @@ export class CreateAttachmentTable1675261557349 implements MigrationInterface {
           },
           {
             name: 'tenant_id',
-            type: 'varchar',
+            type: 'integer',
             isNullable: true,
           },
           {

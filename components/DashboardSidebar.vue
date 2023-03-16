@@ -20,10 +20,11 @@ const MenuItems = [
         text: 'Predefined Templates',
         link: '/email-messages/predefined-templates',
       },
-      {
-        text: 'Scheduled Messages',
-        link: '/email-messages/scheduled-message',
-      },
+      // TODO: uncomment when needed
+      // {
+      //   text: 'Scheduled Messages',
+      //   link: '/email-messages/scheduled-message',
+      // },
       { text: 'Messages', link: '/email-messages/alert' },
       { text: 'Email', link: '/email-messages/email' },
       { text: 'SMS', link: '/email-messages/sms' },
