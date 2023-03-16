@@ -98,9 +98,9 @@ const viewMedia = (media: Media) => {
       <div class="flex flex-wrap justify-between items-center gap-4">
         <div class="flex flex-wrap items-center gap-4">
           <FormKit
+            v-model="searchField"
             prefix-icon="search"
             type="search"
-            v-model="searchField"
             placeholder="Search"
             input-class="form-control pl-[3.5rem]"
             prefix-icon-class="search-icon"
@@ -155,14 +155,15 @@ const viewMedia = (media: Media) => {
             v-model="extensionType"
             placeholder="Category"
             :options="[...extensions.photos, ...extensions.others]"
-            @select="searchCategory"
             class="md:w-[14rem] w-full"
+            @select="searchCategory"
           />
         </div>
       </div>
     </div>
     <div class="bg-white small-shadow p-6">
       <div
+        v-if="medias?.total || 0 > 0"
         class="grid lg:grid-cols-7 md:grid-cols-3 grid-cols-1 gap-3 media-gallery"
       >
         <div
@@ -222,11 +223,14 @@ const viewMedia = (media: Media) => {
           </teleport>
         </div>
       </div>
+      <div v-else>
+        <p>No items found in gallery</p>
+      </div>
     </div>
     <div class="ml-8">
       <PaginationTable
-        :totalRecords="medias?.total || 0"
-        :currentPage="page"
+        :total-records="medias?.total || 0"
+        :current-page="page"
         v-bind:paginate="paginate"
       ></PaginationTable>
     </div>

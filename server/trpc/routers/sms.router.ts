@@ -43,9 +43,17 @@ const create = procedure.input(createSmsDto).mutation(({ input }) => {
   return smsService.createSms(input);
 });
 
+const bulkDelete = procedure
+  .input(z.array(z.number()))
+  .mutation(({ input }) => {
+    const smsService = new SmsService();
+    return smsService.bulkDelete(input);
+  });
+
 export const sms = router({
   list,
   show,
   delete: deleteSms,
   create,
+  bulkDelete,
 });

@@ -61,19 +61,6 @@ function resetForm() {
   groups.value = [];
 }
 const submitHandler = async () => {
-  const formData = {
-    ...data,
-    isSms: communicationChannel.value.includes(channels[0]),
-    isEmail: communicationChannel.value.includes(channels[1]),
-    isVoice: communicationChannel.value.includes(channels[2]),
-    isPredefined: false,
-    recipients: recipients.value.map(({ id }) => ({
-      recipientId: id,
-    })),
-    groups: groups.value.map(({ id }) => ({
-      groupId: id,
-    })),
-  };
   try {
     const response = await $trpc.message.create.mutate({
       title: data.title,
