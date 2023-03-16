@@ -43,9 +43,17 @@ const create = procedure.input(createEmailDto).mutation(({ input }) => {
   return emailService.createEmail(input);
 });
 
+const bulkDelete = procedure
+  .input(z.array(z.number()))
+  .mutation(({ input }) => {
+    const emailService = new EmailService();
+    return emailService.bulkDelete(input);
+  });
+
 export const email = router({
   list,
   show,
   delete: deleteEmail,
   create,
+  bulkDelete,
 });
