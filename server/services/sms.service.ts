@@ -39,7 +39,7 @@ export class SmsService extends BaseService<Sms> {
 
     if (!body.isPredefined) {
       await Promise.all(
-        recipients.map((recipient: any) => {
+        recipients!.map((recipient: any) => {
           const smsRecipient = new SmsRecipient();
           smsRecipient.smsId = sms.id;
           smsRecipient.recipientId = recipient;
@@ -49,7 +49,7 @@ export class SmsService extends BaseService<Sms> {
       );
 
       await Promise.all(
-        groups.map((groups: any) => {
+        groups!.map((groups: any) => {
           const smsGroup = new SmsGroup();
           smsGroup.smsId = sms.id;
           smsGroup.groupId = groups;

@@ -15,8 +15,6 @@ export default defineEventHandler(async (event) => {
   const data = await parseRequestFormData(event);
   const config = useRuntimeConfig();
 
-  console.log(event.context.session);
-
   await validationPipe(CreateMediaDto, data);
 
   const service = new MediaService();

@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-import Multiselect from '@vueform/multiselect';
-import type { Message } from '~~/services/message.service';
-import '~~/services/message.service';
 import { useToasterStore } from '~~/store/toaster';
 import { ImportanceLevel } from '~~/server/enums/importance-level.enum';
 const { setMessage } = useToasterStore();
@@ -32,7 +29,6 @@ interface initialStateData {
   isVoice: boolean;
 }
 
-const messageService = useService('message');
 const importanceLevel = ref<ImportanceLevel>(ImportanceLevel.LOW);
 const initialState: initialStateData = {
   importanceLevel: ImportanceLevel.LOW,
@@ -103,13 +99,7 @@ const setGroupRecipients = (
 
 <template>
   <div>
-    <FormKit
-      type="form"
-      id="sendSms"
-      @submit="submitHandler"
-      :actions="false"
-      #default="{ value }"
-    >
+    <FormKit id="sendSms" type="form" :actions="false" @submit="submitHandler">
       <div class="flex justify-between items-center mb-10">
         <div>
           <h4 class="mb-4 text-stone">Messages</h4>
@@ -120,7 +110,7 @@ const setGroupRecipients = (
         </div>
       </div>
       <div w-full>
-        <div class="success alert-success" v-if="successResponse.id">
+        <div v-if="successResponse.id" class="success alert-success">
           Message Successfully Sent
         </div>
         <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>
@@ -131,8 +121,8 @@ const setGroupRecipients = (
                 <h6 text-stone>Priority</h6>
                 <div flex flex-wrap items-center gap-3>
                   <FormKit
-                    name="importanceLevel"
                     v-model="data.importanceLevel"
+                    name="importanceLevel"
                     type="radio"
                     validation="required"
                     outer-class="radio-fieldset"
@@ -155,17 +145,17 @@ const setGroupRecipients = (
                 <span class="mr-3">TO</span>
                 <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
                   <span
-                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
                     v-for="recipient in recipients"
                     :key="recipient.id"
+                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
                   >
                     {{ recipient.firstName }} {{ recipient.lastName }}
                   </span>
 
                   <span
-                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary"
                     v-for="group in groups"
                     :key="group.id"
+                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary"
                   >
                     {{ group.groupName }}
                   </span>
@@ -177,8 +167,8 @@ const setGroupRecipients = (
                 />
               </button>
               <FormKit
-                type="text"
                 v-model="data.title"
+                type="text"
                 name="title"
                 validation="required"
                 placeholder="Subject"
@@ -203,9 +193,9 @@ const setGroupRecipients = (
               <h6 text-stone>Communication Channels</h6>
               <div flex items-center gap-6>
                 <FormKit
+                  v-model="communicationChannel"
                   name="communicationChannel"
                   type="checkbox"
-                  v-model="communicationChannel"
                   :options="channels"
                   validation="required|min:1"
                   outer-class="radio-fieldset"
@@ -222,39 +212,19 @@ const setGroupRecipients = (
               <div class="flex justify-start py-6">
                 <div class="flex items-center gap-1 md:gap-0 flex-wrap">
                   <div
+                    v-for="(tabValue, key) in {
+                      all: 'All',
+                      email: 'Email',
+                      sms: 'SMS',
+                      voice: 'Voice',
+                      notification: 'Push Notification',
+                    }"
+                    :key="key"
                     class="tab"
-                    :class="{ active: activeTab === 'all' }"
-                    @click="activeTab = 'all'"
+                    :class="{ active: activeTab === key }"
+                    @click="activeTab = key"
                   >
-                    All
-                  </div>
-                  <div
-                    class="tab"
-                    :class="{ active: activeTab === 'emails' }"
-                    @click="activeTab = 'emails'"
-                  >
-                    Messages
-                  </div>
-                  <div
-                    class="tab"
-                    :class="{ active: activeTab === 'sms' }"
-                    @click="activeTab = 'sms'"
-                  >
-                    Sms
-                  </div>
-                  <div
-                    class="tab"
-                    :class="{ active: activeTab === 'voice' }"
-                    @click="activeTab = 'voice'"
-                  >
-                    Voice
-                  </div>
-                  <div
-                    class="tab whitespace-nowrap"
-                    :class="{ active: activeTab === 'notification' }"
-                    @click="activeTab = 'notification'"
-                  >
-                    Push Notification
+                    {{ tabValue }}
                   </div>
                 </div>
               </div>

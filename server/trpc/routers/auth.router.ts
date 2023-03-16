@@ -7,11 +7,11 @@ const login = procedure
   .mutation(({ input, ctx: { session } }) => {
     const service = new AuthService();
 
-    return service.login(input, session);
+    return service.login(input, session!);
   });
 
 const logout = procedure.mutation(({ ctx: { session } }) => {
-  session.userId = undefined;
+  session!.userId = undefined;
   return true;
 });
 

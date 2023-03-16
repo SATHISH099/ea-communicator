@@ -15,14 +15,8 @@ export class CreateMessagesTable1676470158069 implements MigrationInterface {
             generationStrategy: 'increment',
           },
           {
-            name: 'sender_email',
-            type: 'varchar',
-            isNullable: true,
-          },
-          {
-            name: 'sender_phone_no',
-            type: 'varchar',
-            isNullable: true,
+            name: 'sender_id',
+            type: 'integer',
           },
           {
             name: 'title',
@@ -95,6 +89,16 @@ export class CreateMessagesTable1676470158069 implements MigrationInterface {
       'messages',
       new TableForeignKey({
         columnNames: ['creator_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'users',
+        onDelete: 'CASCADE',
+      }),
+    );
+
+    await queryRunner.createForeignKey(
+      'messages',
+      new TableForeignKey({
+        columnNames: ['sender_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'users',
         onDelete: 'CASCADE',

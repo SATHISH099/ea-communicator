@@ -25,7 +25,7 @@ export interface AuthSessionPayload
 
 export type Session = BaseSession & { user: AuthSessionPayload };
 
-export type EventContext = BaseContext & { session: Session };
+export type EventContext = BaseContext & { session?: Session };
 export class H3Event extends BaseEvent {
   context: EventContext;
 }

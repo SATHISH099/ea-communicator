@@ -184,6 +184,7 @@ const viewMedia = (media: Media) => {
             alt=""
           />
           <button class="view-btn" @click="viewMedia(media)">View</button>
+          <p text-center>{{ media.title }}</p>
           <teleport to="body">
             <div v-if="viewImageModal">
               <CModal

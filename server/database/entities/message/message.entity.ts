@@ -24,6 +24,10 @@ export class Message extends BaseEntity {
   @Column({ type: 'text' })
   message: string;
 
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'sender_id' })
+  sender: User;
+
   @Column({ name: 'sending_status', type: 'simple-enum' })
   sendingStatus: SendingStatus;
 
@@ -43,7 +47,7 @@ export class Message extends BaseEntity {
   isEmail: boolean;
 
   @Column({ name: 'tenant_id', type: 'varchar' })
-  tenantId: string;
+  tenantId: number;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'creator_id' })

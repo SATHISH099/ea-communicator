@@ -1,7 +1,7 @@
 import type { inferAsyncReturnType } from '@trpc/server';
-import type { H3Event } from '../types';
+import type { EventContext, H3Event } from '../types';
 
-export const createContext = ({ context }: H3Event) => {
+export const createContext = ({ context }: H3Event): EventContext => {
   return context;
 };
 

@@ -1,17 +1,12 @@
 <script lang="ts" setup>
 import Multiselect from '@vueform/multiselect/src/Multiselect';
 import moment from 'moment';
-import type { Sms } from '~~/services/sms.service';
-import type { Email } from '~~/services/email.service';
 
-const smsService = useService('sms');
-const emailService = useService('email');
-type Message = Sms & Email;
-const config = useRuntimeConfig();
-const type = ref('emails');
+const { $trpc } = useNuxtApp();
+const type = ref<'email' | 'sms'>('email');
 const page = ref(1);
 const isDelete = ref(false);
-const orderType = ref('desc');
+const orderType = ref<'desc' | 'asc'>('desc');
 const orderBy = ref('id');
 const search = ref('');
 const searchField = ref('');
@@ -25,26 +20,25 @@ const MessageHeaders = [
 
 const showLess = (input: string) =>
   input && input.length > 100 ? `${input.substring(0, 100)}...` : input;
-
-const { data, refresh } = await useFetch<any>(
-  () =>
-    `${type.value || 'emails'}?search=${search.value}&pageNumber=${
-      page.value
-    }&pageSize=10&isPredefined=true&orderType=${orderType.value}&orderBy=${
-      orderBy.value
-    }`,
+const { data, refresh } = await $trpc[type.value].list.useQuery(
   {
-    baseURL: config.public.API_BASEURL,
+    search: search.value,
+    pageNumber: page.value,
+    isPredefined: true,
+    orderType: orderType.value,
+    orderBy: orderBy.value,
+  },
+  {
     transform: (data) => ({
       total: data.total,
-      data: data.data.map((message: Message) => ({
+      data: data.data.map((message: any) => ({
         id: message.id,
-        title: type.value === 'emails' ? message.subject : message.title,
+        title: type.value === 'email' ? message.subject : message.title,
         message:
-          type.value === 'emails'
+          type.value === 'email'
             ? showLess(message.body)
             : showLess(message.message),
-        sentDate: moment(message.createdAt).format('h:mm A'),
+        sentDate: moment(message.createdAt).format('dddd, Do MMMM YYYY h:mm A'),
       })),
     }),
   },
@@ -62,12 +56,10 @@ const paginate = (pg: number) => {
 };
 
 const deleteRecord = async (id: number) => {
-  const response =
-    type.value === 'emails'
-      ? await emailService.delete(id)
-      : await smsService.delete(id);
+  await $trpc[type.value].delete.mutate(id);
+
+  isDelete.value = true;
   refresh();
-  isDelete.value = response.affected;
 };
 
 const sortRecord = (key: string) => {
@@ -76,9 +68,10 @@ const sortRecord = (key: string) => {
   refresh();
 };
 
-const optionTypeSelected = (option: string) => {
+const optionTypeSelected = (option: 'email' | 'sms') => {
   type.value = option;
   orderBy.value = 'id';
+
   refresh();
 };
 
@@ -120,9 +113,9 @@ const searchEmpty = () => {
         <div class="flex flex-wrap justify-between items-center gap-4">
           <div class="flex flex-wrap items-center gap-4">
             <FormKit
+              v-model="searchField"
               prefix-icon="search"
               type="search"
-              v-model="searchField"
               placeholder="Search"
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
@@ -141,11 +134,11 @@ const searchEmpty = () => {
               v-model="type"
               placeholder="Predefined Type"
               :options="[
-                { value: 'emails', label: 'Email' },
+                { value: 'email', label: 'Email' },
                 { value: 'sms', label: 'SMS' },
               ]"
-              @select="optionTypeSelected"
               class="md:w-[14rem] w-full"
+              @select="optionTypeSelected"
             />
           </div>
         </div>
@@ -153,16 +146,16 @@ const searchEmpty = () => {
       <div class="pb-10 pt-5">
         <DashboardTable
           :headers="MessageHeaders"
-          :rows="data.data"
-          :type="type === 'emails' ? 'email' : 'sms'"
+          :rows="data?.data || []"
+          :type="type === 'email' ? 'email' : 'sms'"
           @onDeleteRecord="deleteRecord"
           @sortRecord="sortRecord"
         />
         <div class="ml-8">
           <PaginationTable
-            :totalRecords="data.total"
-            :currentPage="page"
-            v-bind:paginate="paginate"
+            :total-records="data?.total || 0"
+            :current-page="page"
+            :paginate="paginate"
           ></PaginationTable>
         </div>
       </div>

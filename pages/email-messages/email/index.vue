@@ -40,7 +40,7 @@ const { data, refresh } = await $trpc.email.list.useQuery(
             createdAt,
           }: any) => ({
             id,
-            sender,
+            sender: sender?.name,
             subject,
             recipients: recipients.length,
             groups: groups.length,
@@ -135,7 +135,7 @@ const searchEmpty = () => {
       <div class="pb-10 pt-5 overflow-auto scroll">
         <DashboardTable
           :headers="MessageHeaders"
-          :rows="data?.data"
+          :rows="data?.data || []"
           type="email"
           :show-bulk-delete="true"
           @onDeleteRecord="deleteRecord"

@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router';
 const { $trpc } = useNuxtApp();
 const { id } = useRoute().params;
 const showModal = ref(false);
+
 const toggleModal = () => {
   showModal.value = !showModal.value;
 };
@@ -57,26 +58,13 @@ const data = await $trpc.email.show.query(parseInt(id as string));
             </div>
             <div class="mb-10 grid gap-y-2">
               <h5 class="text-stone">Subject</h5>
-              <p class="text-carbon">{{ data.body }}</p>
+              <p class="text-carbon">{{ data.subject }}</p>
             </div>
             <div class="mb-10 grid gap-y-2">
-              <h5 class="text-stone">Alert Messages</h5>
+              <h5 class="text-stone">Message</h5>
               <p class="text-carbon">
-                The impact of visual design on a project's success is
-                significant, and it depends largely on how much emphasis is
-                placed on it. Visual design refers to the aesthetic aspect of a
-                project, which includes the color palette, typography, layout,
-                and imagery. It can influence how users perceive and interact
-                with a product, website, or app. In some cases, visual design
-                may be the primary factor that attracts or repels users.
-                Therefore, it is important to consider the appropriate level of
-                emphasis on visual design when creating a project, as it can
-                make a significant difference in its success.
+                {{ data.body }}
               </p>
-            </div>
-            <div class="mb-10 grid gap-y-2">
-              <h5 class="text-stone">Communication Channel</h5>
-              <p class="text-carbon">SMS, Email, Voice</p>
             </div>
           </div>
         </div>

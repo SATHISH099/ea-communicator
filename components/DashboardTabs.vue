@@ -12,7 +12,7 @@ const { data } = await $trpc.message.findAll.useQuery(
       total,
       data: data.map((message: any) => ({
         id: message.id,
-        sender: message.sender,
+        sender: message.sender?.name,
         subject: message.subject || message.title,
         body: message.message || message.body,
       })),

@@ -15,6 +15,7 @@ const findAll = procedure
         ...(input.search && { title: Like(`%${input.search}%`) }),
       },
       relations: {
+        sender: true,
         recipients: true,
         groups: true,
       },

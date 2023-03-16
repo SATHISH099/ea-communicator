@@ -8,10 +8,10 @@ import type {
   EmailGroupDto,
   EmailRecipientDto,
 } from '../dtos/emails/create-email.dto';
-import type { UpdateEmailDto } from '../dtos/emails/update-email.dto';
 import { RecipientType } from '../enums/recipient-type.enum';
 import { SendingStatus } from '../enums/sending-status.enum';
 import type { CreateEmailDto } from '../validations/emails/create.dto';
+import { UpdateEmailDto } from '../validations/emails/update.dto';
 import { BaseService } from './base.service';
 import { UserService } from './user.service';
 
@@ -43,8 +43,8 @@ export class EmailService extends BaseService<Email> {
     });
 
     if (!body.isPredefined) {
-      await this.recipientBind(recipients, email);
-      await this.groupBind(groups, email);
+      await this.recipientBind(recipients!, email);
+      await this.groupBind(groups!, email);
     }
 
     return email;

@@ -5,13 +5,11 @@ const emailService = useService('email');
 interface EditData {
   title: string;
 }
-const config = useRuntimeConfig();
-const { id: emailId } = useRoute().params;
-const { data: emailDetail } = await useFetch<any>(() => `emails/${emailId}`, {
-  baseURL: config.public.API_BASEURL,
-});
+const { $trpc } = useNuxtApp();
+const params = useRoute().params;
+const emailId: number = parseInt(params.id as string);
+const record = await $trpc.email.show.query(emailId);
 
-const record = emailDetail.value;
 const successResponse = ref({ id: null });
 const errorBody = ref(false);
 const title = ref(record.subject);
@@ -33,9 +31,12 @@ const checkvalidation = () => {
 
 const submitHandler = async (formData: EditData) => {
   if (checkvalidation()) {
-    const response = await emailService.update(Number(emailId), {
-      subject: formData.title,
-      body: body.value,
+    const response = await $trpc.email.update.mutate({
+      id: emailId,
+      data: {
+        subject: formData.title,
+        body: body.value,
+      },
     });
     try {
       if (response) {
@@ -56,11 +57,10 @@ const submitHandler = async (formData: EditData) => {
 <template>
   <div>
     <FormKit
-      type="form"
       id="updateTemplate"
-      @submit="submitHandler"
+      type="form"
       :actions="false"
-      #default="{ value }"
+      @submit="submitHandler"
     >
       <div class="flex flex-wrap justify-between items-center mb-10">
         <div class="md:mb-0 mb-10">

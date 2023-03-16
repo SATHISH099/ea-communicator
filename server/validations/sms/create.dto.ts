@@ -7,8 +7,8 @@ export const createSmsDto = z.object({
   sender: z.number().optional(),
   importanceLevel: z.nativeEnum(ImportanceLevel),
   isPredefined: z.boolean().default(false),
-  recipients: z.array(z.number()),
-  groups: z.array(z.number()),
+  recipients: z.array(z.number()).optional(),
+  groups: z.array(z.number()).optional(),
 });
 
 export type CreateSmsDto = z.infer<typeof createSmsDto>;

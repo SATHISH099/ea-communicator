@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import Multiselect from '@vueform/multiselect/src/Multiselect';
+import { ImportanceLevel } from '~~/server/enums/importance-level.enum';
 import '~~/services/email.service';
 import { useToasterStore } from '~~/store/toaster';
 const { setMessage } = useToasterStore();
@@ -11,9 +11,8 @@ interface AddData {
   message: string;
 }
 
-const smsService = useService('sms');
-const emailService = useService('email');
-const type = ref('');
+const { $trpc } = useNuxtApp();
+const type = ref<'email' | 'sms' | null>('email');
 const successResponse = ref({ id: null });
 const errorBody = ref(false);
 const title = ref('');
@@ -31,44 +30,40 @@ const resetForm = () => {
 };
 
 const checkvalidation = () => {
-  if (!body.value && type.value === 'emails') {
+  if (!body.value && type.value === 'email') {
     errorBody.value = true;
     return false;
   }
 
   return true;
 };
+
 const saveEmail = (formData: AddData) => {
   const data = {
     subject: formData.title,
-    sender: 'test',
-    importanceLevel: 'low',
+    importanceLevel: ImportanceLevel.LOW,
     body: body.value,
     isPredefined: true,
-    recipients: [],
-    groups: [],
   };
-  return emailService.sendEmail(data);
+
+  return $trpc.email.create.mutate(data);
 };
 
 const saveSms = (formData: AddData) => {
   const data = {
     title: formData.title,
     message: message.value,
-    sender: 'test',
-    importanceLevel: 'low',
-    tenantId: 'test',
+    importanceLevel: ImportanceLevel.LOW,
     isPredefined: true,
-    recipients: [],
-    groups: [],
   };
-  return smsService.sendSms(data);
+
+  return $trpc.sms.create.mutate(data);
 };
 const submitHandler = async (formData: any) => {
   if (checkvalidation()) {
     try {
       const response =
-        type.value === 'emails'
+        type.value === 'email'
           ? await saveEmail(formData)
           : await saveSms(formData);
       if (response) {
@@ -93,7 +88,6 @@ const submitHandler = async (formData: any) => {
       id="sendTemplate"
       @submit="submitHandler"
       :actions="false"
-      #default="{ value }"
     >
       <div class="flex flex-wrap justify-between items-center mb-10">
         <div class="md:mb-0 mb-10">
@@ -128,12 +122,12 @@ const submitHandler = async (formData: any) => {
               input-class="form-control mb-5"
               placeholder="Predefined message type"
               :options="[
-                { value: 'emails', label: 'Email' },
+                { value: 'email', label: 'Email' },
                 { value: 'sms', label: 'SMS' },
               ]"
             />
 
-            <div mb-5 v-if="type == 'emails'">
+            <div mb-5 v-if="type === 'email'">
               <ClientOnly>
                 <RichTextEditor
                   v-model="body"
@@ -148,7 +142,7 @@ const submitHandler = async (formData: any) => {
               <span class="error" v-if="errorBody">Please Enter Body</span>
             </div>
 
-            <div mb-5 v-if="type == 'sms'">
+            <div v-if="type === 'sms'" mb-5>
               <FormKit
                 type="textarea"
                 name="message"

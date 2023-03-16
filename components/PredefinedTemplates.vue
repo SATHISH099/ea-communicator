@@ -5,8 +5,7 @@ const search = ref('');
 const searchField = ref('');
 const page = ref(1);
 const { $trpc } = useNuxtApp();
-// const moduleType: 'email' | 'sms' = props.type === 'emails' ? 'email' : 'sms';
-const moduleType = 'email';
+const moduleType: 'email' | 'sms' = props.type === 'emails' ? 'email' : 'sms';
 
 const { data, refresh } = await $trpc[moduleType].list.useQuery(
   {
@@ -55,14 +54,14 @@ const paginate = (pg: number) => {
         mt-3
         mb-8
         :headers="messageHeaders"
-        :rows="data.data"
+        :rows="data?.data || []"
         :isDropdown="false"
         :isTemplateDefine="true"
         :use="use"
       />
       <div class="px-6 pb-6">
         <PaginationTable
-          :totalRecords="data.total"
+          :totalRecords="data?.total || 0"
           :currentPage="page"
           v-bind:paginate="paginate"
         ></PaginationTable>

@@ -41,7 +41,7 @@ const { data, refresh } = await $trpc.sms.list.useQuery(
             createdAt,
           }: any) => ({
             id,
-            sender,
+            sender: sender?.name,
             title,
             recipients: recipients.length,
             groups: groups.length,
