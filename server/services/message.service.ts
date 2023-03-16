@@ -65,4 +65,8 @@ export class MessageService extends BaseService<Message> {
   delete(id: number) {
     return this.repository.softDelete(id);
   }
+
+  bulkDelete(ids: number[]) {
+    return this.repository.softDelete(ids);
+  }
 }
