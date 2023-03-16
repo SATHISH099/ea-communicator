@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import moment from 'moment';
-import type { Recipient } from '~~/services/recipient.service';
-import type { Group } from '~~/services/group.service';
 
 const page = ref(1);
 const isDelete = ref(false);
@@ -9,7 +7,6 @@ const search = ref('');
 const orderType = ref('desc');
 const orderBy = ref('id');
 const searchField = ref('');
-const smsService = useService('sms');
 
 const messageHeaders = [
   { value: 'Id', isSort: true, key: 'id' },
@@ -75,9 +72,9 @@ const sortRecord = (key: string) => {
 };
 
 const deleteRecord = async (id: number) => {
-  const response = await smsService.delete(id);
+  const response = await $trpc.sms.delete.mutate(id);
   refresh();
-  isDelete.value = response.affected;
+  isDelete.value = response.affected !== undefined;
 };
 </script>
 

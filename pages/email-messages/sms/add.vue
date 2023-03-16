@@ -41,18 +41,6 @@ const resetForm = () => {
 };
 
 const submitHandler = async () => {
-  const data = {
-    sender: 'test',
-    tenantId: 'test',
-    isPredefined: false,
-    recipients: recipients.value.map(({ id }) => ({
-      recipientId: id,
-    })),
-    groups: groups.value.map(({ id }) => ({
-      groupId: id,
-    })),
-  };
-
   try {
     const response = await $trpc.sms.create.mutate({
       title: title.value,
