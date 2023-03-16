@@ -1,17 +1,12 @@
 <script lang="ts" setup>
 import moment from 'moment';
-import type { Sms } from '~~/services/sms.service';
-import type { Recipient } from '~~/services/recipient.service';
-import type { Group } from '~~/services/group.service';
 
-const config = useRuntimeConfig();
 const page = ref(1);
 const isDelete = ref(false);
 const search = ref('');
 const orderType = ref('desc');
 const orderBy = ref('id');
 const searchField = ref('');
-const smsService = useService('sms');
 
 const messageHeaders = [
   { value: 'Id', isSort: true, key: 'id' },
@@ -24,16 +19,14 @@ const messageHeaders = [
   '',
 ];
 
-interface GroupRecipientData {
-  recipients: Recipient[];
-  groups: Group[];
-}
+const { $trpc } = useNuxtApp();
 
-const { data, refresh } = await useFetch<any>(
-  () =>
-    `sms?search=${search.value}&pageNumber=${page.value}&pageSize=10&orderType=${orderType.value}&orderBy=${orderBy.value}`,
+const { data, refresh } = await $trpc.sms.list.useQuery(
   {
-    baseURL: config.public.API_BASE_URL,
+    search: search.value,
+    pageNumber: page.value,
+  },
+  {
     transform: (data) => {
       return {
         total: data.total,
@@ -46,9 +39,9 @@ const { data, refresh } = await useFetch<any>(
             recipients,
             groups,
             createdAt,
-          }: Sms & GroupRecipientData) => ({
+          }: any) => ({
             id,
-            sender,
+            sender: sender?.name,
             title,
             recipients: recipients.length,
             groups: groups.length,
@@ -79,9 +72,9 @@ const sortRecord = (key: string) => {
 };
 
 const deleteRecord = async (id: number) => {
-  const response = await smsService.delete(id);
+  const response = await $trpc.sms.delete.mutate(id);
   refresh();
-  isDelete.value = response.affected;
+  isDelete.value = response.affected !== undefined;
 };
 </script>
 
@@ -129,7 +122,7 @@ const deleteRecord = async (id: number) => {
       <div class="pb-10 pt-5 overflow-auto scroll relative">
         <DashboardTable
           :headers="messageHeaders"
-          :rows="data.data"
+          :rows="data?.data"
           type="sms"
           @onDeleteRecord="deleteRecord"
           @sortRecord="sortRecord"
@@ -137,7 +130,7 @@ const deleteRecord = async (id: number) => {
         />
         <div class="ml-8">
           <PaginationTable
-            :totalRecords="data.total"
+            :totalRecords="data?.total"
             :currentPage="page"
             v-bind:paginate="paginate"
           ></PaginationTable>

@@ -20,14 +20,23 @@ const response = ref<RecipientData[] & GroupData[]>([]);
 
 const loadRecipients = async (tab: string) => {
   activeTab.value = tab;
-  const recipientData =
-    activeTab.value === 'recipients'
-      ? await recipientService.fetch(props.recipients)
-      : await groupService.fetch(props.groups);
 
-  if (recipientData) {
-    response.value = recipientData.data;
-  }
+  try {
+    const recipientData =
+      activeTab.value === 'recipients'
+        ? await recipientService.fetch(
+            props.recipients.map(
+              ({ recipientId }: { recipientId: number }) => recipientId,
+            ),
+          )
+        : await groupService.fetch(
+            props.groups.map(({ groupId }: { groupId: number }) => groupId),
+          );
+
+    if (recipientData) {
+      response.value = recipientData.data;
+    }
+  } catch (error) {}
 };
 
 loadRecipients(activeTab.value);

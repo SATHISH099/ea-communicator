@@ -1,31 +1,20 @@
 <script lang="ts" setup>
 import Multiselect from '@vueform/multiselect';
 import { useRoute } from 'vue-router';
-const config = useRuntimeConfig();
+
+const { $trpc } = useNuxtApp();
 const { id } = useRoute().params;
 
-interface RecipientData {
-  recipientId: number;
-}
-
-interface GroupData {
-  groupId: number;
-}
 const showModal = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
 };
-const { data } = await useFetch<any>(() => `messages/${id}`, {
-  baseURL: config.public.API_BASE_URL,
-});
 
-const recipients = ref<RecipientData[] | []>(
-  data.value.recipients.map(({ recipientId }: RecipientData) => recipientId),
+const data = await $trpc.message.show.query(parseInt(id as string));
+const recipients = ref(
+  data.recipients.map(({ recipientId }) => ({ recipientId })),
 );
-
-const groups = ref<GroupData[] | []>(
-  data.value.groups.map(({ groupId }: GroupData) => groupId),
-);
+const groups = ref(data.groups.map(({ groupId }) => ({ groupId })));
 </script>
 
 <template>
@@ -60,16 +49,16 @@ const groups = ref<GroupData[] | []>(
             </div>
             <div class="mb-10 grid gap-y-2">
               <h5 class="text-stone">Sender</h5>
-              <p class="text-carbon">{{ data.sender }}</p>
+              <p class="text-carbon">{{ data.sender?.name }}</p>
             </div>
             <div class="grid grid-cols-3">
               <div class="mb-10 grid gap-y-2">
                 <h5 class="text-stone">Recipients</h5>
-                <p class="text-carbon">12</p>
+                <p class="text-carbon">{{ data.recipients.length }}</p>
               </div>
               <div class="mb-10 grid gap-y-2">
                 <h5 class="text-stone">Groups</h5>
-                <p class="text-carbon">03</p>
+                <p class="text-carbon">{{ data.groups.length }}</p>
               </div>
             </div>
             <div class="mb-10 grid gap-y-2">
@@ -77,7 +66,7 @@ const groups = ref<GroupData[] | []>(
               <p class="text-carbon">Request For API endpoints</p>
             </div>
             <div class="mb-10 grid gap-y-2">
-              <h5 class="text-stone">Alert Messages</h5>
+              <h5 class="text-stone">Alert Message</h5>
               <p class="text-carbon">{{ data.message }}</p>
             </div>
             <div class="mb-10 grid gap-y-2">

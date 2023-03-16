@@ -52,10 +52,6 @@ export class ApiService {
     this.setOptions(options);
   }
 
-  initialize() {
-    this.config = useRuntimeConfig().public;
-  }
-
   get<T>(schema: z.ZodType<T>, url?: string, options?: FetchOptions) {
     return this.makeRequest(this.getUrl(url), this.getOptions(options), schema);
   }
@@ -121,8 +117,8 @@ export class ApiService {
   getBaseUrl() {
     this.config = useRuntimeConfig().public;
     return this.apiTarget === ApiTarget.SELF
-      ? this.config?.API_BASE_URL
-      : this.config?.API_SMARTSUITE_BASE_URL;
+      ? this.config?.API_BASEURL
+      : this.config?.API_SMARTSUITE_BASEURL;
   }
 
   setOptions(options: FetchOptions) {

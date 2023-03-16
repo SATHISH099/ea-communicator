@@ -1,11 +1,5 @@
 <script lang="ts" setup>
 import moment from 'moment';
-import type { Email } from '~~/services/email.service';
-import type { Recipient } from '~~/services/recipient.service';
-import type { Group } from '~~/services/group.service';
-
-const emailService = useService('email');
-const config = useRuntimeConfig();
 const page = ref(1);
 const isDelete = ref(false);
 const orderType = ref('desc');
@@ -24,16 +18,14 @@ const MessageHeaders = [
   '',
 ];
 
-interface GroupRecipientData {
-  recipients: Recipient[];
-  groups: Group[];
-}
+const { $trpc } = useNuxtApp();
 
-const { data, refresh } = await useFetch<any>(
-  () =>
-    `emails?search=${search.value}&pageNumber=${page.value}&pageSize=10&orderType=${orderType.value}&orderBy=${orderBy.value}`,
+const { data, refresh } = await $trpc.email.list.useQuery(
   {
-    baseURL: config.public.API_BASE_URL,
+    search: search.value,
+    pageNumber: page.value,
+  },
+  {
     transform: (data) => {
       return {
         total: data.total,
@@ -46,9 +38,9 @@ const { data, refresh } = await useFetch<any>(
             groups,
             body,
             createdAt,
-          }: Email & GroupRecipientData) => ({
+          }: any) => ({
             id,
-            sender,
+            sender: sender?.name,
             subject,
             recipients: recipients.length,
             groups: groups.length,
@@ -73,9 +65,9 @@ const paginate = (pg: number) => {
 };
 
 const deleteRecord = async (id: number) => {
-  const response = await emailService.delete(id);
+  const response = await $trpc.email.delete.mutate(id);
   refresh();
-  isDelete.value = response.affected;
+  isDelete.value = response.affected !== undefined;
 };
 
 const sortRecord = (key: string) => {
@@ -143,7 +135,7 @@ const searchEmpty = () => {
       <div class="pb-10 pt-5 overflow-auto scroll">
         <DashboardTable
           :headers="MessageHeaders"
-          :rows="data.data"
+          :rows="data?.data || []"
           type="email"
           :show-bulk-delete="true"
           @onDeleteRecord="deleteRecord"
@@ -152,7 +144,7 @@ const searchEmpty = () => {
         />
         <div class="ml-8">
           <PaginationTable
-            :totalRecords="data.total"
+            :totalRecords="data?.total"
             :currentPage="page"
             v-bind:paginate="paginate"
           ></PaginationTable>

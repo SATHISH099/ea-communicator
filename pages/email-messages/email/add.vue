@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import Multiselect from '@vueform/multiselect';
-import type { Email } from '~~/services/email.service';
 import '~~/services/media.service';
 import '~~/services/email.service';
 import { useToasterStore } from '~~/store/toaster';
+import { ImportanceLevel } from '~~/server/enums/importance-level.enum';
 const { setMessage } = useToasterStore();
 const router = useRouter();
 
@@ -23,11 +22,10 @@ interface GroupData {
   groupName: string;
 }
 
+const { $trpc } = useNuxtApp();
 const mediaService = useService('media');
 
-const emailService = useService('email');
-const importanceLevel = ref('low');
-const successResponse = ref({ id: null });
+const importanceLevel = ref<ImportanceLevel>(ImportanceLevel.LOW);
 const errorBody = ref(false);
 const subject = ref('');
 const body = ref('');
@@ -61,7 +59,7 @@ const setField = (data: string) => {
 const resetForm = () => {
   body.value = '';
   subject.value = '';
-  importanceLevel.value = '';
+  importanceLevel.value = ImportanceLevel.LOW;
   recipients.value = [];
   groups.value = [];
   ccRecipients.value = [];
@@ -88,11 +86,11 @@ const handleAddMedia = async (data: { file: any[] }) => {
 
   if (data.file.length) {
     data.file.forEach((fileItem: { file: string | Blob }) => {
-      body.append('media', fileItem.file);
+      body.append('media[]', fileItem.file);
     });
 
     const response = await mediaService.create(body);
-    return [{ id: response.id }];
+    return response.map((media: any) => ({ id: media.id }));
   } else {
     return [];
   }
@@ -101,27 +99,23 @@ const handleAddMedia = async (data: { file: any[] }) => {
 const submitHandler = async (formData: { file: any[] }) => {
   if (checkvalidation()) {
     const media = await handleAddMedia(formData);
-    const data = {
-      ...formData,
-      body: body.value,
-      sender: 'test',
-      isPredefined: false,
-      medias: media,
-      recipients: {
-        to: recipients.value.map(({ id }) => id),
-        cc: ccRecipients.value.map(({ id }) => id),
-        bcc: bccRecipients.value.map(({ id }) => id),
-      },
-
-      groups: {
-        to: groups.value.map(({ id }) => id),
-        cc: ccGroups.value.map(({ id }) => id),
-        bcc: bccGroups.value.map(({ id }) => id),
-      },
-    };
-
     try {
-      const response = await emailService.sendEmail(data);
+      const response = await $trpc.email.create.mutate({
+        subject: subject.value,
+        body: body.value,
+        importanceLevel: importanceLevel.value,
+        medias: media,
+        recipients: {
+          to: recipients.value.map(({ id }) => id),
+          cc: ccRecipients.value.map(({ id }) => id),
+          bcc: bccRecipients.value.map(({ id }) => id),
+        },
+        groups: {
+          to: groups.value.map(({ id }) => id),
+          cc: ccGroups.value.map(({ id }) => id),
+          bcc: bccGroups.value.map(({ id }) => id),
+        },
+      });
       if (response) {
         setMessage('Email created successfully.', 'success');
         resetForm();
@@ -196,7 +190,11 @@ const setCcGroupRecipients = (
                     validation="required"
                     outer-class="radio-fieldset"
                     input-class="form-check-input"
-                    :options="['low', 'medium', 'high']"
+                    :options="{
+                      low: 'Low',
+                      medium: 'Medium',
+                      high: 'High',
+                    }"
                   />
                 </div>
               </div>

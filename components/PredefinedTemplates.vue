@@ -4,22 +4,22 @@ const messageHeaders = ['Title', 'Message'];
 const search = ref('');
 const searchField = ref('');
 const page = ref(1);
-const config = useRuntimeConfig();
+const { $trpc } = useNuxtApp();
+const moduleType: 'email' | 'sms' = props.type === 'emails' ? 'email' : 'sms';
 
-const { data, refresh } = await useFetch<any>(
-  () =>
-    `${props.type}?search=${search.value}&pageNumber=${page.value}&pageSize=10&isPredefined=true`,
+const { data, refresh } = await $trpc[moduleType].list.useQuery(
   {
-    baseURL: config.public.API_BASE_URL,
-    transform: (data) => {
-      return {
-        total: data.total,
-        data: data.data.map((x: any) => ({
-          title: x.subject || x.title,
-          message: x.body || x.message,
-        })),
-      };
-    },
+    search: search.value,
+    pageNumber: page.value,
+  },
+  {
+    transform: ({ total, data }) => ({
+      total,
+      data: data.map((x: any) => ({
+        title: x.subject || x.title,
+        message: x.body || x.message,
+      })),
+    }),
   },
 );
 
@@ -54,14 +54,14 @@ const paginate = (pg: number) => {
         mt-3
         mb-8
         :headers="messageHeaders"
-        :rows="data.data"
+        :rows="data?.data || []"
         :isDropdown="false"
         :isTemplateDefine="true"
         :use="use"
       />
       <div class="px-6 pb-6">
         <PaginationTable
-          :totalRecords="data.total"
+          :totalRecords="data?.total || 0"
           :currentPage="page"
           v-bind:paginate="paginate"
         ></PaginationTable>

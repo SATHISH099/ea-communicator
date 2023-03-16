@@ -1,11 +1,6 @@
 <script lang="ts" setup>
 import moment from 'moment';
-import type { Message } from '~~/services/message.service';
-import type { Recipient } from '~~/services/recipient.service';
-import type { Group } from '~~/services/group.service';
 
-const config = useRuntimeConfig();
-const messageService = useService('message');
 const page = ref(1);
 const orderType = ref('desc');
 const orderBy = ref('id');
@@ -13,10 +8,7 @@ const isDelete = ref(false);
 const search = ref('');
 const searchField = ref('');
 
-interface GroupRecipientData {
-  recipients: Recipient[];
-  groups: Group[];
-}
+const { $trpc } = useNuxtApp();
 
 const MessageHeaders = [
   'Id',
@@ -29,11 +21,9 @@ const MessageHeaders = [
   '',
 ];
 
-const { data, refresh } = await useFetch<any>(
-  () =>
-    `messages?search=${search.value}&pageNumber=${page.value}&pageSize=10&orderType=${orderType.value}&orderBy=${orderBy.value}`,
+const { data, refresh } = $trpc.message.findAll.useQuery(
+  {},
   {
-    baseURL: config.public.API_BASE_URL,
     transform: (data) => {
       return {
         total: data.total,
@@ -46,9 +36,9 @@ const { data, refresh } = await useFetch<any>(
             recipients,
             groups,
             createdAt,
-          }: Message & GroupRecipientData) => ({
+          }: any) => ({
             id,
-            sender,
+            sender: sender?.name,
             title,
             recipients: recipients.length,
             groups: groups.length,
@@ -73,9 +63,9 @@ const paginate = (pg: number) => {
 };
 
 const deleteRecord = async (id: number) => {
-  const response = await messageService.delete(id);
+  const response = await $trpc.message.delete.mutate(id);
   refresh();
-  isDelete.value = response.affected;
+  isDelete.value = response.affected !== undefined;
 };
 
 const sortRecord = (key: string) => {
@@ -111,10 +101,10 @@ const sortRecord = (key: string) => {
         <div class="flex flex-wrap justify-between items-center gap-4">
           <div class="flex flex-wrap items-center gap-4">
             <FormKit
+              v-model="searchField"
               prefix-icon="search"
               type="search"
               placeholder="Search"
-              v-model="searchField"
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
               outer-class="md:w-[34rem] w-full search-field"
@@ -131,17 +121,18 @@ const sortRecord = (key: string) => {
       <div class="pb-10 pt-5">
         <DashboardTable
           :headers="MessageHeaders"
-          :rows="data.data"
+          :rows="data?.data || []"
           type="alert"
+          :show-bulk-delete="true"
+          :drop-down-option="{ isView: true, isEdit: false, isDelete: true }"
           @onDeleteRecord="deleteRecord"
           @sortRecord="sortRecord"
-          :dropDownOption="{ isView: true, isEdit: false, isDelete: true }"
         />
         <div class="ml-8">
           <PaginationTable
-            :totalRecords="data.total"
-            :currentPage="page"
-            v-bind:paginate="paginate"
+            :total-records="data?.total || 0"
+            :current-page="page"
+            :paginate="paginate"
           ></PaginationTable>
         </div>
       </div>

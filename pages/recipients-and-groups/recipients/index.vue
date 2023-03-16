@@ -32,7 +32,7 @@ const { data, refresh } = await useFetch<any>(
   () =>
     `recipients?search=${search.value}&pageNumber=${page.value}&pageSize=10&orderType=${orderType.value}&orderBy=${orderBy.value}`,
   {
-    baseURL: config.public.API_SMARTSUITE_BASE_URL,
+    baseURL: config.public.API_SMARTSUITE_BASEURL,
     transform: ({ total, data }) => ({
       total,
       data: data.map((x: any) => ({
@@ -185,14 +185,14 @@ const uploadFile = async (data: { file: any }) => {
       <div class="pb-10 pt-5">
         <DashboardTable
           :headers="recipientHeaders"
-          :rows="data.data"
+          :rows="data?.data"
           type="recipients"
           @sort-record="sortRecord"
           @on-delete-record="deleteRecord"
         />
         <div class="ml-8">
           <PaginationTable
-            :total-records="data.total"
+            :total-records="data?.total"
             :current-page="page"
             :paginate="paginate"
           ></PaginationTable>

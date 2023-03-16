@@ -9,3 +9,5 @@ node_modules
 dist
 pnpm-lock.yaml
 .scannerwork
+uploads
+public/uploads

@@ -7,7 +7,7 @@ interface EditData {
 const config = useRuntimeConfig();
 const { id: smsId } = useRoute().params;
 const { data: smsDetail } = await useFetch<any>(() => `sms/${smsId}`, {
-  baseURL: config.public.API_BASE_URL,
+  baseURL: config.public.API_BASEURL,
 });
 
 const record = smsDetail.value;
