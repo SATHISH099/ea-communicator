@@ -99,22 +99,6 @@ const handleAddMedia = async (data: { file: any[] }) => {
 const submitHandler = async (formData: { file: any[] }) => {
   if (checkvalidation()) {
     const media = await handleAddMedia(formData);
-    const data = {
-      ...formData,
-      body: body.value,
-      isPredefined: false,
-      medias: media,
-      recipients: {
-        to: recipients.value.map(({ id }) => id),
-        cc: ccRecipients.value.map(({ id }) => id),
-        bcc: bccRecipients.value.map(({ id }) => id),
-      },
-      groups: {
-        to: groups.value.map(({ id }) => id),
-        cc: ccGroups.value.map(({ id }) => id),
-        bcc: bccGroups.value.map(({ id }) => id),
-      },
-    };
 
     try {
       const response = await $trpc.email.create.mutate({
