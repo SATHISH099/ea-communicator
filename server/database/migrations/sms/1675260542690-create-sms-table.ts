@@ -27,8 +27,8 @@ export class CreateSmsTable1675260542690 implements MigrationInterface {
             type: 'varchar',
           },
           {
-            name: 'sender',
-            type: 'varchar',
+            name: 'sender_id',
+            type: 'integer',
           },
           {
             name: 'sending_status',
@@ -54,7 +54,7 @@ export class CreateSmsTable1675260542690 implements MigrationInterface {
           },
           {
             name: 'tenant_id',
-            type: 'varchar',
+            type: 'integer',
           },
           {
             name: 'created_at',

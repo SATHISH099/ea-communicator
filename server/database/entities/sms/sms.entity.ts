@@ -24,8 +24,9 @@ export class Sms extends BaseEntity {
   @Column({ name: 'sending_status', type: 'simple-enum' })
   sendingStatus: SendingStatus;
 
-  @Column({ type: 'varchar' })
-  sender: string;
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'sender_id' })
+  sender: User;
 
   @Column({ name: 'importance_level', type: 'simple-enum', default: 'low' })
   importanceLevel: ImportanceLevel;
@@ -33,12 +34,12 @@ export class Sms extends BaseEntity {
   @Column({ default: true, name: 'is_predefined', type: 'boolean' })
   isPredefined: boolean;
 
-  @Column({ name: 'tenant_id', type: 'varchar' })
-  tenantId: string;
+  @Column({ name: 'tenant_id', type: 'integer' })
+  tenantId: number;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'creator_id' })
-  creatorId: User;
+  creator: User;
 
   @OneToMany(() => SmsRecipient, (smsRecipient) => smsRecipient.smsId)
   @JoinTable({

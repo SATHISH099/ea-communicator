@@ -42,7 +42,7 @@ export class Email extends BaseEntity {
   @JoinColumn({ name: 'creator_id' })
   creator: User;
 
-  @Column({ name: 'tenant_id', type: 'varchar' })
+  @Column({ name: 'tenant_id', type: 'integer' })
   tenantId: number;
 
   @ManyToMany(() => Media, (medias) => medias.emails, {
