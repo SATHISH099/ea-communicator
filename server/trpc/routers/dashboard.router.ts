@@ -1,25 +1,27 @@
 import { z } from 'zod';
-import { router, procedure } from '~/server/trpc/trpc';
+import { procedure, router } from '~/server/trpc/trpc';
 import { DashboardService } from '~~/server/services/dashboard.service';
 
-const modelsCounts = procedure.query(() => {
-  const dashboardService = new DashboardService();
-  return dashboardService.getModelsCount();
-});
-
-const dateRangCounts = procedure
+const counts = procedure
   .input(
     z.object({
-      startDate: z.date(),
-      endDate: z.date(),
+      countType: z.enum(['models', 'dateRange']),
+      startDate: z.any(),
+      endDate: z.any(),
     }),
   )
   .query(({ input }) => {
     const dashboardService = new DashboardService();
-    return dashboardService.getDateRangeCount(input);
+    if (input.countType === 'models') {
+      return dashboardService.getModelsCount(input);
+    }
+
+    return dashboardService.getDateRangeCount({
+      startDate: new Date(input.startDate),
+      endDate: new Date(input.endDate),
+    });
   });
 
 export const dashboard = router({
-  modelsCounts,
-  dateRangCounts,
+  counts,
 });

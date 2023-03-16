@@ -26,19 +26,15 @@ ChartJS.register(
   ArcElement,
 );
 
-const config = useRuntimeConfig();
-const startDate = ref<string | null>('');
-const endDate = ref<string | null>('');
+const startDate = ref<string>(new Date().toISOString());
+const endDate = ref<string>(new Date().toISOString());
+const { $trpc } = useNuxtApp();
 
-const { data, refresh } = await useFetch<any>(
-  () =>
-    `dashboard/${
-      startDate.value && endDate.value ? 'date-range-counters' : 'counters'
-    }?startDate=${startDate.value}&endDate=${endDate.value}`,
-  {
-    baseURL: config.public.API_BASEURL,
-  },
-);
+const { data, refresh } = await $trpc.dashboard.counts.useQuery({
+  countType: startDate.value && endDate.value ? 'dateRange' : 'models',
+  startDate: startDate.value,
+  endDate: endDate.value,
+});
 
 const chartOptions = ref({
   responsive: true,
@@ -47,11 +43,11 @@ const chartOptions = ref({
 
 const setDate = (dateStr: string[] | null) => {
   if (!dateStr) {
-    startDate.value = '';
-    endDate.value = '';
+    startDate.value = new Date().toISOString();
+    endDate.value = new Date().toISOString();
   } else {
-    startDate.value = dateStr[0] ? moment(dateStr[0]).format('YYYY-MM-DD') : '';
-    endDate.value = dateStr[1] ? moment(dateStr[1]).format('YYYY-MM-DD') : '';
+    startDate.value = dateStr[0];
+    endDate.value = dateStr[1];
   }
 
   refresh();
@@ -77,10 +73,10 @@ const setDate = (dateStr: string[] | null) => {
               datasets: [
                 {
                   data: [
-                    data.emailCount,
-                    data.smsCount,
-                    data.voiceCount,
-                    data.messageCount,
+                    data?.emailCount || 0,
+                    data?.smsCount || 0,
+                    data?.voiceCount || 0,
+                    data?.messageCount || 0,
                   ],
                   backgroundColor: [
                     '#960E0E',
@@ -102,10 +98,10 @@ const setDate = (dateStr: string[] | null) => {
               <p text-silver mb-3>Total Messages</p>
               <h1>
                 {{
-                  data.emailCount +
-                  data.smsCount +
-                  data.voiceCount +
-                  data.messageCount
+                  (data?.emailCount || 0) +
+                  (data?.smsCount || 0) +
+                  (data?.voiceCount || 0) +
+                  (data?.messageCount || 0)
                 }}
               </h1>
             </div>
@@ -120,7 +116,7 @@ const setDate = (dateStr: string[] | null) => {
             <img src="/messages.png" alt="" class="h-8" />
           </div>
           <div class="flex items-center mb-2">
-            <h4 class="text-carbon mr-2">{{ data.smsCount }}</h4>
+            <h4 class="text-carbon mr-2">{{ data?.smsCount || 0 }}</h4>
           </div>
           <div class="flex items-center gap-2">
             <img src="/sms-bullet.png" alt="" />
@@ -132,7 +128,7 @@ const setDate = (dateStr: string[] | null) => {
             <img src="/SentEmails.png" alt="" class="h-8" />
           </div>
           <div class="flex items-center mb-2">
-            <h4 class="text-carbon mr-2">{{ data.emailCount }}</h4>
+            <h4 class="text-carbon mr-2">{{ data?.emailCount || 0 }}</h4>
           </div>
           <div class="flex items-center gap-2">
             <img src="/email-bullet.png" alt="" />
@@ -144,7 +140,7 @@ const setDate = (dateStr: string[] | null) => {
             <img src="/alerts.png" alt="" class="h-8" />
           </div>
           <div class="flex items-center mb-2">
-            <h4 class="text-carbon mr-2">{{ data.messageCount }}</h4>
+            <h4 class="text-carbon mr-2">{{ data?.messageCount || 0 }}</h4>
           </div>
           <div class="flex items-center gap-2">
             <img src="/alert-bullet.png" alt="" />
@@ -156,7 +152,7 @@ const setDate = (dateStr: string[] | null) => {
             <img src="/SentVoice.png" alt="" class="h-8" />
           </div>
           <div class="flex items-center mb-2">
-            <h4 class="text-carbon mr-2">{{ data.voiceCount }}</h4>
+            <h4 class="text-carbon mr-2">{{ data?.voiceCount || 0 }}</h4>
           </div>
           <div class="flex items-center gap-2">
             <img src="/voice-bullet.png" alt="" />

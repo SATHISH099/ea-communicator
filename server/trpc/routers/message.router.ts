@@ -1,6 +1,6 @@
 import { Like } from 'typeorm';
 import { z } from 'zod';
-import { router, procedure } from '~/server/trpc/trpc';
+import { procedure, router } from '~/server/trpc/trpc';
 import { MessageService } from '~~/server/services/message.service';
 import { queryListSchema } from '~~/server/validations/base';
 import { createMessageDto } from '~~/server/validations/messages/create.dto';

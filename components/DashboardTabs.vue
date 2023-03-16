@@ -1,27 +1,22 @@
 <script lang="ts" setup>
-import type { Email } from '~~/services/email.service';
-import type { Sms } from '~~/services/sms.service';
-import type { Message } from '~~/services/message.service';
-
 const recentEmailHeaders = ['ID', 'Sender', 'Email Subject', 'Email Messages'];
 const activeTab = ref('messages');
-const config = useRuntimeConfig();
+const { $trpc } = useNuxtApp();
 
-const { data } = await useFetch<any>(
-  () => `${activeTab.value}?pageSize=6&orderType=desc&orderBy=id`,
+const { data } = await $trpc.message.findAll.useQuery(
   {
-    baseURL: config.public.API_BASEURL,
-    transform: (data) => {
-      return {
-        total: data.total,
-        data: data.data.map((message: Email & Sms & Message) => ({
-          id: message.id,
-          sender: message.sender,
-          subject: message.subject || message.title,
-          body: message.message || message.body,
-        })),
-      };
-    },
+    pageSize: 6,
+  },
+  {
+    transform: ({ total, data }) => ({
+      total,
+      data: data.map((message: any) => ({
+        id: message.id,
+        sender: message.sender,
+        subject: message.subject || message.title,
+        body: message.message || message.body,
+      })),
+    }),
   },
 );
 </script>
@@ -62,7 +57,7 @@ const { data } = await useFetch<any>(
         </h5>
         <DashboardTable
           :headers="recentEmailHeaders"
-          :rows="data.data"
+          :rows="data?.data || []"
           class="w-full overflow-auto scroll relative"
           :isDropdown="false"
         />

@@ -18,7 +18,11 @@
         >
       </div>
     </div>
-    <div class="lg:flex gap-6"></div>
+    <DashboardAnalytics></DashboardAnalytics>
+    <div class="lg:flex gap-6">
+      <DashboardChart></DashboardChart>
+      <DashboardTabs></DashboardTabs>
+    </div>
   </div>
 </template>
 

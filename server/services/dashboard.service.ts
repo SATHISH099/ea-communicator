@@ -87,7 +87,10 @@ export class DashboardService {
   }
 
   getDateRangeCount(req: DateRangeCounterDto) {
-    req.endDate.setUTCHours(23, 59, 59, 999);
+    if (req.endDate) {
+      req.endDate?.setUTCHours(23, 59, 59, 999);
+    }
+
     return this.getModelsCount(req);
   }
 }

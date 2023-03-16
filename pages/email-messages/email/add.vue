@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import Multiselect from '@vueform/multiselect';
-import type { Email } from '~~/services/email.service';
 import '~~/services/media.service';
 import '~~/services/email.service';
 import { useToasterStore } from '~~/store/toaster';
@@ -27,10 +25,7 @@ interface GroupData {
 const { $trpc } = useNuxtApp();
 const mediaService = useService('media');
 
-const emailService = useService('email');
-
 const importanceLevel = ref<ImportanceLevel>(ImportanceLevel.LOW);
-const successResponse = ref({ id: null });
 const errorBody = ref(false);
 const subject = ref('');
 const body = ref('');

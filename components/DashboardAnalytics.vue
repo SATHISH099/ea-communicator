@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-const config = useRuntimeConfig();
-
 const { $trpc } = useNuxtApp();
 
-const data = await $trpc.dashboard.modelsCounts.query();
+const data = await $trpc.dashboard.counts.query({
+  countType: 'models',
+});
 </script>
 
 <template>
