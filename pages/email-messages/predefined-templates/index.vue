@@ -44,7 +44,7 @@ const { data, refresh } = await useFetch<any>(
           type.value === 'emails'
             ? showLess(message.body)
             : showLess(message.message),
-        sentDate: moment(message.createdAt).format('dddd, Do MMMM YYYY h:mm A'),
+        sentDate: moment(message.createdAt).format('h:mm A'),
       })),
     }),
   },

@@ -22,7 +22,7 @@ import Multiselect from '@vueform/multiselect';
             <button
               class="bottom-0 absolute bg-[#D9D9D9] text-carbon h-10 w-69 text-center flex items-center justify-center hover:text-stone cursor-pointer border-none text-lg"
             >
-              Change profile
+              Change Picture
             </button>
           </div>
         </div>
@@ -87,7 +87,7 @@ import Multiselect from '@vueform/multiselect';
             input-class="form-control"
             outer-class="mb-5 md:col-span-2 col-span-1"
           />
-          <div class="md:flex gap-5">
+          <div class="md:flex gap-5 ChangeProfile">
             <Multiselect
               placeholder="Technology"
               class="w-full mb-5"
