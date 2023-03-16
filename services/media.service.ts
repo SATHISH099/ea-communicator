@@ -7,10 +7,10 @@ const media = z.object({
   updatedAt: z.string(),
   title: z.string(),
   fileUrl: z.string(),
+  filePath: z.string(),
   mimeType: z.string(),
-  size: z.string(),
+  size: z.number(),
   extension: z.string(),
-  tenantId: z.null(),
 });
 
 const medias = z.object({ data: z.array(media), total: z.number() });

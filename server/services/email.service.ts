@@ -140,4 +140,8 @@ export class EmailService extends BaseService<Email> {
   delete(id: number) {
     return this.repository.softDelete(id);
   }
+
+  bulkDelete(ids: number[]) {
+    return this.repository.softDelete(ids);
+  }
 }

@@ -1,14 +1,16 @@
-import {
-  ValidationOptions,
-  registerDecorator,
-  ValidationArguments,
-} from 'class-validator';
+import type { ValidationArguments, ValidationOptions } from 'class-validator';
+import { registerDecorator } from 'class-validator';
 
 export function IsOfMimeType(
-  property: string[] | string,
+  property: {
+    type: string[] | string;
+    isMultiple?: boolean;
+  },
   options?: ValidationOptions,
 ) {
-  const allowedMimeTypes = Array.isArray(property) ? property : [property];
+  const allowedMimeTypes = Array.isArray(property.type)
+    ? property.type
+    : [property.type];
   return (object: any, propertyName: string) => {
     registerDecorator({
       target: object.constructor,
@@ -16,6 +18,10 @@ export function IsOfMimeType(
       options,
       validator: {
         validate(file) {
+          if (property.isMultiple) {
+            return file.some((f: any) => allowedMimeTypes.includes(f.type));
+          }
+
           return allowedMimeTypes.includes(file.type);
         },
         defaultMessage(args: ValidationArguments) {

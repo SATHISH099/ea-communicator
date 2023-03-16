@@ -134,6 +134,7 @@ const sortRecord = (key: string) => {
           :headers="MessageHeaders"
           :rows="data.data"
           type="alert"
+          :show-bulk-delete="true"
           @onDeleteRecord="deleteRecord"
           @sortRecord="sortRecord"
           :dropDownOption="{ isView: true, isEdit: false, isDelete: true }"

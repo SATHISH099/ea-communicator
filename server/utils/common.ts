@@ -1,4 +1,4 @@
-import { H3Event } from 'h3';
+import type { H3Event } from 'h3';
 
 export function titleCase(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
@@ -14,28 +14,39 @@ export async function parseRequestFormData(event: H3Event) {
   return formData?.reduce((prev: any, current, _index) => {
     if (typeof current.name === 'string') {
       if (current.type && current.filename) {
+        const keyName = current.name.replace('[]', '');
         const fileName = current.filename;
-        prev[current.name] = {
-          name: fileName,
+        const fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1);
+        const value = {
+          name: fileName.substring(
+            0,
+            fileName.includes('.') ? fileName.indexOf('.') : fileName.length,
+          ),
           data: current.data,
           type: current.type,
-          extension: fileName.substring(fileName.lastIndexOf('.') + 1),
+          extension: fileExtension,
+          size: Buffer.byteLength(current.data),
         };
-      } else {
-        if (current.name?.includes('[]')) {
-          const keyName = current.name.replace('[]', '');
-          let value: string | number | boolean = current.data.toString();
-          if (!isNaN(Number(value))) {
-            value = Number(value);
-          } else if (['true', 'false', '0', '1'].includes(value)) {
-            value = Boolean(value);
-          }
 
+        if (current.name?.includes('[]')) {
           prev[keyName] = Array.isArray(prev[keyName]) ? prev[keyName] : [];
-          prev[keyName].push(current.data.toString());
+          prev[keyName].push(value);
         } else {
-          prev[current.name] = current.data.toString();
+          prev[keyName] = value;
         }
+      } else if (current.name?.includes('[]')) {
+        const keyName = current.name.replace('[]', '');
+        let value: string | number | boolean = current.data.toString();
+        if (!isNaN(Number(value))) {
+          value = Number(value);
+        } else if (['true', 'false', '0', '1'].includes(value)) {
+          value = Boolean(value);
+        }
+
+        prev[keyName] = Array.isArray(prev[keyName]) ? prev[keyName] : [];
+        prev[keyName].push(current.data.toString());
+      } else {
+        prev[current.name] = current.data.toString();
       }
     }
 

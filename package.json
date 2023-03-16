@@ -20,7 +20,8 @@
     "migration:create": "npm run typeorm -- migration:create ./server/database/migrations/$npm_config_name",
     "migration:revert": "npm run typeorm -- -d ./server/database/config/typeorm.config.migration.ts migration:revert",
     "migration:drop": "npm run typeorm -- -d server/database/config/typeorm.config.migration.ts schema:drop",
-    "migration:refresh": "npm run migration:drop && npm run migrate && npm run seed:run"
+    "migration:refresh": "npm run migration:drop && npm run migrate && npm run seed:run",
+    "storage:link": "mkdir uploads -p && ln -s -f $(pwd)/uploads $(pwd)/public/"
   },
   "lint-staged": {
     "*.{ts,vue}": [

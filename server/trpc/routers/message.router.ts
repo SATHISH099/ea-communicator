@@ -36,9 +36,17 @@ const create = procedure.input(createMessageDto).mutation(({ input }) => {
   return messageService.createMessage(input);
 });
 
+const bulkDelete = procedure
+  .input(z.array(z.number()))
+  .mutation(({ input }) => {
+    const messageService = new MessageService();
+    return messageService.bulkDelete(input);
+  });
+
 export const message = router({
   show,
   findAll,
   delete: deleteMessage,
   create,
+  bulkDelete,
 });

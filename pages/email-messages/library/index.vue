@@ -11,21 +11,20 @@ const extensions = {
   others: ['pdf', 'xls', 'xlsx', 'doc', 'docx', 'csv', 'ppt', 'pptx'],
 };
 
-const config = useRuntimeConfig();
 const page = ref(1);
-const orderType = ref('desc');
+const orderType = ref<'desc' | 'asc'>('desc');
 const orderBy = ref('id');
 const search = ref('');
 const extensionType = ref('');
 const searchField = ref('');
+const { $trpc } = useNuxtApp();
 
-const { data: medias, refresh } = await useFetch<any>(
-  () =>
-    `medias?search=${search.value}&pageNumber=${page.value}&pageSize=10&orderType=${orderType.value}&orderBy=${orderBy.value}`,
-  {
-    baseURL: config.public.API_BASE_URL,
-  },
-);
+const { data: medias, refresh } = await $trpc.library.list.useQuery({
+  search: search.value,
+  pageNumber: page.value,
+  orderType: orderType.value,
+  orderBy: orderBy.value,
+});
 
 const searchKeyword = () => {
   search.value = searchField.value;
@@ -53,7 +52,7 @@ const viewUploadModal = ref(false);
 const handleAddMedia = async (data: { file: any[] }) => {
   const body = new FormData();
   data.file.forEach((fileItem: { file: string | Blob }) => {
-    body.append('media', fileItem.file);
+    body.append('media[]', fileItem.file);
   });
 
   const res = await mediaService.create(body);
@@ -68,7 +67,8 @@ const handleAddMedia = async (data: { file: any[] }) => {
 
 async function deleteMedia(id: number) {
   try {
-    await mediaService.delete(id);
+    await $trpc.library.delete.mutate(id);
+
     setMessage('Deleted Successfully.', 'success');
     window.location.reload();
   } catch (error) {
@@ -80,7 +80,7 @@ const viewMedia = (media: Media) => {
     viewImageModal.value = true;
     selectedMedia.value = media;
   } else {
-    window.open(media.fileUrl);
+    window.open(media.filePath);
   }
 };
 </script>
@@ -98,9 +98,9 @@ const viewMedia = (media: Media) => {
       <div class="flex flex-wrap justify-between items-center gap-4">
         <div class="flex flex-wrap items-center gap-4">
           <FormKit
+            v-model="searchField"
             prefix-icon="search"
             type="search"
-            v-model="searchField"
             placeholder="Search"
             input-class="form-control pl-[3.5rem]"
             prefix-icon-class="search-icon"
@@ -155,18 +155,19 @@ const viewMedia = (media: Media) => {
             v-model="extensionType"
             placeholder="Category"
             :options="[...extensions.photos, ...extensions.others]"
-            @select="searchCategory"
             class="md:w-[14rem] w-full"
+            @select="searchCategory"
           />
         </div>
       </div>
     </div>
     <div class="bg-white small-shadow p-6">
       <div
+        v-if="medias?.total || 0 > 0"
         class="grid lg:grid-cols-7 md:grid-cols-3 grid-cols-1 gap-3 media-gallery"
       >
         <div
-          v-for="media in medias.data"
+          v-for="media in medias?.data || []"
           :key="media.id"
           class="cursor-pointer relative overlay"
         >
@@ -179,7 +180,7 @@ const viewMedia = (media: Media) => {
           <img
             v-if="extensions.photos.includes(media.extension)"
             class="w-[12rem] h-[12rem] w-full object-cover object-center"
-            :src="media.fileUrl"
+            :src="media.filePath"
             alt=""
           />
           <button class="view-btn" @click="viewMedia(media)">View</button>
@@ -193,7 +194,7 @@ const viewMedia = (media: Media) => {
                 <div>
                   <img
                     class="w-full h-full"
-                    :src="selectedMedia.fileUrl"
+                    :src="selectedMedia.filePath"
                     alt=""
                   />
                 </div>
@@ -222,11 +223,14 @@ const viewMedia = (media: Media) => {
           </teleport>
         </div>
       </div>
+      <div v-else>
+        <p>No items found in gallery</p>
+      </div>
     </div>
     <div class="ml-8">
       <PaginationTable
-        :totalRecords="medias.total"
-        :currentPage="page"
+        :total-records="medias?.total || 0"
+        :current-page="page"
         v-bind:paginate="paginate"
       ></PaginationTable>
     </div>

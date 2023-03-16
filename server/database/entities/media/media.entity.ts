@@ -9,6 +9,9 @@ export class Media extends BaseEntity {
   @Column({ type: 'varchar' })
   title: string;
 
+  @Column({ type: 'varchar', name: 'file_path' })
+  filePath: string;
+
   @Column({ type: 'varchar', name: 'file_url' })
   fileUrl: string;
 
@@ -21,8 +24,8 @@ export class Media extends BaseEntity {
   @Column({ nullable: true, type: 'varchar' })
   extension: string;
 
-  @Column({ type: 'varchar', name: 'tenant_id', nullable: true })
-  tenantId: string;
+  @Column({ type: 'integer', name: 'tenant_id', nullable: true })
+  tenantId: number;
 
   @AfterLoad()
   updateImageUrl() {
