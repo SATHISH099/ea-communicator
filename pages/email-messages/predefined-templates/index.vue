@@ -20,18 +20,20 @@ const MessageHeaders = [
 
 const showLess = (input: string) =>
   input && input.length > 100 ? `${input.substring(0, 100)}...` : input;
-const { data, refresh } = await $trpc[type.value].list.useQuery(
+
+const { data, refresh } = await useAsyncData(
+  (): any =>
+    $trpc[type.value].list.query({
+      search: search.value,
+      pageNumber: page.value,
+      isPredefined: true,
+      orderType: orderType.value,
+      orderBy: orderBy.value,
+    }),
   {
-    search: search.value,
-    pageNumber: page.value,
-    isPredefined: true,
-    orderType: orderType.value,
-    orderBy: orderBy.value,
-  },
-  {
-    transform: (data) => ({
-      total: data.total,
-      data: data.data.map((message: any) => ({
+    transform: ({ total, data }: any) => ({
+      total,
+      data: data.map((message: any) => ({
         id: message.id,
         title: type.value === 'email' ? message.subject : message.title,
         message:
@@ -43,7 +45,6 @@ const { data, refresh } = await $trpc[type.value].list.useQuery(
     }),
   },
 );
-
 const searchKeyword = () => {
   search.value = searchField.value;
   page.value = 1;

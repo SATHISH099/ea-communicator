@@ -21,36 +21,35 @@ const messageHeaders = [
 
 const { $trpc } = useNuxtApp();
 
-const { data, refresh } = await $trpc.sms.list.useQuery(
+const { data, refresh } = await useAsyncData(
+  () =>
+    $trpc.sms.list.query({
+      search: search.value,
+      pageNumber: page.value,
+    }),
   {
-    search: search.value,
-    pageNumber: page.value,
-  },
-  {
-    transform: (data) => {
-      return {
-        total: data.total,
-        data: data.data.map(
-          ({
-            id,
-            sender,
-            title,
-            message,
-            recipients,
-            groups,
-            createdAt,
-          }: any) => ({
-            id,
-            sender: sender?.name,
-            title,
-            recipients: recipients.length,
-            groups: groups.length,
-            message,
-            createdAt: moment(createdAt).format('dddd, Do MMMM YYYY h:mm A'),
-          }),
-        ),
-      };
-    },
+    transform: ({ total, data }) => ({
+      total,
+      data: data.map(
+        ({
+          id,
+          sender,
+          title,
+          message,
+          recipients,
+          groups,
+          createdAt,
+        }: any) => ({
+          id,
+          sender: sender?.name,
+          title,
+          recipients: recipients.length,
+          groups: groups.length,
+          message,
+          createdAt: moment(createdAt).format('dddd, Do MMMM YYYY h:mm A'),
+        }),
+      ),
+    }),
   },
 );
 

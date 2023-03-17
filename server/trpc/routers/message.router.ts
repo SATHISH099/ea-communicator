@@ -5,7 +5,7 @@ import { MessageService } from '~~/server/services/message.service';
 import { queryListSchema } from '~~/server/validations/base';
 import { createMessageDto } from '~~/server/validations/messages/create.dto';
 
-const findAll = procedure
+const list = procedure
   .input(z.object({}).merge(queryListSchema))
   .query(({ input }) => {
     const messageService = new MessageService();
@@ -46,7 +46,7 @@ const bulkDelete = procedure
 
 export const message = router({
   show,
-  findAll,
+  list,
   delete: deleteMessage,
   create,
   bulkDelete,

@@ -2,7 +2,7 @@
 import moment from 'moment';
 
 const page = ref(1);
-const orderType = ref('desc');
+const orderType = ref<'desc' | 'asc'>('desc');
 const orderBy = ref('id');
 const isDelete = ref(false);
 const search = ref('');
@@ -21,33 +21,35 @@ const MessageHeaders = [
   '',
 ];
 
-const { data, refresh } = $trpc.message.findAll.useQuery(
-  {},
+const { data, refresh } = await useAsyncData(
+  () =>
+    $trpc.message.list.query({
+      orderType: orderType.value,
+      orderBy: orderBy.value,
+    }),
   {
-    transform: (data) => {
-      return {
-        total: data.total,
-        data: data.data.map(
-          ({
-            id,
-            sender,
-            title,
-            message,
-            recipients,
-            groups,
-            createdAt,
-          }: any) => ({
-            id,
-            sender: sender?.name,
-            title,
-            recipients: recipients.length,
-            groups: groups.length,
-            message,
-            createdAt: moment(createdAt).format('dddd, Do MMMM YYYY h:mm A'),
-          }),
-        ),
-      };
-    },
+    transform: ({ data, total }) => ({
+      total,
+      data: data.map(
+        ({
+          id,
+          sender,
+          title,
+          message,
+          recipients,
+          groups,
+          createdAt,
+        }: any) => ({
+          id,
+          sender: sender?.name,
+          title,
+          recipients: recipients.length,
+          groups: groups.length,
+          message,
+          createdAt: moment(createdAt).format('dddd, Do MMMM YYYY h:mm A'),
+        }),
+      ),
+    }),
   },
 );
 

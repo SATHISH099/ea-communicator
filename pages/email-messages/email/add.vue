@@ -338,7 +338,7 @@ const setCcGroupRecipients = (
             </div>
           </div>
           <PredefinedTemplates
-            type="emails"
+            type="email"
             :use="useTemplate"
           ></PredefinedTemplates>
         </div>
