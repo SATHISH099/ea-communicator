@@ -1,6 +1,8 @@
 <script setup>
 const isOpen = ref(false);
 const isOpens = ref(false);
+
+const { logout } = useLogout();
 </script>
 
 <template>
@@ -52,7 +54,15 @@ const isOpens = ref(false);
             >View Profile</NuxtLink
           >
         </li>
-        <li class="p-2">Logout</li>
+        <li class="p-2">
+          <button
+            class="bg-transparent outline-none border-none text-white cursor-pointer text-[14px]"
+            :disabled="loading"
+            @click="logout"
+          >
+            Logout
+          </button>
+        </li>
       </div>
     </div>
     <p class="mr-10">Admin</p>
