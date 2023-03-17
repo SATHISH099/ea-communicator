@@ -1,5 +1,16 @@
 <script lang="ts" setup>
-const props = defineProps(['totalRecords', 'currentPage', 'paginate']);
+const props = defineProps([
+  'totalRecords',
+  'currentPage',
+  'paginate',
+  'pageSize',
+]);
+const emit = defineEmits(['setPerPage']);
+const perPage = ref<number>(props.pageSize || 10);
+
+const setPerPage = () => {
+  emit('setPerPage', Number(perPage.value));
+};
 </script>
 
 <template>
@@ -30,6 +41,17 @@ const props = defineProps(['totalRecords', 'currentPage', 'paginate']);
       >
         <img src="/right-arrow.png" />
       </button>
+    </div>
+
+    <div v-if="props.totalRecords > 0" class="mt-8">
+      Showing
+      <FormKit
+        v-model="perPage"
+        type="select"
+        :options="[10, 20, 50, 100]"
+        @input="setPerPage"
+      />
+      Per Page
     </div>
   </div>
 </template>

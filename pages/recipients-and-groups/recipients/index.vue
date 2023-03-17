@@ -11,6 +11,7 @@ const orderBy = ref('id');
 const viewUploadModal = ref(false);
 
 const config = useRuntimeConfig();
+const pageSize = ref(10);
 const page = ref(1);
 const search = ref('');
 const searchField = ref('');
@@ -30,7 +31,7 @@ const recipientHeaders = [
 
 const { data, refresh } = await useFetch<any>(
   () =>
-    `recipients?search=${search.value}&pageNumber=${page.value}&pageSize=10&orderType=${orderType.value}&orderBy=${orderBy.value}`,
+    `recipients?search=${search.value}&pageNumber=${page.value}&pageSize=${pageSize.value}&orderType=${orderType.value}&orderBy=${orderBy.value}`,
   {
     baseURL: config.public.API_SMARTSUITE_BASEURL,
     transform: ({ total, data }) => ({
@@ -61,6 +62,11 @@ const searchKeyword = () => {
 
 const paginate = (pg: number) => {
   page.value = pg;
+  refresh();
+};
+
+const setPerPage = (perPage: number) => {
+  pageSize.value = perPage;
   refresh();
 };
 
@@ -195,6 +201,7 @@ const uploadFile = async (data: { file: any }) => {
             :total-records="data?.total"
             :current-page="page"
             :paginate="paginate"
+            @setPerPage="setPerPage"
           ></PaginationTable>
         </div>
       </div>

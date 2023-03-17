@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import moment from 'moment';
 import { useToasterStore } from '~~/store/toaster';
+
 const page = ref(1);
+const pageSize = ref(10);
 const isDelete = ref(false);
 const orderType = ref('desc');
 const orderBy = ref('id');
@@ -24,7 +26,11 @@ const { $trpc } = useNuxtApp();
 
 const { data, refresh } = await useAsyncData(
   () =>
-    $trpc.email.list.query({ search: search.value, pageNumber: page.value }),
+    $trpc.email.list.query({
+      search: search.value,
+      pageNumber: page.value,
+      pageSize: pageSize.value,
+    }),
   {
     transform: ({ data, total }) => ({
       total,
@@ -71,6 +77,11 @@ const deleteRecord = async (id: number) => {
 const sortRecord = (key: string) => {
   orderType.value = orderType.value === 'desc' ? 'asc' : 'desc';
   orderBy.value = key;
+  refresh();
+};
+
+const setPerPage = (perPage: number) => {
+  pageSize.value = perPage;
   refresh();
 };
 
@@ -164,6 +175,7 @@ const bulkDelete = async (data: number[]) => {
             :totalRecords="data?.total"
             :currentPage="page"
             v-bind:paginate="paginate"
+            @setPerPage="setPerPage"
           ></PaginationTable>
         </div>
       </div>

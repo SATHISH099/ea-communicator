@@ -6,6 +6,7 @@ import { useToasterStore } from '~~/store/toaster';
 const { $trpc } = useNuxtApp();
 const type = ref<'email' | 'sms'>('email');
 const page = ref(1);
+const pageSize = ref(10);
 const isDelete = ref(false);
 const orderType = ref<'desc' | 'asc'>('desc');
 const orderBy = ref('id');
@@ -30,6 +31,7 @@ const { data, refresh } = await useAsyncData(
       pageNumber: page.value,
       isPredefined: true,
       orderType: orderType.value,
+      pageSize: pageSize.value,
       orderBy: orderBy.value,
     }),
   {
@@ -68,6 +70,11 @@ const deleteRecord = async (id: number) => {
 const sortRecord = (key: string) => {
   orderType.value = orderType.value === 'desc' ? 'asc' : 'desc';
   orderBy.value = key;
+  refresh();
+};
+
+const setPerPage = (perPage: number) => {
+  pageSize.value = perPage;
   refresh();
 };
 
@@ -179,6 +186,7 @@ const bulkDelete = async (data: number[]) => {
             :total-records="data?.total || 0"
             :current-page="page"
             :paginate="paginate"
+            @setPerPage="setPerPage"
           ></PaginationTable>
         </div>
       </div>
