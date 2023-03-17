@@ -14,7 +14,4 @@ export const useLayoutStore = defineStore({
       }
     },
   },
-  getters: {
-    getLayout: (state) => state.layout,
-  },
 });

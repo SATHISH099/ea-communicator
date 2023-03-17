@@ -11,7 +11,7 @@ const login = procedure
   });
 
 const logout = procedure.mutation(({ ctx: { session } }) => {
-  session!.userId = undefined;
+  session!.user = undefined;
   return true;
 });
 

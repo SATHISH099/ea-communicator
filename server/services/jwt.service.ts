@@ -13,7 +13,7 @@ export class JwtService {
 
   sign(data: object) {
     return jwt.sign(instanceToPlain(data), this.secret, {
-      expiresIn: this.config.sessionExpirySeconds,
+      expiresIn: this.config.session.session.expiryInSeconds,
     });
   }
 
