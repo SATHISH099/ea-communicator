@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import moment from 'moment';
 import { Doughnut } from 'vue-chartjs';
 import {
   ArcElement,
@@ -30,11 +29,13 @@ const startDate = ref<string>(new Date().toISOString());
 const endDate = ref<string>(new Date().toISOString());
 const { $trpc } = useNuxtApp();
 
-const { data, refresh } = await $trpc.dashboard.counts.useQuery({
-  countType: startDate.value && endDate.value ? 'dateRange' : 'models',
-  startDate: startDate.value,
-  endDate: endDate.value,
-});
+const { data, refresh } = await useAsyncData(() =>
+  $trpc.dashboard.counts.query({
+    countType: startDate.value && endDate.value ? 'dateRange' : 'models',
+    startDate: startDate.value,
+    endDate: endDate.value,
+  }),
+);
 
 const chartOptions = ref({
   responsive: true,
@@ -69,7 +70,7 @@ const setDate = (dateStr: string[] | null) => {
             id="dashboardChart"
             :options="chartOptions"
             :data="{
-              labels: ['Emails', 'SMS', 'Voice', 'Alerts', 'Library'],
+              labels: ['Emails', 'SMS', 'Voice', 'Alerts'],
               datasets: [
                 {
                   data: [

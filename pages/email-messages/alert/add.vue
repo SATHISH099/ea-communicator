@@ -49,7 +49,7 @@ const showModal = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
 };
-const activeTab = ref('emails');
+const activeTab = ref<'email' | 'sms'>('email');
 
 function resetForm() {
   Object.assign(data, initialState);
@@ -213,11 +213,8 @@ const setGroupRecipients = (
                 <div class="flex items-center gap-1 md:gap-0 flex-wrap">
                   <div
                     v-for="(tabValue, key) in {
-                      all: 'All',
                       email: 'Email',
                       sms: 'SMS',
-                      voice: 'Voice',
-                      notification: 'Push Notification',
                     }"
                     :key="key"
                     class="tab"

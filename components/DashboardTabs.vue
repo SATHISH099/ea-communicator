@@ -1,14 +1,16 @@
 <script lang="ts" setup>
+type MessageType = 'message' | 'email' | 'sms';
 const recentEmailHeaders = ['ID', 'Sender', 'Email Subject', 'Email Messages'];
-const activeTab = ref('messages');
+const activeTab = ref<MessageType>('message');
 const { $trpc } = useNuxtApp();
 
-const { data } = await $trpc.message.findAll.useQuery(
+const { data, refresh } = await useAsyncData(
+  (): any =>
+    $trpc[activeTab.value].list.query({
+      pageSize: 6,
+    }),
   {
-    pageSize: 6,
-  },
-  {
-    transform: ({ total, data }) => ({
+    transform: ({ total, data }: any) => ({
       total,
       data: data.map((message: any) => ({
         id: message.id,
@@ -26,25 +28,22 @@ const { data } = await $trpc.message.findAll.useQuery(
     <div class="flex md:justify-end justify-start p-6">
       <div class="flex items-center lex-wrap">
         <div
+          v-for="(value, key) in {
+            message: 'Alerts',
+            email: 'Emails',
+            sms: 'SMS',
+          }"
+          :key="key"
           class="tab"
-          :class="{ active: activeTab === 'messages' }"
-          @click="activeTab = 'messages'"
+          :class="{ active: activeTab === key }"
+          @click="
+            {
+              activeTab = key as MessageType;
+              refresh();
+            }
+          "
         >
-          Alerts
-        </div>
-        <div
-          class="tab"
-          :class="{ active: activeTab === 'emails' }"
-          @click="activeTab = 'emails'"
-        >
-          Email
-        </div>
-        <div
-          class="tab"
-          :class="{ active: activeTab === 'sms' }"
-          @click="activeTab = 'sms'"
-        >
-          Sms
+          {{ value }}
         </div>
       </div>
     </div>
@@ -59,7 +58,7 @@ const { data } = await $trpc.message.findAll.useQuery(
           :headers="recentEmailHeaders"
           :rows="data?.data || []"
           class="w-full overflow-auto scroll relative"
-          :isDropdown="false"
+          :is-dropdown="false"
         />
       </div>
     </div>

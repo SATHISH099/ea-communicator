@@ -18,7 +18,7 @@ const list = procedure
 
     return smsService.findAll(input, {
       where: {
-        ...(input.search && { subject: Like(`%${input.search}%`) }),
+        ...(input.search && { title: Like(`%${input.search}%`) }),
         isPredefined: input.isPredefined,
       },
       relations: {

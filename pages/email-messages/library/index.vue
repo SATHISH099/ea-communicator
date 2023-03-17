@@ -19,12 +19,14 @@ const extensionType = ref('');
 const searchField = ref('');
 const { $trpc } = useNuxtApp();
 
-const { data: medias, refresh } = await $trpc.library.list.useQuery({
-  search: search.value,
-  pageNumber: page.value,
-  orderType: orderType.value,
-  orderBy: orderBy.value,
-});
+const { data: medias, refresh } = await useAsyncData(() =>
+  $trpc.library.list.query({
+    search: search.value,
+    pageNumber: page.value,
+    orderType: orderType.value,
+    orderBy: orderBy.value,
+  }),
+);
 
 const searchKeyword = () => {
   search.value = searchField.value;

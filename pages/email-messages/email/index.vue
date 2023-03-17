@@ -20,36 +20,32 @@ const MessageHeaders = [
 
 const { $trpc } = useNuxtApp();
 
-const { data, refresh } = await $trpc.email.list.useQuery(
+const { data, refresh } = await useAsyncData(
+  () =>
+    $trpc.email.list.query({ search: search.value, pageNumber: page.value }),
   {
-    search: search.value,
-    pageNumber: page.value,
-  },
-  {
-    transform: (data) => {
-      return {
-        total: data.total,
-        data: data.data.map(
-          ({
-            id,
-            sender,
-            subject,
-            recipients,
-            groups,
-            body,
-            createdAt,
-          }: any) => ({
-            id,
-            sender: sender?.name,
-            subject,
-            recipients: recipients.length,
-            groups: groups.length,
-            body,
-            createdAt: moment(createdAt).format('dddd, Do MMMM YYYY h:mm A'),
-          }),
-        ),
-      };
-    },
+    transform: ({ data, total }) => ({
+      total,
+      data: data.map(
+        ({
+          id,
+          sender,
+          subject,
+          recipients,
+          groups,
+          body,
+          createdAt,
+        }: any) => ({
+          id,
+          sender: sender?.name,
+          subject,
+          recipients: recipients.length,
+          groups: groups.length,
+          body,
+          createdAt: moment(createdAt).format('dddd, Do MMMM YYYY h:mm A'),
+        }),
+      ),
+    }),
   },
 );
 

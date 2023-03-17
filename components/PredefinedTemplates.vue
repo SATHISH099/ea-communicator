@@ -1,25 +1,42 @@
 <script lang="ts" setup>
-const props = defineProps(['type', 'use']);
+const props = defineProps({
+  type: {
+    type: String as PropType<'email' | 'sms'>,
+    default: 'email',
+  },
+  use: {
+    type: Function,
+    default: () => {},
+  },
+});
+
 const messageHeaders = ['Title', 'Message'];
 const search = ref('');
 const searchField = ref('');
 const page = ref(1);
 const { $trpc } = useNuxtApp();
-const moduleType: 'email' | 'sms' = props.type === 'emails' ? 'email' : 'sms';
 
-const { data, refresh } = await $trpc[moduleType].list.useQuery(
+const { data, refresh } = await useAsyncData(
+  (): any =>
+    $trpc[props.type].list.query({
+      search: search.value,
+      pageNumber: page.value,
+    }),
   {
-    search: search.value,
-    pageNumber: page.value,
-  },
-  {
-    transform: ({ total, data }) => ({
+    transform: ({ total, data }: any) => ({
       total,
       data: data.map((x: any) => ({
         title: x.subject || x.title,
         message: x.body || x.message,
       })),
     }),
+  },
+);
+
+watch(
+  () => props.type,
+  () => {
+    refresh();
   },
 );
 
