@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import moment from 'moment';
+import { useToasterStore } from '~~/store/toaster';
 
 const page = ref(1);
 const isDelete = ref(false);
@@ -7,6 +8,7 @@ const search = ref('');
 const orderType = ref('desc');
 const orderBy = ref('id');
 const searchField = ref('');
+const { setMessage } = useToasterStore();
 
 const messageHeaders = [
   { value: 'Id', isSort: true, key: 'id' },
@@ -75,6 +77,24 @@ const deleteRecord = async (id: number) => {
   refresh();
   isDelete.value = response.affected !== undefined;
 };
+
+const bulkDelete = async (data: number[]) => {
+  try {
+    const response = await $trpc.sms.bulkDelete.mutate(
+      data.map(function (item) {
+        return Number(item);
+      }),
+    );
+    if (response) {
+      setMessage('Bulk Deleted successfully.', 'success');
+      refresh();
+    } else {
+      setMessage('Something went wrong unable to create Email.', 'error');
+    }
+  } catch (error) {
+    console.error(new Error('Whoops, something went wrong.'));
+  }
+};
 </script>
 
 <template>
@@ -123,9 +143,11 @@ const deleteRecord = async (id: number) => {
           :headers="messageHeaders"
           :rows="data?.data"
           type="sms"
+          :show-bulk-delete="true"
+          :dropDownOption="{ isView: true, isEdit: false, isDelete: true }"
+          @bulkDelete="bulkDelete"
           @onDeleteRecord="deleteRecord"
           @sortRecord="sortRecord"
-          :dropDownOption="{ isView: true, isEdit: false, isDelete: true }"
         />
         <div class="ml-8">
           <PaginationTable

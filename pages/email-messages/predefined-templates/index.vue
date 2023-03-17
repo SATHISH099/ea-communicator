@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import Multiselect from '@vueform/multiselect/src/Multiselect';
 import moment from 'moment';
+import { useToasterStore } from '~~/store/toaster';
 
 const { $trpc } = useNuxtApp();
 const type = ref<'email' | 'sms'>('email');
@@ -10,6 +11,7 @@ const orderType = ref<'desc' | 'asc'>('desc');
 const orderBy = ref('id');
 const search = ref('');
 const searchField = ref('');
+const { setMessage } = useToasterStore();
 
 const MessageHeaders = [
   { value: 'Id', isSort: true, key: 'id' },
@@ -83,6 +85,24 @@ const searchEmpty = () => {
     refresh();
   }
 };
+
+const bulkDelete = async (data: number[]) => {
+  try {
+    const response = await $trpc[type.value].bulkDelete.mutate(
+      data.map(function (item) {
+        return Number(item);
+      }),
+    );
+    if (response) {
+      setMessage('Bulk Deleted successfully.', 'success');
+      refresh();
+    } else {
+      setMessage('Something went wrong unable to create Email.', 'error');
+    }
+  } catch (error) {
+    console.error(new Error('Whoops, something went wrong.'));
+  }
+};
 </script>
 
 <template>
@@ -148,7 +168,9 @@ const searchEmpty = () => {
         <DashboardTable
           :headers="MessageHeaders"
           :rows="data?.data || []"
+          :show-bulk-delete="true"
           :type="type === 'email' ? 'email' : 'sms'"
+          @bulkDelete="bulkDelete"
           @onDeleteRecord="deleteRecord"
           @sortRecord="sortRecord"
         />

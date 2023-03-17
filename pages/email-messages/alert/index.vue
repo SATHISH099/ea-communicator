@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import moment from 'moment';
+import { useToasterStore } from '~~/store/toaster';
 
 const page = ref(1);
 const orderType = ref<'desc' | 'asc'>('desc');
@@ -7,7 +8,7 @@ const orderBy = ref('id');
 const isDelete = ref(false);
 const search = ref('');
 const searchField = ref('');
-
+const { setMessage } = useToasterStore();
 const { $trpc } = useNuxtApp();
 
 const MessageHeaders = [
@@ -75,6 +76,24 @@ const sortRecord = (key: string) => {
   orderBy.value = key;
   refresh();
 };
+
+const bulkDelete = async (data: number[]) => {
+  try {
+    const response = await $trpc.message.bulkDelete.mutate(
+      data.map(function (item) {
+        return Number(item);
+      }),
+    );
+    if (response) {
+      setMessage('Bulk Deleted successfully.', 'success');
+      refresh();
+    } else {
+      setMessage('Something went wrong unable to create Email.', 'error');
+    }
+  } catch (error) {
+    console.error(new Error('Whoops, something went wrong.'));
+  }
+};
 </script>
 
 <template>
@@ -127,6 +146,7 @@ const sortRecord = (key: string) => {
           type="alert"
           :show-bulk-delete="true"
           :drop-down-option="{ isView: true, isEdit: false, isDelete: true }"
+          @bulkDelete="bulkDelete"
           @onDeleteRecord="deleteRecord"
           @sortRecord="sortRecord"
         />
