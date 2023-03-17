@@ -4,6 +4,7 @@ import type { Group } from '~~/services/group.service';
 
 const config = useRuntimeConfig();
 const page = ref(1);
+const pageSize = ref(10);
 const isDelete = ref(false);
 const search = ref('');
 const searchField = ref('');
@@ -19,7 +20,8 @@ const messageHeaders = [
 
 const groupService = useService('group');
 const { data, refresh } = await useFetch<any>(
-  () => `groups?search=${search.value}&pageNumber=${page.value}&pageSize=10`,
+  () =>
+    `groups?search=${search.value}&pageNumber=${page.value}&pageSize=${pageSize.value}`,
   {
     baseURL: config.public.API_SMARTSUITE_BASEURL,
     transform: (data) => {
@@ -62,6 +64,11 @@ const searchKeyword = () => {
 
 const paginate = (pg: number) => {
   page.value = pg;
+  refresh();
+};
+
+const setPerPage = (perPage: number) => {
+  pageSize.value = perPage;
   refresh();
 };
 
@@ -128,6 +135,7 @@ const deleteRecord = async (id: number) => {
             :totalRecords="data.total"
             :currentPage="page"
             v-bind:paginate="paginate"
+            @setPerPage="setPerPage"
           ></PaginationTable>
         </div>
       </div>

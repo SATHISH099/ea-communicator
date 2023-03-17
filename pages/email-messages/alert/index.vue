@@ -3,6 +3,7 @@ import moment from 'moment';
 import { useToasterStore } from '~~/store/toaster';
 
 const page = ref(1);
+const pageSize = ref(10);
 const orderType = ref<'desc' | 'asc'>('desc');
 const orderBy = ref('id');
 const isDelete = ref(false);
@@ -27,6 +28,7 @@ const { data, refresh } = await useAsyncData(
     $trpc.message.list.query({
       orderType: orderType.value,
       orderBy: orderBy.value,
+      pageSize: pageSize.value,
     }),
   {
     transform: ({ data, total }) => ({
@@ -74,6 +76,11 @@ const deleteRecord = async (id: number) => {
 const sortRecord = (key: string) => {
   orderType.value = orderType.value === 'desc' ? 'asc' : 'desc';
   orderBy.value = key;
+  refresh();
+};
+
+const setPerPage = (perPage: number) => {
+  pageSize.value = perPage;
   refresh();
 };
 
@@ -155,6 +162,7 @@ const bulkDelete = async (data: number[]) => {
             :total-records="data?.total || 0"
             :current-page="page"
             :paginate="paginate"
+            @setPerPage="setPerPage"
           ></PaginationTable>
         </div>
       </div>
