@@ -15,43 +15,48 @@ const setPerPage = () => {
 
 <template>
   <div>
-    <div v-if="props.totalRecords > 0" class="mt-8">
-      <button
-        class="btn-pagination"
-        type="button"
-        :disabled="currentPage === 1"
-        @click="props.paginate(currentPage - 1)"
-      >
-        <img src="/left-arrow.png" />
-      </button>
-      <button
-        v-for="index in Math.ceil(parseInt(props.totalRecords) / 10)"
-        :key="index"
-        type="button"
-        :class="`${currentPage === index ? 'active' : ''}  btn-pagination`"
-        @click="props.paginate(index)"
-      >
-        {{ index }}
-      </button>
-      <button
-        class="btn-pagination"
-        type="button"
-        :disabled="currentPage === Math.ceil(parseInt(props.totalRecords) / 10)"
-        @click="props.paginate(currentPage + 1)"
-      >
-        <img src="/right-arrow.png" />
-      </button>
-    </div>
+    <div class="flex justify-between">
+      <div v-if="props.totalRecords > 0" class="mt-8">
+        <button
+          class="btn-pagination"
+          type="button"
+          :disabled="currentPage === 1"
+          @click="props.paginate(currentPage - 1)"
+        >
+          <img src="/left-arrow.png" />
+        </button>
+        <button
+          v-for="index in Math.ceil(parseInt(props.totalRecords) / 10)"
+          :key="index"
+          type="button"
+          :class="`${currentPage === index ? 'active' : ''}  btn-pagination`"
+          @click="props.paginate(index)"
+        >
+          {{ index }}
+        </button>
+        <button
+          class="btn-pagination"
+          type="button"
+          :disabled="
+            currentPage === Math.ceil(parseInt(props.totalRecords) / 10)
+          "
+          @click="props.paginate(currentPage + 1)"
+        >
+          <img src="/right-arrow.png" />
+        </button>
+      </div>
 
-    <div v-if="props.totalRecords > 0" class="mt-8">
-      Showing
-      <FormKit
-        v-model="perPage"
-        type="select"
-        :options="[10, 20, 50, 100]"
-        @input="setPerPage"
-      />
-      Per Page
+      <div v-if="props.totalRecords > 0" class="mt-8 flex gap-4 mr-4">
+        Showing
+        <FormKit
+          v-model="perPage"
+          type="select"
+          :options="[10, 20, 50, 100]"
+          @input="setPerPage"
+          class="bg-red"
+        />
+        Alerts Out Of 100
+      </div>
     </div>
   </div>
 </template>

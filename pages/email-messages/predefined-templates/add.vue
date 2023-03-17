@@ -130,6 +130,7 @@ const submitHandler = async (formData: any) => {
             <div mb-5 v-if="type === 'email'">
               <ClientOnly>
                 <RichTextEditor
+                  placeholder="abc"
                   v-model="body"
                   :contentValue="body"
                   @update:contentValue="

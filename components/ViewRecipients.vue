@@ -61,6 +61,7 @@ const paginate = (pg: number) => {
           type="search"
           placeholder="Search"
           input-class="form-control pl-[3.5rem]"
+          outer-class="search-field"
           prefix-icon-class="search-icon"
           @change="searchKeyword"
         />

@@ -2,6 +2,8 @@
 import moment from 'moment';
 import { useToasterStore } from '~~/store/toaster';
 
+const config = useRuntimeConfig();
+const messageService = useService('message');
 const page = ref(1);
 const pageSize = ref(10);
 const orderType = ref<'desc' | 'asc'>('desc');
@@ -23,7 +25,7 @@ const MessageHeaders = [
   '',
 ];
 
-const { data, refresh } = await useAsyncData(
+const { data, refresh } = await useFetch<any>(
   () =>
     $trpc.message.list.query({
       orderType: orderType.value,
@@ -31,28 +33,31 @@ const { data, refresh } = await useAsyncData(
       pageSize: pageSize.value,
     }),
   {
-    transform: ({ data, total }) => ({
-      total,
-      data: data.map(
-        ({
-          id,
-          sender,
-          title,
-          message,
-          recipients,
-          groups,
-          createdAt,
-        }: any) => ({
-          id,
-          sender: sender?.name,
-          title,
-          recipients: recipients.length,
-          groups: groups.length,
-          message,
-          createdAt: moment(createdAt).format('dddd, Do MMMM YYYY h:mm A'),
-        }),
-      ),
-    }),
+    baseURL: config.public.API_BASE_URL,
+    transform: (data) => {
+      return {
+        total: data.total,
+        data: data.data.map(
+          ({
+            id,
+            sender,
+            title,
+            message,
+            recipients,
+            groups,
+            createdAt,
+          }: Message & GroupRecipientData) => ({
+            id,
+            sender,
+            title,
+            recipients: recipients.length,
+            groups: groups.length,
+            message,
+            createdAt: moment(createdAt).format('dddd, Do MMMM YYYY h:mm A'),
+          }),
+        ),
+      };
+    },
   },
 );
 
@@ -68,9 +73,9 @@ const paginate = (pg: number) => {
 };
 
 const deleteRecord = async (id: number) => {
-  const response = await $trpc.message.delete.mutate(id);
+  const response = await messageService.delete(id);
   refresh();
-  isDelete.value = response.affected !== undefined;
+  isDelete.value = response.affected;
 };
 
 const sortRecord = (key: string) => {
@@ -129,10 +134,10 @@ const bulkDelete = async (data: number[]) => {
         <div class="flex flex-wrap justify-between items-center gap-4">
           <div class="flex flex-wrap items-center gap-4">
             <FormKit
-              v-model="searchField"
               prefix-icon="search"
               type="search"
               placeholder="Search"
+              v-model="searchField"
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
               outer-class="md:w-[34rem] w-full search-field"
@@ -149,13 +154,14 @@ const bulkDelete = async (data: number[]) => {
       <div class="pb-10 pt-5">
         <DashboardTable
           :headers="MessageHeaders"
-          :rows="data?.data || []"
+          :rows="data.data"
           type="alert"
           :show-bulk-delete="true"
           :drop-down-option="{ isView: true, isEdit: false, isDelete: true }"
           @bulkDelete="bulkDelete"
           @onDeleteRecord="deleteRecord"
           @sortRecord="sortRecord"
+          :dropDownOption="{ isView: true, isEdit: false, isDelete: true }"
         />
         <div class="ml-8">
           <PaginationTable

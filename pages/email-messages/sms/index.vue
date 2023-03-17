@@ -110,9 +110,13 @@ const bulkDelete = async (data: number[]) => {
       <div>
         <h4 class="mb-4 text-stone">SMS</h4>
         <p class="text-silver">
-          <span class="sub-heading"> Communicator</span>
+          <NuxtLink to="/email-messages/" class="text-silver sub-heading"
+            >Communicator</NuxtLink
+          >
           <span class="text-silver">/</span>
-          <span class="sub-heading"> Email / Messages</span>
+          <NuxtLink to="/email-messages" class="text-silver sub-heading">
+            Email/Messages</NuxtLink
+          >
           <span class="text-silver">/</span>
           <span class="text-primary hover:no-underline ml-1">SMS</span>
         </p>
