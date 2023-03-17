@@ -1,11 +1,13 @@
 <script lang="ts" setup>
 import moment from 'moment';
+import { useToasterStore } from '~~/store/toaster';
 const page = ref(1);
 const isDelete = ref(false);
 const orderType = ref('desc');
 const orderBy = ref('id');
 const search = ref('');
 const searchField = ref('');
+const { setMessage } = useToasterStore();
 
 const MessageHeaders = [
   { value: 'Id', isSort: true, key: 'id' },
@@ -79,6 +81,24 @@ const searchEmpty = () => {
     refresh();
   }
 };
+
+const bulkDelete = async (data: number[]) => {
+  try {
+    const response = await $trpc.email.bulkDelete.mutate(
+      data.map(function (item) {
+        return Number(item);
+      }),
+    );
+    if (response) {
+      setMessage('Bulk Deleted successfully.', 'success');
+      refresh();
+    } else {
+      setMessage('Something went wrong unable to create Email.', 'error');
+    }
+  } catch (error) {
+    console.error(new Error('Whoops, something went wrong.'));
+  }
+};
 </script>
 
 <template>
@@ -134,9 +154,10 @@ const searchEmpty = () => {
           :rows="data?.data || []"
           type="email"
           :show-bulk-delete="true"
+          :dropDownOption="{ isView: true, isEdit: false, isDelete: true }"
+          @bulkDelete="bulkDelete"
           @onDeleteRecord="deleteRecord"
           @sortRecord="sortRecord"
-          :dropDownOption="{ isView: true, isEdit: false, isDelete: true }"
         />
         <div class="ml-8">
           <PaginationTable
