@@ -43,7 +43,6 @@ const groupService = useService('group');
 const statuses = ['Inactive', 'active'];
 
 const { data: location } = await useFetch<any>(() => `/json/locations.json`);
-
 const initialState: initialStateData = {
   groupName: '',
   status: true,
@@ -180,9 +179,9 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
                 placeholder="Select State / Territory"
                 :options="
                   data.selectedCountry.states
-                    ? data.selectedCountry.states.map((item: StateData) => {
+                    ? [...data.selectedCountry.states.map((item: StateData) => {
                         return item.name;
-                      })
+                      }), {value: '', label:'Select State / Territory'}]
                     : []
                 "
                 @change="selectState"
@@ -197,9 +196,9 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
                 placeholder="Select City"
                 :options="
                   data.selectedState.cities
-                    ? data.selectedState.cities.map((item: CitiesData) => {
+                    ? [...data.selectedState.cities.map((item: CitiesData) => {
                         return item.name;
-                      })
+                      }), {value: '', label:'Select City'}]
                     : []
                 "
               />
