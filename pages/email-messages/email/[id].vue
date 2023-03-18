@@ -17,12 +17,19 @@ const data = await $trpc.email.show.query(parseInt(id as string));
     <div class="flex justify-between items-center mb-10">
       <div>
         <h4 class="mb-4 text-stone">View Details</h4>
+        <p class="text-silver"></p>
         <p class="text-silver">
-          <span class="sub-heading">Comunicator</span>
+          <NuxtLink to="/" class="text-silver sub-heading"
+            >Communicator</NuxtLink
+          >
           <span class="text-silver">/</span>
-          <span class="sub-heading"> Email / Messages</span>
+          <NuxtLink to="/email-messages" class="text-silver sub-heading">
+            Email/Messages</NuxtLink
+          >
           <span class="text-silver">/</span>
-          <span class="sub-heading"> Email</span>
+          <NuxtLink to="/email-messages/alert" class="text-silver sub-heading">
+            Email/Messages</NuxtLink
+          >
           <span class="text-silver">/</span>
           <span class="text-primary hover:no-underline ml-1">View Details</span>
         </p>

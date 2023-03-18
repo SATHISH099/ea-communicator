@@ -5,10 +5,11 @@
     <div class="mb-10">
       <h4 class="mb-4 text-stone">Email / Messages</h4>
       <p class="text-silver hover:text-primary">
-        <span
-          class="hover:underline mr-1 transition duration-700 cursor-pointer"
-        >
-          Communicator</span
+        <NuxtLink to="/" class="text-silver sub-heading">Communicator</NuxtLink>
+        <span class="text-silver">/</span>
+
+        <NuxtLink to="/email-messages/email" class="text-silver sub-heading">
+          Email</NuxtLink
         >
         <span class="text-silver">/</span>
         <span class="text-primary hover:no-underline"> Email / Messages</span>

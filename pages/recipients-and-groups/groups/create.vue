@@ -206,6 +206,7 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
 
               <FormKit
                 v-model="data.city"
+                prefix-icon="sad"
                 type="select"
                 validation="required"
                 name="city"

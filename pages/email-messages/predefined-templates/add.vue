@@ -93,7 +93,21 @@ const submitHandler = async (formData: any) => {
         <div class="md:mb-0 mb-10">
           <h4 class="mb-4 text-stone">Predefined Templates</h4>
           <p class="text-silver">
-            Communicator / Email/Messages / Predefined Templates /
+            <NuxtLink to="/" class="text-silver sub-heading"
+              >Communicator</NuxtLink
+            >
+            <span class="text-silver">/</span>
+            <NuxtLink to="/email-messages" class="text-silver sub-heading">
+              Email/Messages</NuxtLink
+            >
+            <span class="text-silver">/</span>
+            <NuxtLink
+              to="/email-messages/predefined-templates"
+              class="text-silver sub-heading"
+            >
+              Predefined Messages</NuxtLink
+            >
+            <span class="text-silver">/</span>
             <span class="text-primary"> Add New Predefined Template</span>
           </p>
         </div>

@@ -88,7 +88,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 type="text"
                 placeholder="First Name"
                 input-class="form-control"
-                validation="required"
+                validation="required|length:3"
               />
               <FormKit
                 v-model="data.middleName"
@@ -118,7 +118,6 @@ const setGroups = (groupSelected: GroupData[]) => {
                 name="Cell Voice"
                 type="tel"
                 placeholder="Mobile phone for voice calls"
-                validation="required"
                 input-class="form-control"
               />
               <FormKit
