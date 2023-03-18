@@ -82,8 +82,12 @@ const toggleChecked = () => {
         "
         class="flex items-center mt-5 md:w-auto w-full"
       >
-        <FormKit type="submit" input-class="btn btn-primary md:w-auto w-full">
-          Delete
+        <FormKit
+          input-class="bg-transparent outline-none cursor-pointer border-none"
+          type="submit"
+          outer-class="flex items-center justify-end w-full mr-8"
+        >
+          <img class="w-[1.5rem] h-[1.5rem]" alt="" src="/bulk-delete.png" />
         </FormKit>
       </div>
       <table class="relative">

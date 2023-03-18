@@ -12,7 +12,22 @@ interface GroupData {
   status: boolean;
 }
 
+interface CitiesData {
+  name: string;
+}
+interface StateData {
+  name: string;
+  cities: CitiesData[];
+}
+
+interface CountryData {
+  name: string;
+  states: StateData[];
+}
+
 const recipientService = useService('recipient');
+
+const { data: location } = await useFetch<any>(() => `/json/locations.json`);
 const initialState = {
   firstName: '',
   middleName: '',
@@ -27,6 +42,8 @@ const initialState = {
   country: '',
   state: '',
   city: '',
+  selectedCountry: { name: '', states: [{ name: '', cities: [{ name: '' }] }] },
+  selectedState: { name: '', cities: [{ name: '' }] },
   zipCode: '',
   location: '',
   status: false,
@@ -38,6 +55,22 @@ const groups = ref<GroupData[] | []>([]);
 const resetForm = () => {
   Object.assign(data, initialState);
   groups.value = [];
+};
+
+const selectCountry = () => {
+  const selectLocation = location.value.filter(function (country: StateData) {
+    return country.name === data.country;
+  });
+
+  data.selectedCountry = selectLocation[0] || initialState.selectedCountry;
+};
+
+const selectState = () => {
+  const selectLocation = data.selectedCountry.states.filter(function (state) {
+    return state.name === data.state;
+  });
+
+  data.selectedState = selectLocation[0] || initialState.selectedState;
 };
 const submitCreate = async () => {
   try {
@@ -88,7 +121,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 type="text"
                 placeholder="First Name"
                 input-class="form-control"
-                validation="required|length:3"
+                validation="required|length:2,50"
               />
               <FormKit
                 v-model="data.middleName"
@@ -96,6 +129,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 type="text"
                 placeholder="Middle Name"
                 input-class="form-control"
+                validation="length:2,50"
               />
               <FormKit
                 v-model="data.lastName"
@@ -103,7 +137,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 type="text"
                 placeholder="Last Name"
                 input-class="form-control"
-                validation="required"
+                validation="required|length:2,50"
               />
               <FormKit
                 v-model="data.nickName"
@@ -111,13 +145,14 @@ const setGroups = (groupSelected: GroupData[]) => {
                 type="text"
                 placeholder="Nick Name"
                 input-class="form-control"
-                validation="required"
+                validation="required|length:2,50"
               />
               <FormKit
                 v-model="data.cellVoice"
                 name="Cell Voice"
                 type="tel"
                 placeholder="Mobile phone for voice calls"
+                validation="required|length:7,20"
                 input-class="form-control"
               />
               <FormKit
@@ -126,6 +161,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 type="tel"
                 placeholder="Mobile phone for SMS"
                 input-class="form-control"
+                validation="required|length:7,20"
               />
               <FormKit
                 v-model="data.homeNumber"
@@ -133,7 +169,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 type="tel"
                 placeholder="Home phone number"
                 input-class="form-control"
-                validation="required"
+                validation="required|length:7,20"
               />
               <FormKit
                 v-model="data.workNumber"
@@ -141,7 +177,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 type="tel"
                 placeholder="Work phone number"
                 input-class="form-control"
-                validation="required"
+                validation="required|length:7,20"
               />
               <FormKit
                 v-model="data.emailAddress"
@@ -159,28 +195,64 @@ const setGroups = (groupSelected: GroupData[]) => {
                 placeholder="Alternate Email"
                 input-class="form-control"
               />
-              <Select
+              <FormKit
                 v-model="data.status"
+                type="select"
+                validation="required"
+                name="status"
+                input-class="form-control"
                 placeholder="Select Status"
                 :options="[
                   { value: true, label: 'Active' },
                   { value: false, label: 'In-Active' },
                 ]"
               />
-              <Select
+              <FormKit
                 v-model="data.country"
+                type="select"
+                validation="required"
+                name="country"
+                input-class="form-control"
                 placeholder="Select Country"
-                :options="['USA', 'Canada', 'Mexico']"
+                :options="
+                  location.map((item: StateData) => {
+                    return item.name;
+                  })
+                "
+                @change="selectCountry"
               />
-              <Select
+
+              <FormKit
                 v-model="data.state"
+                type="select"
+                validation="required"
+                name="state"
+                input-class="form-control"
                 placeholder="Select State / Territory"
-                :options="['California', 'Texas', 'Florida']"
+                :options="
+                  data.selectedCountry.states
+                    ? [...data.selectedCountry.states.map((item: StateData) => {
+                        return item.name;
+                      }), {value: '', label:'Select State / Territory'}]
+                    : []
+                "
+                @change="selectState"
               />
-              <Select
+
+              <FormKit
                 v-model="data.city"
+                type="select"
+                validation="required"
+                name="city"
+                input-class="form-control"
                 placeholder="Select City"
-                :options="['Los Angeles', 'Houston', 'Miami']"
+                :options="
+                  data.selectedState.cities
+                    ? [...data.selectedState.cities.map((item: CitiesData) => {
+                        return item.name;
+                      }), {value: '', label:'Select City'}]
+                    : []
+                "
               />
               <FormKit
                 v-model="data.zipCode"

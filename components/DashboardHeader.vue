@@ -50,7 +50,7 @@ const { logout } = useLogout();
       />
       <div v-show="isOpen" class="dropdown-menus right-15 top-20">
         <li class="p-2">
-          <NuxtLink :to="{ name: 'email-messages-profile' }" class="text-white"
+          <NuxtLink :to="{ name: 'profile' }" class="text-white"
             >View Profile</NuxtLink
           >
         </li>

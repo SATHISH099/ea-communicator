@@ -53,7 +53,7 @@ const paginate = (pg: number) => {
 <template>
   <div>
     <div bg-white small-shadow>
-      <div px-6 pt-6>
+      <div px-6 py-6>
         <h5 text-stone mb-5>Recipient's List</h5>
         <FormKit
           v-model="searchField"

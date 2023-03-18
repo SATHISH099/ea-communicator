@@ -125,6 +125,12 @@ const uploadFile = async (data: { file: any }) => {
       </div>
       <div md:w-auto w-full flex items-center gap-4>
         <div>
+          <button class="btn btn-secondary flex items-center gap-3">
+            <img src="/download.png" alt="" />
+            <CsvTemplate href="/bulk-recipients-sample.csv" />
+          </button>
+        </div>
+        <div>
           <button
             class="btn btn-secondary flex items-center gap-3"
             @click="viewUploadModal = true"

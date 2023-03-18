@@ -149,11 +149,15 @@ a {
       }
     }
   }
+}
 
-  .formkit-messages {
+.formkit-messages {
+  color: $primary;
+  margin-top: 10px;
+  list-style-type: none;
+
+  li {
     color: $primary;
-    margin-top: 10px;
-    list-style-type: none;
   }
 }
 
@@ -265,12 +269,23 @@ a {
   .dp__today {
     border: 1px solid $primary;
   }
+}
 
-  .dp__action {
-    &.dp__select {
-      color: $primary !important;
-    }
-  }
+.dp__select {
+  color: $white !important;
+  background-color: $primary;
+  padding: 0.5rem !important;
+  font-weight: 500 !important;
+  border: 1px solid $primary;
+}
+
+.dp__cancel {
+  color: $primary !important;
+  background-color: transparent;
+  padding: 0.5rem !important;
+  font-weight: 500 !important;
+  border: 1px solid $primary;
+  margin-right: 0.5rem;
 }
 
 .search-field {
@@ -327,5 +342,19 @@ a {
     top: 0%;
     bottom: 0%;
     width: 100%;
+  }
+}
+
+
+select {
+  appearance: none;
+  background-image: url("/arrow-down.png");
+  background-repeat: no-repeat;
+  background-position: center right 1em;
+}
+
+.ck-editor {
+  .ck-content {
+    min-height: 12rem;
   }
 }
