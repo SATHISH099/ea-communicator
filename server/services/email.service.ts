@@ -11,7 +11,7 @@ import type {
 import { RecipientType } from '../enums/recipient-type.enum';
 import { SendingStatus } from '../enums/sending-status.enum';
 import type { CreateEmailDto } from '../validations/emails/create.dto';
-import { UpdateEmailDto } from '../validations/emails/update.dto';
+import type { UpdateEmailDto } from '../validations/emails/update.dto';
 import { BaseService } from './base.service';
 import { UserService } from './user.service';
 

@@ -47,7 +47,9 @@ const onDeleteRecord = (deleteId) => {
           v-if="props.dropDownOption.isView"
           :to="{
             path:
-              props.actions.view?.replace('[id]', props.detailId) ||
+              props.actions.view
+                ?.replace('[module]', props.type)
+                ?.replace('[id]', props.detailId) ||
               `${$route.path.split('/').slice(0, -1).join('/')}/${props.type}/${
                 props.detailId
               }`,
@@ -60,7 +62,9 @@ const onDeleteRecord = (deleteId) => {
           <NuxtLink
             :to="{
               path:
-                props.actions.edit?.replace('[id]', props.detailId) ||
+                props.actions.edit
+                  ?.replace('[module]', props.type)
+                  ?.replace('[id]', props.detailId) ||
                 `${$route.path.split('/').slice(0, -1).join('/')}/${
                   props.type
                 }/edit/${props.detailId}`,

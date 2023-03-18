@@ -1,15 +1,10 @@
 <script lang="ts" setup>
 import moment from 'moment';
-import type { Email } from '~~/services/email.service';
-import type { Sms } from '~~/services/sms.service';
-import type { Message } from '~~/services/message.service';
-import type { Recipient } from '~~/services/recipient.service';
-import type { Group } from '~~/services/group.service';
 
-const config = useRuntimeConfig();
+const { $trpc } = useNuxtApp();
 const page = ref(1);
-const type = ref('emails');
-const orderType = ref('desc');
+const type = ref<'email' | 'sms' | 'message'>('email');
+const orderType = ref<'desc' | 'asc'>('desc');
 const orderBy = ref('id');
 const search = ref('');
 const startDate = ref<string | null>('');
@@ -27,32 +22,35 @@ const messageHeaders = [
   '',
 ];
 
-interface GroupRecipientData {
-  recipients: Recipient[];
-  groups: Group[];
-}
-
-const { data, refresh } = await useFetch<any>(
-  () =>
-    `${type.value}?search=${search.value}&pageNumber=${page.value}&pageSize=10&startDate=${startDate.value}&endDate=${endDate.value}&orderType=${orderType.value}&orderBy=${orderBy.value}`,
+const { data, refresh } = await useAsyncData(
+  (): any =>
+    $trpc[type.value].list.query({
+      search: search.value,
+      pageNumber: page.value,
+      pageSize: 10,
+      orderType: orderType.value,
+      orderBy: orderBy.value,
+    }),
   {
-    baseURL: config.public.API_BASEURL,
-    transform: (data) => {
-      return {
-        total: data.total,
-        data: data.data.map(
-          (message: Email & Sms & Message & GroupRecipientData) => ({
-            id: message.id,
-            sender: message.sender,
-            subject: message.subject || message.title,
-            recipients: message.recipients.length,
-            groups: message.groups.length,
-            body: message.body || message.message,
-            createdAt: message.createdAt,
-          }),
-        ),
-      };
-    },
+    transform: ({ data, total }: any) => ({
+      total,
+      data: data.map((message: any) => ({
+        id: message.id,
+        sender: message.sender?.name,
+        subject: message.subject || message.title,
+        recipients: message.recipients.length,
+        groups: message.groups.length,
+        body: message.body || message.message,
+        createdAt: message.createdAt,
+      })),
+    }),
+  },
+);
+
+watch(
+  () => type.value,
+  () => {
+    refresh();
   },
 );
 
@@ -104,9 +102,9 @@ const setDate = (dateStr: string[] | null) => {
         <div class="flex flex-wrap justify-between items-center gap-4">
           <div class="flex flex-wrap items-center gap-4">
             <FormKit
+              v-model="searchField"
               prefix-icon="search"
               type="search"
-              v-model="searchField"
               placeholder="Search"
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
@@ -129,7 +127,7 @@ const setDate = (dateStr: string[] | null) => {
               placeholder="Category"
               :options="[
                 {
-                  value: 'emails',
+                  value: 'email',
                   label: 'Email',
                 },
                 {
@@ -137,7 +135,7 @@ const setDate = (dateStr: string[] | null) => {
                   label: 'Sms',
                 },
                 {
-                  value: 'messages',
+                  value: 'message',
                   label: 'Alert',
                 },
               ]"
@@ -148,16 +146,19 @@ const setDate = (dateStr: string[] | null) => {
       <div class="pb-10 pt-5">
         <DashboardTable
           :headers="messageHeaders"
-          :rows="data.data"
-          type="email"
+          :rows="data?.data || []"
+          :type="type"
+          :drop-down-option="{ isView: true, isEdit: false, isDelete: false }"
           @sortRecord="sortRecord"
-          :dropDownOption="{ isView: true, isEdit: false, isDelete: false }"
+          :actions="{
+            view: '/email-messages/[module]/[id]',
+          }"
         />
         <div class="ml-8">
           <PaginationTable
-            :totalRecords="data.total"
-            :currentPage="page"
-            v-bind:paginate="paginate"
+            :total-records="data?.total || 0"
+            :current-page="page"
+            :paginate="paginate"
           ></PaginationTable>
         </div>
       </div>
