@@ -180,6 +180,14 @@ const bulkDelete = async (data: number[]) => {
           :headers="MessageHeaders"
           :rows="data?.data || []"
           :show-bulk-delete="true"
+          :drop-down-option="{
+            isView: false,
+            isEdit: true,
+            isDelete: true,
+          }"
+          :actions="{
+            edit: '/email-messages/predefined-templates/edit/[id]',
+          }"
           :type="type === 'email' ? 'email' : 'sms'"
           @bulkDelete="bulkDelete"
           @onDeleteRecord="deleteRecord"

@@ -1,5 +1,5 @@
 <script setup>
-const props = defineProps(['detailId', 'type', 'dropDownOption']);
+const props = defineProps(['detailId', 'type', 'dropDownOption', 'actions']);
 const emit = defineEmits(['onDeleteRecord']);
 const isOpen = ref(false);
 const show = ref(false);
@@ -14,6 +14,10 @@ const hideModal = () => {
 
 const onDeleteRecord = (deleteId) => {
   hideModal();
+  if (typeof props.actions.delete === 'function') {
+    props.actions.delete(deleteId);
+  }
+
   emit('onDeleteRecord', deleteId);
 };
 </script>
@@ -42,9 +46,11 @@ const onDeleteRecord = (deleteId) => {
         <NuxtLink
           v-if="props.dropDownOption.isView"
           :to="{
-            path: `${$route.path.split('/').slice(0, -1).join('/')}/${
-              props.type
-            }/${props.detailId}`,
+            path:
+              props.actions.view?.replace('[id]', props.detailId) ||
+              `${$route.path.split('/').slice(0, -1).join('/')}/${props.type}/${
+                props.detailId
+              }`,
           }"
           class="p-2 text-white"
           >View</NuxtLink
@@ -53,9 +59,11 @@ const onDeleteRecord = (deleteId) => {
         <li class="p-2" v-if="props.dropDownOption.isEdit">
           <NuxtLink
             :to="{
-              path: `${$route.path.split('/').slice(0, -1).join('/')}/${
-                props.type
-              }/edit/${props.detailId}`,
+              path:
+                props.actions.edit?.replace('[id]', props.detailId) ||
+                `${$route.path.split('/').slice(0, -1).join('/')}/${
+                  props.type
+                }/edit/${props.detailId}`,
             }"
             class="p-2 text-white"
             >Edit</NuxtLink

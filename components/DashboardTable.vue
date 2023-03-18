@@ -31,6 +31,10 @@ const props = defineProps({
     default: false,
     required: false,
   },
+  actions: {
+    type: Object,
+    default: {},
+  },
 });
 const emit = defineEmits(['onDeleteRecord', 'sortRecord', 'bulkDelete']);
 
@@ -160,6 +164,7 @@ const toggleChecked = () => {
                   v-if="isDropdown ?? true"
                   :detail-id="row.id"
                   :type="props.type"
+                  :actions="props.actions"
                   :drop-down-option="dropDownOption"
                   @onDeleteRecord="onDeleteRecord"
                 ></DropdownTable>
