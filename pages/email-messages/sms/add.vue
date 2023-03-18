@@ -90,7 +90,14 @@ const setGroupRecipients = (
         <div>
           <h4 class="mb-4 text-stone">SMS</h4>
           <p class="text-silver">
-            Communicator / Email / Messages / SMS /
+            <NuxtLink to="/" class="text-silver sub-heading"
+              >Communicator</NuxtLink
+            >
+            <span class="text-silver">/</span>
+            <NuxtLink to="/email-messages" class="text-silver sub-heading">
+              Email/Messages</NuxtLink
+            >
+            <span class="text-silver">/</span>
             <span class="text-primary">Create New SMS</span>
           </p>
         </div>

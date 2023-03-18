@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import '~~/services/media.service';
 import '~~/services/email.service';
+import Multiselect from '@vueform/multiselect';
 import { useToasterStore } from '~~/store/toaster';
 import { ImportanceLevel } from '~~/server/enums/importance-level.enum';
 const { setMessage } = useToasterStore();
@@ -170,7 +171,21 @@ const setCcGroupRecipients = (
         <div>
           <h4 class="mb-4 text-carbon">Email</h4>
           <p class="text-silver">
-            Communicator / Email /
+            <NuxtLink to="/" class="text-silver sub-heading"
+              >Communicator</NuxtLink
+            >
+            <span class="text-silver">/</span>
+            <NuxtLink to="/email-messages" class="text-silver sub-heading">
+              Email/Messages</NuxtLink
+            >
+            <span class="text-silver">/</span>
+            <NuxtLink
+              to="/email-messages/email"
+              class="text-silver sub-heading"
+            >
+              Email</NuxtLink
+            >
+            <span class="text-silver">/</span>
             <span class="text-primary">Compose New Email</span>
           </p>
         </div>
@@ -200,8 +215,13 @@ const setCcGroupRecipients = (
               </div>
             </div>
             <div grid md:grid-cols-2 grid-cols-1 gap-5 mt-8>
+              <Multiselect
+                placeholder="From"
+                class="down-arrow"
+                :options="['test1', 'test2']"
+              />
               <button
-                class="relative col-span-2 border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[1rem] text-silver items-center p-[1rem]"
+                class="relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[1rem] text-silver items-center p-[1rem]"
                 @click="toggleModal"
               >
                 <span class="mr-3">TO</span>
