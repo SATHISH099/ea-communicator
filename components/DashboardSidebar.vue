@@ -201,6 +201,7 @@ watchEffect(() => {
       top: 5.5rem;
       left: 0;
       display: block;
+      overflow: auto;
     }
 
     .menu-items {

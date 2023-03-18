@@ -99,7 +99,7 @@ const submitHandler = async () => {
       router.push('/recipients-and-groups/groups');
     } else {
       router.push('/recipients-and-groups/groups/add');
-      setMessage('Something went wrong unable to create Recipient.', 'error');
+      setMessage('Something went wrong unable to create Group.', 'error');
     }
   } catch (error) {
     console.error(new Error('Whoops, something went wrong.'));
@@ -113,45 +113,42 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
 
 <template>
   <div>
-    <FormKit
-      type="form"
-      id="createGroup"
-      @submit="submitHandler"
-      :actions="false"
-      #default="{ value }"
-    >
-      <div class="flex flex-wrap justify-between items-center mb-10">
-        <div mb-5>
-          <h4 class="mb-4 text-carbon">Groups</h4>
-          <p class="text-silver">
-            <NuxtLink to="/" class="text-silver sub-heading"
-              >Communicator</NuxtLink
-            >
-            <span class="text-silver">/</span>
-            <NuxtLink
-              to="/recipients-and-groups"
-              class="text-silver sub-heading"
-            >
-              Recipients and Groups</NuxtLink
-            >
-            <span class="text-silver">/</span>
-            <NuxtLink
-              to="/recipients-and-groups/groups"
-              class="text-silver sub-heading"
-            >
-              Groups</NuxtLink
-            >
-            <span class="text-silver">/</span>
-            <span class="text-primary"> Create New Group</span>
-          </p>
-        </div>
+    <div class="flex flex-wrap justify-between items-center mb-10">
+      <div mb-5>
+        <h4 class="mb-4 text-carbon">Groups</h4>
+        <p class="text-silver">
+          <NuxtLink to="/" class="text-silver sub-heading"
+            >Communicator</NuxtLink
+          >
+          <span class="text-silver">/</span>
+          <NuxtLink to="/recipients-and-groups" class="text-silver sub-heading">
+            Recipients and Groups</NuxtLink
+          >
+          <span class="text-silver">/</span>
+          <NuxtLink
+            to="/recipients-and-groups/groups"
+            class="text-silver sub-heading"
+          >
+            Groups</NuxtLink
+          >
+          <span class="text-silver">/</span>
+          <span class="text-primary"> Create New Group</span>
+        </p>
       </div>
-      <div w-full>
-        <div class="success alert-success" v-if="successResponse.data.id">
-          Group Successfully Created
-        </div>
-        <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>
-          <div bg-white small-shadow p-6 md:col-span-2 col-span-1>
+    </div>
+    <div w-full>
+      <div class="success alert-success" v-if="successResponse.data.id">
+        Group Successfully Created
+      </div>
+      <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>
+        <div bg-white small-shadow p-6 md:col-span-2 col-span-1>
+          <FormKit
+            type="form"
+            id="createGroup"
+            @submit="submitHandler"
+            :actions="false"
+            #default="{ value }"
+          >
             <h5 text-stone>Create New Group</h5>
             <div grid md:grid-cols-2 grid-cols-1 gap-5 my-8 md:w-auto w-full>
               <FormKit
@@ -266,14 +263,14 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
                 Create Group
               </button>
             </div>
-          </div>
-          <ViewRecipients
-            :recipients="recipients"
-            @set-recipients="setRecipients"
-          ></ViewRecipients>
+          </FormKit>
         </div>
+        <ViewRecipients
+          :recipients="recipients"
+          @set-recipients="setRecipients"
+        ></ViewRecipients>
       </div>
-    </FormKit>
+    </div>
   </div>
 </template>
 
