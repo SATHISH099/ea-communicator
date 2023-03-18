@@ -100,7 +100,14 @@ const viewMedia = (media: Media) => {
       <div mb-10>
         <h4 class="mb-4 text-stone">Library</h4>
         <p class="text-silver">
-          Communicator / Email/Messages /
+          <NuxtLink to="/email-messages/" class="text-silver sub-heading"
+            >Communicator</NuxtLink
+          >
+          <span class="text-silver">/</span>
+          <NuxtLink to="/email-messages" class="text-silver sub-heading">
+            Email/Messages</NuxtLink
+          >
+          <span class="text-silver">/</span>
           <span class="text-primary">Library</span>
         </p>
       </div>

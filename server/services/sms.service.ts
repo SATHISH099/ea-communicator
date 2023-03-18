@@ -7,6 +7,8 @@ import type { CreateSmsDto } from '../validations/sms/create.dto';
 import { SendingStatus } from '../enums/sending-status.enum';
 import { BaseService } from './base.service';
 import { UserService } from './user.service';
+import { UpdateSmsDto } from '../validations/sms/update.dto';
+import _ from 'lodash';
 
 export class SmsService extends BaseService<Sms> {
   private userService: UserService;
@@ -60,6 +62,10 @@ export class SmsService extends BaseService<Sms> {
     }
 
     return sms;
+  }
+
+  updateSms(id: number, body: UpdateSmsDto) {
+    return super.update(id, _.pick(body, ['title', 'message']));
   }
 
   delete(id: number) {

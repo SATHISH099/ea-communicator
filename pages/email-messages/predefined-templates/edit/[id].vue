@@ -12,21 +12,29 @@ interface AddData {
 }
 
 const { $trpc } = useNuxtApp();
-const type = ref<'email' | 'sms' | null>('email');
+const type = ref<'email' | 'sms'>('email');
 const successResponse = ref({ id: null });
 const errorBody = ref(false);
 const title = ref('');
 const message = ref('');
 const body = ref('');
+const { id } = useRoute().params;
+const entityId = parseInt(id as string);
+const data: any = await $trpc[type.value].show.query(entityId);
+
+if (type.value === 'sms') {
+  title.value = data.title;
+  body.value = data.message;
+}
+
+if (type.value === 'email') {
+  title.value = data.subject;
+  body.value = data.body;
+}
 
 const setField = (data: string) => {
   errorBody.value = false;
   body.value = data;
-};
-
-const resetForm = () => {
-  message.value = '';
-  title.value = '';
 };
 
 const checkvalidation = () => {
@@ -41,23 +49,19 @@ const checkvalidation = () => {
 const saveEmail = (formData: AddData) => {
   const data = {
     subject: formData.title,
-    importanceLevel: ImportanceLevel.LOW,
     body: body.value,
-    isPredefined: true,
   };
 
-  return $trpc.email.create.mutate(data);
+  return $trpc.email.update.mutate({ id: entityId, data });
 };
 
 const saveSms = (formData: AddData) => {
   const data = {
     title: formData.title,
     message: message.value,
-    importanceLevel: ImportanceLevel.LOW,
-    isPredefined: true,
   };
 
-  return $trpc.sms.create.mutate(data);
+  return $trpc.sms.update.mutate({ id: entityId, data });
 };
 const submitHandler = async (formData: any) => {
   if (checkvalidation()) {
@@ -68,7 +72,6 @@ const submitHandler = async (formData: any) => {
           : await saveSms(formData);
       if (response) {
         setMessage('Template created successfully', 'success');
-        resetForm();
         router.push('/email-messages/predefined-templates');
       } else {
         router.push('/email-messages/predefined-templates/add');
@@ -112,19 +115,6 @@ const submitHandler = async (formData: any) => {
               placeholder="Title of the message"
               input-class="form-control"
               outer-class="mb-5"
-            />
-
-            <FormKit
-              v-model="type"
-              type="select"
-              validation="required"
-              name="type"
-              input-class="form-control mb-5"
-              placeholder="Predefined message type"
-              :options="[
-                { value: 'email', label: 'Email' },
-                { value: 'sms', label: 'SMS' },
-              ]"
             />
 
             <div mb-5 v-if="type === 'email'">

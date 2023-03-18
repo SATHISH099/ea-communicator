@@ -118,9 +118,13 @@ const bulkDelete = async (data: number[]) => {
       <div class="md:mb-0 mb-10">
         <h4 class="mb-4 text-stone">Predefined Templates</h4>
         <p class="text-silver">
-          <span class="sub-heading"> Communicator</span>
+          <NuxtLink to="/email-messages/" class="text-silver sub-heading"
+            >Communicator</NuxtLink
+          >
           <span class="text-silver">/</span>
-          <span class="sub-heading"> Email / Messages</span>
+          <NuxtLink to="/email-messages" class="text-silver sub-heading">
+            Email/Messages</NuxtLink
+          >
           <span class="text-silver">/</span>
           <span class="text-primary hover:no-underline ml-1">Template</span>
         </p>
@@ -176,6 +180,14 @@ const bulkDelete = async (data: number[]) => {
           :headers="MessageHeaders"
           :rows="data?.data || []"
           :show-bulk-delete="true"
+          :drop-down-option="{
+            isView: false,
+            isEdit: true,
+            isDelete: true,
+          }"
+          :actions="{
+            edit: '/email-messages/predefined-templates/edit/[id]',
+          }"
           :type="type === 'email' ? 'email' : 'sms'"
           @bulkDelete="bulkDelete"
           @onDeleteRecord="deleteRecord"

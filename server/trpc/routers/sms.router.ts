@@ -4,6 +4,7 @@ import { procedure, router } from '~/server/trpc/trpc';
 import { SmsService } from '~~/server/services/sms.service';
 import { queryListSchema } from '~~/server/validations/base';
 import { createSmsDto } from '~~/server/validations/sms/create.dto';
+import { updateSmsDto } from '~~/server/validations/sms/update.dto';
 
 const list = procedure
   .input(
@@ -43,6 +44,18 @@ const create = procedure.input(createSmsDto).mutation(({ input }) => {
   return smsService.createSms(input);
 });
 
+const update = procedure
+  .input(
+    z.object({
+      id: z.number(),
+      data: updateSmsDto,
+    }),
+  )
+  .mutation(({ input: { id, data } }) => {
+    const service = new SmsService();
+    return service.updateSms(id, data);
+  });
+
 const bulkDelete = procedure
   .input(z.array(z.number()))
   .mutation(({ input }) => {
@@ -55,5 +68,6 @@ export const sms = router({
   show,
   delete: deleteSms,
   create,
+  update,
   bulkDelete,
 });

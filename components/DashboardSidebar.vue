@@ -114,7 +114,8 @@ watchEffect(() => {
                   @click="
                     showDropdown === item.link
                       ? (showDropdown = '')
-                      : (showDropdown = item.link)
+                      : (showDropdown = item.link);
+                    isDesktop ? null : (SidebarOpen = false);
                   "
                   ><img
                     alt="item-icon"
@@ -138,6 +139,7 @@ watchEffect(() => {
                           : 'text-silver'
                       } mt-2 px-10 py-3 block rounded-[4px] w-full`"
                       :to="subitem.link"
+                      @click="isDesktop ? null : (SidebarOpen = false)"
                       >{{ SidebarOpen ? subitem.text : '' }}
                     </NuxtLink>
                   </li>

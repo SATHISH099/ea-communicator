@@ -110,9 +110,15 @@ const uploadFile = async (data: { file: any }) => {
       <div md:mb-0 mb-10>
         <h4 class="mb-4 text-stone">Recipients</h4>
         <p class="text-silver">
-          <span class="sub-heading"> Communicator</span>
+          <NuxtLink
+            to="/recipients-and-groups/recepients"
+            class="text-silver sub-heading"
+            >Communicator</NuxtLink
+          >
           <span class="text-silver">/</span>
-          <span class="sub-heading"> Recipients and Groups</span>
+          <NuxtLink to="/recipients-and-groups" class="text-silver sub-heading">
+            Recipients and Groups</NuxtLink
+          >
           <span class="text-silver">/</span>
           <span class="text-primary hover:no-underline ml-1">Recipients</span>
         </p>

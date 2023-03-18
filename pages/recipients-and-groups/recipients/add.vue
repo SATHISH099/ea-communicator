@@ -203,7 +203,6 @@ const setGroups = (groupSelected: GroupData[]) => {
               />
             </div>
             <div mb-5>
-              <h6 class="text-carbon mb-4">Group Added</h6>
               <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
                 <span
                   v-for="group in groups"
