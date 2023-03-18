@@ -49,6 +49,9 @@
     "vue-tsc": "^1.2.0"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^36.0.1",
+    "@ckeditor/ckeditor5-paste-from-office": "^36.0.1",
+    "@ckeditor/ckeditor5-vue": "^4.0.1",
     "@faker-js/faker": "^7.6.0",
     "@formkit/nuxt": "1.0.0-beta.15",
     "@nuxt/image": "^0.7.1",
