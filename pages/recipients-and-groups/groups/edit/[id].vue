@@ -128,7 +128,7 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
       :actions="false"
       #default="{ value }"
     >
-      <div class="flex flex-wrap justify-between items-center mb-10">
+      <div class="flex flex-wrap justify-between items-center mb-0 md:mb-10">
         <div mb-5>
           <h4 class="mb-4 text-carbon">Groups</h4>
           <p class="text-silver">

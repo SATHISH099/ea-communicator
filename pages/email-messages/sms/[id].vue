@@ -40,34 +40,34 @@ const data = await $trpc.sms.show.query(parseInt(id as string));
           <div class="max-w-3xl">
             <div class="grid grid-cols-3">
               <div class="mb-10 grid gap-y-2">
-                <h5 class="text-stone">Sent Date</h5>
+                <h6 class="text-stone">Sent Date</h6>
                 <p class="text-carbon">{{ data.createdAt }}</p>
               </div>
               <div class="mb-10 grid gap-y-2">
-                <h5 class="text-stone">Priority</h5>
+                <h6 class="text-stone">Priority</h6>
                 <p class="text-carbon">{{ data.importanceLevel }}</p>
               </div>
             </div>
             <div class="mb-10 grid gap-y-2">
-              <h5 class="text-stone">Sender</h5>
+              <h6 class="text-stone">Sender</h6>
               <p class="text-carbon">{{ data.sender }}</p>
             </div>
             <div class="grid grid-cols-3">
               <div class="mb-10 grid gap-y-2">
-                <h5 class="text-stone">Recipients</h5>
+                <h6 class="text-stone">Recipients</h6>
                 <p class="text-carbon">{{ data.recipients.length }}</p>
               </div>
               <div class="mb-10 grid gap-y-2">
-                <h5 class="text-stone">Groups</h5>
+                <h6 class="text-stone">Groups</h6>
                 <p class="text-carbon">{{ data.groups.length }}</p>
               </div>
             </div>
             <div class="mb-10 grid gap-y-2">
-              <h5 class="text-stone">Subject</h5>
+              <h6 class="text-stone">Subject</h6>
               <p class="text-carbon">Request For API endpoints</p>
             </div>
             <div class="mb-10 grid gap-y-2">
-              <h5 class="text-stone">SMS Messages</h5>
+              <h6 class="text-stone">SMS Messages</h6>
               <p class="text-carbon">{{ data.message }}</p>
             </div>
           </div>

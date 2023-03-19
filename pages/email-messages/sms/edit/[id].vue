@@ -33,7 +33,7 @@ const submitHandler = async (formData: EditData) => {
       :actions="false"
       #default="{ value }"
     >
-      <div class="flex flex-wrap justify-between items-center mb-10">
+      <div class="flex flex-wrap justify-between items-center mb-0 md:mb-10">
         <div class="md:mb-0 mb-10">
           <h4 class="mb-4 text-stone">Predefined Templates</h4>
           <p class="text-silver">

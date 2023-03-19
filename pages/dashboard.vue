@@ -68,7 +68,7 @@ const RecentEmailRows = [
     <div class="md:flex gap-6">
       <div class="md:w-[66%] w-full">
         <DashboardCard title="Messages">
-          <div class="flex flex-col justify-between items-center gap-10">
+          <div class="md:flex flex-col justify-between items-center gap-10">
             <img src="/pie-chart.png" alt="" class="h-90" />
           </div>
           <div

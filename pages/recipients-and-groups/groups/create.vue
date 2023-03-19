@@ -113,7 +113,7 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
 
 <template>
   <div>
-    <div class="flex flex-wrap justify-between items-center mb-10">
+    <div class="flex flex-wrap justify-between items-center mb-0 md:mb-10">
       <div mb-5>
         <h4 class="mb-4 text-carbon">Groups</h4>
         <p class="text-silver">
@@ -174,6 +174,7 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
                 type="select"
                 validation="required"
                 name="country"
+                prefix-icon="link"
                 input-class="form-control"
                 placeholder="Select Country"
                 :options="
