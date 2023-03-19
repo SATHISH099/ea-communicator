@@ -7,6 +7,7 @@ export function useLogout() {
     loading.value = true;
     const { token } = await $trpc.auth.logout.mutate();
     localStorage.removeItem('token');
+    localStorage.removeItem('ss_token');
     loading.value = false;
 
     await navigateTo(

@@ -14,6 +14,8 @@ export function useLogin() {
     try {
       const { token, user } = await $trpc.auth.login.mutate(data.token);
 
+      localStorage.setItem('ss_token', data.token);
+
       if (token) {
         localStorage.setItem('token', token);
       }
