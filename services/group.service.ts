@@ -10,11 +10,14 @@ const group = z.object({
   recipientCount: z.number(),
   status: z.boolean(),
   notes: z.string(),
-  location: z.string(),
-  city: z.string(),
-  state: z.string(),
-  zipCode: z.string(),
-  country: z.string(),
+  location: z.object({
+    id: z.string(),
+    address: z.string(),
+    city: z.string(),
+    state: z.string(),
+    county: z.string(),
+    country: z.string(),
+  }),
   deviceId: z.string(),
 });
 
@@ -28,11 +31,9 @@ interface Data {
   groupName: string;
   status: boolean;
   notes: string;
-  location: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  country: string;
+  location: {
+    id: number;
+  };
   deviceId: string;
 }
 

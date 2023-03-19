@@ -17,7 +17,11 @@ if (query.token) {
     useLayoutStore().setLayout('default', true);
     localStorage.setItem('token', token);
     await navigateTo('/');
-  } catch (error) {}
+  } catch (error) {
+    await navigateTo(`${APP_AUTH_URL}?redirect_url=${APP_URL}/auth/login`, {
+      external: true,
+    });
+  }
 } else {
   await navigateTo(`${APP_AUTH_URL}?redirect_url=${APP_URL}/auth/login`, {
     external: true,

@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import Multiselect from '@vueform/multiselect/src/Multiselect';
 import moment from 'moment';
 import { useToasterStore } from '~~/store/toaster';
 
@@ -15,7 +14,6 @@ const searchField = ref('');
 const { setMessage } = useToasterStore();
 
 const MessageHeaders = [
-  { value: 'Id', isSort: true, key: 'id' },
   'Title',
   'Message',
   { value: 'Created Date', isSort: true, key: 'createdAt' },
@@ -38,11 +36,10 @@ const { data, refresh } = await useAsyncData(
     transform: ({ total, data }: any) => ({
       total,
       data: data.map((message: any) => ({
-        id: message.id,
         title: type.value === 'email' ? message.subject : message.title,
         message:
           type.value === 'email'
-            ? showLess(message.body)
+            ? showLess(message.body.replace(/(<([^>]+)>)/gi, ''))
             : showLess(message.message),
         sentDate: moment(message.createdAt).format('dddd, Do MMMM YYYY h:mm A'),
       })),
@@ -151,7 +148,7 @@ const bulkDelete = async (data: number[]) => {
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
               outer-class="md:w-[34rem] w-full search-field"
-              v-on:keyup.enter="searchKeyword"
+              @keyup.enter="searchKeyword"
               @input="searchEmpty"
             />
             <button

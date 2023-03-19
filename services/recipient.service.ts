@@ -4,10 +4,7 @@ import { ApiTarget } from './api.service';
 
 const recipient = z.object({
   id: z.number(),
-  firstName: z.string(),
-  lastName: z.string(),
-  middleName: z.string(),
-  nickName: z.string(),
+  name: z.string(),
   cellVoice: z.string(),
   cellText: z.string(),
   homeNumber: z.string(),
@@ -32,10 +29,7 @@ const recipients = z.object({ data: z.array(recipient), total: z.number() });
 export type Recipient = z.infer<typeof recipient>;
 
 interface Data {
-  firstName: string;
-  lastName: string;
-  middleName: string;
-  nickName: string;
+  name: string;
   cellVoice: string;
   cellText: string;
   homeNumber: string;
@@ -43,11 +37,9 @@ interface Data {
   emailAddress: string;
   alternateEmail: string;
   status: boolean;
-  location: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  country: string;
+  location: {
+    id: number;
+  };
 }
 
 export class RecipientService {
@@ -61,7 +53,7 @@ export class RecipientService {
   }
 
   create(data: Data) {
-    return this.apiService.post(recipients, data);
+    return this.apiService.post(recipient, data);
   }
 
   fetch(data: Data) {
