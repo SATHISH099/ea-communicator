@@ -211,7 +211,6 @@ const searchEmpty = () => {
             alt=""
           />
           <button class="view-btn" @click="viewMedia(media)">View</button>
-          <p text-center>{{ media.title }}</p>
           <teleport to="body">
             <div v-if="viewImageModal">
               <CModal
@@ -225,6 +224,7 @@ const searchEmpty = () => {
                     :src="selectedMedia.filePath"
                     alt=""
                   />
+                  <h6 text-center text-stone>{{ selectedMedia.title }}</h6>
                 </div>
               </CModal>
             </div>

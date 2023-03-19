@@ -247,8 +247,8 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
                 outer-class="md:col-span-2 col-span-1"
               />
             </div>
-            <div>
-              <!-- <h6 class="text-carbon">Recipient Added</h6> -->
+            <div v-if="recipients.length > 0" class="mb-5">
+              <h6 class="text-carbon">Recipient Added</h6>
               <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
                 <span
                   class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"

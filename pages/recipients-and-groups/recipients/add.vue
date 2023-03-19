@@ -273,7 +273,8 @@ const setGroups = (groupSelected: GroupData[]) => {
                 outer-class="md:col-span-2 col-span-1"
               />
             </div>
-            <div mb-5>
+            <div v-if="groups.length > 0" mb-5>
+              <h6 class="text-carbon">Groups Added</h6>
               <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
                 <span
                   v-for="group in groups"
