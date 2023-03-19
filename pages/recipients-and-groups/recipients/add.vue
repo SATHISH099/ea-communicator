@@ -119,7 +119,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 v-model="data.firstName"
                 name="First Name"
                 type="text"
-                placeholder="First Name"
+                placeholder="First Name*"
                 input-class="form-control"
                 validation="required|length:2,50"
               />
@@ -135,7 +135,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 v-model="data.lastName"
                 name="Last Name"
                 type="text"
-                placeholder="Last Name"
+                placeholder="Last Name*"
                 input-class="form-control"
                 validation="required|length:2,50"
               />
@@ -143,7 +143,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 v-model="data.nickName"
                 name="Nick Name"
                 type="text"
-                placeholder="Nick Name"
+                placeholder="Nick Name*"
                 input-class="form-control"
                 validation="required|length:2,50"
               />
@@ -151,7 +151,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 v-model="data.cellVoice"
                 name="Cell Voice"
                 type="tel"
-                placeholder="Mobile phone for voice calls"
+                placeholder="Mobile phone for voice calls*"
                 validation="required|length:7,20"
                 input-class="form-control"
               />
@@ -159,7 +159,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 v-model="data.cellText"
                 name="Cell Text"
                 type="tel"
-                placeholder="Mobile phone for SMS"
+                placeholder="Mobile phone for SMS*"
                 input-class="form-control"
                 validation="required|length:7,20"
               />
@@ -167,7 +167,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 v-model="data.homeNumber"
                 name="Home Number"
                 type="tel"
-                placeholder="Home phone number"
+                placeholder="Home phone number*"
                 input-class="form-control"
                 validation="required|length:7,20"
               />
@@ -175,7 +175,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 v-model="data.workNumber"
                 name="Work Number"
                 type="tel"
-                placeholder="Work phone number"
+                placeholder="Work phone number*"
                 input-class="form-control"
                 validation="required|length:7,20"
               />
@@ -184,7 +184,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 name="Primary Email"
                 type="email"
                 validation="required|email"
-                placeholder="Primary Email"
+                placeholder="Primary Email*"
                 input-class="form-control"
               />
               <FormKit
@@ -192,7 +192,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 name="Alternate Email"
                 type="email"
                 validation="required|email"
-                placeholder="Alternate Email"
+                placeholder="Alternate Email*"
                 input-class="form-control"
               />
               <FormKit
@@ -213,7 +213,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 validation="required"
                 name="country"
                 input-class="form-control"
-                placeholder="Select Country"
+                placeholder="Select Country*"
                 :options="
                   location.map((item: StateData) => {
                     return item.name;
@@ -228,7 +228,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 validation="required"
                 name="state"
                 input-class="form-control"
-                placeholder="Select State / Territory"
+                placeholder="Select State / Territory*"
                 :options="
                   data.selectedCountry.states
                     ? [...data.selectedCountry.states.map((item: StateData) => {
@@ -245,7 +245,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 validation="required"
                 name="city"
                 input-class="form-control"
-                placeholder="Select City"
+                placeholder="Select City*"
                 :options="
                   data.selectedState.cities
                     ? [...data.selectedState.cities.map((item: CitiesData) => {
@@ -259,7 +259,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 type="number"
                 name="Zip Code"
                 validation="required"
-                placeholder="Zip Code"
+                placeholder="Zip Code*"
                 input-class="form-control"
                 outer-class="col-span-2"
               />
@@ -268,7 +268,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 name="Location"
                 type="text"
                 validation="required"
-                placeholder="Location"
+                placeholder="Location*"
                 input-class="form-control"
                 outer-class="md:col-span-2 col-span-1"
               />
