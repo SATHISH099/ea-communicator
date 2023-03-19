@@ -59,7 +59,8 @@ const { data, refresh } = await useFetch<any>(
 const searchKeyword = () => {
   search.value = searchField.value;
   page.value = 1;
-  refresh();
+
+  if (search.value) refresh();
 };
 
 const paginate = (pg: number) => {
@@ -76,6 +77,13 @@ const deleteRecord = async (id: number) => {
   const response = await groupService.delete(id);
   refresh();
   isDelete.value = response.affected;
+};
+
+const searchEmpty = () => {
+  if (!searchField.value) {
+    search.value = '';
+    refresh();
+  }
 };
 </script>
 
@@ -118,6 +126,8 @@ const deleteRecord = async (id: number) => {
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
               outer-class="md:w-[34rem] w-full search-field"
+              v-on:keyup.enter="searchKeyword"
+              @input="searchEmpty"
             />
             <button
               class="btn btn-primary md:w-30 w-full"

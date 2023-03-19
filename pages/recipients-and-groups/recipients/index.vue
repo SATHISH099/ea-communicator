@@ -57,7 +57,8 @@ const { data, refresh } = await useFetch<any>(
 const searchKeyword = () => {
   search.value = searchField.value;
   page.value = 1;
-  refresh();
+
+  if (search.value) refresh();
 };
 
 const paginate = (pg: number) => {
@@ -100,6 +101,14 @@ const uploadFile = async (data: { file: any }) => {
     window.location.reload();
   } else {
     setMessage('File not Uploaded.', 'error');
+  }
+};
+
+const searchEmpty = () => {
+  if (!searchField.value) {
+    search.value = '';
+    orderBy.value = 'id';
+    refresh();
   }
 };
 </script>
@@ -190,6 +199,8 @@ const uploadFile = async (data: { file: any }) => {
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
               outer-class="search-field md:w-[34rem] w-full"
+              v-on:keyup.enter="searchKeyword"
+              @input="searchEmpty"
             />
             <button
               class="btn btn-primary md:w-auto w-full"
