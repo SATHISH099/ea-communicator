@@ -11,6 +11,9 @@ defineEmits(['update:contentValue']);
 const editor = (await import('@ckeditor/ckeditor5-build-classic')).default;
 const editorData = ref(props.contentValue);
 
+watch(props, (newProp) => {
+  editorData.value = newProp.contentValue;
+});
 // TODO: if needed later
 // if (!document.getElementById('ckeditor-script')) {
 //   let script = document.createElement('script');

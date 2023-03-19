@@ -78,10 +78,8 @@ const setPerPage = (perPage: number) => {
   refresh();
 };
 
-const optionTypeSelected = (option: 'email' | 'sms') => {
-  type.value = option;
+const optionTypeSelected = () => {
   orderBy.value = 'id';
-
   refresh();
 };
 
@@ -162,15 +160,18 @@ const bulkDelete = async (data: number[]) => {
             </button>
           </div>
           <div class="flex flex-wrap items-center gap-3 md:w-auto w-full">
-            <Multiselect
+            <FormKit
               v-model="type"
+              type="select"
+              validation="required"
+              name="country"
+              input-class="form-control"
               placeholder="Predefined Type"
               :options="[
                 { value: 'email', label: 'Email' },
                 { value: 'sms', label: 'SMS' },
               ]"
-              class="md:w-[14rem] w-full"
-              @select="optionTypeSelected"
+              @change="optionTypeSelected"
             />
           </div>
         </div>
