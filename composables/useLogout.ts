@@ -4,9 +4,8 @@ export function useLogout() {
   const { $trpc } = useNuxtApp();
 
   const logout = async () => {
-    const token = localStorage.getItem('token');
     loading.value = true;
-    await $trpc.auth.logout.mutate();
+    const { token } = await $trpc.auth.logout.mutate();
     localStorage.removeItem('token');
     loading.value = false;
 

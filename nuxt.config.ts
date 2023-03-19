@@ -34,7 +34,7 @@ const session: ModuleOptions = {
     // Sessions expire after 3600 seconds = 60 minutes
     expiryInSeconds: parseInt(process.env.SESSION_EXPIRY_SECONDS || '3600'),
   },
-  api: { isEnabled: false },
+  api: { methods: ['get'] },
 };
 
 export default { ...nuxtConfig, unocss: { ...unocssConfig }, session };
