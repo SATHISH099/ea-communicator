@@ -5,8 +5,8 @@ import { UserService } from '~~/server/services/user.service';
 const isAuthenticated = middleware(async ({ ctx: { session }, next }) => {
   const userService = new UserService();
   if (
-    !session!.user?.id ||
-    (await userService.getRespository().countBy({ id: session!.user?.id })) < 1
+    !session.user?.id ||
+    (await userService.getRespository().countBy({ id: session.user?.id })) < 1
   ) {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
@@ -19,7 +19,7 @@ const me = procedure.use(isAuthenticated).query(({ ctx: { session } }) => {
 });
 
 const check = procedure.query(async ({ ctx }) => {
-  if (!ctx.session?.user?.id) {
+  if (!ctx.session.user?.id) {
     return false;
   }
 

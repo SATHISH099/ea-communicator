@@ -8,7 +8,7 @@ const isAuthenticated = ref(false);
 
 onMounted(async () => {
   isAuthenticated.value = await $trpc.profile.check.query();
-  store.setLayout('auth', isAuthenticated.value);
+  store.setLayout(isAuthenticated.value);
 });
 </script>
 

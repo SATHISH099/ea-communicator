@@ -4,14 +4,18 @@ export const useLayoutStore = defineStore({
   id: 'layouts',
   state: () => ({
     layout: 'default',
+    loading: false,
   }),
   actions: {
-    setLayout(layoutName: string, isAuthenticated: boolean) {
+    setLayout(isAuthenticated: boolean) {
       if (isAuthenticated) {
         this.layout = 'default';
       } else {
-        this.layout = layoutName;
+        this.layout = 'auth';
       }
+    },
+    setLoading(isLoading: boolean) {
+      this.loading = isLoading;
     },
   },
 });

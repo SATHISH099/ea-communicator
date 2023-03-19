@@ -37,6 +37,16 @@ export class AuthService {
   }
 
   async login(token: string, session: Session) {
+    if (session.user) {
+      const user = await this.userRepository.findOneBy({
+        id: session.user.id,
+      });
+
+      return {
+        user,
+      };
+    }
+
     const { data, token: accessToken } = await this.apiService
       .post({
         data: { token },
@@ -86,6 +96,18 @@ export class AuthService {
     return {
       user,
       token: jwtToken,
+    };
+  }
+
+  async logout(session: Session) {
+    const token = await this.tokenRepository.findOneBy({
+      id: session.user?.tokenId,
+    });
+
+    session.user = undefined;
+
+    return {
+      token: token!.accessToken,
     };
   }
 
