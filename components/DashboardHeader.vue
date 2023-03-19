@@ -12,7 +12,7 @@ const { logout } = useLogout();
     <img src="/Component.png" @click="isOpens = !isOpens" class="mr-8" />
     <div
       v-show="isOpens"
-      class="dropdown-menu shadow-xl right-30 top-20 p-40 z-2"
+      class="dropdown-menu shadow-xl md:right-16 right-13 top-20 p-40 z-2 md:w-[13%] w-[70%]"
     >
       <div class="grid grid-cols-2 gap-4">
         <div class="flex flex-col items-center">
@@ -20,28 +20,27 @@ const { logout } = useLogout();
           <p class="p-2 text-center">Situational Awareness</p>
         </div>
         <div class="flex flex-col items-center">
-          <img class="w-10" src="/SituationalAwareness.png" />
+          <img class="w-10" src="/communicator.png" />
           <p class="p-2 text-center">Communicator</p>
         </div>
         <div class="flex flex-col items-center">
-          <img class="w-10" src="/SituationalAwareness.png" />
+          <img class="w-10" src="/Reseliency-Manager.png" />
           <p class="p-2 text-center">Resiliency Manager</p>
         </div>
         <div class="flex flex-col items-center justify-center">
-          <img class="w-10" src="/SituationalAwareness.png" />
+          <img class="w-10" src="/Learning-Management.png" />
           <p class="p-2 text-center">Learning Management</p>
         </div>
         <div class="flex flex-col items-center">
-          <img class="w-10" src="/SituationalAwareness.png" />
+          <img class="w-10" src="/Information-Center.png" />
           <p class="p-2 text-center">Information Center</p>
         </div>
         <div class="flex flex-col items-center">
-          <img class="w-10" src="/SituationalAwareness.png" />
+          <img class="w-10" src="/Admin-Panel.png" />
           <p class="p-2 text-center">Admin Panel</p>
         </div>
       </div>
     </div>
-    <img src="/notification.png" class="mr-8" />
     <div class="dropdown">
       <img
         src="/avatar.png"
@@ -83,7 +82,7 @@ const { logout } = useLogout();
   position: absolute;
   cursor: pointer;
   list-style: none;
-  width: 13%;
+
   padding: 20px 10px 20px 10px;
 }
 .dropdown-menu:after {

@@ -39,11 +39,11 @@ const recipients = data.value.data.recipients.map(
           <div class="max-w-3xl">
             <div class="grid grid-cols-3">
               <div class="mb-10 grid gap-y-2">
-                <h5 class="text-stone">Date</h5>
+                <h6 class="text-stone">Date</h6>
                 <p class="text-carbon">{{ data.data.createdAt }}</p>
               </div>
               <div class="mb-10 grid gap-y-2">
-                <h5 class="text-stone">Status</h5>
+                <h6 class="text-stone">Status</h6>
                 <p class="text-carbon">
                   {{ data.data.status ? 'Active' : 'Inactive' }}
                 </p>
@@ -51,40 +51,40 @@ const recipients = data.value.data.recipients.map(
             </div>
 
             <div class="mb-10 grid gap-y-2">
-              <h5 class="text-stone">Group Name</h5>
+              <h6 class="text-stone">Group Name</h6>
               <p class="text-carbon">{{ data.data.groupName }}</p>
             </div>
             <div class="mb-10 grid gap-y-2">
-              <h5 class="text-stone">Country</h5>
+              <h6 class="text-stone">Country</h6>
               <p class="text-carbon">{{ data.data.country }}</p>
             </div>
 
             <div class="mb-10 grid gap-y-2">
-              <h5 class="text-stone">Selected State / Territory</h5>
+              <h6 class="text-stone">Selected State / Territory</h6>
               <p class="text-carbon">{{ data.data.state }}</p>
             </div>
             <div class="mb-10 grid gap-y-2">
-              <h5 class="text-stone">City</h5>
+              <h6 class="text-stone">City</h6>
               <p class="text-carbon">{{ data.data.city }}</p>
             </div>
 
             <div class="mb-10 grid gap-y-2">
-              <h5 class="text-stone">Zip Code</h5>
+              <h6 class="text-stone">Zip Code</h6>
               <p class="text-carbon">{{ data.data.zipCode }}</p>
             </div>
             <div class="mb-10 grid gap-y-2">
-              <h5 class="text-stone">Location</h5>
+              <h6 class="text-stone">Location</h6>
               <p class="text-carbon">{{ data.data.location }}</p>
             </div>
             <div class="mb-10 grid gap-y-2">
-              <h5 class="text-stone">Note</h5>
+              <h6 class="text-stone">Note</h6>
               <p class="text-carbon">{{ data.data.notes }}</p>
             </div>
           </div>
         </div>
         <div bg-white small-shadow>
           <div px-6 pt-6>
-            <h5 text-stone mb-5>Recipient's list</h5>
+            <h6 text-stone mb-5>Recipient's list</h6>
           </div>
           <DashboardTable
             mt-3

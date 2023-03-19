@@ -137,9 +137,9 @@ const searchEmpty = () => {
             Search
           </button>
         </div>
-        <div flex items-center gap-4>
+        <div md:flex md:items-center gap-4>
           <button
-            class="border-none outline-none flex items-center py-[16px] px-[32px] rounded-[4px] text-stone text-[1.125rem] gap-3 cursor-pointer"
+            class="mb-4 md:mb-0 border-none outline-none flex items-center py-[16px] px-[32px] rounded-[4px] text-stone text-[1.125rem] gap-3 cursor-pointer"
             @click="viewUploadModal = true"
           >
             <img src="/document-add.png" alt="" /> Add new item

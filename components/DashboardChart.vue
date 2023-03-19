@@ -59,8 +59,8 @@ const setDate = (dateStr: string[] | null) => {
   <div
     class="lg:w-[64%] w-full lg:mb-0 md:mb-10 bg-white small-shadow rounded-[4px] w-full py-4 px-6"
   >
-    <div class="flex justify-between items-center">
-      <h5 class="text-stone">Messages</h5>
+    <div class="md:flex justify-between items-center">
+      <h5 class="text-stone mb-4 md:mb-0">Messages</h5>
       <DatePicker @setDate="setDate"></DatePicker>
     </div>
     <div px-8>

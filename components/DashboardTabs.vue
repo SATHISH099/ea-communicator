@@ -52,7 +52,7 @@ const { data, refresh } = await useAsyncData(
         <h5
           class="text-stone md:absolute md:-top-[63px] md:left-0 md:pl-6 md:ml-0 ml-7"
         >
-          Recent Sent {{ activeTab }}
+          Recent Sent <span class="capitalize">{{ activeTab }}</span>
         </h5>
         <DashboardTable
           :headers="recentEmailHeaders"

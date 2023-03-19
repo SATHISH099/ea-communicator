@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import Multiselect from '@vueform/multiselect';
 import { ImportanceLevel } from '~~/server/enums/importance-level.enum';
 import { useToasterStore } from '~~/store/toaster';
 const { setMessage } = useToasterStore();
@@ -155,7 +156,11 @@ const setGroupRecipients = (
                 </span>
                 <img src="/plus.png" alt="plus" />
               </button>
-
+              <Multiselect
+                placeholder="Sender"
+                class="down-arrow col-span-2"
+                :options="['test1', 'test2']"
+              />
               <FormKit
                 type="text"
                 name="title"

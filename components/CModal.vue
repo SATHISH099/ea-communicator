@@ -56,7 +56,7 @@ const closeModal = () => {
           <slot />
         </div>
       </div>
-      <div flex items-center justify-end gap-4 mt-8>
+      <div flex items-center justify-center gap-4 mt-8>
         <button
           v-if="props.showCloseButton"
           class="btn btn-secondary"

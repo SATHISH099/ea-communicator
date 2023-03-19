@@ -7,11 +7,6 @@
       <p class="text-silver hover:text-primary">
         <NuxtLink to="/" class="text-silver sub-heading">Communicator</NuxtLink>
         <span class="text-silver">/</span>
-
-        <NuxtLink to="/email-messages/email" class="text-silver sub-heading">
-          Email</NuxtLink
-        >
-        <span class="text-silver">/</span>
         <span class="text-primary hover:no-underline"> Email / Messages</span>
       </p>
     </div>
@@ -80,8 +75,4 @@
   </div>
 </template>
 
-<style>
-.abc {
-  fill: aquamarine;
-}
-</style>
+<style></style>

@@ -15,7 +15,7 @@ const setPerPage = () => {
 
 <template>
   <div>
-    <div class="flex justify-between">
+    <div class="md:flex justify-between">
       <div v-if="props.totalRecords > 0" class="mt-8">
         <button
           class="btn-pagination"
@@ -47,15 +47,17 @@ const setPerPage = () => {
       </div>
 
       <div v-if="props.totalRecords > 0" class="mt-8 flex gap-4 mr-4">
-        Showing
-        <FormKit
-          v-model="perPage"
-          type="select"
-          :options="[10, 20, 50, 100]"
-          @input="setPerPage"
-          class="bg-red"
-        />
-        Alerts Out Of 100
+        <div flex items-center gap-3>
+          <span class="text-stone">Showing</span>
+          <FormKit
+            v-model="perPage"
+            type="select"
+            :options="[10, 20, 50, 100]"
+            @input="setPerPage"
+            input-class="form-control show-entries"
+          />
+          <span class="text-stone whitespace-nowrap">Alerts out of 100</span>
+        </div>
       </div>
     </div>
   </div>
