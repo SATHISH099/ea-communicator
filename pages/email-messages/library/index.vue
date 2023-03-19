@@ -33,7 +33,8 @@ const { data: medias, refresh } = await useAsyncData(() =>
 const searchKeyword = () => {
   search.value = searchField.value;
   page.value = 1;
-  refresh();
+
+  if (search.value) refresh();
 };
 
 const searchCategory = () => {
@@ -92,6 +93,14 @@ const viewMedia = (media: Media) => {
     window.open(media.filePath);
   }
 };
+
+const searchEmpty = () => {
+  if (!searchField.value) {
+    search.value = '';
+    orderBy.value = 'id';
+    refresh();
+  }
+};
 </script>
 
 <template>
@@ -121,6 +130,8 @@ const viewMedia = (media: Media) => {
             input-class="form-control pl-[3.5rem]"
             prefix-icon-class="search-icon"
             outer-class="md:w-[34rem] w-full search-field"
+            v-on:keyup.enter="searchKeyword"
+            @input="searchEmpty"
           />
           <button class="btn btn-primary md:w-30 w-full" @click="searchKeyword">
             Search
