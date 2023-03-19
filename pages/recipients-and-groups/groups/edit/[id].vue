@@ -1,36 +1,16 @@
 <script lang="ts" setup>
 const config = useRuntimeConfig();
 
-interface CitiesData {
-  name: string;
-}
-interface StateData {
-  name: string;
-  cities: CitiesData[];
-}
-
-interface CountryData {
-  name: string;
-  states: StateData[];
-}
-
 interface RecipientData {
   id: number;
-  firstName: string;
-  lastName: string;
+  name: string;
 }
 
 interface initialStateData {
   groupName: string;
   status: boolean;
   notes: string;
-  location: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  country: string;
-  selectedCountry: CountryData;
-  selectedState: StateData;
+  location: number;
   deviceId: string;
 }
 
@@ -38,7 +18,10 @@ const groupService = useService('group');
 const { id: groupId } = useRoute().params;
 const statuses = ['Inactive', 'active'];
 
-const { data: location } = await useFetch<any>(() => `/json/locations.json`);
+const locations = await $fetch<{ data: any[]; total: number }>(`/locations`, {
+  baseURL: useRuntimeConfig().public.API_SMARTSUITE_BASEURL,
+});
+
 const { data: groupDetail } = await useFetch<any>(() => `groups/${groupId}`, {
   baseURL: config.public.API_SMARTSUITE_BASEURL,
 });
@@ -48,34 +31,17 @@ const initialState: initialStateData = {
   groupName: record.groupName,
   status: record.status,
   notes: record.notes,
-  location: record.location,
-  city: record.city,
-  state: record.state,
-  zipCode: record.zipCode,
-  country: record.country,
-  selectedCountry: { name: '', states: [{ name: '', cities: [{ name: '' }] }] },
-  selectedState: { name: '', cities: [{ name: '' }] },
-  deviceId: record.country,
+  location: record.location?.id,
+  deviceId: record.deviceId,
 };
 const data = reactive({ ...initialState });
-
-data.selectedCountry = location.value.filter(function (country: StateData) {
-  return country.name === record.country;
-})[0];
-
-data.selectedState = data.selectedCountry.states.filter(function (
-  state: CitiesData,
-) {
-  return state.name === record.state;
-})[0];
 
 const statusText = ref<string>('active');
 const successResponse = ref({ data: { id: null } });
 const recipients = ref<RecipientData[] | []>(
-  record.recipients.map(({ id, firstName, lastName }: RecipientData) => ({
+  record.recipients.map(({ id, name }: RecipientData) => ({
     id,
-    firstName,
-    lastName,
+    name,
   })),
 );
 
@@ -83,21 +49,6 @@ function resetForm() {
   Object.assign(data, initialState);
   recipients.value = [];
 }
-const selectCountry = () => {
-  const selectLocation = location.value.filter(function (country: StateData) {
-    return country.name === data.country;
-  });
-
-  data.selectedCountry = selectLocation[0] || initialState.selectedCountry;
-};
-
-const selectState = () => {
-  const selectLocation = data.selectedCountry.states.filter(function (state) {
-    return state.name === data.state;
-  });
-
-  data.selectedState = selectLocation[0] || initialState.selectedState;
-};
 
 const submitHandler = async () => {
   data.status = statusText.value === 'active';
@@ -108,6 +59,9 @@ const submitHandler = async () => {
     recipients: recipients.value.map(({ id }) => ({
       id,
     })),
+    location: {
+      id: data.location,
+    },
   };
   const response = await groupService.update(Number(groupId), request);
   successResponse.value = response;
@@ -163,70 +117,23 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
                 placeholder="Select Status"
                 :options="statuses"
               />
-              <FormKit
-                v-model="data.country"
-                type="select"
-                validation="required"
-                name="country"
-                input-class="form-control"
-                placeholder="Select Country"
-                :options="
-                  location.map((item: StateData) => {
-                    return item.name;
-                  })
-                "
-                @change="selectCountry"
-              />
 
-              <FormKit
-                v-model="data.state"
-                type="select"
-                validation="required"
-                name="state"
-                input-class="form-control"
-                placeholder="Select State / Territory"
-                :options="
-                  data.selectedCountry.states
-                    ? data.selectedCountry.states.map((item: StateData) => {
-                        return item.name;
-                      })
-                    : []
-                "
-                @change="selectState"
-              />
-
-              <FormKit
-                v-model="data.city"
-                type="select"
-                validation="required"
-                name="city"
-                input-class="form-control"
-                placeholder="Select City"
-                :options="
-                  data.selectedState.cities
-                    ? data.selectedState.cities.map((item: CitiesData) => {
-                        return item.name;
-                      })
-                    : []
-                "
-              />
-
-              <FormKit
-                v-model="data.zipCode"
-                name="zip"
-                validation="required"
-                type="number"
-                placeholder="Zip Code"
-                input-class="form-control"
-              />
               <FormKit
                 v-model="data.location"
-                name="location"
+                type="select"
                 validation="required"
-                type="text"
-                placeholder="Location"
+                name="location"
                 input-class="form-control"
+                placeholder="Select Location"
+                :options="[
+                  { value: '', label: 'Select Location' },
+                  ...locations.data.map((location) => ({
+                    value: location.id,
+                    label: `${location.city} ${location.country}`,
+                  })),
+                ]"
               />
+
               <FormKit
                 v-model="data.notes"
                 name="notes"
@@ -246,7 +153,7 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
                   v-for="recipient in recipients"
                   :key="recipient.id"
                 >
-                  {{ recipient.firstName }} {{ recipient.lastName }}
+                  {{ recipient.name }}
                 </span>
               </div>
             </div>

@@ -12,7 +12,6 @@ const searchField = ref('');
 const { setMessage } = useToasterStore();
 
 const MessageHeaders = [
-  { value: 'Id', isSort: true, key: 'id' },
   'Sender',
   'Subject',
   'Recipients',
@@ -35,21 +34,11 @@ const { data, refresh } = await useAsyncData(
     transform: ({ data, total }) => ({
       total,
       data: data.map(
-        ({
-          id,
-          sender,
-          subject,
-          recipients,
-          groups,
-          body,
-          createdAt,
-        }: any) => ({
-          id,
+        ({ sender, subject, recipients, groups, createdAt }: any) => ({
           sender: sender?.name,
           subject,
           recipients: recipients.length,
           groups: groups.length,
-          body,
           createdAt: moment(createdAt).format('dddd, Do MMMM YYYY h:mm A'),
         }),
       ),

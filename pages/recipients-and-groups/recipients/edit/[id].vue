@@ -15,10 +15,7 @@ interface GroupData {
 }
 
 interface initialStateData {
-  firstName: string;
-  lastName: string;
-  middleName: string;
-  nickName: string;
+  name: string;
   cellVoice: string;
   cellText: string;
   homeNumber: string;
@@ -26,11 +23,7 @@ interface initialStateData {
   emailAddress: string;
   alternateEmail: string;
   status: boolean;
-  location: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  country: string;
+  location: 0;
   notes: string;
 }
 
@@ -40,25 +33,23 @@ const { data: recipientDetail } = await useFetch<any>(
     baseURL: config.public.API_SMARTSUITE_BASEURL,
   },
 );
-const record = recipientDetail.value.data;
+
+const locations = await $fetch<{ data: any[]; total: number }>(`/locations`, {
+  baseURL: useRuntimeConfig().public.API_SMARTSUITE_BASEURL,
+});
+
+const record = recipientDetail.value;
 const recipientService = useService('recipient');
 
 const initialState: initialStateData = {
-  firstName: record.firstName,
-  middleName: record.middleName,
-  lastName: record.lastName,
-  nickName: record.nickName,
+  name: record.name,
   cellVoice: record.cellVoice,
   cellText: record.cellText,
   homeNumber: record.homeNumber,
   workNumber: record.workNumber,
   emailAddress: record.emailAddress,
   alternateEmail: record.alternateEmail,
-  country: record.country,
-  state: record.state,
-  city: record.city,
-  zipCode: record.zipCode,
-  location: record.location,
+  location: record.location?.id,
   status: record.status,
   notes: record.notes,
 };
@@ -84,6 +75,9 @@ const submitUpdate = async () => {
       groups: groups.value.map(({ id }) => ({
         id,
       })),
+      location: {
+        id: data.location,
+      },
     };
     const response = await recipientService.update(
       Number(recipientId),
@@ -125,33 +119,10 @@ const setGroups = (groupSelected: GroupData[]) => {
           <FormKit type="form" :actions="false" @submit="submitUpdate">
             <div grid lg:grid-cols-2 grid-cols-1 gap-5 my-8>
               <FormKit
-                v-model="data.firstName"
+                v-model="data.name"
                 name="First Name"
                 type="text"
                 placeholder="First Name"
-                input-class="form-control"
-                validation="required"
-              />
-              <FormKit
-                v-model="data.middleName"
-                name="Middle Name"
-                type="text"
-                placeholder="Middle Name"
-                input-class="form-control"
-              />
-              <FormKit
-                v-model="data.lastName"
-                name="Last Name"
-                type="text"
-                placeholder="Last Name"
-                input-class="form-control"
-                validation="required"
-              />
-              <FormKit
-                v-model="data.nickName"
-                name="Nick Name"
-                type="text"
-                placeholder="Nick Name"
                 input-class="form-control"
                 validation="required"
               />
@@ -202,46 +173,32 @@ const setGroups = (groupSelected: GroupData[]) => {
                 placeholder="Alternate Email"
                 input-class="form-control"
               />
-              <Select
+              <FormKit
                 v-model="data.status"
+                type="select"
+                validation="required"
+                name="status"
+                input-class="form-control"
                 placeholder="Select Status"
                 :options="[
-                  { value: true, label: 'Completed' },
-                  { value: false, label: 'Uncompleted' },
+                  { value: true, label: 'Active' },
+                  { value: false, label: 'In-Active' },
                 ]"
-              />
-              <Select
-                v-model="data.country"
-                placeholder="Select Country"
-                :options="['USA', 'Canada', 'Mexico']"
-              />
-              <Select
-                v-model="data.state"
-                placeholder="Select State / Territory"
-                :options="['California', 'Texas', 'Florida']"
-              />
-              <Select
-                v-model="data.city"
-                placeholder="Select City"
-                :options="['Los Angeles', 'Houston', 'Miami']"
-              />
-              <FormKit
-                v-model="data.zipCode"
-                type="number"
-                name="Zip Code"
-                validation="required"
-                placeholder="Zip Code"
-                input-class="form-control"
-                outer-class="col-span-2"
               />
               <FormKit
                 v-model="data.location"
-                name="Location"
-                type="text"
+                type="select"
                 validation="required"
-                placeholder="Location"
+                name="location"
                 input-class="form-control"
-                outer-class="md:col-span-2 col-span-1"
+                placeholder="Select Location"
+                :options="[
+                  { value: '', label: 'Select Location' },
+                  ...locations.data.map((location) => ({
+                    value: location.id,
+                    label: `${location.city} ${location.country}`,
+                  })),
+                ]"
               />
             </div>
             <div mb-5>

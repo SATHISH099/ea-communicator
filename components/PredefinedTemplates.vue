@@ -27,7 +27,7 @@ const { data, refresh } = await useAsyncData(
       total,
       data: data.map((x: any) => ({
         title: x.subject || x.title,
-        message: x.body || x.message,
+        message: x.body?.replace(/(<([^>]+)>)/gi, '') || x.message,
       })),
     }),
   },

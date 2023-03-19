@@ -12,7 +12,7 @@ const nuxtConfig = defineNuxtConfig({
   runtimeConfig: {
     // The private keys which are only available server-side
     apiSecret: process.env.NUXT_API_SECRET,
-    baseDir: process.cwd(),
+    baseDir: __dirname,
     // Keys within public are also exposed client-side
     public: {
       APP_URL: process.env.APP_URL,

@@ -11,8 +11,7 @@ interface AlertData {
 }
 interface RecipientData {
   id: number;
-  firstName: string;
-  lastName: string;
+  name: string;
 }
 
 interface GroupData {
@@ -163,7 +162,7 @@ const setGroupRecipients = (
                     :key="recipient.id"
                     class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
                   >
-                    {{ recipient.firstName }} {{ recipient.lastName }}
+                    {{ recipient.name }}
                   </span>
 
                   <span

@@ -14,8 +14,7 @@ interface EmailData {
 
 interface RecipientData {
   id: number;
-  firstName: string;
-  lastName: string;
+  name: string;
 }
 
 interface GroupData {
@@ -215,40 +214,39 @@ const setCcGroupRecipients = (
               </div>
             </div>
             <div grid md:grid-cols-2 grid-cols-1 gap-5 mt-8>
-              <Multiselect
-                placeholder="From"
-                class="down-arrow"
-                :options="['test1', 'test2']"
-              />
-              <button
-                class="relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[1rem] text-silver items-center p-[1rem]"
-                @click="toggleModal"
-              >
-                <span class="mr-3">TO</span>
-                <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
-                  <span
-                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
-                    v-for="recipient in recipients"
-                    :key="recipient.id"
+              <div class="col-span-2 w-full">
+                <button
+                  class="w-full relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[1rem] text-silver items-center p-[1rem]"
+                  @click="toggleModal"
+                >
+                  <span class="mr-3">TO</span>
+                  <div
+                    class="flex flex-wrap items-center gap-2 overflow-x-auto"
                   >
-                    {{ recipient.firstName }} {{ recipient.lastName }}
-                  </span>
+                    <span
+                      class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                      v-for="recipient in recipients"
+                      :key="recipient.id"
+                    >
+                      {{ recipient.name }}
+                    </span>
 
-                  <span
-                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary"
-                    v-for="group in groups"
-                    :key="group.id"
-                  >
-                    {{ group.groupName }}
-                  </span>
-                </div>
+                    <span
+                      class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary"
+                      v-for="group in groups"
+                      :key="group.id"
+                    >
+                      {{ group.groupName }}
+                    </span>
+                  </div>
 
-                <img
-                  class="absolute right-0 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                  src="/plus.png"
-                  alt="plus"
-                />
-              </button>
+                  <img
+                    class="absolute right-0 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                    src="/plus.png"
+                    alt="plus"
+                  />
+                </button>
+              </div>
 
               <button
                 class="relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[16px] text-silver items-center p-[1rem]"
@@ -261,7 +259,7 @@ const setCcGroupRecipients = (
                     :key="recipient.id"
                     class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
                   >
-                    {{ recipient.firstName }} {{ recipient.lastName }}
+                    {{ recipient.name }}
                   </span>
 
                   <span
@@ -290,7 +288,7 @@ const setCcGroupRecipients = (
                     :key="recipient.id"
                     class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
                   >
-                    {{ recipient.firstName }} {{ recipient.lastName }}
+                    {{ recipient.name }}
                   </span>
 
                   <span

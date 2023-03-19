@@ -16,6 +16,7 @@ const handleDate = (dateStr: string) => {
       range
       multi-calendars
       @update:model-value="handleDate"
+      placeholder="Filter By: Date"
     />
   </div>
 </template>
