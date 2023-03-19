@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Select from '@vueform/multiselect';
 import '~~/services/recipient.service';
 import { useToasterStore } from '~~/store/toaster';
 
@@ -12,40 +11,21 @@ interface GroupData {
   status: boolean;
 }
 
-interface CitiesData {
-  name: string;
-}
-interface StateData {
-  name: string;
-  cities: CitiesData[];
-}
-
-interface CountryData {
-  name: string;
-  states: StateData[];
-}
-
 const recipientService = useService('recipient');
 
-const { data: location } = await useFetch<any>(() => `/json/locations.json`);
+const locations = await $fetch<{ data: any[]; total: number }>(`/locations`, {
+  baseURL: useRuntimeConfig().public.API_SMARTSUITE_BASEURL,
+});
+
 const initialState = {
-  firstName: '',
-  middleName: '',
-  lastName: '',
-  nickName: '',
+  name: '',
   cellVoice: '',
   cellText: '',
   homeNumber: '',
   workNumber: '',
   emailAddress: '',
   alternateEmail: '',
-  country: '',
-  state: '',
-  city: '',
-  selectedCountry: { name: '', states: [{ name: '', cities: [{ name: '' }] }] },
-  selectedState: { name: '', cities: [{ name: '' }] },
-  zipCode: '',
-  location: '',
+  location: 0,
   status: false,
 };
 
@@ -57,21 +37,6 @@ const resetForm = () => {
   groups.value = [];
 };
 
-const selectCountry = () => {
-  const selectLocation = location.value.filter(function (country: StateData) {
-    return country.name === data.country;
-  });
-
-  data.selectedCountry = selectLocation[0] || initialState.selectedCountry;
-};
-
-const selectState = () => {
-  const selectLocation = data.selectedCountry.states.filter(function (state) {
-    return state.name === data.state;
-  });
-
-  data.selectedState = selectLocation[0] || initialState.selectedState;
-};
 const submitCreate = async () => {
   try {
     const request = {
@@ -79,6 +44,9 @@ const submitCreate = async () => {
       groups: groups.value.map(({ id }) => ({
         id,
       })),
+      location: {
+        id: data.location,
+      },
     };
     const response = await recipientService.create(request);
     if (response) {
@@ -116,34 +84,10 @@ const setGroups = (groupSelected: GroupData[]) => {
           <FormKit type="form" :actions="false" @submit="submitCreate">
             <div grid lg:grid-cols-2 grid-cols-1 gap-5 my-8>
               <FormKit
-                v-model="data.firstName"
-                name="First Name"
+                v-model="data.name"
+                name="Name"
                 type="text"
-                placeholder="First Name"
-                input-class="form-control"
-                validation="required|length:2,50"
-              />
-              <FormKit
-                v-model="data.middleName"
-                name="Middle Name"
-                type="text"
-                placeholder="Middle Name"
-                input-class="form-control"
-                validation="length:2,50"
-              />
-              <FormKit
-                v-model="data.lastName"
-                name="Last Name"
-                type="text"
-                placeholder="Last Name"
-                input-class="form-control"
-                validation="required|length:2,50"
-              />
-              <FormKit
-                v-model="data.nickName"
-                name="Nick Name"
-                type="text"
-                placeholder="Nick Name"
+                placeholder="Full Name"
                 input-class="form-control"
                 validation="required|length:2,50"
               />
@@ -207,70 +151,21 @@ const setGroups = (groupSelected: GroupData[]) => {
                   { value: false, label: 'In-Active' },
                 ]"
               />
-              <FormKit
-                v-model="data.country"
-                type="select"
-                validation="required"
-                name="country"
-                input-class="form-control"
-                placeholder="Select Country"
-                :options="
-                  location.map((item: StateData) => {
-                    return item.name;
-                  })
-                "
-                @change="selectCountry"
-              />
 
               <FormKit
-                v-model="data.state"
-                type="select"
-                validation="required"
-                name="state"
-                input-class="form-control"
-                placeholder="Select State / Territory"
-                :options="
-                  data.selectedCountry.states
-                    ? [...data.selectedCountry.states.map((item: StateData) => {
-                        return item.name;
-                      }), {value: '', label:'Select State / Territory'}]
-                    : []
-                "
-                @change="selectState"
-              />
-
-              <FormKit
-                v-model="data.city"
+                v-model="data.location"
                 type="select"
                 validation="required"
                 name="city"
                 input-class="form-control"
-                placeholder="Select City"
-                :options="
-                  data.selectedState.cities
-                    ? [...data.selectedState.cities.map((item: CitiesData) => {
-                        return item.name;
-                      }), {value: '', label:'Select City'}]
-                    : []
-                "
-              />
-              <FormKit
-                v-model="data.zipCode"
-                type="number"
-                name="Zip Code"
-                validation="required"
-                placeholder="Zip Code"
-                input-class="form-control"
-                outer-class="col-span-2"
-              />
-              <FormKit
-                v-model="data.location"
-                name="Location"
-                type="text"
-                validation="required"
-                placeholder="Location"
-                input-class="form-control"
-                outer-class="md:col-span-2 col-span-1"
+                placeholder="Select Location"
+                :options="[
+                  { value: '', label: 'Select Location' },
+                  ...locations.data.map((location) => ({
+                    value: location.id,
+                    label: `${location.city}, ${location.country}`,
+                  })),
+                ]"
               />
             </div>
             <div v-if="groups.length > 0" mb-5>

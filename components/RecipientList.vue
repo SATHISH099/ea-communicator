@@ -4,8 +4,7 @@ const recipientService = useService('recipient');
 const groupService = useService('group');
 
 interface RecipientData {
-  firstName: string;
-  lastName: string;
+  name: string;
 }
 
 interface GroupData {
@@ -68,9 +67,8 @@ loadRecipients(activeTab.value);
       mt-3
       mb-8
       :headers="recipientHeaders"
-      :rows="response.map(({ firstName, lastName }: RecipientData) => ({
-            firstName,
-            lastName,
+      :rows="response.map(({ name }: RecipientData) => ({
+            name
           }))"
     />
 

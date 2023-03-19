@@ -10,8 +10,8 @@ const { data } = await useFetch<any>(() => `groups/${id}`, {
 });
 
 const recipients = data.value.data.recipients.map(
-  ({ firstName, lastName, emailAddress }: Recipient) => ({
-    name: `${firstName} ${lastName}`,
+  ({ name, emailAddress }: Recipient) => ({
+    name,
     emailAddress,
   }),
 );
@@ -54,27 +54,14 @@ const recipients = data.value.data.recipients.map(
               <h6 class="text-stone">Group Name</h6>
               <p class="text-carbon">{{ data.data.groupName }}</p>
             </div>
-            <div class="mb-10 grid gap-y-2">
-              <h6 class="text-stone">Country</h6>
-              <p class="text-carbon">{{ data.data.country }}</p>
-            </div>
 
             <div class="mb-10 grid gap-y-2">
-              <h6 class="text-stone">Selected State / Territory</h6>
-              <p class="text-carbon">{{ data.data.state }}</p>
-            </div>
-            <div class="mb-10 grid gap-y-2">
-              <h6 class="text-stone">City</h6>
-              <p class="text-carbon">{{ data.data.city }}</p>
-            </div>
-
-            <div class="mb-10 grid gap-y-2">
-              <h6 class="text-stone">Zip Code</h6>
-              <p class="text-carbon">{{ data.data.zipCode }}</p>
-            </div>
-            <div class="mb-10 grid gap-y-2">
-              <h6 class="text-stone">Location</h6>
-              <p class="text-carbon">{{ data.data.location }}</p>
+              <h5 class="text-stone">Location</h5>
+              <p class="text-carbon">
+                {{
+                  `${data.data.location.address}, ${data.data.location.city}, ${data.data.location.state}, ${data.data.location.country}`
+                }}
+              </p>
             </div>
             <div class="mb-10 grid gap-y-2">
               <h6 class="text-stone">Note</h6>

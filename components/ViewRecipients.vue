@@ -8,8 +8,7 @@ const config = useRuntimeConfig();
 
 interface RecipientData {
   id: number;
-  firstName: string;
-  lastName: string;
+  name: string;
 }
 
 interface initialStateData {
@@ -29,10 +28,9 @@ const { data, refresh } = await useFetch<any>(
     baseURL: config.public.API_SMARTSUITE_BASEURL,
     transform: ({ total, data }) => ({
       total,
-      data: data.map(({ id, firstName, lastName }: RecipientData) => ({
+      data: data.map(({ id, name }: RecipientData) => ({
         id,
-        firstName,
-        lastName,
+        name,
       })),
     }),
   },
@@ -76,7 +74,7 @@ const paginate = (pg: number) => {
                   data.data.map((recipientItem: RecipientData) => {
                     return {
                       value: recipientItem,
-                      label: `${recipientItem.firstName} ${recipientItem.lastName}`,
+                      label: `${recipientItem.name}`,
                     };
                   })
                 "

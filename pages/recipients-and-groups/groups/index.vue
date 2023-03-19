@@ -33,22 +33,15 @@ const { data, refresh } = await useFetch<any>(
             groupName,
             status,
             location,
-            city,
             recipientCount,
-            state,
-            country,
-            zipCode,
             createdAt,
-            updatedAt,
           }: Group) => ({
             id,
             groupName,
             members: recipientCount,
             status: status ? 'Active' : 'Inactive',
-            location: `${location}, ${city}, ${state}, ${country}, ${zipCode}`,
+            location: `${location.address}, ${location.city}, ${location.state}, ${location.country}`,
             createdAt: moment(createdAt).format('dddd, Do MMMM YYYY h:mm A'),
-            updatedAt:
-              moment(updatedAt).format('dddd, Do MMMM YYYY h:mm A') || null,
           }),
         ),
       };

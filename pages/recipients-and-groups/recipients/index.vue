@@ -18,14 +18,13 @@ const searchField = ref('');
 
 const recipientHeaders = [
   { value: 'ID', isSort: true, key: 'id' },
-  { value: 'Full Name', isSort: true, key: 'firstName' },
-  { value: 'Nick Name', isSort: true, key: 'nickName' },
-  'Mobile phone for voice calls',
-  'Mobile phone for SMS',
+  { value: 'Name', isSort: true, key: 'name' },
+  'Phone (Voice)',
+  'Phone (Text)',
   'Home phone number',
   'Work phone Number',
-  'Primary email',
-  'Alternate email',
+  'Primary Email',
+  'Alternate Email',
   'Address',
 ];
 
@@ -38,17 +37,14 @@ const { data, refresh } = await useFetch<any>(
       total,
       data: data.map((x: any) => ({
         id: x.id,
-        fullName: `${x.firstName} ${x.middleName ? `${x.middleName}` : ''}${
-          x.lastName
-        }`,
-        nickName: x.nickName,
+        name: x.name,
         cellVoice: x.cellVoice,
         cellText: x.cellText,
         homeNumber: x.homeNumber,
         workNumber: x.workNumber,
         emailAddress: x.emailAddress,
         alternateEmail: x.alternateEmail,
-        location: x.location,
+        location: `${x.location.address}, ${x.location.city}, ${x.location.state}, ${x.location.country}`,
       })),
     }),
   },

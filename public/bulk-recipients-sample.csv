@@ -1,5 +1,5 @@
-firstName,middleName,lastName,nickName,cellVoice,cellText,homeNumber,workNumber,emailAddress,alternateEmail,status,notes,location,country,state,city,zipCode,deviceId
-hello,midnab,world,nkab,25321,25555,25321,25321,abd@test.com,ab@test.com,TRUE,notes first,location first,country first,state first,city first,zipcode first,device first
-fnab second,asasas,lnab second,nkab second,33333,33333,25321,25321,abc@test.com,ab@test.com,TRUE,Notes second,location second,country second,state second,city second,zipcode second,device second
-three,midnab,world,nkab,25321,25555,25321,25321,abd@test.com,ab@test.com,TRUE,notes first,location first,country first,state first,city first,zipcode first,device first
-four,asasas,lnab second,nkab second,33333,33333,25321,25321,abc@test.com,ab@test.com,TRUE,Notes second,location second,country second,state second,city second,zipcode second,device second
+name,cellVoice,cellText,homeNumber,workNumber,emailAddress,alternateEmail,status,notes,location,country,state,city,zipCode,deviceId
+nkab,25321,25555,25321,25321,abd@test.com,ab@test.com,TRUE,notes first,location first,country first,state first,city first,zipcode first,device first
+nkab second,33333,33333,25321,25321,abc@test.com,ab@test.com,TRUE,Notes second,location second,country second,state second,city second,zipcode second,device second
+nkab,25321,25555,25321,25321,abd@test.com,ab@test.com,TRUE,notes first,location first,country first,state first,city first,zipcode first,device first
+nkab second,33333,33333,25321,25321,abc@test.com,ab@test.com,TRUE,Notes second,location second,country second,state second,city second,zipcode second,device second

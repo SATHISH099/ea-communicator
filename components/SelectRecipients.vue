@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 interface RecipientData {
   id: number;
-  firstName: string;
-  lastName: string;
+  name: string;
 }
 
 interface GroupData {
@@ -102,7 +101,7 @@ const removeFromGroup = (id: number) => {
                   data.data.map((recipientItem: RecipientData) => {
                     return {
                       value: recipientItem,
-                      label: `${recipientItem.firstName} ${recipientItem.lastName}`,
+                      label: `${recipientItem.name}`,
                     };
                   })
                 "
@@ -136,7 +135,7 @@ const removeFromGroup = (id: number) => {
           v-for="recipient in form.recipients"
           :key="recipient.id"
         >
-          {{ recipient.firstName }} {{ recipient.lastName }}
+          {{ recipient.name }}
           <button
             class="border-none outline-none bg-transparent text-primary mr-2"
             type="button"
