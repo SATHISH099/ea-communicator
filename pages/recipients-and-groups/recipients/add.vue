@@ -95,7 +95,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 v-model="data.cellVoice"
                 name="Cell Voice"
                 type="tel"
-                placeholder="Mobile phone for voice calls"
+                placeholder="Mobile phone for voice calls*"
                 validation="required|length:7,20"
                 input-class="form-control"
               />
@@ -103,7 +103,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 v-model="data.cellText"
                 name="Cell Text"
                 type="tel"
-                placeholder="Mobile phone for SMS"
+                placeholder="Mobile phone for SMS*"
                 input-class="form-control"
                 validation="required|length:7,20"
               />
@@ -111,7 +111,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 v-model="data.homeNumber"
                 name="Home Number"
                 type="tel"
-                placeholder="Home phone number"
+                placeholder="Home phone number*"
                 input-class="form-control"
                 validation="required|length:7,20"
               />
@@ -119,7 +119,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 v-model="data.workNumber"
                 name="Work Number"
                 type="tel"
-                placeholder="Work phone number"
+                placeholder="Work phone number*"
                 input-class="form-control"
                 validation="required|length:7,20"
               />
@@ -128,7 +128,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 name="Primary Email"
                 type="email"
                 validation="required|email"
-                placeholder="Primary Email"
+                placeholder="Primary Email*"
                 input-class="form-control"
               />
               <FormKit
@@ -136,7 +136,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 name="Alternate Email"
                 type="email"
                 validation="required|email"
-                placeholder="Alternate Email"
+                placeholder="Alternate Email*"
                 input-class="form-control"
               />
               <FormKit
