@@ -5,31 +5,26 @@ import { ApiTarget } from './api.service';
 const profile = z.object({
   id: z.number(),
   createdAt: z.string(),
-  updatedAt: z.string(),
-  name: z.string(),
+  firstName: z.string(),
   email: z.string(),
-  middle: z.string(),
-  last: z.string(),
-  address: z.string(),
-  phone: z.string(),
-  mobile: z.string(),
-  designation: z.string(),
-  notes: z.string(),
+  middleName: z.string().nullable(),
+  lastName: z.string().nullable(),
+  address: z.string().nullable(),
+  phoneNumber: z.string().nullable(),
+  designation: z.string().nullable(),
+  notes: z.string().nullable(),
 });
-
-const userProfile = z.object({ data: profile, message: z.string() });
 
 export type Profile = z.infer<typeof profile>;
 
 interface Data {
-  name: string;
-  middle: string;
-  last: string;
-  address: string;
-  phone: string;
-  mobile: string;
-  designation: string;
-  notes: string;
+  firstName: string;
+  middleName?: string;
+  lastName?: string;
+  address?: string;
+  phoneNumber?: string;
+  designation?: string;
+  notes?: string;
 }
 
 export class ProfileService {
@@ -38,11 +33,19 @@ export class ProfileService {
     this.apiService.setUrl('profile');
   }
 
+  setAuth() {
+    this.apiService.setOptions({
+      headers: {
+        Authorization: `bearer ${localStorage.getItem('ss_token')}`,
+      },
+    });
+  }
+
   get() {
-    return this.apiService.get(userProfile);
+    return this.apiService.get(profile);
   }
 
   update(data: Data) {
-    return this.apiService.put(userProfile, data, `/profile`);
+    return this.apiService.put(profile, data, `/profile`);
   }
 }

@@ -3,36 +3,37 @@ import { useToasterStore } from '~~/store/toaster';
 
 const { setMessage } = useToasterStore();
 interface initialStateData {
-  name: string;
+  firstName: string;
+  middleName?: string;
+  lastName: string;
   email: string;
-  middle: string;
-  last: string;
-  address: string;
-  phone: string;
-  mobile: string;
-  designation: string;
-  notes: string;
+  address?: string;
+  phoneNumber?: string;
+  mobile?: string;
+  designation?: string;
+  notes?: string;
 }
 
-const profileService = useService('profile');
-const userProfile = await profileService.get();
 const initialState: initialStateData = {
-  name: userProfile.data.name || '',
-  email: userProfile.data.email || '',
-  middle: userProfile.data.middle || '',
-  last: userProfile.data.last || '',
-  address: userProfile.data.address || '',
-  phone: userProfile.data.phone || '',
-  mobile: userProfile.data.mobile || '',
-  designation: userProfile.data.designation || '',
-  notes: userProfile.data.notes || '',
+  firstName: '',
+  email: '',
+  middleName: '',
+  lastName: '',
 };
+const profileService = useService('profile');
 
-const data = reactive({ ...initialState });
+const profile = ref<initialStateData>({ ...initialState });
+
+onMounted(async () => {
+  profileService.setAuth();
+  const userProfile = await profileService.get();
+
+  profile.value = userProfile;
+});
 
 const submitHandler = async () => {
   try {
-    const response = await profileService.update(data);
+    const response = await profileService.update(profile.value);
     if (response) {
       setMessage('Profile Updated successfully.', 'success');
     } else {
@@ -78,7 +79,7 @@ const submitHandler = async () => {
           <div class="md:w-[80%] md:mt-0 mt-4">
             <div class="md:flex gap-5">
               <FormKit
-                v-model="data.name"
+                v-model="profile.firstName"
                 name="first_name"
                 type="text"
                 validation="required"
@@ -87,16 +88,15 @@ const submitHandler = async () => {
                 outer-class="w-full mb-5"
               />
               <FormKit
-                v-model="data.middle"
+                v-model="profile.middleName"
                 name="middle_name"
                 type="text"
-                validation="required"
                 placeholder="Middle Name"
                 input-class="form-control"
                 outer-class="w-full mb-5"
               />
               <FormKit
-                v-model="data.last"
+                v-model="profile.lastName"
                 name="last_name"
                 type="text"
                 validation="required"
@@ -107,61 +107,43 @@ const submitHandler = async () => {
             </div>
             <div class="md:flex gap-5">
               <FormKit
-                v-model="data.phone"
-                name="phone"
+                v-model="profile.phoneNumber"
+                name="phone_number"
                 type="text"
-                validation="required"
                 placeholder="Phone"
                 input-class="form-control"
                 outer-class="w-full mb-5"
               />
               <FormKit
-                v-model="data.mobile"
-                name="mobile"
-                type="text"
-                validation="required"
-                placeholder="Mobile"
-                input-class="form-control"
-                outer-class="w-full mb-5"
-              />
-              <FormKit
-                v-model="data.email"
+                v-model="profile.email"
                 name="email"
                 disabled="true"
                 type="text"
-                validation="required"
                 placeholder="Email"
                 input-class="form-control"
                 outer-class="w-full mb-5"
               />
             </div>
             <FormKit
-              v-model="data.address"
+              v-model="profile.address"
               name="address"
               type="text"
-              validation="required"
               placeholder="Address"
               input-class="form-control"
               outer-class="mb-5 md:col-span-2 col-span-1"
             />
             <div class="w-full gap-5">
               <FormKit
-                v-model="data.designation"
-                type="select"
-                validation="required"
+                v-model="profile.designation"
+                type="text"
                 name="designation"
                 input-class="form-control"
                 placeholder="Designation"
-                :options="[
-                  'Developer',
-                  'Project Manager',
-                  'Qualtity Assurance',
-                ]"
               />
             </div>
             <div class="w-full mb-5">
               <FormKit
-                v-model="data.notes"
+                v-model="profile.notes"
                 type="textarea"
                 rows="10"
                 placeholder="Notes"
