@@ -182,6 +182,7 @@ const bulkDelete = async (data: number[]) => {
             :currentPage="page"
             v-bind:paginate="paginate"
             @setPerPage="setPerPage"
+            entity="Emails"
           ></PaginationTable>
         </div>
       </div>

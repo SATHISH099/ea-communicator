@@ -45,7 +45,9 @@ const { data, refresh } = await useFetch<any>(
         workNumber: x.workNumber,
         emailAddress: x.emailAddress,
         alternateEmail: x.alternateEmail,
-        location: `${x.location.address}, ${x.location.city}, ${x.location.state}, ${x.location.country}`,
+        location: `${x.location.address ? x.location.address + ',' : ''} ${
+          x.location.city
+        }, ${x.location.state}, ${x.location.country}`,
       })),
     }),
   },
@@ -221,6 +223,7 @@ const searchEmpty = () => {
             :total-records="data?.total"
             :current-page="page"
             :paginate="paginate"
+            entity="Recipients"
             @setPerPage="setPerPage"
           ></PaginationTable>
         </div>

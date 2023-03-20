@@ -178,6 +178,7 @@ const searchEmpty = () => {
             :pageSize="pageSize"
             @setPerPage="setPerPage"
             v-bind:paginate="paginate"
+            entity="SMS"
           ></PaginationTable>
         </div>
       </div>

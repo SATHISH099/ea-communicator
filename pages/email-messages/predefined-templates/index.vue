@@ -201,6 +201,7 @@ const bulkDelete = async (data: number[]) => {
             :current-page="page"
             :paginate="paginate"
             @setPerPage="setPerPage"
+            entity="Predefined Templates"
           ></PaginationTable>
         </div>
       </div>

@@ -40,7 +40,9 @@ const { data, refresh } = await useFetch<any>(
             groupName,
             members: recipientCount,
             status: status ? 'Active' : 'Inactive',
-            location: `${location.address}, ${location.city}, ${location.state}, ${location.country}`,
+            location: `${location.address ? location.address + '' : ''} ${
+              location.city
+            }, ${location.state}, ${location.country}`,
             createdAt: moment(createdAt).format('dddd, Do MMMM YYYY h:mm A'),
           }),
         ),
@@ -144,6 +146,7 @@ const searchEmpty = () => {
             :totalRecords="data.total"
             :currentPage="page"
             v-bind:paginate="paginate"
+            entity="Groups"
             @setPerPage="setPerPage"
           ></PaginationTable>
         </div>

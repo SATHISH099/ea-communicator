@@ -261,6 +261,7 @@ const searchEmpty = () => {
         :current-page="page"
         v-bind:paginate="paginate"
         @setPerPage="setPerPage"
+        entity="Items"
       ></PaginationTable>
     </div>
   </div>
