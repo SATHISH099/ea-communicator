@@ -26,7 +26,7 @@ export class MediaService {
   }
 
   create(formData: FormData) {
-    return this.apiService.post(media, formData);
+    return this.apiService.post(z.array(media), formData);
   }
 
   delete(id: number) {

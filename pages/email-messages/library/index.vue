@@ -34,7 +34,9 @@ const searchKeyword = () => {
   search.value = searchField.value;
   page.value = 1;
 
-  if (search.value) refresh();
+  if (search.value) {
+    refresh();
+  }
 };
 
 const searchCategory = () => {
@@ -69,7 +71,8 @@ const handleAddMedia = async (data: { file: any[] }) => {
 
   if (res) {
     setMessage('File Uploaded Successfully.', 'success');
-    window.location.reload();
+    viewUploadModal.value = false;
+    refresh();
   } else {
     setMessage('File not Uploaded.', 'error');
   }
@@ -80,7 +83,8 @@ async function deleteMedia(id: number) {
     await $trpc.library.delete.mutate(id);
 
     setMessage('Deleted Successfully.', 'success');
-    window.location.reload();
+    showModal.value = false;
+    refresh();
   } catch (error) {
     console.error(error);
   }
@@ -90,7 +94,7 @@ const viewMedia = (media: Media) => {
     viewImageModal.value = true;
     selectedMedia.value = media;
   } else {
-    window.open(media.filePath);
+    window.open(media.fileUrl);
   }
 };
 
@@ -207,7 +211,7 @@ const searchEmpty = () => {
           <img
             v-if="extensions.photos.includes(media.extension)"
             class="w-[12rem] h-[12rem] w-full object-cover object-center"
-            :src="media.filePath"
+            :src="media.fileUrl"
             alt=""
           />
           <button class="view-btn" @click="viewMedia(media)">View</button>
@@ -221,7 +225,7 @@ const searchEmpty = () => {
                 <div>
                   <img
                     class="w-full h-full"
-                    :src="selectedMedia.filePath"
+                    :src="selectedMedia.fileUrl"
                     alt=""
                   />
                   <h6 text-center text-stone>{{ selectedMedia.title }}</h6>

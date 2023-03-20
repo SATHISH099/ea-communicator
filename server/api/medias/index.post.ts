@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
       const uniqueSuffix = randomUUID();
       const fileName = `${uniqueSuffix}.${file.extension}`;
       const filePath = `/uploads/${fileName}`;
-      const fileUrl = `${config.public.APP_URL}/uploads/${fileName}`;
+      const fileUrl = `/medias/uploads/${fileName}`;
       await fs.writeFile(`${config.baseDir}${filePath}`, file.data);
 
       return await service.create({
