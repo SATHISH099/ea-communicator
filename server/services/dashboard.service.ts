@@ -20,6 +20,7 @@ export class DashboardService {
     const emailCount = await appDataSource.getRepository(Email).count({
       where: {
         tenantId,
+        isPredefined: false,
         ...(req?.startDate && {
           createdAt: Between(
             req.startDate.toISOString(),
