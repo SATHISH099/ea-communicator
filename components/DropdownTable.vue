@@ -35,9 +35,11 @@ const onDeleteRecord = (deleteId) => {
 
     <div class="dropdown relative text-right">
       <img
+        tabindex="0"
         class="cursor-pointer"
         src="/EditIcon.png"
         @click="isOpen = !isOpen"
+        v-click-away="($event) => (isOpen = false)"
       />
       <ul
         v-show="isOpen"
