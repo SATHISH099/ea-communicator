@@ -21,11 +21,15 @@ const searchGroup = ref('');
 const type = ref<string>('recipients');
 const config = useRuntimeConfig();
 
-const { data, refresh } = await useFetch<any>(
-  () =>
-    `${type.value}?search=${
-      type.value === 'recipients' ? searchRecipient.value : searchGroup.value
-    }&pageNumber=1&pageSize=10`,
+const { data: recipients, refresh: refreshRecipient } = await useFetch<any>(
+  () => `recipients?search=${searchRecipient.value}&pageNumber=1&pageSize=10`,
+  {
+    baseURL: config.public.API_SMARTSUITE_BASEURL,
+  },
+);
+
+const { data: groups, refresh: refreshGroup } = await useFetch<any>(
+  () => `groups?search=${searchGroup.value}&pageNumber=1&pageSize=10`,
   {
     baseURL: config.public.API_SMARTSUITE_BASEURL,
   },
@@ -39,12 +43,12 @@ const form = reactive({ ...initialState });
 
 const searchRecipients = () => {
   type.value = 'recipients';
-  refresh();
+  refreshRecipient();
 };
 
 const searchGroups = () => {
   type.value = 'groups';
-  refresh();
+  refreshGroup();
 };
 
 const removeFromRecipient = (id: number) => {
@@ -90,7 +94,7 @@ const removeFromGroup = (id: number) => {
       <div
         class="shadow-[0_6px_12px_#F7F7F7] border-solid border border-[#F5F7FA] rounded-[4px] pb-5 max-h-[313px] overflow-y-auto"
       >
-        <div v-if="type === 'recipients'">
+        <div>
           <h6 class="text-[#B42424] font-medium mb-4 px-[1rem] pt-[1rem]">
             Recipients
           </h6>
@@ -98,7 +102,7 @@ const removeFromGroup = (id: number) => {
             v-model="form.recipients"
             type="checkbox"
             :options="
-                  data.data.map((recipientItem: RecipientData) => {
+                  recipients.data.map((recipientItem: RecipientData) => {
                     return {
                       value: recipientItem,
                       label: `${recipientItem.name}`,
@@ -109,7 +113,7 @@ const removeFromGroup = (id: number) => {
             input-class="form-check-input mr-2"
           />
         </div>
-        <div v-if="type === 'groups'">
+        <div>
           <h6 class="text-[#B42424] font-medium mb-4 px-[1rem] pt-[1rem]">
             Groups
           </h6>
@@ -117,7 +121,7 @@ const removeFromGroup = (id: number) => {
             v-model="form.groups"
             type="checkbox"
             :options="
-                  data.data.map((groupItem: GroupData) => {
+                  groups.data.map((groupItem: GroupData) => {
                     return {
                       value: groupItem,
                       label: `${groupItem.groupName}`,
