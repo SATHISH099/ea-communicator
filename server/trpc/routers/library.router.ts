@@ -1,4 +1,4 @@
-import { Like } from 'typeorm';
+import { FindOperator, Like, Raw } from 'typeorm';
 import { z } from 'zod';
 import { procedure, router } from '../trpc';
 import { MediaService } from '~~/server/services/media.service';
@@ -8,9 +8,14 @@ const list = procedure.input(queryListSchema).query(({ input }) => {
   const service = new MediaService();
 
   return service.findAll(input, {
-    where: {
-      ...(input.search && { title: Like(`%${input.search}%`) }),
-    },
+    where: [
+      {
+        extension: Like(`%${input.search}%`),
+      },
+      {
+        title: Like(`%${input.search}%`),
+      },
+    ],
   });
 });
 
