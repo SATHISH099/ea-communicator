@@ -151,8 +151,8 @@ const setGroupRecipients = (
             </div>
             <div grid md:grid-cols-2 grid-cols-1 gap-5 mt-8>
               <button
-                class="relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[1rem] text-silver items-center p-[1rem] col-span-2"
                 type="button"
+                class="relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[1rem] text-silver items-center p-[1rem] col-span-2"
                 @click="toggleModal"
               >
                 <span class="mr-3">TO</span>

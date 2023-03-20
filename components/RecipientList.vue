@@ -5,6 +5,7 @@ const groupService = useService('group');
 
 interface RecipientData {
   name: string;
+  emailAddress: string;
 }
 
 interface GroupData {
@@ -67,8 +68,9 @@ loadRecipients(activeTab.value);
       mt-3
       mb-8
       :headers="recipientHeaders"
-      :rows="response.map(({ name }: RecipientData) => ({
-            name
+      :rows="response.map(({ name, emailAddress }: RecipientData) => ({
+            name,
+            emailAddress
           }))"
     />
 
