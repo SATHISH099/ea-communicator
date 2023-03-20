@@ -1,4 +1,4 @@
-import { FindOperator, Like, Raw } from 'typeorm';
+import { Like } from 'typeorm';
 import { z } from 'zod';
 import { procedure, router } from '../trpc';
 import { MediaService } from '~~/server/services/media.service';

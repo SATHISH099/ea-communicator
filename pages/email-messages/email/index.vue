@@ -35,7 +35,7 @@ const { data, refresh } = await useAsyncData(
       total,
       data: data.map(
         ({ id, sender, subject, recipients, groups, createdAt }: any) => ({
-          id: id,
+          id,
           sender: sender?.name,
           subject,
           recipients: recipients.length,
