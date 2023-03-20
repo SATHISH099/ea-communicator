@@ -15,7 +15,7 @@ const messageHeaders = [
   'Status',
   'Location',
   'Created Date',
-  'Updated Date',
+  '',
 ];
 
 const groupService = useService('group');

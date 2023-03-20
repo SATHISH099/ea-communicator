@@ -26,6 +26,7 @@ const recipientHeaders = [
   'Primary Email',
   'Alternate Email',
   'Address',
+  '',
 ];
 
 const { data, refresh } = await useFetch<any>(

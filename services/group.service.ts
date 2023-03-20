@@ -43,6 +43,14 @@ export class GroupService {
     this.apiService.setUrl('groups');
   }
 
+  setAuth() {
+    this.apiService.setOptions({
+      headers: {
+        Authorization: `bearer ${localStorage.getItem('ss_token')}`,
+      },
+    });
+  }
+
   getAll() {
     return this.apiService.get(groups);
   }

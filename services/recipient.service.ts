@@ -48,6 +48,14 @@ export class RecipientService {
     this.apiService.setUrl('recipients');
   }
 
+  setAuth() {
+    this.apiService.setOptions({
+      headers: {
+        Authorization: `bearer ${localStorage.getItem('ss_token')}`,
+      },
+    });
+  }
+
   getAll() {
     return this.apiService.get(recipients);
   }

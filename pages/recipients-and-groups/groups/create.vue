@@ -18,6 +18,10 @@ interface initialStateData {
 }
 
 const groupService = useService('group');
+if (process.client) {
+  groupService.setAuth();
+}
+
 const statuses = ['Inactive', 'active'];
 
 const initialState: initialStateData = {

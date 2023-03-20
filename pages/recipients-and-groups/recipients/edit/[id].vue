@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Select from '@vueform/multiselect';
 import '~~/services/recipient.service';
 import { useToasterStore } from '~~/store/toaster';
 
@@ -40,6 +39,9 @@ const locations = await $fetch<{ data: any[]; total: number }>(`/locations`, {
 
 const record = recipientDetail.value;
 const recipientService = useService('recipient');
+if (process.client) {
+  recipientService.setAuth();
+}
 
 const initialState: initialStateData = {
   name: record.name,

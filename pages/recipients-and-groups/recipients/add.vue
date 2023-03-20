@@ -12,7 +12,9 @@ interface GroupData {
 }
 
 const recipientService = useService('recipient');
-
+if (process.client) {
+  recipientService.setAuth();
+}
 const locations = await $fetch<{ data: any[]; total: number }>(`/locations`, {
   baseURL: useRuntimeConfig().public.API_SMARTSUITE_BASEURL,
 });

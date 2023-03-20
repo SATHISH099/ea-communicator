@@ -15,6 +15,9 @@ interface initialStateData {
 }
 
 const groupService = useService('group');
+if (process.client) {
+  groupService.setAuth();
+}
 const { id: groupId } = useRoute().params;
 const statuses = ['Inactive', 'active'];
 
@@ -26,7 +29,7 @@ const { data: groupDetail } = await useFetch<any>(() => `groups/${groupId}`, {
   baseURL: config.public.API_SMARTSUITE_BASEURL,
 });
 
-const record = groupDetail.value.data;
+const record = groupDetail.value;
 const initialState: initialStateData = {
   groupName: record.groupName,
   status: record.status,
