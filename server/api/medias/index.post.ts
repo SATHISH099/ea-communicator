@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
+import { join } from 'node:path';
 import { CreateMediaDto } from '~~/server/dtos/media/create-media.dto';
 import { MediaService } from '~~/server/services/media.service';
 
@@ -13,7 +14,6 @@ interface FileAttr {
 
 export default defineEventHandler(async (event) => {
   const data = await parseRequestFormData(event);
-  const config = useRuntimeConfig();
 
   await validationPipe(CreateMediaDto, data);
 
@@ -22,11 +22,11 @@ export default defineEventHandler(async (event) => {
     data.media.map(async (file: FileAttr) => {
       const uniqueSuffix = randomUUID();
       const fileName = `${uniqueSuffix}.${file.extension}`;
-      const filePath = `/uploads/${fileName}`;
+      const filePath = `uploads/${fileName}`;
       const fileUrl = `/medias/uploads/${fileName}`;
-      await fs.writeFile(`${config.baseDir}${filePath}`, file.data);
+      await fs.writeFile(join(process.dev ? '' : '..', filePath), file.data);
 
-      return await service.create({
+      return service.create({
         title: file.name,
         extension: file.extension,
         mimeType: file.type,

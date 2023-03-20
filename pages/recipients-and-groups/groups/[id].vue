@@ -9,7 +9,7 @@ const { data } = await useFetch<any>(() => `groups/${id}`, {
   baseURL: config.public.API_SMARTSUITE_BASEURL,
 });
 
-const recipients = data.value.recipients.map(
+const recipients = data.value?.recipients.map(
   ({ name, emailAddress }: Recipient) => ({
     name,
     emailAddress,
