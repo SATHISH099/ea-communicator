@@ -38,7 +38,7 @@ const searchKeyword = () => {
 };
 
 const searchCategory = () => {
-  search.value = `${searchField.value}.${extensionType.value}`;
+  search.value = `${extensionType.value}`;
   page.value = 1;
   refresh();
 };

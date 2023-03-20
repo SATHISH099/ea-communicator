@@ -36,6 +36,7 @@ const { data, refresh } = await useAsyncData(
     transform: ({ total, data }: any) => ({
       total,
       data: data.map((message: any) => ({
+        id: message.id,
         title: type.value === 'email' ? message.subject : message.title,
         message:
           type.value === 'email'
