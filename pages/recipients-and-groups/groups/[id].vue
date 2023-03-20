@@ -9,7 +9,7 @@ const { data } = await useFetch<any>(() => `groups/${id}`, {
   baseURL: config.public.API_SMARTSUITE_BASEURL,
 });
 
-const recipients = data.value.data.recipients.map(
+const recipients = data.value.recipients.map(
   ({ name, emailAddress }: Recipient) => ({
     name,
     emailAddress,
@@ -40,32 +40,32 @@ const recipients = data.value.data.recipients.map(
             <div class="grid grid-cols-3">
               <div class="mb-10 grid gap-y-2">
                 <h6 class="text-stone">Date</h6>
-                <p class="text-carbon">{{ data.data.createdAt }}</p>
+                <p class="text-carbon">{{ data.createdAt }}</p>
               </div>
               <div class="mb-10 grid gap-y-2">
                 <h6 class="text-stone">Status</h6>
                 <p class="text-carbon">
-                  {{ data.data.status ? 'Active' : 'Inactive' }}
+                  {{ data.status ? 'Active' : 'Inactive' }}
                 </p>
               </div>
             </div>
 
             <div class="mb-10 grid gap-y-2">
               <h6 class="text-stone">Group Name</h6>
-              <p class="text-carbon">{{ data.data.groupName }}</p>
+              <p class="text-carbon">{{ data.groupName }}</p>
             </div>
 
             <div class="mb-10 grid gap-y-2">
               <h5 class="text-stone">Location</h5>
               <p class="text-carbon">
                 {{
-                  `${data.data.location.address}, ${data.data.location.city}, ${data.data.location.state}, ${data.data.location.country}`
+                  `${data.location.address}, ${data.location.city}, ${data.location.state}, ${data.location.country}`
                 }}
               </p>
             </div>
             <div class="mb-10 grid gap-y-2">
               <h6 class="text-stone">Note</h6>
-              <p class="text-carbon">{{ data.data.notes }}</p>
+              <p class="text-carbon">{{ data.notes }}</p>
             </div>
           </div>
         </div>

@@ -13,6 +13,7 @@ const { setMessage } = useToasterStore();
 const { $trpc } = useNuxtApp();
 
 const MessageHeaders = [
+  'ID',
   'Sender',
   'Subject',
   'Recipients',

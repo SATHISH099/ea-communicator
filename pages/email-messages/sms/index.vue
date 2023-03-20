@@ -12,6 +12,7 @@ const searchField = ref('');
 const { setMessage } = useToasterStore();
 
 const messageHeaders = [
+  'ID',
   'Sender',
   'Subject',
   'Recipients',
