@@ -4,6 +4,7 @@ const props = defineProps([
   'currentPage',
   'paginate',
   'pageSize',
+  'entity',
 ]);
 const emit = defineEmits(['setPerPage']);
 const perPage = ref<number>(props.pageSize || 10);
@@ -56,7 +57,9 @@ const setPerPage = () => {
             @input="setPerPage"
             input-class="form-control show-entries"
           />
-          <span class="text-stone whitespace-nowrap">Alerts out of 100</span>
+          <span class="text-stone whitespace-nowrap"
+            >{{ props.entity }} out of {{ totalRecords }}</span
+          >
         </div>
       </div>
     </div>

@@ -23,6 +23,7 @@ const list = procedure
         isPredefined: input.isPredefined,
       },
       relations: {
+        sender: true,
         recipients: true,
         groups: true,
       },

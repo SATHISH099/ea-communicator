@@ -179,6 +179,7 @@ const searchEmpty = () => {
             :current-page="page"
             :paginate="paginate"
             @setPerPage="setPerPage"
+            entity="Messages"
           ></PaginationTable>
         </div>
       </div>
