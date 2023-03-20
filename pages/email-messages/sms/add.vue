@@ -131,6 +131,7 @@ const setGroupRecipients = (
             </div>
             <div grid md:grid-cols-2 grid-cols-1 gap-5 mt-8>
               <button
+                type="button"
                 class="col-span-2 border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex justify-between text-[16px] text-silver items-center p-[1rem]"
                 title="Click Me"
                 @click="toggleModal"
@@ -155,11 +156,6 @@ const setGroupRecipients = (
                 </span>
                 <img src="/plus.png" alt="plus" />
               </button>
-              <Multiselect
-                placeholder="Sender"
-                class="down-arrow col-span-2"
-                :options="['test1', 'test2']"
-              />
               <FormKit
                 type="text"
                 name="title"
