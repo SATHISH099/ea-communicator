@@ -8,9 +8,14 @@ const list = procedure.input(queryListSchema).query(({ input }) => {
   const service = new MediaService();
 
   return service.findAll(input, {
-    where: {
-      ...(input.search && { title: Like(`%${input.search}%`) }),
-    },
+    where: [
+      {
+        extension: Like(`%${input.search}%`),
+      },
+      {
+        title: Like(`%${input.search}%`),
+      },
+    ],
   });
 });
 
