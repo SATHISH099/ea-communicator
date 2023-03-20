@@ -141,7 +141,7 @@ const toggleChecked = () => {
             </tr>
           </template>
           <template v-else>
-            <tr v-for="{ id, ...row } = row in props.rows" :key="row.id">
+            <tr v-for="row in props.rows" :key="row.id">
               <td v-if="props.showBulkDelete" class="px-[30px] py-[18px]">
                 <FormKit
                   v-model="bulkChecked[row.id]"
@@ -166,7 +166,7 @@ const toggleChecked = () => {
               <td class="text-[14px] px-[30px] py-[18px]">
                 <DropdownTable
                   v-if="isDropdown ?? true"
-                  :detail-id="id"
+                  :detail-id="row.id"
                   :type="props.type"
                   :actions="props.actions"
                   :drop-down-option="dropDownOption"

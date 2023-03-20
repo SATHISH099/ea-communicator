@@ -14,6 +14,7 @@ const searchField = ref('');
 const { setMessage } = useToasterStore();
 
 const MessageHeaders = [
+  'ID',
   'Title',
   'Message',
   { value: 'Created Date', isSort: true, key: 'createdAt' },
