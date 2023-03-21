@@ -65,7 +65,7 @@ const paginate = (pg: number) => {
         />
       </div>
 
-      <div px-6>
+      <div class="pb-10">
         <div>
           <FormKit
             v-model="form.recipients"
@@ -83,15 +83,17 @@ const paginate = (pg: number) => {
             @input="$emit('setRecipients', form.recipients)"
           />
         </div>
-      </div>
 
-      <div class="ml-8">
-        <PaginationTable
-          :totalRecords="data.total"
-          :currentPage="page"
-          v-bind:paginate="paginate"
-        ></PaginationTable>
+        <div class="ml-8">
+          <PaginationTable
+            :totalRecords="data.total"
+            :currentPage="page"
+            v-bind:paginate="paginate"
+          ></PaginationTable>
+        </div>
       </div>
     </div>
   </div>
 </template>
+
+<style lang="scss"></style>
