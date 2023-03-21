@@ -5,6 +5,8 @@ const config = useRuntimeConfig();
 const page = ref(1);
 const search = ref('');
 const searchField = ref('');
+const mainCheck = ref([]);
+const mainChecked = ref(false);
 
 interface GroupData {
   id: number;
@@ -46,6 +48,17 @@ const paginate = (pg: number) => {
   page.value = pg;
   refresh();
 };
+
+const toggleChecked = () => {
+  form.groups = [];
+
+  mainChecked.value = mainCheck.value.length > 0;
+  if (mainChecked.value) {
+    data.value.data.forEach((value: GroupData) => {
+      form.groups.push(value);
+    });
+  }
+};
 </script>
 
 <template>
@@ -67,6 +80,15 @@ const paginate = (pg: number) => {
         </div>
       </div>
       <div class="pb-10">
+        <div>
+          <FormKit
+            v-model="mainCheck"
+            type="checkbox"
+            input-class="form-check-input"
+            :options="[{ value: true, label: 'Groups' }]"
+            @input="toggleChecked"
+          />
+        </div>
         <div>
           <FormKit
             v-model="form.groups"
