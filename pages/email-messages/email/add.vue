@@ -26,6 +26,7 @@ const mediaService = useService('media');
 
 const importanceLevel = ref<ImportanceLevel>(ImportanceLevel.LOW);
 const errorBody = ref(false);
+const errorRecipients = ref(false);
 const subject = ref('');
 const body = ref('');
 const recipients = ref<RecipientData[] | []>([]);
@@ -68,12 +69,21 @@ const resetForm = () => {
 };
 
 const checkvalidation = () => {
+  let check = true;
   if (!body.value) {
     errorBody.value = true;
-    return false;
+    check = false;
+  } else {
+    errorBody.value = false;
   }
 
-  return true;
+  if (recipients.value.length < 1 && groups.value.length < 1) {
+    errorRecipients.value = true;
+    check = false;
+  } else {
+    errorRecipients.value = false;
+  }
+  return check;
 };
 
 const useTemplate = (template: EmailData) => {
@@ -215,7 +225,6 @@ const setCcGroupRecipients = (
             <div grid md:grid-cols-2 grid-cols-1 gap-5 mt-8>
               <div class="col-span-2 w-full">
                 <button
-                  type="button"
                   class="w-full relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[1rem] text-silver items-center p-[1rem]"
                   @click="toggleModal"
                 >
@@ -246,10 +255,12 @@ const setCcGroupRecipients = (
                     alt="plus"
                   />
                 </button>
+                <p v-if="errorRecipients" class="text-primary mt-2">
+                  Please Enter Recipient/Group
+                </p>
               </div>
 
               <button
-                type="button"
                 class="relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[16px] text-silver items-center p-[1rem]"
                 @click="toggleModalCc"
               >
@@ -279,7 +290,6 @@ const setCcGroupRecipients = (
               </button>
 
               <button
-                type="button"
                 class="relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[16px] text-silver items-center p-[1rem]"
                 @click="toggleModalBcc"
               >
@@ -330,7 +340,9 @@ const setCcGroupRecipients = (
                   "
                 />
               </ClientOnly>
-              <span v-if="errorBody" class="error">Please Enter Body</span>
+              <p v-if="errorBody" class="text-primary mt-2">
+                Please Enter Body
+              </p>
             </div>
             <div flex flex-wrap justify-between items-center>
               <FormKit
@@ -347,6 +359,7 @@ const setCcGroupRecipients = (
                 <FormKit
                   type="submit"
                   input-class="btn btn-primary md:w-auto w-full"
+                  @click="checkvalidation"
                 >
                   Send Email
                 </FormKit>
