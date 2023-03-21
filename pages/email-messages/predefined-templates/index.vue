@@ -196,13 +196,13 @@ const bulkDelete = async (data: number[]) => {
           @sortRecord="sortRecord"
         />
         <div class="ml-8">
-          <PaginationTables
+          <PaginationTable
             :total-records="data?.total || 0"
             :current-page="page"
             :paginate="paginate"
             @setPerPage="setPerPage"
             entity="Predefined Templates"
-          ></PaginationTables>
+          ></PaginationTable>
         </div>
       </div>
     </div>
