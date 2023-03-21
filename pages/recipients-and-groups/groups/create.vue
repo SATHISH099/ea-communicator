@@ -37,7 +37,7 @@ const locations = await $fetch<{ data: any[]; total: number }>(`/locations`, {
 });
 
 const data = reactive({ ...initialState });
-const statusText = ref<string>('active');
+const statusText = ref<string>('');
 const successResponse = ref({ data: { id: null } });
 const recipients = ref<RecipientData[] | []>([]);
 
@@ -163,7 +163,7 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
               />
             </div>
             <div v-if="recipients.length > 0" class="mb-5">
-              <h6 class="text-carbon">Recipient Added</h6>
+              <h6 class="text-carbon mb-4">Recipient Added</h6>
               <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
                 <span
                   v-for="recipient in recipients"

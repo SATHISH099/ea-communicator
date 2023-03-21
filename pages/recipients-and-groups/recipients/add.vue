@@ -89,7 +89,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 v-model="data.name"
                 name="Name"
                 type="text"
-                placeholder="Full Name"
+                placeholder="Full Name*"
                 input-class="form-control"
                 validation="required|length:2,50"
               />
