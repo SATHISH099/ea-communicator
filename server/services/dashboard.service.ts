@@ -33,6 +33,7 @@ export class DashboardService {
     const smsCount = await appDataSource.getRepository(Sms).count({
       where: {
         tenantId,
+        isPredefined: false,
         ...(req?.startDate && {
           createdAt: Between(
             req.startDate.toISOString(),
@@ -45,6 +46,7 @@ export class DashboardService {
     const voiceCount = await appDataSource.getRepository(Voice).count({
       where: {
         tenantId,
+        isPredefined: false,
         ...(req?.startDate && {
           createdAt: Between(
             req.startDate.toISOString(),

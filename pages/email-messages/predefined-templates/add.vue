@@ -123,7 +123,7 @@ const submitHandler = async (formData: any) => {
               name="title"
               v-model="title"
               validation="required"
-              placeholder="Title of the message"
+              placeholder="Title of the message*"
               input-class="form-control"
               outer-class="mb-5"
             />
@@ -163,7 +163,7 @@ const submitHandler = async (formData: any) => {
                 name="message"
                 v-model="message"
                 rows="10"
-                placeholder="Message"
+                placeholder="Message*"
                 validation="required"
                 outer-class="w-full"
                 input-class="form-control"

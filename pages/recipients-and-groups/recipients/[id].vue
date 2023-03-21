@@ -67,7 +67,9 @@ const groups = data.value.groups.map(({ groupName, status }: Group) => ({
                 <h6 class="text-stone mb-2">Address</h6>
                 <p class="text-carbon">
                   {{
-                    `${data.location.address}, ${data.location.city}, ${data.location.state}, ${data.location.country}`
+                    `${data.location.address ? data.location.address : ''} ${
+                      data.location.city
+                    }, ${data.location.state}, ${data.location.country}`
                   }}
                 </p>
               </div>

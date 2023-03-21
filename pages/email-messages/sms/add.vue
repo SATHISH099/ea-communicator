@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import Multiselect from '@vueform/multiselect';
 import { ImportanceLevel } from '~~/server/enums/importance-level.enum';
 import { useToasterStore } from '~~/store/toaster';
 const { setMessage } = useToasterStore();
@@ -98,7 +97,7 @@ const setGroupRecipients = (
               Email/Messages</NuxtLink
             >
             <span class="text-silver">/</span>
-            <span class="text-primary">Create New SMS</span>
+            <span class="text-primary"> Create New SMS</span>
           </p>
         </div>
       </div>
@@ -159,7 +158,7 @@ const setGroupRecipients = (
               <FormKit
                 type="text"
                 name="title"
-                placeholder="Title of the Message"
+                placeholder="Title of the Message*"
                 validation="required"
                 v-model="title"
                 input-class="form-control"
@@ -173,7 +172,7 @@ const setGroupRecipients = (
                 validation="required"
                 v-model="message"
                 rows="10"
-                placeholder="Message"
+                placeholder="Message*"
                 outer-class="w-full"
                 input-class="form-control"
               />

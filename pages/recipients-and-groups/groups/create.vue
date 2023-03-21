@@ -121,7 +121,7 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
                 type="text"
                 name="name"
                 validation="required"
-                placeholder="Group Name"
+                placeholder="Group Name*"
                 input-class="form-control"
               />
 
@@ -157,7 +157,7 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
                 validation="required"
                 type="textarea"
                 rows="10"
-                placeholder="Note"
+                placeholder="Note*"
                 input-class="form-control"
                 outer-class="md:col-span-2 col-span-1"
               />

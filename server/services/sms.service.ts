@@ -22,6 +22,7 @@ export class SmsService extends BaseService<Sms> {
     return super.findOne(id, {
       ...overrideOptions,
       relations: {
+        sender: true,
         recipients: true,
         groups: true,
       },

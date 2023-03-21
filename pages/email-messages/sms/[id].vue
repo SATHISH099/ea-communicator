@@ -50,7 +50,7 @@ const data = await $trpc.sms.show.query(parseInt(id as string));
             </div>
             <div class="mb-10 grid gap-y-2">
               <h6 class="text-stone">Sender</h6>
-              <p class="text-carbon">{{ data.sender }}</p>
+              <p class="text-carbon">{{ data.sender?.name }}</p>
             </div>
             <div class="grid grid-cols-3">
               <div class="mb-10 grid gap-y-2">
@@ -64,7 +64,7 @@ const data = await $trpc.sms.show.query(parseInt(id as string));
             </div>
             <div class="mb-10 grid gap-y-2">
               <h6 class="text-stone">Subject</h6>
-              <p class="text-carbon">Request For API endpoints</p>
+              <p class="text-carbon">{{ data.title }}</p>
             </div>
             <div class="mb-10 grid gap-y-2">
               <h6 class="text-stone">SMS Messages</h6>

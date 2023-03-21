@@ -26,7 +26,7 @@ export class EmailService extends BaseService<Email> {
   findOne(id: number, overrideOptions?: FindOneOptions<Email>): Promise<Email> {
     return super.findOne(id, {
       ...overrideOptions,
-      relations: { medias: true, recipients: true, groups: true },
+      relations: { medias: true, recipients: true, groups: true, sender: true },
     });
   }
 

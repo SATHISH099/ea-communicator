@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import '~~/services/media.service';
 import '~~/services/email.service';
-import Multiselect from '@vueform/multiselect';
 import { useToasterStore } from '~~/store/toaster';
 import { ImportanceLevel } from '~~/server/enums/importance-level.enum';
 const { setMessage } = useToasterStore();
@@ -185,7 +184,7 @@ const setCcGroupRecipients = (
               Email</NuxtLink
             >
             <span class="text-silver">/</span>
-            <span class="text-primary">Compose New Email</span>
+            <span class="text-primary"> Compose New Email</span>
           </p>
         </div>
       </div>
@@ -314,7 +313,7 @@ const setCcGroupRecipients = (
                 name="subject"
                 type="text"
                 validation="required"
-                placeholder="Subject"
+                placeholder="Subject*"
                 input-class="form-control"
                 outer-class="mb-5 md:col-span-2 col-span-1"
               />
