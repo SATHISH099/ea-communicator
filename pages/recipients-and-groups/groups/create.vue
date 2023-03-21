@@ -37,7 +37,7 @@ const locations = await $fetch<{ data: any[]; total: number }>(`/locations`, {
 });
 
 const data = reactive({ ...initialState });
-const statusText = ref<string>('active');
+const statusText = ref<string>('');
 const successResponse = ref({ data: { id: null } });
 const recipients = ref<RecipientData[] | []>([]);
 
