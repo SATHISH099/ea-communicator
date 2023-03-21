@@ -24,11 +24,24 @@ const importanceLevel = ref<ImportanceLevel>(ImportanceLevel.LOW);
 const successResponse = ref({ id: null });
 const title = ref('');
 const message = ref('');
+const errorRecipients = ref(false);
 const recipients = ref<RecipientData[] | []>([]);
 const groups = ref<GroupData[] | []>([]);
 const showModal = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
+};
+
+const checkvalidation = () => {
+  let check = true;
+
+  if (recipients.value.length < 1 && groups.value.length < 1) {
+    errorRecipients.value = true;
+    check = false;
+  } else {
+    errorRecipients.value = false;
+  }
+  return check;
 };
 
 const resetForm = () => {
@@ -40,24 +53,26 @@ const resetForm = () => {
 };
 
 const submitHandler = async () => {
-  try {
-    const response = await $trpc.sms.create.mutate({
-      title: title.value,
-      message: message.value,
-      importanceLevel: importanceLevel.value,
-      recipients: recipients.value.map(({ id }) => id),
-      groups: groups.value.map(({ id }) => id),
-    });
-    if (response) {
-      setMessage('Sms created successfully.', 'success');
-      resetForm();
-      router.push('/email-messages/sms');
-    } else {
-      router.push('/email-messages/sms/add');
-      setMessage('Something went wrong unable to create Sms.', 'error');
+  if (checkvalidation()) {
+    try {
+      const response = await $trpc.sms.create.mutate({
+        title: title.value,
+        message: message.value,
+        importanceLevel: importanceLevel.value,
+        recipients: recipients.value.map(({ id }) => id),
+        groups: groups.value.map(({ id }) => id),
+      });
+      if (response) {
+        setMessage('Sms created successfully.', 'success');
+        resetForm();
+        router.push('/email-messages/sms');
+      } else {
+        router.push('/email-messages/sms/add');
+        setMessage('Something went wrong unable to create Sms.', 'error');
+      }
+    } catch (error) {
+      console.error(new Error('Whoops, something went wrong.'));
     }
-  } catch (error) {
-    console.error(new Error('Whoops, something went wrong.'));
   }
 };
 
@@ -129,32 +144,36 @@ const setGroupRecipients = (
               </div>
             </div>
             <div grid md:grid-cols-2 grid-cols-1 gap-5 mt-8>
-              <button
-                type="button"
-                class="col-span-2 border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex justify-between text-[16px] text-silver items-center p-[1rem]"
-                title="Click Me"
-                @click="toggleModal"
-              >
-                <div class="flex items-center">
-                  <span class="mr-3">Recipient</span>
-                  <div
-                    class="flex flex-wrap items-center gap-2 overflow-x-auto"
-                  >
-                    <span
-                      v-for="recipient in recipients"
-                      :key="recipient.id"
-                      class="p-[0.2rem] border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+              <div w-full col-span-2>
+                <button
+                  class="w-full border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex justify-between text-[16px] text-silver items-center p-[1rem]"
+                  title="Click Me"
+                  @click="toggleModal"
+                >
+                  <div class="flex items-center">
+                    <span class="mr-3">Recipient</span>
+                    <div
+                      class="flex flex-wrap items-center gap-2 overflow-x-auto"
                     >
-                      {{ recipient.name }}
-                    </span>
+                      <span
+                        v-for="recipient in recipients"
+                        :key="recipient.id"
+                        class="p-[0.2rem] border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                      >
+                        {{ recipient.name }}
+                      </span>
+                    </div>
                   </div>
-                </div>
 
-                <span v-for="group in groups" :key="group.id">
-                  {{ group.groupName }}
-                </span>
-                <img src="/plus.png" alt="plus" />
-              </button>
+                  <span v-for="group in groups" :key="group.id">
+                    {{ group.groupName }}
+                  </span>
+                  <img src="/plus.png" alt="plus" />
+                </button>
+                <p v-if="errorRecipients" class="text-primary mt-2">
+                  Please Enter Recipient/Group
+                </p>
+              </div>
               <FormKit
                 type="text"
                 name="title"
@@ -182,6 +201,7 @@ const setGroupRecipients = (
                 <FormKit
                   type="submit"
                   input-class="btn btn-primary md:w-auto w-full"
+                  @click="checkvalidation"
                 >
                   Send SMS
                 </FormKit>

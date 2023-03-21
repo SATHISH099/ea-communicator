@@ -45,6 +45,7 @@ const channels: string[] = ['Sms', 'Email', 'Voice'];
 const recipients = ref<RecipientData[] | []>([]);
 const groups = ref<GroupData[] | []>([]);
 const showModal = ref(false);
+const errorRecipients = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
 };
@@ -55,29 +56,42 @@ function resetForm() {
   recipients.value = [];
   groups.value = [];
 }
+
+const checkvalidation = () => {
+  let check = true;
+  if (recipients.value.length < 1 && groups.value.length < 1) {
+    errorRecipients.value = true;
+    check = false;
+  } else {
+    errorRecipients.value = false;
+  }
+  return check;
+};
 const submitHandler = async () => {
-  try {
-    const response = await $trpc.message.create.mutate({
-      title: data.title,
-      message: data.message,
-      importanceLevel: importanceLevel.value,
-      isSms: communicationChannel.value.includes(channels[0]),
-      isEmail: communicationChannel.value.includes(channels[1]),
-      isVoice: communicationChannel.value.includes(channels[2]),
-      isPredefined: false,
-      recipients: recipients.value.map(({ id }) => id),
-      groups: groups.value.map(({ id }) => id),
-    });
-    if (response) {
-      setMessage('Message created successfully.', 'success');
-      resetForm();
-      router.push('/email-messages/alert');
-    } else {
-      router.push('/email-messages/alert/add');
-      setMessage('Something went wrong unable to create Messages.', 'error');
+  if (checkvalidation()) {
+    try {
+      const response = await $trpc.message.create.mutate({
+        title: data.title,
+        message: data.message,
+        importanceLevel: importanceLevel.value,
+        isSms: communicationChannel.value.includes(channels[0]),
+        isEmail: communicationChannel.value.includes(channels[1]),
+        isVoice: communicationChannel.value.includes(channels[2]),
+        isPredefined: false,
+        recipients: recipients.value.map(({ id }) => id),
+        groups: groups.value.map(({ id }) => id),
+      });
+      if (response) {
+        setMessage('Message created successfully.', 'success');
+        resetForm();
+        router.push('/email-messages/alert');
+      } else {
+        router.push('/email-messages/alert/add');
+        setMessage('Something went wrong unable to create Messages.', 'error');
+      }
+    } catch (error) {
+      console.error(new Error('Whoops, something went wrong.'));
     }
-  } catch (error) {
-    console.error(new Error('Whoops, something went wrong.'));
   }
 };
 
@@ -150,35 +164,41 @@ const setGroupRecipients = (
               </div>
             </div>
             <div grid md:grid-cols-2 grid-cols-1 gap-5 mt-8>
-              <button
-                type="button"
-                class="relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[1rem] text-silver items-center p-[1rem] col-span-2"
-                @click="toggleModal"
-              >
-                <span class="mr-3">TO</span>
-                <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
-                  <span
-                    v-for="recipient in recipients"
-                    :key="recipient.id"
-                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+              <div col-span-2 w-full>
+                <button
+                  class="w-full relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[1rem] text-silver items-center p-[1rem]"
+                  @click="toggleModal"
+                >
+                  <span class="mr-3">TO</span>
+                  <div
+                    class="flex flex-wrap items-center gap-2 overflow-x-auto"
                   >
-                    {{ recipient.name }}
-                  </span>
+                    <span
+                      v-for="recipient in recipients"
+                      :key="recipient.id"
+                      class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                    >
+                      {{ recipient.name }}
+                    </span>
 
-                  <span
-                    v-for="group in groups"
-                    :key="group.id"
-                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary"
-                  >
-                    {{ group.groupName }}
-                  </span>
-                </div>
-                <img
-                  class="absolute right-0 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                  src="/plus.png"
-                  alt="plus"
-                />
-              </button>
+                    <span
+                      v-for="group in groups"
+                      :key="group.id"
+                      class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary"
+                    >
+                      {{ group.groupName }}
+                    </span>
+                  </div>
+                  <img
+                    class="absolute right-0 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                    src="/plus.png"
+                    alt="plus"
+                  />
+                </button>
+                <p v-if="errorRecipients" class="text-primary mt-2">
+                  Please Enter Recipient/Group
+                </p>
+              </div>
               <FormKit
                 v-model="data.title"
                 type="text"
@@ -220,7 +240,12 @@ const setGroupRecipients = (
               </div>
             </div>
             <div class="flex items-center justify-end mt-5 md:w-auto w-full">
-              <button class="btn btn-primary md:w-auto w-full">Send</button>
+              <button
+                class="btn btn-primary md:w-auto w-full"
+                @click="checkvalidation"
+              >
+                Send
+              </button>
             </div>
           </div>
           <div bg-white small-shadow>
