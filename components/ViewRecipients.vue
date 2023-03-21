@@ -3,6 +3,8 @@ const props = defineProps(['recipients']);
 defineEmits(['setRecipients']);
 const search = ref('');
 const searchField = ref('');
+const mainCheck = ref([]);
+const mainChecked = ref(false);
 const page = ref(1);
 const config = useRuntimeConfig();
 
@@ -46,6 +48,17 @@ const paginate = (pg: number) => {
   page.value = pg;
   refresh();
 };
+
+const toggleChecked = () => {
+  form.recipients = [];
+
+  mainChecked.value = mainCheck.value.length > 0;
+  if (mainChecked.value) {
+    data.value.data.forEach((value: RecipientData) => {
+      form.recipients.push(value);
+    });
+  }
+};
 </script>
 
 <template>
@@ -66,6 +79,15 @@ const paginate = (pg: number) => {
       </div>
 
       <div class="pb-10">
+        <div>
+          <FormKit
+            v-model="mainCheck"
+            type="checkbox"
+            input-class="form-check-input"
+            :options="[{ value: true, label: 'Recipients' }]"
+            @input="toggleChecked"
+          />
+        </div>
         <div>
           <FormKit
             v-model="form.recipients"
