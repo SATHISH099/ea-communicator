@@ -188,7 +188,7 @@ const bulkDelete = async (data: number[]) => {
             isDelete: true,
           }"
           :actions="{
-            edit: '/email-messages/predefined-templates/edit/[id]',
+            edit: `/email-messages/${type}/edit/[id]`,
           }"
           :type="type === 'email' ? 'email' : 'sms'"
           @bulkDelete="bulkDelete"
@@ -196,13 +196,13 @@ const bulkDelete = async (data: number[]) => {
           @sortRecord="sortRecord"
         />
         <div class="ml-8">
-          <PaginationTable
+          <PaginationTables
             :total-records="data?.total || 0"
             :current-page="page"
             :paginate="paginate"
             @setPerPage="setPerPage"
             entity="Predefined Templates"
-          ></PaginationTable>
+          ></PaginationTables>
         </div>
       </div>
     </div>
