@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useToasterStore } from "~~/store/toaster";
+import { useToasterStore } from '~~/store/toaster';
 
 const { setMessage } = useToasterStore();
 interface EditData {
