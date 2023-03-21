@@ -121,7 +121,7 @@ const searchEmpty = () => {
             Email/Messages</NuxtLink
           >
           <span class="text-silver">/</span>
-          <span class="text-primary">Library</span>
+          <span class="text-primary"> Library</span>
         </p>
       </div>
       <div class="flex flex-wrap justify-between items-center gap-4">

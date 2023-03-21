@@ -184,7 +184,7 @@ const setGroupRecipients = (
                 type="text"
                 name="title"
                 validation="required"
-                placeholder="Subject"
+                placeholder="Subject*"
                 input-class="form-control"
                 outer-class="mb-5 col-span-2"
               />
@@ -197,7 +197,7 @@ const setGroupRecipients = (
                 validation="required"
                 type="textarea"
                 rows="10"
-                placeholder="Message"
+                placeholder="Message*"
                 outer-class="w-full"
                 input-class="form-control"
               />
@@ -208,6 +208,9 @@ const setGroupRecipients = (
                 <FormKit
                   v-model="communicationChannel"
                   name="communicationChannel"
+                  :validation-messages="{
+                    required: 'Communication Channel is required.',
+                  }"
                   type="checkbox"
                   :options="channels"
                   validation="required|min:1"

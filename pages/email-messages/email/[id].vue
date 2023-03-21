@@ -56,7 +56,7 @@ const data = await $trpc.email.show.query(parseInt(id as string));
             </div>
             <div class="mb-10 grid gap-y-2">
               <h6 class="text-stone">Sender</h6>
-              <p class="text-carbon">{{ data.sender }}</p>
+              <p class="text-carbon">{{ data.sender?.name }}</p>
             </div>
             <div class="grid grid-cols-3">
               <div class="mb-10 grid gap-y-2">

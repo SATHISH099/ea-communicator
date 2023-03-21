@@ -59,7 +59,9 @@ const recipients = data.value?.recipients.map(
               <h5 class="text-stone">Location</h5>
               <p class="text-carbon">
                 {{
-                  `${data.location.address}, ${data.location.city}, ${data.location.state}, ${data.location.country}`
+                  `${data.location.address ? data.location.address : ''} ${
+                    data.location.city
+                  }, ${data.location.state}, ${data.location.country}`
                 }}
               </p>
             </div>
