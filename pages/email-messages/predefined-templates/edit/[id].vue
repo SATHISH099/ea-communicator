@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ImportanceLevel } from '~~/server/enums/importance-level.enum';
 import '~~/services/email.service';
 import { useToasterStore } from '~~/store/toaster';
 const { setMessage } = useToasterStore();

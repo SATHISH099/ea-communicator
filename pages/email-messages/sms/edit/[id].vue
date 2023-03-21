@@ -1,37 +1,67 @@
 <script lang="ts" setup>
-const smsService = useService('sms');
+import { useToasterStore } from '~~/store/toaster';
+
+const { setMessage } = useToasterStore();
 interface EditData {
   title: string;
   message: string;
 }
-const config = useRuntimeConfig();
-const { id: smsId } = useRoute().params;
-const { data: smsDetail } = await useFetch<any>(() => `sms/${smsId}`, {
-  baseURL: config.public.API_BASEURL,
-});
+const { $trpc } = useNuxtApp();
+const params = useRoute().params;
+const smsId: number = parseInt(params.id as string);
+const record = await $trpc.sms.show.query(smsId);
 
-const record = smsDetail.value;
 const successResponse = ref({ id: null });
+const errorBody = ref(false);
 const title = ref(record.title);
 const message = ref(record.message);
 
+const setField = (data: string) => {
+  errorBody.value = false;
+  message.value = data;
+};
+
+const checkvalidation = () => {
+  if (!message.value) {
+    errorBody.value = true;
+    return false;
+  }
+
+  return true;
+};
+
 const submitHandler = async (formData: EditData) => {
-  const response = await smsService.update(Number(smsId), {
-    title: formData.title,
-    message: formData.message,
-  });
-  successResponse.value = response;
+  if (checkvalidation()) {
+    const response = await $trpc.sms.update.mutate({
+      id: smsId,
+      data: {
+        title: formData.title,
+        message: message.value,
+      },
+    });
+    try {
+      if (response) {
+        setMessage('Template Successfully Updated', 'success');
+      } else {
+        setMessage(
+          'Something went wrong unable to create update template.',
+          'error',
+        );
+      }
+    } catch (error) {
+      console.error(new Error('Whoops, something went wrong.'));
+    }
+  }
 };
 </script>
 
 <template>
   <div>
     <FormKit
-      type="form"
       id="updateTemplate"
-      @submit="submitHandler"
+      type="form"
       :actions="false"
-      #default="{ value }"
+      @submit="submitHandler"
     >
       <div class="flex flex-wrap justify-between items-center mb-0 md:mb-10">
         <div class="md:mb-0 mb-10">
@@ -63,7 +93,7 @@ const submitHandler = async (formData: EditData) => {
                 name="message"
                 v-model="message"
                 rows="10"
-                placeholder="Message"
+                placeholder="Message*"
                 validation="required"
                 outer-class="w-full"
                 input-class="form-control"
