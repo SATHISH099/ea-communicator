@@ -128,6 +128,11 @@ watchEffect(() => {
                     }`"
                   />
                   {{ SidebarOpen ? item.text : '' }}
+                  <img
+                    v-if="item.items && SidebarOpen"
+                    alt="logo"
+                    :src="`/${SidebarOpen ? 'arrow-down.png' : ''}`"
+                  />
                 </NuxtLink>
                 <ul
                   v-if="item.items && showDropdown === item.link && SidebarOpen"
