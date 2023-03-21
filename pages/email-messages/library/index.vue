@@ -214,6 +214,7 @@ const searchEmpty = () => {
             :src="media.fileUrl"
             alt=""
           />
+          <div>{{ media.title }}</div>
           <button class="view-btn" @click="viewMedia(media)">View</button>
           <teleport to="body">
             <div v-if="viewImageModal">
@@ -263,9 +264,9 @@ const searchEmpty = () => {
       <PaginationTable
         :total-records="medias?.total || 0"
         :current-page="page"
+        entity="Items"
         v-bind:paginate="paginate"
         @setPerPage="setPerPage"
-        entity="Items"
       ></PaginationTable>
     </div>
   </div>

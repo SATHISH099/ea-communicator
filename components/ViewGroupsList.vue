@@ -66,7 +66,7 @@ const paginate = (pg: number) => {
           />
         </div>
       </div>
-      <div class="pb-10 px-3">
+      <div class="pb-10">
         <div>
           <FormKit
             v-model="form.groups"
