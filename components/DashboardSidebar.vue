@@ -3,6 +3,8 @@ const showDropdown = ref('');
 const SidebarOpen = ref(false);
 const isDesktop = ref(false);
 
+const { logout } = useLogout();
+
 const MenuItems = [
   {
     text: 'Dashboard',
@@ -149,14 +151,10 @@ watchEffect(() => {
           </nav>
         </div>
         <div class="mb-[5rem]">
-          <NuxtLink to="/">
-            <div class="flex items-center gap-3">
-              <img src="/logout.png" alt="logout" /><span
-                :class="`${SidebarOpen ? 'block text-silver' : 'hidden'}`"
-                >Logout</span
-              >
-            </div>
-          </NuxtLink>
+          <div class="flex items-center gap-3">
+            <img src="/logout.png" alt="logout" />
+            <button class="text-silver" @click="logout">Logout</button>
+          </div>
         </div>
       </div>
     </div>
