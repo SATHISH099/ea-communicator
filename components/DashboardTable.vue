@@ -47,6 +47,14 @@ const onDeleteRecord = (id) => {
   emit('onDeleteRecord', id);
 };
 
+onMounted(() => {
+  if (props.showBulkDelete && props.rows.length > 0) {
+    props.rows.forEach((value) => {
+      bulkChecked.value[value.id] = false;
+    });
+  }
+});
+
 const submitHandler = () => {
   emit(
     'bulkDelete',
