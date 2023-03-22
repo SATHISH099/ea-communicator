@@ -92,7 +92,7 @@ const removeFromGroup = (id: number) => {
     </div>
     <div>
       <div
-        class="shadow-[0_6px_12px_#F7F7F7] border-solid border border-[#F5F7FA] rounded-[4px] pb-5 max-h-[313px] overflow-y-auto"
+        class="grid grid-cols-2 gap-4 shadow-[0_6px_12px_#F7F7F7] border-solid border border-[#F5F7FA] rounded-[4px] pb-5 max-h-[313px] overflow-y-auto"
       >
         <div>
           <h6 class="text-[#B42424] font-medium mb-4 px-[1rem] pt-[1rem]">

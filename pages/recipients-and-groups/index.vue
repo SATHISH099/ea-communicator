@@ -5,7 +5,7 @@
     <div class="mb-10">
       <h4 class="mb-4 text-stone">Recipients and Groups</h4>
       <p class="text-silver">
-        <span class="sub-heading"> Communicator</span>
+        <NuxtLink to="/" class="text-silver sub-heading">Communicator</NuxtLink>
         <span class="text-silver">/</span>
         <span class="text-primary ml-1">Recipients and Groups</span>
       </p>

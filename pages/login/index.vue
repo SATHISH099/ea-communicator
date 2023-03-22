@@ -8,7 +8,7 @@ const handleIconClick = (node) => {
 <template>
   <div class="w-full mt-10">
     <div class="mb-10">
-      <h2 class="text-center text-primary mb-4">Sign In</h2>
+      <h2 class="text-center text-primary mb-4">Sign in</h2>
       <p class="text-center">Please enter your credentials below</p>
     </div>
     <FormKit

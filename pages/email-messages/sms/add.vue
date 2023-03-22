@@ -151,7 +151,7 @@ const setGroupRecipients = (
                   @click="toggleModal"
                 >
                   <div class="flex items-center">
-                    <span class="mr-3">Recipient</span>
+                    <span class="mr-3">TO</span>
                     <div
                       class="flex flex-wrap items-center gap-2 overflow-x-auto"
                     >

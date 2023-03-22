@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import moment from 'moment';
+import { useToasterStore } from '~~/store/toaster';
 import type { Group } from '~~/services/group.service';
+const { setMessage } = useToasterStore();
 
 const config = useRuntimeConfig();
 const page = ref(1);
@@ -69,9 +71,13 @@ const setPerPage = (perPage: number) => {
 };
 
 const deleteRecord = async (id: number) => {
-  const response = await groupService.delete(id);
-  refresh();
-  isDelete.value = response.affected;
+  try {
+    await groupService.delete(id);
+    setMessage('Group Deleted Successfully.', 'success');
+    refresh();
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const searchEmpty = () => {
@@ -88,9 +94,7 @@ const searchEmpty = () => {
       <div md:mb-0 mb-10>
         <h4 class="mb-4 text-stone">Groups</h4>
         <p class="text-silver">
-          <NuxtLink
-            to="/recipients-and-groups/recepients"
-            class="text-silver sub-heading"
+          <NuxtLink to="/" class="text-silver sub-heading"
             >Communicator</NuxtLink
           >
           <span class="text-silver">/</span>

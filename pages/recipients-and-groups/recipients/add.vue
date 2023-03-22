@@ -74,7 +74,21 @@ const setGroups = (groupSelected: GroupData[]) => {
       <div>
         <h4 class="mb-4 text-carbon">Recipients</h4>
         <p class="text-silver">
-          Smart Suite / Communicator / Recipients /
+          <NuxtLink to="/" class="text-silver sub-heading"
+            >Smart Suite</NuxtLink
+          >
+          <span class="text-silver">/</span>
+          <NuxtLink to="/" class="text-silver sub-heading">
+            Communicator</NuxtLink
+          >
+          <span class="text-silver">/</span>
+          <NuxtLink
+            to="/recipients-and-groups/recipients"
+            class="text-silver sub-heading"
+          >
+            Recipients</NuxtLink
+          >
+          <span class="text-silver">/</span>
           <span class="text-primary"> Create New Recipient </span>
         </p>
       </div>
@@ -171,7 +185,7 @@ const setGroups = (groupSelected: GroupData[]) => {
               />
             </div>
             <div v-if="groups.length > 0" mb-5>
-              <h6 class="text-carbon">Groups Added</h6>
+              <h6 class="text-carbon mb-4">Groups Added</h6>
               <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
                 <span
                   v-for="group in groups"

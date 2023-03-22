@@ -90,7 +90,9 @@ const setDate = (dateStr: string[] | null) => {
       <div>
         <h4 class="mb-4 text-stone">History</h4>
         <p class="text-silver">
-          <span class="sub-heading"> Communicator</span>
+          <NuxtLink to="/" class="text-silver sub-heading"
+            >Communicator</NuxtLink
+          >
           <span>/</span>
 
           <span class="text-primary ml-1">History </span>

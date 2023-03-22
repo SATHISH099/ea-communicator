@@ -72,7 +72,7 @@ const submitHandler = async () => {
               <button
                 class="bottom-0 absolute bg-[#D9D9D9] text-carbon h-10 w-69 text-center flex items-center justify-center hover:text-stone cursor-pointer border-none text-lg"
               >
-                Change profile
+                Change picture
               </button>
             </div>
           </div>
