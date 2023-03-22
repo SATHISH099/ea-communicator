@@ -118,9 +118,7 @@ const searchEmpty = () => {
       <div md:mb-0 mb-10>
         <h4 class="mb-4 text-stone">Recipients</h4>
         <p class="text-silver">
-          <NuxtLink
-            to="/recipients-and-groups/recepients"
-            class="text-silver sub-heading"
+          <NuxtLink to="/" class="text-silver sub-heading"
             >Communicator</NuxtLink
           >
           <span class="text-silver">/</span>

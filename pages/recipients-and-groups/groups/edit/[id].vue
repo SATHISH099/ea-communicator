@@ -89,7 +89,20 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
         <div mb-5>
           <h4 class="mb-4 text-carbon">Groups</h4>
           <p class="text-silver">
-            Smart Suite / Communicator / Groups /
+            <NuxtLink to="/" class="text-silver sub-heading"
+              >Smart Suite</NuxtLink
+            >
+            <span class="text-silver">/</span>
+            <NuxtLink to="/" class="text-silver sub-heading">
+              Communicator</NuxtLink
+            >
+            <span class="text-silver">/</span>
+            <NuxtLink
+              to="/recipients-and-groups/groups"
+              class="text-silver sub-heading"
+            >
+              Recipients</NuxtLink
+            >
             <span class="text-primary">Create New Group</span>
           </p>
         </div>

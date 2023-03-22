@@ -24,7 +24,7 @@
             </div>
           </div>
         </NuxtLink>
-        <NuxtLink to="/email-messages/predefined-templates">
+        <NuxtLink to="">
           <div class="w-[284px] h-[176px] rounded-[4px] small-shadow p-[25px]">
             <div class="flex flex-col justify-between items-center">
               <SvgsScheduled />
@@ -38,7 +38,7 @@
           <div class="w-[284px] h-[176px] rounded-[4px] small-shadow p-[25px]">
             <div class="flex flex-col justify-between items-center">
               <SvgsAlert />
-              <p class="text-[20px] text-carbon font-medium mt-6">Alerts</p>
+              <p class="text-[20px] text-carbon font-medium mt-6">Messages</p>
             </div>
           </div>
         </NuxtLink>

@@ -21,6 +21,12 @@ const { data, refresh } = await useAsyncData(
     }),
   },
 );
+
+const TAB_MENU = {
+  message: 'Alerts',
+  email: 'Emails',
+  sms: 'SMS',
+};
 </script>
 
 <template>
@@ -28,11 +34,7 @@ const { data, refresh } = await useAsyncData(
     <div class="flex md:justify-end justify-start p-6">
       <div class="flex items-center lex-wrap">
         <div
-          v-for="(value, key) in {
-            message: 'Alerts',
-            email: 'Emails',
-            sms: 'SMS',
-          }"
+          v-for="(value, key) in TAB_MENU"
           :key="key"
           class="tab"
           :class="{ active: activeTab === key }"
@@ -52,7 +54,7 @@ const { data, refresh } = await useAsyncData(
         <h5
           class="text-stone md:absolute md:-top-[63px] md:left-0 md:pl-6 md:ml-0 ml-7"
         >
-          Recent Sent <span class="capitalize">{{ activeTab }}</span>
+          Recent Sent {{ TAB_MENU[activeTab] }}
         </h5>
         <DashboardTable
           :headers="recentEmailHeaders"

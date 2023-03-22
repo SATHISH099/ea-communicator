@@ -81,9 +81,14 @@ const setPerPage = (perPage: number) => {
 };
 
 const deleteRecord = async (id: number) => {
-  const response = await $trpc.sms.delete.mutate(id);
-  refresh();
-  isDelete.value = response.affected !== undefined;
+  try {
+    const response = await $trpc.sms.delete.mutate(id);
+    refresh();
+    isDelete.value = response.affected !== undefined;
+    setMessage('SMS Deleted Successfully.', 'success');
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const bulkDelete = async (data: number[]) => {

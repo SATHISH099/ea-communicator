@@ -121,7 +121,7 @@ const setDate = (dateStr: string[] | null) => {
           </div>
           <div class="flex items-center gap-2">
             <img src="/sms-bullet.png" alt="" />
-            <span class="text-silver">Sms</span>
+            <span class="text-silver">SMS</span>
           </div>
         </div>
         <div class="mb-8 flex flex-col items-center md:items-start">

@@ -158,7 +158,12 @@ watchEffect(() => {
         <div class="mb-[5rem]">
           <div class="flex items-center gap-3">
             <img src="/logout.png" alt="logout" />
-            <button class="text-silver" @click="logout">Logout</button>
+            <button
+              class="text-silver border-none bg-white text-[16px]"
+              @click="logout"
+            >
+              Logout
+            </button>
           </div>
         </div>
       </div>

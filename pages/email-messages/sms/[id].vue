@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import moment from 'moment';
 import Multiselect from '@vueform/multiselect';
 
 const { $trpc } = useNuxtApp();
@@ -41,7 +42,9 @@ const data = await $trpc.sms.show.query(parseInt(id as string));
             <div class="grid grid-cols-3">
               <div class="mb-10 grid gap-y-2">
                 <h6 class="text-stone">Sent Date</h6>
-                <p class="text-carbon">{{ data.createdAt }}</p>
+                <p class="text-carbon">
+                  {{ moment(data.createdAt).format('Do MMMM YYYY h:mm A') }}
+                </p>
               </div>
               <div class="mb-10 grid gap-y-2">
                 <h6 class="text-stone">Priority</h6>

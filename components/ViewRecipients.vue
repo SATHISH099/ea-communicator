@@ -83,7 +83,7 @@ const toggleChecked = () => {
           <FormKit
             v-model="mainCheck"
             type="checkbox"
-            input-class="form-check-input"
+            input-class="form-check-input flex"
             :options="[{ value: true, label: 'Recipients' }]"
             @input="toggleChecked"
           />

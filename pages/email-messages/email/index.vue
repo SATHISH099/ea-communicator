@@ -70,11 +70,15 @@ const paginate = (pg: number) => {
 };
 
 const deleteRecord = async (id: number) => {
-  const response = await $trpc.email.delete.mutate(id);
-  refresh();
-  isDelete.value = response.affected !== undefined;
+  try {
+    const response = await $trpc.email.delete.mutate(id);
+    refresh();
+    isDelete.value = response.affected !== undefined;
+    setMessage('Email Deleted Successfully.', 'success');
+  } catch (error) {
+    console.error(error);
+  }
 };
-
 const sortRecord = (key: string) => {
   orderType.value = orderType.value === 'desc' ? 'asc' : 'desc';
   orderBy.value = key;
