@@ -41,6 +41,7 @@ const emit = defineEmits(['onDeleteRecord', 'sortRecord', 'bulkDelete']);
 const headers = ref(props.headers);
 const isDropdown = ref(props.isDropdown);
 const mainChecked = ref(false);
+const showBulk = ref(false);
 const bulkChecked = ref([]);
 
 const onDeleteRecord = (id) => {
@@ -56,12 +57,21 @@ onMounted(() => {
 });
 
 const submitHandler = () => {
+  showBulk.value = false;
   emit(
     'bulkDelete',
     Object.keys(bulkChecked.value).filter((key) => bulkChecked.value[key]),
   );
 
   bulkChecked.value = [];
+};
+
+const deleteShow = () => {
+  showBulk.value = true;
+};
+
+const hideModal = () => {
+  showBulk.value = false;
 };
 
 const toggleChecked = () => {
@@ -73,10 +83,18 @@ const toggleChecked = () => {
 
 <template>
   <div class="admin-table">
+    <DeleteRecord
+      v-if="showBulkDelete && props.rows.length > 0"
+      :entity="`bulk ${props.type}`"
+      :show="showBulk"
+      @onDeleteRecord="submitHandler"
+      @hideModal="hideModal"
+    ></DeleteRecord>
+
     <FormKit
       type="form"
       id="bulkDelete"
-      @submit="submitHandler"
+      @submit="deleteShow"
       :actions="false"
       #default="{ value }"
     >
