@@ -7,7 +7,7 @@ const props = defineProps([
   'entity',
 ]);
 const emit = defineEmits(['setPerPage']);
-const perPage = ref<number>(props.pageSize || 10);
+const perPage = ref<number>(10);
 
 const setPerPage = () => {
   emit('setPerPage', Number(perPage.value));
@@ -27,7 +27,9 @@ const setPerPage = () => {
           <img src="/left-arrow.png" />
         </button>
         <button
-          v-for="index in Math.ceil(parseInt(props.totalRecords) / 10)"
+          v-for="index in Math.ceil(
+            Number(props.totalRecords) / Number(props.pageSize || perPage),
+          )"
           :key="index"
           type="button"
           :class="`${currentPage === index ? 'active' : ''}  btn-pagination`"
@@ -39,7 +41,10 @@ const setPerPage = () => {
           class="btn-pagination"
           type="button"
           :disabled="
-            currentPage === Math.ceil(parseInt(props.totalRecords) / 10)
+            currentPage ===
+            Math.ceil(
+              Number(props.totalRecords) / Number(props.pageSize || perPage),
+            )
           "
           @click="props.paginate(currentPage + 1)"
         >

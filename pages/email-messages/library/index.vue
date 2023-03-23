@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import Multiselect from '@vueform/multiselect/src/Multiselect';
 import type { Media } from '~~/services/media.service';
 import { useToasterStore } from '~~/store/toaster';
 
@@ -182,12 +181,18 @@ const searchEmpty = () => {
               </CModal>
             </div>
           </teleport>
-          <Multiselect
+
+          <FormKit
             v-model="extensionType"
-            placeholder="Category"
-            :options="[...extensions.photos, ...extensions.others]"
-            class="md:w-[14rem] w-full"
-            @select="searchCategory"
+            :options="[
+              { label: 'All Categories', value: '' },
+              ...extensions.photos,
+              ...extensions.others,
+            ]"
+            type="select"
+            placeholder="Search"
+            input-class="form-control md:w-[14rem] w-full"
+            @input="searchCategory"
           />
         </div>
       </div>

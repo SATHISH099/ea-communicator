@@ -30,6 +30,7 @@ const { data, refresh } = await useAsyncData(
       search: search.value,
       orderBy: orderBy.value,
       pageSize: pageSize.value,
+      pageNumber: page.value,
     }),
   {
     transform: ({ data, total }) => ({
@@ -182,6 +183,7 @@ const searchEmpty = () => {
           <PaginationTable
             :total-records="data?.total || 0"
             :current-page="page"
+            :pageSize="pageSize"
             :paginate="paginate"
             @setPerPage="setPerPage"
             entity="Messages"

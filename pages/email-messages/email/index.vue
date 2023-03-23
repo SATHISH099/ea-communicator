@@ -5,7 +5,7 @@ import { useToasterStore } from '~~/store/toaster';
 const page = ref(1);
 const pageSize = ref(10);
 const isDelete = ref(false);
-const orderType = ref('desc');
+const orderType = ref<'desc' | 'asc'>('desc');
 const orderBy = ref('id');
 const search = ref('');
 const searchField = ref('');
@@ -27,9 +27,11 @@ const { $trpc } = useNuxtApp();
 const { data, refresh } = await useAsyncData(
   () =>
     $trpc.email.list.query({
+      orderType: orderType.value,
       search: search.value,
-      pageNumber: page.value,
+      orderBy: orderBy.value,
       pageSize: pageSize.value,
+      pageNumber: page.value,
     }),
   {
     transform: ({ data, total }) => ({
@@ -184,6 +186,7 @@ const bulkDelete = async (data: number[]) => {
           <PaginationTable
             :totalRecords="data?.total"
             :currentPage="page"
+            :pageSize="pageSize"
             v-bind:paginate="paginate"
             @setPerPage="setPerPage"
             entity="Emails"
