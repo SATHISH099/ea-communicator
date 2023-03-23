@@ -78,16 +78,18 @@ const toggleChecked = () => {
             @input="searchKeyword"
           />
         </div>
-      </div>
-      <div class="pb-10">
-        <div>
-          <FormKit
-            v-model="mainCheck"
-            type="checkbox"
-            input-class="form-check-input"
-            :options="[{ value: true, label: 'Groups' }]"
-            @input="toggleChecked"
-          />
+
+        <div class="pb-10">
+          <div>
+            <FormKit
+              v-model="mainCheck"
+              type="checkbox"
+              input-class="form-check-input"
+              :options="[{ value: true, label: 'Groups' }]"
+              @input="toggleChecked"
+              outer-class="recipient-checkbox mt-4"
+            />
+          </div>
         </div>
         <div>
           <FormKit

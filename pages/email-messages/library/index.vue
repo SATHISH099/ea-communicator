@@ -252,7 +252,7 @@ const searchEmpty = () => {
             <div v-if="showModal">
               <CModal
                 title="Confirmation"
-                message="Do you want to proceed with this operation?"
+                message="Are you sure you want to delete?"
                 :item-id="deleteMediaId"
                 @confirm="deleteMedia"
                 @close="showModal = false"
