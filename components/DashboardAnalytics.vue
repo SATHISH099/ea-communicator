@@ -31,13 +31,6 @@ const data = await $trpc.dashboard.counts.query({
     </div>
     <div class="update-card flex justify-between items-center gap-15">
       <div>
-        <h1 class="text-primary mb-2 font-bold">{{ data.voiceCount }}</h1>
-        <p class="font-medium text-carbon">Sent Voice</p>
-      </div>
-      <img alt="library" src="/SentVoice.png" />
-    </div>
-    <div class="update-card flex justify-between items-center gap-15">
-      <div>
         <h1 class="text-primary mb-2 font-bold">{{ data.libraryCount }}</h1>
         <p class="font-medium text-carbon">Library</p>
       </div>

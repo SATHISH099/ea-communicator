@@ -40,6 +40,11 @@ const { data, refresh } = await useAsyncData(() =>
 const chartOptions = ref({
   responsive: true,
   cutout: 130,
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
 });
 
 const setDate = (dateStr: string[] | null) => {
@@ -146,18 +151,6 @@ const setDate = (dateStr: string[] | null) => {
           <div class="flex items-center gap-2">
             <img src="/alert-bullet.png" alt="" />
             <span class="text-silver">Alerts</span>
-          </div>
-        </div>
-        <div class="mb-8 flex flex-col items-center md:items-start">
-          <div class="flex items-center gap-2 mb-2">
-            <img src="/SentVoice.png" alt="" class="h-8" />
-          </div>
-          <div class="flex items-center mb-2">
-            <h4 class="text-carbon mr-2">{{ data?.voiceCount || 0 }}</h4>
-          </div>
-          <div class="flex items-center gap-2">
-            <img src="/voice-bullet.png" alt="" />
-            <span class="text-silver">Voice</span>
           </div>
         </div>
       </div>
