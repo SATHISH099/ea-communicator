@@ -23,7 +23,7 @@ defineEmits('onDeleteRecord', 'hideModal');
     <div v-if="props.show">
       <CModal
         title="Confirmation"
-        :message="`Do you want to delete ${props.entity} ?`"
+        message="Do you want to delete ?"
         :item-id="deleteId"
         @confirm="$emit('onDeleteRecord', props.deleteId)"
         @close="$emit('hideModal')"
