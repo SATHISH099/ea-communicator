@@ -6,7 +6,7 @@ const page = ref(1);
 const pageSize = ref(10);
 const isDelete = ref(false);
 const search = ref('');
-const orderType = ref('desc');
+const orderType = ref<'desc' | 'asc'>('desc');
 const orderBy = ref('id');
 const searchField = ref('');
 const { setMessage } = useToasterStore();
@@ -27,9 +27,11 @@ const { $trpc } = useNuxtApp();
 const { data, refresh } = await useAsyncData(
   () =>
     $trpc.sms.list.query({
+      orderType: orderType.value,
       search: search.value,
-      pageNumber: page.value,
+      orderBy: orderBy.value,
       pageSize: pageSize.value,
+      pageNumber: page.value,
     }),
   {
     transform: ({ total, data }) => ({

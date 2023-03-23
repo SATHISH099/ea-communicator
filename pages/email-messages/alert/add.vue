@@ -166,6 +166,7 @@ const setGroupRecipients = (
             <div grid md:grid-cols-2 grid-cols-1 gap-5 mt-8>
               <div col-span-2 w-full>
                 <button
+                  type="button"
                   class="w-full relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[1rem] text-silver items-center p-[1rem]"
                   @click="toggleModal"
                 >

@@ -16,12 +16,17 @@ const list = procedure
   )
   .query(({ input }) => {
     const smsService = new SmsService();
+    const isPredefinedCond = { isPredefined: input.isPredefined };
 
     return smsService.findAll(input, {
-      where: {
-        ...(input.search && { title: Like(`%${input.search}%`) }),
-        isPredefined: input.isPredefined,
-      },
+      where: [
+        { title: Like(`%${input.search}%`), ...isPredefinedCond },
+        { message: Like(`%${input.search}%`), ...isPredefinedCond },
+        {
+          sender: [{ name: Like(`%${input.search}%`) }],
+          ...isPredefinedCond,
+        },
+      ],
       relations: {
         sender: true,
         recipients: true,
