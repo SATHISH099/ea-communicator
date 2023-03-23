@@ -108,7 +108,7 @@ const bulkDelete = async (data: number[]) => {
       }),
     );
     if (response) {
-      setMessage('Bulk Deleted successfully.', 'success');
+      setMessage('Deleted successfully.', 'success');
       refresh();
     } else {
       setMessage('Something went wrong unable to create Email.', 'error');
