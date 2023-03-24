@@ -70,6 +70,7 @@ export class DashboardService {
 
     const libraryCount = await appDataSource.getRepository(Media).count({
       where: {
+        tenantId,
         ...(req?.startDate && {
           createdAt: Between(
             req.startDate.toISOString(),
