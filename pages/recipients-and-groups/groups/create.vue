@@ -41,11 +41,6 @@ const statusText = ref<string>('');
 const successResponse = ref({ data: { id: null } });
 const recipients = ref<RecipientData[] | []>([]);
 
-function resetForm() {
-  Object.assign(data, initialState);
-  recipients.value = [];
-}
-
 const submitHandler = async () => {
   data.status = statusText.value === 'active';
 
@@ -60,7 +55,6 @@ const submitHandler = async () => {
     const response = await groupService.createGroup(request);
     if (response) {
       setMessage('Group created successfully.', 'success');
-      resetForm();
       router.push('/recipients-and-groups/groups');
     } else {
       router.push('/recipients-and-groups/groups/add');
