@@ -34,13 +34,15 @@ const onDeleteRecord = (deleteId) => {
     ></DeleteRecord>
 
     <div class="dropdown relative text-right">
-      <img
-        tabindex="0"
-        class="cursor-pointer"
-        src="/EditIcon.png"
-        @click="isOpen = !isOpen"
-        v-click-away="($event) => (isOpen = false)"
-      />
+      <client-only>
+        <img
+          tabindex="0"
+          class="cursor-pointer"
+          src="/EditIcon.png"
+          @click="isOpen = !isOpen"
+          v-click-away="($event) => (isOpen = false)"
+        />
+      </client-only>
       <ul
         v-show="isOpen"
         class="dropdown-menu z-10 absolute top-[30px] -right-[30px] bg-stone px-[12px] py-[4px] rounded-[4px] cursor-pointer text-white list-style-none"
