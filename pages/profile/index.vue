@@ -137,7 +137,7 @@ const submitHandler = async () => {
                 v-model="profile.designation"
                 type="text"
                 name="designation"
-                input-class="form-control"
+                input-class="form-control mb-5"
                 placeholder="Designation"
               />
             </div>
