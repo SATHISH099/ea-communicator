@@ -156,11 +156,14 @@ watchEffect(() => {
           </nav>
         </div>
         <div class="mb-[5rem]">
-          <div class="flex items-center gap-3">
+          <div class="flex items-center gap-3 cursor-pointer" @click="logout">
             <img src="/logout.png" alt="logout" />
             <button
-              class="text-silver border-none bg-white text-[16px]"
-              @click="logout"
+              :class="`${
+                SidebarOpen
+                  ? 'text-silver border-none bg-white text-[16px] cursor-pointer'
+                  : 'hidden'
+              }`"
             >
               Logout
             </button>

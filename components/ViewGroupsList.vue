@@ -78,24 +78,24 @@ const toggleChecked = () => {
             @input="searchKeyword"
           />
         </div>
-
-        <div class="pb-10">
-          <div>
-            <FormKit
-              v-model="mainCheck"
-              type="checkbox"
-              input-class="form-check-input"
-              :options="[{ value: true, label: 'Groups' }]"
-              @input="toggleChecked"
-              outer-class="recipient-checkbox mt-4"
-            />
-          </div>
-        </div>
+      </div>
+      <div>
         <div>
           <FormKit
-            v-model="form.groups"
+            v-model="mainCheck"
             type="checkbox"
-            :options="
+            input-class="form-check-input"
+            :options="[{ value: true, label: 'Groups' }]"
+            @input="toggleChecked"
+            outer-class="recipient-checkbox"
+          />
+        </div>
+      </div>
+      <div>
+        <FormKit
+          v-model="form.groups"
+          type="checkbox"
+          :options="
                   data.data.map((groupItem: GroupData) => {
                     return {
                       value: groupItem,
@@ -103,18 +103,17 @@ const toggleChecked = () => {
                     };
                   })
                 "
-            outer-class="recipient-list"
-            input-class="form-check-input mr-2"
-            @input="$emit('setGroups', form.groups)"
-          />
-        </div>
-        <div class="ml-8">
-          <PaginationTable
-            :total-records="data.total"
-            :current-page="page"
-            :paginate="paginate"
-          ></PaginationTable>
-        </div>
+          outer-class="recipient-list"
+          input-class="form-check-input mr-2"
+          @input="$emit('setGroups', form.groups)"
+        />
+      </div>
+      <div class="ml-8">
+        <PaginationTable
+          :total-records="data.total"
+          :current-page="page"
+          :paginate="paginate"
+        ></PaginationTable>
       </div>
     </div>
   </div>

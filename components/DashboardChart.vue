@@ -153,6 +153,18 @@ const setDate = (dateStr: string[] | null) => {
             <span class="text-silver">Alerts</span>
           </div>
         </div>
+        <div class="mb-8 flex flex-col items-center md:items-start">
+          <div class="flex items-center gap-2 mb-2">
+            <img src="/SentVoice.png" alt="" class="h-8" />
+          </div>
+          <div class="flex items-center mb-2">
+            <h4 class="text-carbon mr-2">{{ data?.voiceCount || 0 }}</h4>
+          </div>
+          <div class="flex items-center gap-2">
+            <img src="/voice-bullet.png" alt="" />
+            <span class="text-silver">Voice</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
