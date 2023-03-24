@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useToasterStore } from '~~/store/toaster';
 const { setMessage } = useToasterStore();
+const router = useRouter();
 
 interface EditData {
   title: string;
@@ -41,6 +42,7 @@ const submitHandler = async (formData: EditData) => {
     try {
       if (response) {
         setMessage('Template Successfully Updated', 'success');
+        router.push('/email-messages/predefined-templates');
       } else {
         setMessage(
           'Something went wrong unable to create update template.',
