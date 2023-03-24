@@ -56,18 +56,6 @@ const setField = (data: string) => {
   body.value = data;
 };
 
-const resetForm = () => {
-  body.value = '';
-  subject.value = '';
-  importanceLevel.value = ImportanceLevel.LOW;
-  recipients.value = [];
-  groups.value = [];
-  ccRecipients.value = [];
-  ccGroups.value = [];
-  bccRecipients.value = [];
-  bccGroups.value = [];
-};
-
 const checkvalidation = () => {
   let check = true;
   if (!body.value) {
@@ -127,7 +115,6 @@ const submitHandler = async (formData: { file: any[] }) => {
       });
       if (response) {
         setMessage('Email created successfully.', 'success');
-        resetForm();
         router.push('/email-messages/email');
       } else {
         router.push('/email-messages/email/add');

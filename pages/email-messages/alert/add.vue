@@ -51,12 +51,6 @@ const toggleModal = () => {
 };
 const activeTab = ref<'email' | 'sms'>('email');
 
-function resetForm() {
-  Object.assign(data, initialState);
-  recipients.value = [];
-  groups.value = [];
-}
-
 const checkvalidation = () => {
   let check = true;
   if (recipients.value.length < 1 && groups.value.length < 1) {
@@ -83,7 +77,6 @@ const submitHandler = async () => {
       });
       if (response) {
         setMessage('Message created successfully.', 'success');
-        resetForm();
         router.push('/email-messages/alert');
       } else {
         router.push('/email-messages/alert/add');

@@ -81,7 +81,11 @@ const groups = ref(data.groups.map(({ groupId }) => ({ groupId })));
             </div>
             <div class="mb-10 grid gap-y-2">
               <h6 class="text-stone">Communication Channel</h6>
-              <p class="text-carbon">SMS, Email, Voice</p>
+              <p class="text-carbon">
+                {{ data.isSms ? 'SMS' : '' }}
+                {{ data.isEmail ? 'Email' : '' }}
+                {{ data.isVoice ? 'Voice' : '' }}
+              </p>
             </div>
           </div>
         </div>

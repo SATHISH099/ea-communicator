@@ -24,11 +24,6 @@ const setField = (data: string) => {
   body.value = data;
 };
 
-const resetForm = () => {
-  message.value = '';
-  title.value = '';
-};
-
 const checkvalidation = () => {
   if (!body.value && type.value === 'email') {
     errorBody.value = true;
@@ -68,7 +63,6 @@ const submitHandler = async (formData: any) => {
           : await saveSms(formData);
       if (response) {
         setMessage('Template created successfully', 'success');
-        resetForm();
         router.push('/email-messages/predefined-templates');
       } else {
         router.push('/email-messages/predefined-templates/add');

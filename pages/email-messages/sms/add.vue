@@ -44,14 +44,6 @@ const checkvalidation = () => {
   return check;
 };
 
-const resetForm = () => {
-  message.value = '';
-  title.value = '';
-  importanceLevel.value = ImportanceLevel.LOW;
-  recipients.value = [];
-  groups.value = [];
-};
-
 const submitHandler = async () => {
   if (checkvalidation()) {
     try {
@@ -64,7 +56,6 @@ const submitHandler = async () => {
       });
       if (response) {
         setMessage('Sms created successfully.', 'success');
-        resetForm();
         router.push('/email-messages/sms');
       } else {
         router.push('/email-messages/sms/add');
