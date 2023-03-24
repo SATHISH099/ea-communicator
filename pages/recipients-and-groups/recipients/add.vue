@@ -34,11 +34,6 @@ const initialState = {
 const data = reactive({ ...initialState });
 const groups = ref<GroupData[] | []>([]);
 
-const resetForm = () => {
-  Object.assign(data, initialState);
-  groups.value = [];
-};
-
 const submitCreate = async () => {
   try {
     const request = {
@@ -53,7 +48,6 @@ const submitCreate = async () => {
     const response = await recipientService.create(request);
     if (response) {
       setMessage('Recipient created successfully.', 'success');
-      resetForm();
       router.push('/recipients-and-groups/recipients');
     } else {
       router.push('/recipients-and-groups/recipients/add');
