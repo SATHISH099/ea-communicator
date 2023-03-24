@@ -78,6 +78,7 @@ const useTemplate = (template: EmailData) => {
   subject.value = template.title;
   body.value = template.message;
 };
+
 const handleAddMedia = async (data: { file: any[] }) => {
   const body = new FormData();
 

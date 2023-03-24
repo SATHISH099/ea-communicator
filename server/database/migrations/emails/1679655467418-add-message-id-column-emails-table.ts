@@ -1,15 +1,21 @@
+import { TableColumn } from 'typeorm';
 import type { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class addMessageIdColumnEmailsTable1679655467418
   implements MigrationInterface
 {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      'ALTER TABLE emails ADD message_id varchar(255) NULL',
+    await queryRunner.addColumn(
+      'emails',
+      new TableColumn({
+        name: 'message_id',
+        type: 'varchar',
+        isNullable: true,
+      }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query('ALTER TABLE emails DROP COLUMN message_id');
+    await queryRunner.dropColumn('emails', 'message_id');
   }
 }

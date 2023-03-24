@@ -12,13 +12,9 @@ export function useLogin() {
   async function login() {
     errorMessage.value = '';
     try {
-      const { token, user } = await $trpc.auth.login.mutate(data.token);
+      const { user } = await $trpc.auth.login.mutate(data.token);
 
       localStorage.setItem('ss_token', data.token);
-
-      if (token) {
-        localStorage.setItem('token', token);
-      }
 
       if (user) {
         useLayoutStore().setLayout(true);

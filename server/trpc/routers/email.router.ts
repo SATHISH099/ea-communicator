@@ -1,12 +1,12 @@
 import { Like } from 'typeorm';
 import { z } from 'zod';
-import { procedure, router } from '~/server/trpc/trpc';
+import { authProcedure, router } from '~/server/trpc/trpc';
 import { EmailService } from '~~/server/services/email.service';
 import { queryListSchema } from '~~/server/validations/base';
 import { createEmailDto } from '~~/server/validations/emails/create.dto';
 import { updateEmailDto } from '~~/server/validations/emails/update.dto';
 
-const list = procedure
+const list = authProcedure
   .input(
     z
       .object({
@@ -35,17 +35,17 @@ const list = procedure
     });
   });
 
-const deleteEmail = procedure.input(z.number()).mutation(({ input }) => {
+const deleteEmail = authProcedure.input(z.number()).mutation(({ input }) => {
   const emailService = new EmailService();
   return emailService.delete(input);
 });
 
-const show = procedure.input(z.number()).query(({ input }) => {
+const show = authProcedure.input(z.number()).query(({ input }) => {
   const emailService = new EmailService();
   return emailService.findOne(input);
 });
 
-const update = procedure
+const update = authProcedure
   .input(
     z.object({
       id: z.number(),
@@ -57,12 +57,12 @@ const update = procedure
     return emailService.updateEmail(id, data);
   });
 
-const create = procedure.input(createEmailDto).mutation(({ input }) => {
+const create = authProcedure.input(createEmailDto).mutation(({ input }) => {
   const emailService = new EmailService();
   return emailService.createEmail(input);
 });
 
-const bulkDelete = procedure
+const bulkDelete = authProcedure
   .input(z.array(z.number()))
   .mutation(({ input }) => {
     const emailService = new EmailService();

@@ -1,11 +1,11 @@
 import { Like } from 'typeorm';
 import { z } from 'zod';
-import { procedure, router } from '~/server/trpc/trpc';
+import { authProcedure, router } from '~/server/trpc/trpc';
 import { MessageService } from '~~/server/services/message.service';
 import { queryListSchema } from '~~/server/validations/base';
 import { createMessageDto } from '~~/server/validations/messages/create.dto';
 
-const list = procedure
+const list = authProcedure
   .input(z.object({}).merge(queryListSchema))
   .query(({ input }) => {
     const messageService = new MessageService();
@@ -22,22 +22,22 @@ const list = procedure
     });
   });
 
-const show = procedure.input(z.number()).query(({ input }) => {
+const show = authProcedure.input(z.number()).query(({ input }) => {
   const messageService = new MessageService();
   return messageService.findOne(input);
 });
 
-const deleteMessage = procedure.input(z.number()).mutation(({ input }) => {
+const deleteMessage = authProcedure.input(z.number()).mutation(({ input }) => {
   const messageService = new MessageService();
   return messageService.delete(input);
 });
 
-const create = procedure.input(createMessageDto).mutation(({ input }) => {
+const create = authProcedure.input(createMessageDto).mutation(({ input }) => {
   const messageService = new MessageService();
   return messageService.createMessage(input);
 });
 
-const bulkDelete = procedure
+const bulkDelete = authProcedure
   .input(z.array(z.number()))
   .mutation(({ input }) => {
     const messageService = new MessageService();

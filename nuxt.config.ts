@@ -31,6 +31,7 @@ const nuxtConfig = defineNuxtConfig({
 const session: ModuleOptions = {
   isEnabled: true,
   session: {
+    cookieSecure: process.env.APP_URL?.startsWith('https'),
     // Sessions expire after 3600 seconds = 60 minutes
     expiryInSeconds: parseInt(process.env.SESSION_EXPIRY_SECONDS || '3600'),
   },

@@ -1,10 +1,10 @@
 import { Like } from 'typeorm';
 import { z } from 'zod';
-import { procedure, router } from '../trpc';
+import { authProcedure, router } from '../trpc';
 import { MediaService } from '~~/server/services/media.service';
 import { queryListSchema } from '~~/server/validations/base';
 
-const list = procedure.input(queryListSchema).query(({ input }) => {
+const list = authProcedure.input(queryListSchema).query(({ input }) => {
   const service = new MediaService();
 
   return service.findAll(input, {
@@ -19,7 +19,7 @@ const list = procedure.input(queryListSchema).query(({ input }) => {
   });
 });
 
-const deleteMedia = procedure.input(z.number()).mutation(({ input }) => {
+const deleteMedia = authProcedure.input(z.number()).mutation(({ input }) => {
   const service = new MediaService();
 
   return service.remove(input);

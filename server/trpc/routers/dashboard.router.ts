@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import { procedure, router } from '~/server/trpc/trpc';
+import { authProcedure, router } from '~/server/trpc/trpc';
 import { DashboardService } from '~~/server/services/dashboard.service';
 
-const counts = procedure
+const counts = authProcedure
   .input(
     z.object({
       countType: z.enum(['models', 'dateRange']),

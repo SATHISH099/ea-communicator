@@ -1,19 +1,7 @@
-import { TRPCError } from '@trpc/server';
-import { middleware, procedure, router } from '~~/server/trpc/trpc';
+import { authProcedure, procedure, router } from '~~/server/trpc/trpc';
 import { UserService } from '~~/server/services/user.service';
 
-const isAuthenticated = middleware(async ({ ctx: { session }, next }) => {
-  const userService = new UserService();
-  if (
-    !session.user?.id ||
-    (await userService.getRespository().countBy({ id: session.user?.id })) < 1
-  ) {
-    throw new TRPCError({ code: 'UNAUTHORIZED' });
-  }
-  return next();
-});
-
-const me = procedure.use(isAuthenticated).query(({ ctx: { session } }) => {
+const me = authProcedure.query(({ ctx: { session } }) => {
   const userService = new UserService();
   return userService.findOne(session!.user?.id);
 });
