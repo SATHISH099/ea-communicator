@@ -76,23 +76,23 @@ const toggleChecked = () => {
           prefix-icon-class="search-icon"
           @change="searchKeyword"
         />
-
-        <div class="pb-10">
-          <div>
-            <FormKit
-              v-model="mainCheck"
-              type="checkbox"
-              input-class="form-check-input flex"
-              :options="[{ value: true, label: 'Recipients' }]"
-              @input="toggleChecked"
-              outer-class="recipient-checkbox mt-4"
-            />
-          </div>
-          <div>
-            <FormKit
-              v-model="form.recipients"
-              type="checkbox"
-              :options="
+      </div>
+      <div class="pb-10">
+        <div>
+          <FormKit
+            v-model="mainCheck"
+            type="checkbox"
+            input-class="form-check-input flex"
+            :options="[{ value: true, label: 'Recipients' }]"
+            @input="toggleChecked"
+            outer-class="recipient-checkbox"
+          />
+        </div>
+        <div>
+          <FormKit
+            v-model="form.recipients"
+            type="checkbox"
+            :options="
                   data.data.map((recipientItem: RecipientData) => {
                     return {
                       value: recipientItem,
@@ -100,19 +100,17 @@ const toggleChecked = () => {
                     };
                   })
                 "
-              outer-class="recipient-list"
-              input-class="form-check-input mr-2"
-              @input="$emit('setRecipients', form.recipients)"
-            />
-          </div>
-
-          <div class="ml-8">
-            <PaginationTable
-              :totalRecords="data.total"
-              :currentPage="page"
-              v-bind:paginate="paginate"
-            ></PaginationTable>
-          </div>
+            outer-class="recipient-list"
+            input-class="form-check-input mr-2"
+            @input="$emit('setRecipients', form.recipients)"
+          />
+        </div>
+        <div class="ml-8">
+          <PaginationTable
+            :totalRecords="data.total"
+            :currentPage="page"
+            v-bind:paginate="paginate"
+          ></PaginationTable>
         </div>
       </div>
     </div>
@@ -122,6 +120,8 @@ const toggleChecked = () => {
 <style lang="scss">
 .recipient-checkbox {
   .formkit-fieldset {
+    margin-bottom: 25px;
+    margin-left: 24px;
     border: none;
     ul {
       list-style: none;
