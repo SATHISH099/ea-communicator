@@ -148,7 +148,7 @@ const setGroupRecipients = (
                 <h6 text-stone>Priority</h6>
                 <div flex flex-wrap items-center gap-3>
                   <FormKit
-                    v-model="data.importanceLevel"
+                    v-model="importanceLevel"
                     name="importanceLevel"
                     type="radio"
                     validation="required"
