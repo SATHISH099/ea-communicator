@@ -340,10 +340,10 @@ const setCcGroupRecipients = (
                 type="file"
                 name="file"
                 accept=".csv,.png,.jpg,.jpeg,.svg,.xml"
-                inner-class="file-uploader max-w-[28rem]"
+                inner-class="file-uploader max-w-[48rem]"
                 prefix-icon="link"
                 prefix-icon-class="mr-3"
-                outer-class="md:min-w-[20em] min-w-full mb-5"
+                outer-class="md:min-w-[20em] min-w-full md:mb-0 mb-5"
                 multiple="true"
               />
               <div class="flex items-center mt-5 md:w-auto w-full">
@@ -410,4 +410,14 @@ const setCcGroupRecipients = (
   </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+.formkit-file-remove {
+  background-color: #b42424;
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  border-radius: 4px;
+  color: white;
+  margin-left: 20px;
+}
+</style>
