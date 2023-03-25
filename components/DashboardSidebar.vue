@@ -82,7 +82,10 @@ watchEffect(() => {
         class="absolute -right-[15px] top-[33px] shadow-[0_3.20559px_32.0559px_rgba(0,0,0,0.08)] bg-white w-[28px] h-[28px] p-[10px] rounded-[50%] md:flex hidden items-center cursor-pointer"
         @click="SidebarOpen = !SidebarOpen"
       >
-        <img src="/back-icon.png" alt="" />
+        <img
+          alt="logo"
+          :src="`/${SidebarOpen ? 'back-icon.png' : 'icon-stroke.png'}`"
+        />
       </div>
       <div
         flex
