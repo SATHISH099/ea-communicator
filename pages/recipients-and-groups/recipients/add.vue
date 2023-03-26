@@ -28,7 +28,7 @@ const initialState = {
   emailAddress: '',
   alternateEmail: '',
   location: 0,
-  status: false,
+  status: true,
 };
 
 const data = reactive({ ...initialState });
@@ -148,18 +148,6 @@ const setGroups = (groupSelected: GroupData[]) => {
                 validation="required|email"
                 placeholder="Alternate Email*"
                 input-class="form-control"
-              />
-              <FormKit
-                v-model="data.status"
-                type="select"
-                validation="required"
-                name="status"
-                input-class="form-control"
-                placeholder="Select Status"
-                :options="[
-                  { value: true, label: 'Active' },
-                  { value: false, label: 'In-Active' },
-                ]"
               />
 
               <FormKit

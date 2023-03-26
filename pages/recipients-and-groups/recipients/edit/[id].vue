@@ -52,7 +52,7 @@ const initialState: initialStateData = {
   emailAddress: record.emailAddress,
   alternateEmail: record.alternateEmail,
   location: record.location?.id,
-  status: record.status,
+  status: true,
   notes: record.notes,
 };
 
@@ -168,18 +168,6 @@ const setGroups = (groupSelected: GroupData[]) => {
                 validation="required|email"
                 placeholder="Alternate Email"
                 input-class="form-control"
-              />
-              <FormKit
-                v-model="data.status"
-                type="select"
-                validation="required"
-                name="status"
-                input-class="form-control"
-                placeholder="Select Status"
-                :options="[
-                  { value: true, label: 'Active' },
-                  { value: false, label: 'In-Active' },
-                ]"
               />
               <FormKit
                 v-model="data.location"
