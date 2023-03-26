@@ -222,7 +222,7 @@ const searchEmpty = () => {
             :current-page="page"
             :paginate="paginate"
             entity="Recipients"
-            @setPerPage="setPerPage"
+            @set-per-page="setPerPage"
           ></PaginationTable>
         </div>
       </div>

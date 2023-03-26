@@ -117,9 +117,9 @@ const searchEmpty = () => {
         <div class="flex flex-wrap justify-between items-center gap-4">
           <div class="flex flex-wrap items-center gap-4">
             <FormKit
+              v-model="searchField"
               prefix-icon="search"
               type="search"
-              v-model="searchField"
               placeholder="Search"
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
@@ -141,16 +141,15 @@ const searchEmpty = () => {
           :headers="messageHeaders"
           :rows="data.data"
           type="groups"
-          @onDeleteRecord="deleteRecord"
-          :dropDownOption="{ isView: true, isEdit: true, isDelete: true }"
+          @on-delete-record="deleteRecord"
         />
         <div class="ml-8">
           <PaginationTable
-            :totalRecords="data.total"
-            :currentPage="page"
-            v-bind:paginate="paginate"
+            :total-records="data?.total"
+            :current-page="page"
+            :paginate="paginate"
             entity="Groups"
-            @setPerPage="setPerPage"
+            @set-per-page="setPerPage"
           ></PaginationTable>
         </div>
       </div>

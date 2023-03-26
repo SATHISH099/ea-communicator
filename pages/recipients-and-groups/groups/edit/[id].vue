@@ -38,9 +38,8 @@ const initialState: initialStateData = {
   notes: record.notes,
   location: record.location?.id,
 };
-const data = reactive({ ...initialState });
 
-const successResponse = ref({ data: { id: null } });
+const data = reactive({ ...initialState });
 const recipients = ref<RecipientData[] | []>(
   record.recipients.map(({ id, name }: RecipientData) => ({
     id,
@@ -52,9 +51,8 @@ const submitHandler = async () => {
   try {
     const request = {
       ...data,
-      recipients: recipients.value.map(({ id, name }) => ({
+      recipients: recipients.value.map(({ id }) => ({
         id,
-        name,
       })),
       location: {
         id: data.location,
@@ -80,36 +78,33 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
 
 <template>
   <div>
-    <FormKit type="form" @submit="submitHandler" :actions="false">
-      <div class="flex flex-wrap justify-between items-center mb-0 md:mb-10">
-        <div mb-5>
-          <h4 class="mb-4 text-carbon">Groups</h4>
-          <p class="text-silver">
-            <NuxtLink to="/" class="text-silver sub-heading"
-              >Smart Suite</NuxtLink
-            >
-            <span class="text-silver">/</span>
-            <NuxtLink to="/" class="text-silver sub-heading">
-              Communicator</NuxtLink
-            >
-            <span class="text-silver">/</span>
-            <NuxtLink
-              to="/recipients-and-groups/groups"
-              class="text-silver sub-heading"
-            >
-              Recipients</NuxtLink
-            >
-            <span class="text-primary">Create New Group</span>
-          </p>
-        </div>
+    <div class="flex flex-wrap justify-between items-center mb-0 md:mb-10">
+      <div mb-5>
+        <h4 class="mb-4 text-carbon">Groups</h4>
+        <p class="text-silver">
+          <NuxtLink to="/" class="text-silver sub-heading"
+            >Smart Suite</NuxtLink
+          >
+          <span class="text-silver">/</span>
+          <NuxtLink to="/" class="text-silver sub-heading">
+            Communicator</NuxtLink
+          >
+          <span class="text-silver">/</span>
+          <NuxtLink
+            to="/recipients-and-groups/groups"
+            class="text-silver sub-heading"
+          >
+            Recipients</NuxtLink
+          >
+          <span class="text-primary">Create New Group</span>
+        </p>
       </div>
-      <div w-full>
-        <div class="success alert-success" v-if="successResponse.data.id">
-          Group Successfully Updated
-        </div>
-        <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>
-          <div bg-white small-shadow p-6 md:col-span-2 col-span-1>
-            <h5 text-stone>Create New Group</h5>
+    </div>
+    <div w-full>
+      <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>
+        <div bg-white small-shadow p-6 md:col-span-2 col-span-1>
+          <h5 text-stone>Create New Group</h5>
+          <FormKit type="form" :actions="false" @submit="submitHandler">
             <div grid md:grid-cols-2 grid-cols-1 gap-5 my-8 md:w-auto w-full>
               <FormKit
                 v-model="data.groupName"
@@ -164,9 +159,9 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
               <h6 class="text-carbon mb-4">Recipient Added</h6>
               <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
                 <span
-                  class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
                   v-for="recipient in recipients"
                   :key="recipient.id"
+                  class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
                 >
                   {{ recipient.name }}
                 </span>
@@ -177,14 +172,14 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
                 Update Group
               </button>
             </div>
-          </div>
-          <ViewRecipients
-            :recipients="recipients"
-            @set-recipients="setRecipients"
-          ></ViewRecipients>
+          </FormKit>
         </div>
+        <ViewRecipients
+          :recipients="recipients"
+          @set-recipients="setRecipients"
+        />
       </div>
-    </FormKit>
+    </div>
   </div>
 </template>
 
