@@ -6,16 +6,11 @@ import { Message } from '../database/entities/message/message.entity';
 import { Sms } from '../database/entities/sms/sms.entity';
 import { Voice } from '../database/entities/voice/voice.entity';
 import type { DateRangeCounterDto } from '../dtos/dashboard/date-range-counter.dto';
-import { UserService } from './user.service';
+import { BaseService } from './base.service';
 
-export class DashboardService {
-  private userService: UserService;
-  constructor() {
-    this.userService = new UserService();
-  }
-
+export class DashboardService extends BaseService<Email> {
   async getModelsCount(req?: any) {
-    const { tenantId } = await this.userService.getLoginUser();
+    const { tenantId } = await getCurrentUser(this.event);
 
     const emailCount = await appDataSource.getRepository(Email).count({
       where: {

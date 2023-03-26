@@ -5,6 +5,7 @@ import type {
   Repository,
 } from 'typeorm';
 import _ from 'lodash';
+import type { H3Event, H3EventContext } from 'h3';
 import type { BaseEntity } from '../database/base.entity';
 import type { QueryList } from '../validations/base';
 import type { BaseServiceInterface } from './base.service.interface';
@@ -12,6 +13,7 @@ import type { BaseServiceInterface } from './base.service.interface';
 export class BaseService<EntityType extends BaseEntity>
   implements BaseServiceInterface<EntityType>
 {
+  protected event: H3Event | H3EventContext;
   protected repository: Repository<EntityType>;
 
   findManyOptions(query: QueryList) {
@@ -101,6 +103,10 @@ export class BaseService<EntityType extends BaseEntity>
     }
     item = await this.repository.save(data);
     return item;
+  }
+
+  setEvent(event: H3Event | H3EventContext) {
+    this.event = event;
   }
 
   getRespository() {

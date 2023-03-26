@@ -1,4 +1,3 @@
-import { Type } from 'class-transformer';
 import {
   IsArray,
   IsBoolean,
@@ -6,10 +5,8 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-  ValidateNested,
 } from 'class-validator';
 import { ImportanceLevel } from '~~/server/enums/importance-level.enum';
-import { MediaDto } from '../media/media.dto';
 
 class CreateMessageRecipientDto {
   recipientId: number;

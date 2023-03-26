@@ -41,7 +41,7 @@ export class User extends BaseEntity {
   @ManyToOne(() => User)
   @IsOptional()
   @JoinColumn({ name: 'creator_id' })
-  creatorId: number;
+  creator: number;
 
   @ManyToMany(() => Role, (role) => role.users, {
     onDelete: 'CASCADE',
