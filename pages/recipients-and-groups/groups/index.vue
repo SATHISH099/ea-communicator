@@ -7,7 +7,6 @@ const { setMessage } = useToasterStore();
 const config = useRuntimeConfig();
 const page = ref(1);
 const pageSize = ref(10);
-const isDelete = ref(false);
 const search = ref('');
 const searchField = ref('');
 const messageHeaders = [
@@ -37,7 +36,7 @@ const { data, refresh } = await useFetch<any>(
             location,
             recipientCount,
             createdAt,
-          }: Group) => ({
+          }: any) => ({
             id,
             groupName,
             members: recipientCount,

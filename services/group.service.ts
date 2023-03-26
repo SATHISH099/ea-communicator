@@ -3,6 +3,9 @@ import type { ApiService } from './api.service';
 import { ApiTarget } from './api.service';
 
 const group = z.object({
+  id: z.number(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
   groupName: z.string(),
   recipientCount: z.number(),
   status: z.boolean(),
