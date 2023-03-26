@@ -32,10 +32,13 @@ const deleteMessage = authProcedure.input(z.number()).mutation(({ input }) => {
   return messageService.delete(input);
 });
 
-const create = authProcedure.input(createMessageDto).mutation(({ input }) => {
-  const messageService = new MessageService();
-  return messageService.createMessage(input);
-});
+const create = authProcedure
+  .input(createMessageDto)
+  .mutation(({ ctx, input }) => {
+    const messageService = new MessageService();
+    messageService.setEvent(ctx);
+    return messageService.createMessage(input);
+  });
 
 const bulkDelete = authProcedure
   .input(z.array(z.number()))

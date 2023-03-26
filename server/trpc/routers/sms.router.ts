@@ -14,8 +14,9 @@ const list = authProcedure
       })
       .merge(queryListSchema),
   )
-  .query(({ input }) => {
+  .query(({ ctx, input }) => {
     const smsService = new SmsService();
+    smsService.setEvent(ctx);
     const isPredefinedCond = { isPredefined: input.isPredefined };
 
     return smsService.findAll(input, {

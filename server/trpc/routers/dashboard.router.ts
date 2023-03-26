@@ -10,8 +10,9 @@ const counts = authProcedure
       endDate: z.any(),
     }),
   )
-  .query(({ input }) => {
+  .query(({ ctx, input }) => {
     const dashboardService = new DashboardService();
+    dashboardService.setEvent(ctx);
     if (input.countType === 'models') {
       return dashboardService.getModelsCount(input);
     }

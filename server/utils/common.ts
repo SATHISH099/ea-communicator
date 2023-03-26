@@ -1,4 +1,9 @@
-import type { H3Event } from 'h3';
+import type { H3EventContext } from 'h3';
+import { H3Event } from 'h3';
+import { AuthService } from '../services/auth.service';
+import { JwtService } from '../services/jwt.service';
+import { UserService } from '../services/user.service';
+import type { AuthSessionPayload } from '../types';
 
 export function titleCase(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
@@ -52,4 +57,65 @@ export async function parseRequestFormData(event: H3Event) {
 
     return prev;
   }, {});
+}
+
+export function getCurrentUser(event: H3Event | H3EventContext) {
+  const userService = new UserService();
+
+  let userId: number;
+
+  if (event instanceof H3Event) {
+    try {
+      const authToken =
+        getHeader(event, 'authorization')?.replace('bearer ', '') || '';
+      const userPayload = new JwtService().verify(
+        authToken,
+      ) as AuthSessionPayload;
+
+      userId = userPayload.id;
+    } catch (error) {
+      throw createError({
+        statusCode: 401,
+        statusMessage: 'Unauthorized',
+        stack: '',
+      });
+    }
+  } else {
+    userId = event.session.user?.id;
+  }
+
+  return userService.findOne(userId);
+}
+
+export async function verifySmartSuiteRequest(event: H3Event, role?: string) {
+  const { token } = getQuery(event);
+
+  if (!token) {
+    throw createError({
+      statusCode: 401,
+      message: 'Unauthorized',
+    });
+  }
+
+  const { data, token: accessToken } =
+    await new AuthService().verifySmartSuiteToken(token as string);
+
+  if (!data || (data && role && !data.roles.includes(role))) {
+    throw createError({
+      statusCode: 401,
+      message: 'Unauthorized',
+    });
+  }
+
+  const user = await new UserService().findOne(undefined, {
+    where: {
+      userId: data.id,
+    },
+  });
+
+  return {
+    accessToken,
+    data,
+    user,
+  };
 }

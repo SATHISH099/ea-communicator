@@ -31,7 +31,7 @@ export class EmailService extends BaseService<Email> {
   }
 
   async createEmail(body: CreateEmailDto) {
-    const user = await this.userService.getLoginUser();
+    const user = await getCurrentUser(this.event);
     const sender = user;
     const { recipients, groups, ...emailObject } = body;
     const email = await super.create({
@@ -124,14 +124,11 @@ export class EmailService extends BaseService<Email> {
   }
 
   async updateEmail(id: number, body: UpdateEmailDto) {
-    const user = await this.userService.getLoginUser();
-    const sender = (await this.userService.findOne(body.sender))!;
+    const sender = await getCurrentUser(this.event);
     const emailObject = _.omit(body, ['recipients', 'groups']);
 
     return super.update(id, {
       ...emailObject,
-      tenantId: user.tenantId,
-      creator: user,
       sender,
       sendingStatus: SendingStatus.PENDING,
     });

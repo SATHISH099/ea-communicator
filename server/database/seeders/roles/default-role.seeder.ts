@@ -1,5 +1,6 @@
 import type { DataSource, QueryFailedError } from 'typeorm';
 import type { Factory, Seeder } from 'typeorm-seeding';
+import _ from 'lodash';
 import { Role } from '../../entities/role/role.entity';
 import { Roles } from '~~/server/enums/role.enum';
 
@@ -9,7 +10,7 @@ export class DefaultRoleSeeder implements Seeder {
     for (const roleKey in Roles) {
       const enumKey = roleKey as keyof typeof Roles;
       const tenantId = '1';
-      const name = roleKey;
+      const name = _.startCase(_.lowerCase(roleKey.replace('_', '')));
       const slug = Roles[enumKey];
       const existingRole = await roleRepository.findOneBy({ name });
 

@@ -1,14 +1,14 @@
 import type { FindOneOptions } from 'typeorm';
+import _ from 'lodash';
 import appDataSource from '../database/config/app.datasource';
 import { SmsGroup } from '../database/entities/sms/sms-groups.entity';
 import { SmsRecipient } from '../database/entities/sms/sms-recipients.entity';
 import { Sms } from '../database/entities/sms/sms.entity';
 import type { CreateSmsDto } from '../validations/sms/create.dto';
 import { SendingStatus } from '../enums/sending-status.enum';
+import type { UpdateSmsDto } from '../validations/sms/update.dto';
 import { BaseService } from './base.service';
 import { UserService } from './user.service';
-import { UpdateSmsDto } from '../validations/sms/update.dto';
-import _ from 'lodash';
 
 export class SmsService extends BaseService<Sms> {
   private userService: UserService;
@@ -30,7 +30,7 @@ export class SmsService extends BaseService<Sms> {
   }
 
   async createSms(body: CreateSmsDto) {
-    const user = await this.userService.getLoginUser();
+    const user = await getCurrentUser(this.event);
     const { recipients, groups, ...smsObject } = body;
     const sms = await super.create({
       ...smsObject,

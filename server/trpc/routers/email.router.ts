@@ -52,15 +52,20 @@ const update = authProcedure
       data: updateEmailDto,
     }),
   )
-  .mutation(({ input: { id, data } }) => {
+  .mutation(({ ctx, input: { id, data } }) => {
     const emailService = new EmailService();
+    emailService.setEvent(ctx);
     return emailService.updateEmail(id, data);
   });
 
-const create = authProcedure.input(createEmailDto).mutation(({ input }) => {
-  const emailService = new EmailService();
-  return emailService.createEmail(input);
-});
+const create = authProcedure
+  .input(createEmailDto)
+  .mutation(({ ctx, input }) => {
+    const emailService = new EmailService();
+    emailService.setEvent(ctx);
+
+    return emailService.createEmail(input);
+  });
 
 const bulkDelete = authProcedure
   .input(z.array(z.number()))

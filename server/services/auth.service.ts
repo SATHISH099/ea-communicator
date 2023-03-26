@@ -47,20 +47,10 @@ export class AuthService {
       };
     }
 
-    const { data, token: accessToken } = await this.apiService
-      .post({
-        data: { token },
-        schema: loggedInDataSchema,
-        url: `/auth/sso/verify`,
-      })
-      .catch((error) => {
-        console.error(error);
+    const { data, token: accessToken } = await this.verifySmartSuiteToken(
+      token,
+    );
 
-        return {
-          data: null,
-          token: null,
-        };
-      });
     const user = await this.userRepository.findOne({
       where: {
         userId: data?.id,
@@ -120,6 +110,22 @@ export class AuthService {
         statusMessage: 'Invalid signature',
         stack: undefined,
       });
+    }
+  }
+
+  async verifySmartSuiteToken(token: string) {
+    try {
+      return await this.apiService.post({
+        data: { token },
+        schema: loggedInDataSchema,
+        url: `/auth/sso/verify`,
+      });
+    } catch (error) {
+      console.error('sso-verification-failed', error);
+      return {
+        data: null,
+        token: null,
+      };
     }
   }
 }
