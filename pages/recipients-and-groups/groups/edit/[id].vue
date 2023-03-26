@@ -1,5 +1,9 @@
 <script lang="ts" setup>
+import { useToasterStore } from '~~/store/toaster';
+
 const config = useRuntimeConfig();
+const { setMessage } = useToasterStore();
+const router = useRouter();
 
 interface RecipientData {
   id: number;
@@ -11,7 +15,6 @@ interface initialStateData {
   status: boolean;
   notes: string;
   location: number;
-  deviceId: string;
 }
 
 const groupService = useService('group');
@@ -19,7 +22,6 @@ if (process.client) {
   groupService.setAuth();
 }
 const { id: groupId } = useRoute().params;
-const statuses = ['Inactive', 'active'];
 
 const locations = await $fetch<{ data: any[]; total: number }>(`/locations`, {
   baseURL: useRuntimeConfig().public.API_SMARTSUITE_BASEURL,
@@ -35,11 +37,9 @@ const initialState: initialStateData = {
   status: record.status,
   notes: record.notes,
   location: record.location?.id,
-  deviceId: record.deviceId,
 };
 const data = reactive({ ...initialState });
 
-const statusText = ref<string>('active');
 const successResponse = ref({ data: { id: null } });
 const recipients = ref<RecipientData[] | []>(
   record.recipients.map(({ id, name }: RecipientData) => ({
@@ -48,27 +48,29 @@ const recipients = ref<RecipientData[] | []>(
   })),
 );
 
-function resetForm() {
-  Object.assign(data, initialState);
-  recipients.value = [];
-}
-
 const submitHandler = async () => {
-  data.status = statusText.value === 'active';
-
-  const request = {
-    ...data,
-    status: statusText.value === 'active',
-    recipients: recipients.value.map(({ id }) => ({
-      id,
-    })),
-    location: {
-      id: data.location,
-    },
-  };
-  const response = await groupService.update(Number(groupId), request);
-  successResponse.value = response;
-  resetForm();
+  try {
+    const request = {
+      ...data,
+      recipients: recipients.value.map(({ id, name }) => ({
+        id,
+        name,
+      })),
+      location: {
+        id: data.location,
+      },
+    };
+    const response = await groupService.update(Number(groupId), request);
+    if (response) {
+      setMessage('Group updated successfully.', 'success');
+      router.push('/recipients-and-groups/groups');
+    } else {
+      setMessage('Error updating group data.', 'error');
+      router.push(`/recipients-and-groups/groups/edit/${groupId}`);
+    }
+  } catch (error) {
+    setMessage('Error updating group data.', 'error');
+  }
 };
 
 const setRecipients = (recipientSelected: RecipientData[]) => {
@@ -78,13 +80,7 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
 
 <template>
   <div>
-    <FormKit
-      type="form"
-      id="updateGroup"
-      @submit="submitHandler"
-      :actions="false"
-      #default="{ value }"
-    >
+    <FormKit type="form" @submit="submitHandler" :actions="false">
       <div class="flex flex-wrap justify-between items-center mb-0 md:mb-10">
         <div mb-5>
           <h4 class="mb-4 text-carbon">Groups</h4>
@@ -125,13 +121,16 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
               />
 
               <FormKit
-                v-model="statusText"
+                v-model="data.status"
                 type="select"
                 validation="required"
                 name="status"
                 input-class="form-control"
                 placeholder="Select Status"
-                :options="statuses"
+                :options="[
+                  { value: true, label: 'Active' },
+                  { value: false, label: 'In-Active' },
+                ]"
               />
 
               <FormKit

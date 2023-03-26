@@ -65,11 +65,6 @@ const groups = ref<GroupData[] | []>(
   })),
 );
 
-function resetForm() {
-  Object.assign(data, initialState);
-  groups.value = [];
-}
-
 const submitUpdate = async () => {
   try {
     const request = {
@@ -87,7 +82,6 @@ const submitUpdate = async () => {
     );
     if (response) {
       setMessage('Recipient updated successfully.', 'success');
-      resetForm();
       router.push('/recipients-and-groups/recipients');
     } else {
       setMessage('Error updating recipient data.', 'error');

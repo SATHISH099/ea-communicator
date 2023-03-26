@@ -10,15 +10,9 @@ const group = z.object({
   recipientCount: z.number(),
   status: z.boolean(),
   notes: z.string(),
-  location: z.object({
-    id: z.string(),
-    address: z.string(),
-    city: z.string(),
-    state: z.string(),
-    county: z.string(),
-    country: z.string(),
-  }),
+  location: z.string(),
   deviceId: z.string(),
+  recipients: z.array(z.unknown()),
 });
 
 const noSchema = z.object({});
@@ -34,7 +28,6 @@ interface Data {
   location: {
     id: number;
   };
-  deviceId: string;
 }
 
 export class GroupService {
