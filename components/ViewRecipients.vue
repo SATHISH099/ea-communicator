@@ -29,9 +29,9 @@ const { data, refresh } = await useFetch<any>(
     baseURL: config.public.API_SMARTSUITE_BASEURL,
     transform: ({ total, data }) => ({
       total,
-      data: data.map((x: RecipientData) => ({
-        id: x.id,
-        name: x.name,
+      data: data.map(({ id, name }: RecipientData) => ({
+        id,
+        name,
       })),
     }),
   },
