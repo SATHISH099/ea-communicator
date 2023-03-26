@@ -6,13 +6,10 @@ import { Message } from '../database/entities/message/message.entity';
 import { SendingStatus } from '../enums/sending-status.enum';
 import type { CreateMessageDto } from '../validations/messages/create.dto';
 import { BaseService } from './base.service';
-import { UserService } from './user.service';
 
 export class MessageService extends BaseService<Message> {
-  private userService: UserService;
   constructor() {
     super();
-    this.userService = new UserService();
     this.repository = appDataSource.getRepository(Message);
   }
 
@@ -32,7 +29,7 @@ export class MessageService extends BaseService<Message> {
   }
 
   async createMessage(body: CreateMessageDto) {
-    const user = await this.userService.getLoginUser();
+    const user = await getCurrentUser(this.event);
     const sender = user;
     const { recipients, groups, ...messageObject } = body;
 
