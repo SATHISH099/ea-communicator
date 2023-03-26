@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 const props = defineProps(['recipients']);
 defineEmits(['setRecipients']);
+const config = useRuntimeConfig();
+const page = ref(1);
 const search = ref('');
 const searchField = ref('');
 const mainCheck = ref([]);
 const mainChecked = ref(false);
-const page = ref(1);
-const config = useRuntimeConfig();
 
 interface RecipientData {
   id: number;
@@ -22,7 +22,6 @@ const initialState: initialStateData = {
 };
 
 const form = reactive({ ...initialState });
-
 const { data, refresh } = await useFetch<any>(
   () =>
     `recipients?search=${search.value}&pageNumber=${page.value}&pageSize=10`,
@@ -30,9 +29,9 @@ const { data, refresh } = await useFetch<any>(
     baseURL: config.public.API_SMARTSUITE_BASEURL,
     transform: ({ total, data }) => ({
       total,
-      data: data.map(({ id, name }: RecipientData) => ({
-        id,
-        name,
+      data: data.map((x: RecipientData) => ({
+        id: x.id,
+        name: x.name,
       })),
     }),
   },
@@ -63,36 +62,39 @@ const toggleChecked = () => {
 
 <template>
   <div>
-    <div bg-white small-shadow>
-      <div px-6 py-6>
-        <h5 text-stone mb-5>Recipient's List</h5>
-        <FormKit
-          v-model="searchField"
-          prefix-icon="search"
-          type="search"
-          placeholder="Search"
-          input-class="form-control pl-[3.5rem]"
-          outer-class="search-field"
-          prefix-icon-class="search-icon"
-          @change="searchKeyword"
-        />
+    <div class="bg-white small-shadow">
+      <div class="p-6">
+        <h5 text-stone mb-8>Recipient's list</h5>
+        <div class="flex flex-wrap items-center gap-4">
+          <FormKit
+            v-model="searchField"
+            prefix-icon="search"
+            type="search"
+            placeholder="Search"
+            input-class="form-control pl-[3.5rem]"
+            prefix-icon-class="search-icon"
+            outer-class="search-field w-full"
+            @input="searchKeyword"
+          />
+        </div>
       </div>
-      <div class="pb-10">
+      <div>
         <div>
           <FormKit
             v-model="mainCheck"
             type="checkbox"
-            input-class="form-check-input flex"
+            input-class="form-check-input"
             :options="[{ value: true, label: 'Recipients' }]"
-            @input="toggleChecked"
             outer-class="recipient-checkbox"
+            @input="toggleChecked"
           />
         </div>
-        <div>
-          <FormKit
-            v-model="form.recipients"
-            type="checkbox"
-            :options="
+      </div>
+      <div>
+        <FormKit
+          v-model="form.recipients"
+          type="checkbox"
+          :options="
                   data.data.map((recipientItem: RecipientData) => {
                     return {
                       value: recipientItem,
@@ -100,18 +102,17 @@ const toggleChecked = () => {
                     };
                   })
                 "
-            outer-class="recipient-list"
-            input-class="form-check-input mr-2"
-            @input="$emit('setRecipients', form.recipients)"
-          />
-        </div>
-        <div class="ml-8">
-          <PaginationTable
-            :totalRecords="data.total"
-            :currentPage="page"
-            v-bind:paginate="paginate"
-          ></PaginationTable>
-        </div>
+          outer-class="recipient-list"
+          input-class="form-check-input mr-2"
+          @input="$emit('setRecipients', form.recipients)"
+        />
+      </div>
+      <div class="ml-8">
+        <PaginationTable
+          :total-records="data.total"
+          :current-page="page"
+          :paginate="paginate"
+        ></PaginationTable>
       </div>
     </div>
   </div>

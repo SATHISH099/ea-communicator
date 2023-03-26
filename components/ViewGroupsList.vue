@@ -86,8 +86,8 @@ const toggleChecked = () => {
             type="checkbox"
             input-class="form-check-input"
             :options="[{ value: true, label: 'Groups' }]"
-            @input="toggleChecked"
             outer-class="recipient-checkbox"
+            @input="toggleChecked"
           />
         </div>
       </div>
