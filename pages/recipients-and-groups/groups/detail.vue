@@ -59,7 +59,7 @@ const activeTab = ref('alerts');
           <div class="max-w-3xl">
             <div class="grid grid-cols-3">
               <div class="mb-10 grid gap-y-2">
-                <h5 class="text-stone">Sent Date</h5>
+                <h5 class="text-stone">Sent At</h5>
                 <p class="text-carbon">{{ data.createdAt }}</p>
               </div>
               <div class="mb-10 grid gap-y-2">

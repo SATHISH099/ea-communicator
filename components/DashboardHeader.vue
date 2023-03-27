@@ -9,7 +9,14 @@ const { logout } = useLogout();
   <div
     class="bg-[#F5F5F5] h-[90px] w-full flex justify-end items-center cursor-pointer"
   >
-    <img src="/Component.png" @click="isOpens = !isOpens" class="mr-8" />
+    <client-only>
+      <img
+        src="/Component.png"
+        @click="isOpens = !isOpens"
+        v-click-away="($event) => (isOpens = false)"
+        class="mr-8"
+      />
+    </client-only>
     <div
       v-show="isOpens"
       class="dropdown-menu shadow-xl md:right-16 right-13 top-20 p-40 z-2 md:w-[13%] w-[70%]"
@@ -42,11 +49,14 @@ const { logout } = useLogout();
       </div>
     </div>
     <div class="dropdown">
-      <img
-        src="/avatar.png"
-        class="abc h-10 mr-4 cursor-pointer"
-        @click="isOpen = !isOpen"
-      />
+      <client-only>
+        <img
+          src="/avatar.png"
+          class="h-10 mr-4 cursor-pointer"
+          @click="isOpen = !isOpen"
+          v-click-away="($event) => (isOpen = false)"
+        />
+      </client-only>
       <div v-show="isOpen" class="dropdown-menus right-15 top-20">
         <li class="p-2">
           <NuxtLink :to="{ name: 'profile' }" class="text-white"
