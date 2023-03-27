@@ -18,7 +18,7 @@ const messageHeaders = [
   'Recipients',
   'Groups',
   'Message',
-  { value: 'Sent Date', isSort: true, key: 'createdAt' },
+  { value: 'Sent At', isSort: true, key: 'createdAt' },
   '',
 ];
 

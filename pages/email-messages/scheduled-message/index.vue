@@ -3,7 +3,7 @@ const MessageHeaders = [
   { value: 'Recipients', image: '/arrow-and-direction.png' },
   'Subject',
   'Email Message',
-  'Sent Date',
+  'Sent At',
   '',
 ];
 const MessageRows = [

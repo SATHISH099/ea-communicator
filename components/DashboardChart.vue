@@ -98,7 +98,7 @@ const setDate = (dateStr: string[] | null) => {
             }"
           />
           <div
-            class="absolute flex items-center top-[14.2rem] left-1/2 w-[12rem] h-[12rem] transform -translate-x-1/2 -translate-y-1/2 rounded-full p-10 shadow-[0_3.20559px_32.0559px_rgba(0,0,0,0.08)]"
+            class="absolute flex items-center top-[12.6rem] left-1/2 w-[12rem] h-[12rem] transform -translate-x-1/2 -translate-y-1/2 rounded-full p-10 shadow-[0_3.20559px_32.0559px_rgba(0,0,0,0.08)]"
           >
             <div flex flex-col items-center>
               <p text-silver mb-3>Total Messages</p>

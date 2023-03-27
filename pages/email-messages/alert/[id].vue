@@ -47,7 +47,7 @@ const groups = ref(data.groups.map(({ groupId }) => ({ groupId })));
           <div class="max-w-3xl">
             <div class="grid grid-cols-3">
               <div class="mb-10 grid gap-y-2">
-                <h6 class="text-stone">Sent Date</h6>
+                <h6 class="text-stone">Sent At</h6>
                 <p class="text-carbon">
                   {{ moment(data.createdAt).format('Do MMMM YYYY h:mm A') }}
                 </p>
