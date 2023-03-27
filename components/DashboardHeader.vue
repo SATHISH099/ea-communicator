@@ -3,6 +3,7 @@ const isOpen = ref(false);
 const isOpens = ref(false);
 
 const { logout } = useLogout();
+const adminUrl = useRuntimeConfig().public.SMARTSUITE_BASEURL;
 </script>
 
 <template>
@@ -24,27 +25,31 @@ const { logout } = useLogout();
       <div class="grid grid-cols-2 gap-4">
         <div class="flex flex-col items-center">
           <img class="w-10" src="/SituationalAwareness.png" />
-          <p class="p-2 text-center">Situational Awareness</p>
+          <p class="p-2 text-center text-xs">Situational Awareness</p>
         </div>
         <div class="flex flex-col items-center">
           <img class="w-10" src="/communicator.png" />
-          <p class="p-2 text-center">Communicator</p>
+          <p class="p-2 text-center text-xs">Communicator</p>
         </div>
         <div class="flex flex-col items-center">
           <img class="w-10" src="/Reseliency-Manager.png" />
-          <p class="p-2 text-center">Resiliency Manager</p>
+          <p class="p-2 text-center text-xs">Resiliency Manager</p>
         </div>
         <div class="flex flex-col items-center justify-center">
           <img class="w-10" src="/Learning-Management.png" />
-          <p class="p-2 text-center">Learning Management</p>
+          <p class="p-2 text-center text-xs">Learning Management</p>
         </div>
         <div class="flex flex-col items-center">
           <img class="w-10" src="/Information-Center.png" />
-          <p class="p-2 text-center">Information Center</p>
+          <p class="p-2 text-center text-xs">Information Center</p>
         </div>
         <div class="flex flex-col items-center">
-          <img class="w-10" src="/Admin-Panel.png" />
-          <p class="p-2 text-center">Admin Panel</p>
+          <NuxtLink :href="adminUrl">
+            <img class="w-10" src="/Admin-Panel.png" />
+          </NuxtLink>
+          <p class="p-2 text-center text-xs">
+            <NuxtLink :href="adminUrl">Admin Panel</NuxtLink>
+          </p>
         </div>
       </div>
     </div>

@@ -17,6 +17,7 @@ const nuxtConfig = defineNuxtConfig({
     public: {
       APP_URL: process.env.APP_URL,
       API_BASEURL: process.env.API_BASEURL,
+      SMARTSUITE_BASEURL: process.env.SMARTSUITE_URL,
       API_SMARTSUITE_BASEURL: process.env.API_SMARTSUITE_BASEURL,
       APP_AUTH_URL: process.env.APP_AUTH_URL,
     },
