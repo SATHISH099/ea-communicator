@@ -5,6 +5,9 @@ import { useToasterStore } from '~~/store/toaster';
 const { setMessage } = useToasterStore();
 
 const recipientService = useService('recipient');
+if (process.client) {
+  recipientService.setAuth();
+}
 
 const orderType = ref('desc');
 const orderBy = ref('id');
@@ -45,9 +48,16 @@ const { data, refresh } = await useFetch<any>(
         workNumber: x.workNumber,
         emailAddress: x.emailAddress,
         alternateEmail: x.alternateEmail,
-        location: `${x.location.address ? x.location.address + ',' : ''} ${
-          x.location.city
-        }, ${x.location.state}, ${x.location.country}`,
+        location: x.location
+          ? [
+              x.location.address,
+              x.location.city,
+              x.location.state,
+              x.location.country,
+            ]
+              .filter((v) => v)
+              .join(', ')
+          : '-',
       })),
     }),
   },
@@ -211,7 +221,7 @@ const searchEmpty = () => {
       <div class="pb-10 pt-5">
         <DashboardTable
           :headers="recipientHeaders"
-          :rows="data?.data"
+          :rows="data?.data || []"
           type="recipients"
           @sort-record="sortRecord"
           @on-delete-record="deleteRecord"

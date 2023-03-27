@@ -36,7 +36,7 @@ const groups = ref<GroupData[] | []>([]);
 
 const submitCreate = async () => {
   try {
-    const request = {
+    const request: any = eliminateNullValues({
       ...data,
       groups: groups.value.map(({ id }) => ({
         id,
@@ -44,7 +44,7 @@ const submitCreate = async () => {
       location: {
         id: data.location,
       },
-    };
+    });
     const response = await recipientService.create(request);
     if (response) {
       setMessage('Recipient created successfully.', 'success');
@@ -145,8 +145,8 @@ const setGroups = (groupSelected: GroupData[]) => {
                 v-model="data.alternateEmail"
                 name="Alternate Email"
                 type="email"
-                validation="required|email"
-                placeholder="Alternate Email*"
+                validation="email"
+                placeholder="Alternate Email"
                 input-class="form-control"
               />
 
