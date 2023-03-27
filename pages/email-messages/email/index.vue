@@ -51,7 +51,7 @@ const { data, refresh } = await useAsyncData(
           subject,
           recipients: recipients.length,
           groups: groups.length,
-          body: body?.replace(/(<([^>]+)>)/gi, ''),
+          body: stripHtml(body),
           createdAt: moment(createdAt).format('dddd, Do MMMM YYYY h:mm A'),
         }),
       ),

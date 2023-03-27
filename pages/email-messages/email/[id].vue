@@ -49,7 +49,7 @@ const data = await $trpc.email.show.query(parseInt(id as string));
               </div>
               <div class="mb-10 grid gap-y-2">
                 <h6 class="text-stone">Priority</h6>
-                <p class="text-carbon">{{ data.importanceLevel }}</p>
+                <p class="text-carbon">{{ titleCase(data.importanceLevel) }}</p>
               </div>
             </div>
             <div class="mb-10 grid gap-y-2">
@@ -72,7 +72,7 @@ const data = await $trpc.email.show.query(parseInt(id as string));
             </div>
             <div class="mb-10 grid gap-y-2">
               <h6 class="text-stone">Message</h6>
-              <p v-html="data.body" class="text-carbon"></p>
+              <p class="text-carbon" v-html="data.body"></p>
             </div>
           </div>
         </div>
