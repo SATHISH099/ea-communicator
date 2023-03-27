@@ -21,6 +21,7 @@ const { data, refresh } = await useAsyncData(
     $trpc[props.type].list.query({
       search: search.value,
       pageNumber: page.value,
+      isPredefined: true,
     }),
   {
     transform: ({ total, data }: any) => ({
