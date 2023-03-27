@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import moment from 'moment';
 import { useToasterStore } from '~~/store/toaster';
-import { stripHtml } from '~~/utils/common';
 
 const page = ref(1);
 const pageSize = ref(10);

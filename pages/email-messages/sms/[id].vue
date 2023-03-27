@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import moment from 'moment';
 import Multiselect from '@vueform/multiselect';
-import { titleCase } from '~~/utils/common';
 
 const { $trpc } = useNuxtApp();
 const { id } = useRoute().params;

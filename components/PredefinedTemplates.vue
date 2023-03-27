@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { stripHtml } from '~~/utils/common';
-
 const props = defineProps({
   type: {
     type: String as PropType<'email' | 'sms'>,

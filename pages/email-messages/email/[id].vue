@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import moment from 'moment';
 import { useRoute } from 'vue-router';
-import { titleCase } from '~~/utils/common';
 
 const { $trpc } = useNuxtApp();
 const { id } = useRoute().params;
