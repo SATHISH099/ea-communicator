@@ -99,12 +99,12 @@ const setGroups = (groupSelected: GroupData[]) => {
                 type="text"
                 placeholder="Full Name*"
                 input-class="form-control"
-                validation="required|length:2,50"
+                validation="required|length:3,25"
               />
               <FormKit
                 v-model="data.cellVoice"
                 name="Cell Voice"
-                type="tel"
+                type="number"
                 placeholder="Mobile phone for voice calls*"
                 validation="required|length:7,10"
                 input-class="form-control"
@@ -112,7 +112,7 @@ const setGroups = (groupSelected: GroupData[]) => {
               <FormKit
                 v-model="data.cellText"
                 name="Cell Text"
-                type="tel"
+                type="number"
                 placeholder="Mobile phone for SMS*"
                 input-class="form-control"
                 validation="required|length:7,10"
@@ -120,7 +120,7 @@ const setGroups = (groupSelected: GroupData[]) => {
               <FormKit
                 v-model="data.homeNumber"
                 name="Home Number"
-                type="tel"
+                type="number"
                 placeholder="Home phone number*"
                 input-class="form-control"
                 validation="required|length:7,10"
@@ -128,7 +128,7 @@ const setGroups = (groupSelected: GroupData[]) => {
               <FormKit
                 v-model="data.workNumber"
                 name="Work Number"
-                type="tel"
+                type="number"
                 placeholder="Work phone number*"
                 input-class="form-control"
                 validation="required|length:7,10"
