@@ -73,7 +73,7 @@ const groups = ref(data.groups.map(({ groupId }) => ({ groupId })));
             </div>
             <div class="mb-10 grid gap-y-2">
               <h6 class="text-stone">Subject</h6>
-              <p class="text-carbon">{{ data.subject }}</p>
+              <p class="text-carbon">{{ data.title }}</p>
             </div>
             <div class="mb-10 grid gap-y-2">
               <h6 class="text-stone">Alert Message</h6>
