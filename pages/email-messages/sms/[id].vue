@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import moment from 'moment';
 import Multiselect from '@vueform/multiselect';
+import { titleCase } from '~~/utils/common';
 
 const { $trpc } = useNuxtApp();
 const { id } = useRoute().params;
@@ -48,7 +49,7 @@ const data = await $trpc.sms.show.query(parseInt(id as string));
               </div>
               <div class="mb-10 grid gap-y-2">
                 <h6 class="text-stone">Priority</h6>
-                <p class="text-carbon">{{ data.importanceLevel }}</p>
+                <p class="text-carbon">{{ titleCase(data.importanceLevel) }}</p>
               </div>
             </div>
             <div class="mb-10 grid gap-y-2">
