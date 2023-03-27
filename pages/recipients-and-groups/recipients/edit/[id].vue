@@ -67,7 +67,7 @@ const groups = ref<GroupData[] | []>(
 
 const submitUpdate = async () => {
   try {
-    const request = {
+    const request: any = eliminateNullValues({
       ...data,
       groups: groups.value.map(({ id }) => ({
         id,
@@ -75,7 +75,7 @@ const submitUpdate = async () => {
       location: {
         id: data.location,
       },
-    };
+    });
     const response = await recipientService.update(
       Number(recipientId),
       request,
@@ -165,7 +165,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 v-model="data.alternateEmail"
                 name="Alternate Email"
                 type="email"
-                validation="required|email"
+                validation="email"
                 placeholder="Alternate Email"
                 input-class="form-control"
               />
