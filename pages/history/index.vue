@@ -40,7 +40,7 @@ const { data, refresh } = await useAsyncData(
         subject: message.subject || message.title,
         recipients: message.recipients.length,
         groups: message.groups.length,
-        body: message.body?.replace(/(<([^>]+)>)/gi, '') || message.message,
+        body: stripHtml(message.body) || message.message,
         createdAt: message.createdAt,
       })),
     }),

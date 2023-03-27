@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { stripHtml } from '~~/utils/common';
+
 const props = defineProps({
   type: {
     type: String as PropType<'email' | 'sms'>,
@@ -27,7 +29,7 @@ const { data, refresh } = await useAsyncData(
       total,
       data: data.map((x: any) => ({
         title: x.subject || x.title,
-        message: x.body?.replace(/(<([^>]+)>)/gi, '') || x.message,
+        message: stripHtml(x.body) || x.message,
       })),
     }),
   },

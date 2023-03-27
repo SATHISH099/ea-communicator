@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { Media } from '~~/services/media.service';
 import { useToasterStore } from '~~/store/toaster';
+import { titleLimit } from '~~/utils/common';
 
 const { setMessage } = useToasterStore();
 
@@ -219,7 +220,7 @@ const searchEmpty = () => {
             :src="media.fileUrl"
             alt=""
           />
-          <div>{{ media.title.substring(0, 20) }}</div>
+          <div>{{ titleLimit(media.title, 20) }}</div>
           <button class="view-btn" @click="viewMedia(media)">View</button>
           <teleport to="body">
             <div v-if="viewImageModal">

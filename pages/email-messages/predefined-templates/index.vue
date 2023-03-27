@@ -41,7 +41,7 @@ const { data, refresh } = await useAsyncData(
         title: type.value === 'email' ? message.subject : message.title,
         message:
           type.value === 'email'
-            ? showLess(message.body.replace(/(<([^>]+)>)/gi, ''))
+            ? showLess(stripHtml(message.body))
             : showLess(message.message),
         sentDate: moment(message.createdAt).format('dddd, Do MMMM YYYY h:mm A'),
       })),
