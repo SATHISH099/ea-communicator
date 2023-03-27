@@ -46,8 +46,9 @@ const show = authProcedure.input(z.number()).query(({ input }) => {
   return smsService.findOne(input);
 });
 
-const create = authProcedure.input(createSmsDto).mutation(({ input }) => {
+const create = authProcedure.input(createSmsDto).mutation(({ ctx, input }) => {
   const smsService = new SmsService();
+  smsService.setEvent(ctx);
   return smsService.createSms(input);
 });
 
