@@ -23,7 +23,7 @@ const { data, refresh } = await useAsyncData(
 );
 
 const TAB_MENU = {
-  message: 'Alerts',
+  message: 'Messages',
   email: 'Emails',
   sms: 'SMS',
 };

@@ -41,7 +41,7 @@ const { data, refresh } = await useAsyncData(
         title: type.value === 'email' ? message.subject : message.title,
         message:
           type.value === 'email'
-            ? showLess(message.body.replace(/(<([^>]+)>)/gi, ''))
+            ? showLess(stripHtml(message.body))
             : showLess(message.message),
         sentDate: moment(message.createdAt).format('dddd, Do MMMM YYYY h:mm A'),
       })),
@@ -61,10 +61,14 @@ const paginate = (pg: number) => {
 };
 
 const deleteRecord = async (id: number) => {
-  await $trpc[type.value].delete.mutate(id);
-
-  isDelete.value = true;
-  refresh();
+  try {
+    const response = await $trpc.email.delete.mutate(id);
+    refresh();
+    isDelete.value = response.affected !== undefined;
+    setMessage('Template Deleted Successfully.', 'success');
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const sortRecord = (key: string) => {
@@ -136,9 +140,9 @@ const bulkDelete = async (data: number[]) => {
       </div>
     </div>
     <div class="bg-white small-shadow">
-      <div v-if="isDelete" class="success alert-success">
+      <!-- <div v-if="isDelete" class="success alert-success">
         Template Successfully Deleted
-      </div>
+      </div> -->
       <div class="p-6">
         <div class="flex flex-wrap justify-between items-center gap-4">
           <div class="flex flex-wrap items-center gap-4">

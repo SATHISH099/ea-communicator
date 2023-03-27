@@ -65,9 +65,9 @@ const submitHandler = async () => {
         :actions="false"
         @submit="submitHandler"
       >
-        <div class="md:flex gap-5">
+        <div class="lg:flex gap-5">
           <div class="md:w-[20%]">
-            <div class="relative">
+            <div class="relative mb-10">
               <img src="/profile.png" class="h-67 w-69" />
               <button
                 class="bottom-0 absolute bg-[#D9D9D9] text-carbon h-10 w-69 text-center flex items-center justify-center hover:text-stone cursor-pointer border-none text-lg"

@@ -15,7 +15,7 @@ import Multiselect from '@vueform/multiselect';
       </div>
     </div>
     <div class="small-shadow p-8">
-      <div class="md:flex gap-5">
+      <div class="lg:flex gap-5">
         <div class="md:w-[20%]">
           <div class="relative">
             <img src="/profile.png" class="h-67 w-69" />

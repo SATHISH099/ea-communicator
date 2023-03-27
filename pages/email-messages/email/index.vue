@@ -18,7 +18,7 @@ const MessageHeaders = [
   'Recipients',
   'Groups',
   'Email Message',
-  { value: 'Sent Date', isSort: true, key: 'createdAt' },
+  { value: 'Sent At', isSort: true, key: 'createdAt' },
   '',
 ];
 
@@ -51,7 +51,7 @@ const { data, refresh } = await useAsyncData(
           subject,
           recipients: recipients.length,
           groups: groups.length,
-          body: body?.replace(/(<([^>]+)>)/gi, ''),
+          body: stripHtml(body),
           createdAt: moment(createdAt).format('dddd, Do MMMM YYYY h:mm A'),
         }),
       ),
@@ -145,9 +145,6 @@ const bulkDelete = async (data: number[]) => {
       </div>
     </div>
     <div class="bg-white small-shadow">
-      <div class="success alert-success" v-if="isDelete">
-        Email Successfully Deleted
-      </div>
       <div class="p-6">
         <div class="flex flex-wrap justify-between items-center gap-4">
           <div class="flex flex-wrap items-center gap-4">

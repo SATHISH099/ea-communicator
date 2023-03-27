@@ -219,7 +219,7 @@ const searchEmpty = () => {
             :src="media.fileUrl"
             alt=""
           />
-          <div>{{ media.title }}</div>
+          <div>{{ titleLimit(media.title, 20) }}</div>
           <button class="view-btn" @click="viewMedia(media)">View</button>
           <teleport to="body">
             <div v-if="viewImageModal">
