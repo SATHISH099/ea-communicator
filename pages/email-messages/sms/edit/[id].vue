@@ -69,7 +69,18 @@ const submitHandler = async (formData: EditData) => {
         <div class="md:mb-0 mb-10">
           <h4 class="mb-4 text-stone">Predefined Templates</h4>
           <p class="text-silver">
-            Communicator / Email/Messages / Predefined Templates /
+            <NuxtLink to="/" class="text-silver sub-heading"
+              >Communicator</NuxtLink
+            >
+            <span class="text-silver">/</span>
+            <NuxtLink to="/" class="text-silver sub-heading">
+              Email/Messages</NuxtLink
+            >
+            <span class="text-silver">/</span>
+            <NuxtLink to="/" class="text-silver sub-heading">
+              Predefined Templates</NuxtLink
+            >
+            <span class="text-silver">/</span>
             <span class="text-primary"> Edit Predefined Template</span>
           </p>
         </div>
