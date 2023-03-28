@@ -72,11 +72,14 @@ const submitHandler = async (formData: EditData) => {
               >Communicator</NuxtLink
             >
             <span class="text-silver">/</span>
-            <NuxtLink to="/" class="text-silver sub-heading">
+            <NuxtLink to="/email-messages" class="text-silver sub-heading">
               Email/Messages</NuxtLink
             >
             <span class="text-silver">/</span>
-            <NuxtLink to="/" class="text-silver sub-heading">
+            <NuxtLink
+              to="/email-messages/predefined-templates"
+              class="text-silver sub-heading"
+            >
               Predefined Templates</NuxtLink
             >
             <span class="text-silver">/</span>
