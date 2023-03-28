@@ -60,7 +60,7 @@ const submitHandler = async () => {
     };
     const response = await groupService.update(Number(groupId), request);
     if (response) {
-      setMessage('Group updated successfully.', 'success');
+      setMessage('Group updated successfully', 'success');
       router.push('/recipients-and-groups/groups');
     } else {
       setMessage('Error updating group data.', 'error');

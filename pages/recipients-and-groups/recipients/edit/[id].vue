@@ -81,7 +81,7 @@ const submitUpdate = async () => {
       request,
     );
     if (response) {
-      setMessage('Recipient updated successfully.', 'success');
+      setMessage('Recipient updated successfully', 'success');
       router.push('/recipients-and-groups/recipients');
     } else {
       setMessage('Error updating recipient data.', 'error');

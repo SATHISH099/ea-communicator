@@ -65,7 +65,7 @@ const deleteRecord = async (id: number) => {
     const response = await $trpc.email.delete.mutate(id);
     refresh();
     isDelete.value = response.affected !== undefined;
-    setMessage('Template Deleted Successfully.', 'success');
+    setMessage('Template Deleted Successfully', 'success');
   } catch (error) {
     console.error(error);
   }
@@ -103,7 +103,7 @@ const bulkDelete = async (data: number[]) => {
       }),
     );
     if (response) {
-      setMessage('Deleted successfully.', 'success');
+      setMessage('Deleted successfully', 'success');
       refresh();
     } else {
       setMessage('Something went wrong unable to Delete.', 'error');

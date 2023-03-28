@@ -69,7 +69,7 @@ const handleAddMedia = async (data: { file: any[] }) => {
   const res = await mediaService.create(body);
 
   if (res) {
-    setMessage('File Uploaded Successfully.', 'success');
+    setMessage('File Uploaded Successfully', 'success');
     viewUploadModal.value = false;
     refresh();
   } else {
@@ -81,7 +81,7 @@ async function deleteMedia(id: number) {
   try {
     await $trpc.library.delete.mutate(id);
 
-    setMessage('Deleted Successfully.', 'success');
+    setMessage('Deleted Successfully', 'success');
     showModal.value = false;
     refresh();
   } catch (error) {

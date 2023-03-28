@@ -55,7 +55,7 @@ const submitHandler = async () => {
         groups: groups.value.map(({ id }) => id),
       });
       if (response) {
-        setMessage('Sms created successfully.', 'success');
+        setMessage('Sms created successfully', 'success');
         router.push('/email-messages/sms');
       } else {
         router.push('/email-messages/sms/add');

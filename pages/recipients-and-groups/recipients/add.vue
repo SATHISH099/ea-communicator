@@ -47,7 +47,7 @@ const submitCreate = async () => {
     });
     const response = await recipientService.create(request);
     if (response) {
-      setMessage('Recipient created successfully.', 'success');
+      setMessage('Recipient created successfully', 'success');
       router.push('/recipients-and-groups/recipients');
     } else {
       router.push('/recipients-and-groups/recipients/add');

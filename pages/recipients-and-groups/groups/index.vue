@@ -72,7 +72,7 @@ const setPerPage = (perPage: number) => {
 const deleteRecord = async (id: number) => {
   try {
     await groupService.delete(id);
-    setMessage('Group Deleted Successfully.', 'success');
+    setMessage('Group Deleted Successfully', 'success');
     refresh();
   } catch (error) {
     console.error(error);
