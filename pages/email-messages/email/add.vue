@@ -115,7 +115,7 @@ const submitHandler = async (formData: { file: any[] }) => {
         },
       });
       if (response) {
-        setMessage('Email created successfully.', 'success');
+        setMessage('Email created successfully', 'success');
         router.push('/email-messages/email');
       } else {
         router.push('/email-messages/email/add');

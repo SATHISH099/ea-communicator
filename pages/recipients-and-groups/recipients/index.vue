@@ -89,7 +89,7 @@ const sortRecord = (key: string) => {
 const deleteRecord = async (id: number) => {
   try {
     await recipientService.delete(id);
-    setMessage('Recipient Deleted Successfully.', 'success');
+    setMessage('Recipient Deleted Successfully', 'success');
     refresh();
   } catch (error) {
     console.error(error);
@@ -106,7 +106,7 @@ const uploadFile = async (data: { file: any }) => {
   }
   const res = await recipientService.bulkCreate(formData);
   if (res) {
-    setMessage('File Uploaded Successfully.', 'success');
+    setMessage('File Uploaded Successfully', 'success');
     window.location.reload();
   } else {
     setMessage('File not Uploaded.', 'error');

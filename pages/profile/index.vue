@@ -35,7 +35,7 @@ const submitHandler = async () => {
   try {
     const response = await profileService.update(profile.value);
     if (response) {
-      setMessage('Profile Updated successfully.', 'success');
+      setMessage('Profile Updated successfully', 'success');
     } else {
       setMessage('Something went wrong.', 'error');
     }

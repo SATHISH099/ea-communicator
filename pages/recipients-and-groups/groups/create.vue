@@ -54,7 +54,7 @@ const submitHandler = async () => {
   try {
     const response = await groupService.createGroup(request);
     if (response) {
-      setMessage('Group created successfully.', 'success');
+      setMessage('Group created successfully', 'success');
       router.push('/recipients-and-groups/groups');
     } else {
       router.push('/recipients-and-groups/groups/add');
