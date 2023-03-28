@@ -20,12 +20,21 @@ const groups = data.value.groups.map(({ groupName, status }: Group) => ({
       <div>
         <h4 class="mb-4 text-stone">View Details</h4>
         <p class="text-silver">
-          <span class="sub-heading">Comunicator</span>
+          <NuxtLink to="/" class="text-silver sub-heading"
+            >Communicator</NuxtLink
+          >
           <span class="text-silver">/</span>
-          <span class="sub-heading"> Recipient and Groups</span>
-          <span class="text-silver"> / </span>
-          <span class="sub-heading">Recipients</span>
-          <span class="text-silver">/ </span>
+          <NuxtLink to="/recipients-and-groups" class="text-silver sub-heading"
+            >Recepients And Groups</NuxtLink
+          >
+          <span class="text-silver">/</span>
+          <NuxtLink
+            to="/recipients-and-groups/recepients"
+            class="text-silver sub-heading"
+            >Recepients</NuxtLink
+          >
+          <span class="text-silver">/</span>
+
           <span class="text-primary hover:no-underline ml-1">View Details</span>
         </p>
       </div>
@@ -78,7 +87,7 @@ const groups = data.value.groups.map(({ groupName, status }: Group) => ({
         </div>
         <div bg-white small-shadow>
           <div px-6 pt-6>
-            <h5 text-stone mb-5>Group's list</h5>
+            <h5 text-stone mb-5>Group's</h5>
           </div>
           <DashboardTable
             mt-3
