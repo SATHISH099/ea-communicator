@@ -139,7 +139,7 @@ const toggleChecked = () => {
                 {{ header.value ?? header }}
                 <img
                   v-if="header.isSort"
-                  class="pl-4 cursor-pointer"
+                  class="pl-2 cursor-pointer"
                   src="/arrow-and-direction.png"
                   alt=""
                   @click="$emit('sortRecord', header?.key)"
@@ -147,7 +147,7 @@ const toggleChecked = () => {
 
                 <img
                   v-if="header.image"
-                  class="pl-4"
+                  class="pl-2"
                   :src="header.image"
                   alt=""
                 />
