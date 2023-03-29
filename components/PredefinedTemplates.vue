@@ -14,6 +14,7 @@ const messageHeaders = ['Title', 'Message'];
 const search = ref('');
 const searchField = ref('');
 const page = ref(1);
+const pageSize = ref(10);
 const { $trpc } = useNuxtApp();
 
 const { data, refresh } = await useAsyncData(
@@ -21,6 +22,7 @@ const { data, refresh } = await useAsyncData(
     $trpc[props.type].list.query({
       search: search.value,
       pageNumber: page.value,
+      pageSize: pageSize.value,
       isPredefined: true,
     }),
   {
@@ -37,9 +39,15 @@ const { data, refresh } = await useAsyncData(
 watch(
   () => props.type,
   () => {
+    page.value = 1;
     refresh();
   },
 );
+
+const setPerPage = (perPage: number) => {
+  pageSize.value = perPage;
+  refresh();
+};
 
 const searchKeyword = () => {
   search.value = searchField.value;
@@ -50,6 +58,13 @@ const searchKeyword = () => {
 const paginate = (pg: number) => {
   page.value = pg;
   refresh();
+};
+
+const searchEmpty = () => {
+  if (!searchField.value) {
+    search.value = '';
+    refresh();
+  }
 };
 </script>
 
@@ -65,7 +80,8 @@ const paginate = (pg: number) => {
           placeholder="Search"
           input-class="form-control pl-[3.5rem]"
           prefix-icon-class="search-icon"
-          @change="searchKeyword"
+          v-on:keyup.enter="searchKeyword"
+          @input="searchEmpty"
         />
       </div>
       <DashboardTable
@@ -82,6 +98,7 @@ const paginate = (pg: number) => {
           :totalRecords="data?.total || 0"
           :currentPage="page"
           v-bind:paginate="paginate"
+          @setPerPage="setPerPage"
         ></PaginationTable>
       </div>
     </div>
