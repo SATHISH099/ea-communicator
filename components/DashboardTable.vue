@@ -42,7 +42,7 @@ const headers = ref(props.headers);
 const isDropdown = ref(props.isDropdown);
 const mainChecked = ref(false);
 const showBulk = ref(false);
-const bulkChecked = ref([]);
+const bulkChecked = ref({});
 
 const onDeleteRecord = (id) => {
   emit('onDeleteRecord', id);
@@ -50,9 +50,9 @@ const onDeleteRecord = (id) => {
 
 onMounted(() => {
   if (props.showBulkDelete && props.rows.length > 0) {
-    props.rows.forEach((value) => {
-      bulkChecked.value[value.id] = false;
-    });
+    for (const row of props.rows) {
+      bulkChecked.value[row.id.toString()] = false;
+    }
   }
 });
 
@@ -75,9 +75,9 @@ const hideModal = () => {
 };
 
 const toggleChecked = () => {
-  bulkChecked.value.forEach((value, key) => {
-    bulkChecked.value[key] = mainChecked.value;
-  });
+  for (const row of props.rows) {
+    bulkChecked.value[row.id.toString()] = mainChecked.value;
+  }
 };
 </script>
 
@@ -98,30 +98,12 @@ const toggleChecked = () => {
       :actions="false"
       #default="{ value }"
     >
-      <div
-        v-if="
-          showBulkDelete &&
-          props.rows.length > 0 &&
-          bulkChecked.filter(function (value) {
-            return value;
-          }).length
-        "
-        class="flex items-center mt-5 md:w-auto w-full"
-      >
-        <FormKit
-          input-class="bg-transparent outline-none cursor-pointer border-none"
-          type="submit"
-          outer-class="flex items-center justify-end w-full mr-8"
-        >
-          <img class="w-[1.5rem] h-[1.5rem]" alt="" src="/bulk-delete.png" />
-        </FormKit>
-      </div>
       <table class="relative">
         <thead>
           <tr>
             <th
               v-if="props.showBulkDelete && props.rows.length > 0"
-              class="px-[30px] py-[18px]"
+              class="px-[30px] py-[18px] position-relative"
             >
               <FormKit
                 v-model="mainChecked"
@@ -129,6 +111,22 @@ const toggleChecked = () => {
                 input-class="form-check-input"
                 @input="toggleChecked"
               />
+              <div
+                v-if="Object.values(bulkChecked).filter((v) => v).length > 0"
+                class="flex position-absolute -top-1 left-15 items-center mt-5 md:w-auto w-full"
+              >
+                <FormKit
+                  input-class="bg-transparent outline-none cursor-pointer border-none"
+                  type="submit"
+                  outer-class="flex items-center justify-end w-full mr-8"
+                >
+                  <img
+                    class="w-[1.25rem] h-[1.25rem]"
+                    alt=""
+                    src="/bulk-delete.png"
+                  />
+                </FormKit>
+              </div>
             </th>
             <th
               v-for="(header, index) in headers"
@@ -170,7 +168,7 @@ const toggleChecked = () => {
             <tr v-for="row in props.rows" :key="row.id">
               <td v-if="props.showBulkDelete" class="px-[30px] py-[18px]">
                 <FormKit
-                  v-model="bulkChecked[row.id]"
+                  v-model="bulkChecked[row.id.toString()]"
                   type="checkbox"
                   input-class="form-check-input"
                 />

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const props = defineProps(['groups']);
 defineEmits(['setGroups']);
-const config = useRuntimeConfig();
+
 const page = ref(1);
 const search = ref('');
 const searchField = ref('');
@@ -22,11 +22,19 @@ const initialState: initialStateData = {
   groups: props.groups || [],
 };
 
-const form = reactive({ ...initialState });
-const { data, refresh } = await useFetch<any>(
-  () => `groups?search=${search.value}&pageNumber=${page.value}&pageSize=10`,
+const groupService = useService('group');
+if (process.client) {
+  groupService.setAuth();
+}
+
+const { data, refresh } = await useAsyncData(
+  () =>
+    groupService.getAll({
+      search: search.value,
+      pageSize: 10,
+      pageNumber: page.value,
+    }),
   {
-    baseURL: config.public.API_SMARTSUITE_BASEURL,
     transform: ({ total, data }) => ({
       total,
       data: data.map((x: GroupData) => ({
@@ -35,8 +43,11 @@ const { data, refresh } = await useFetch<any>(
         status: x.status,
       })),
     }),
+    server: false,
   },
 );
+
+const form = reactive({ ...initialState });
 
 const searchKeyword = () => {
   search.value = searchField.value;
@@ -54,7 +65,7 @@ const toggleChecked = () => {
 
   mainChecked.value = mainCheck.value.length > 0;
   if (mainChecked.value) {
-    data.value.data.forEach((value: GroupData) => {
+    data.value?.data?.forEach((value: GroupData) => {
       form.groups.push(value);
     });
   }
@@ -96,12 +107,12 @@ const toggleChecked = () => {
           v-model="form.groups"
           type="checkbox"
           :options="
-                  data.data.map((groupItem: GroupData) => {
+                  data?.data.map((groupItem: GroupData) => {
                     return {
                       value: groupItem,
                       label: `${groupItem.groupName}`,
                     };
-                  })
+                  }) || []
                 "
           outer-class="recipient-list"
           input-class="form-check-input mr-2"
@@ -110,7 +121,7 @@ const toggleChecked = () => {
       </div>
       <div class="ml-8">
         <PaginationTable
-          :total-records="data.total"
+          :total-records="data?.total || []"
           :current-page="page"
           :paginate="paginate"
         ></PaginationTable>

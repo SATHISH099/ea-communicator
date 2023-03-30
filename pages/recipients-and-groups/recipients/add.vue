@@ -57,6 +57,7 @@ const submitCreate = async () => {
     console.error(new Error('Whoops, something went wrong.'));
   }
 };
+
 const setGroups = (groupSelected: GroupData[]) => {
   groups.value = groupSelected;
 };

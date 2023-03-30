@@ -10,17 +10,16 @@ if (process.client) {
 }
 
 const orderType = ref('desc');
-const orderBy = ref('id');
+const orderBy = ref('recipients.id');
 const viewUploadModal = ref(false);
 
-const config = useRuntimeConfig();
 const pageSize = ref(10);
 const page = ref(1);
 const search = ref('');
 const searchField = ref('');
 
 const recipientHeaders = [
-  { value: 'ID', isSort: true, key: 'id' },
+  { value: 'ID', isSort: true, key: 'recipients.id' },
   { value: 'Name', isSort: true, key: 'name' },
   'Phone (Voice)',
   'Phone (Text)',
@@ -32,11 +31,17 @@ const recipientHeaders = [
   '',
 ];
 
-const { data, refresh } = await useFetch<any>(
+const { data, refresh } = await useAsyncData(
   () =>
-    `recipients?search=${search.value}&pageNumber=${page.value}&pageSize=${pageSize.value}&orderType=${orderType.value}&orderBy=${orderBy.value}`,
+    recipientService.getAll({
+      search: search.value,
+      pageSize: pageSize.value,
+      pageNumber: page.value,
+      orderBy: orderBy.value,
+      orderType: orderType.value.toUpperCase(),
+    }),
   {
-    baseURL: config.public.API_SMARTSUITE_BASEURL,
+    server: false,
     transform: ({ total, data }) => ({
       total,
       data: data.map((x: any) => ({

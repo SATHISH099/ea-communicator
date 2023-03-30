@@ -1,10 +1,8 @@
 <script lang="ts" setup>
 import moment from 'moment';
 import { useToasterStore } from '~~/store/toaster';
-import type { Group } from '~~/services/group.service';
 const { setMessage } = useToasterStore();
 
-const config = useRuntimeConfig();
 const page = ref(1);
 const pageSize = ref(10);
 const search = ref('');
@@ -20,35 +18,48 @@ const messageHeaders = [
 ];
 
 const groupService = useService('group');
-const { data, refresh } = await useFetch<any>(
+if (process.client) {
+  groupService.setAuth();
+}
+
+const { data, refresh } = await useAsyncData(
   () =>
-    `groups?search=${search.value}&pageNumber=${page.value}&pageSize=${pageSize.value}`,
+    groupService.getAll({
+      search: search.value,
+      pageSize: pageSize.value,
+      pageNumber: page.value,
+    }),
   {
-    baseURL: config.public.API_SMARTSUITE_BASEURL,
-    transform: (data) => {
-      return {
-        total: data.total,
-        data: data.data.map(
-          ({
-            id,
-            groupName,
-            status,
-            location,
-            recipientCount,
-            createdAt,
-          }: any) => ({
-            id,
-            groupName,
-            members: recipientCount,
-            status: status ? 'Active' : 'Inactive',
-            location: `${location.address ? location.address + '' : ''} ${
-              location.city
-            }, ${location.state}, ${location.country}`,
-            createdAt: moment(createdAt).format('dddd, Do MMMM YYYY h:mm A'),
-          }),
-        ),
-      };
-    },
+    transform: ({ total, data }) => ({
+      total,
+      data: data.map(
+        ({
+          id,
+          groupName,
+          status,
+          location,
+          recipientCount,
+          createdAt,
+        }: any) => ({
+          id,
+          groupName,
+          members: recipientCount,
+          status: status ? 'Active' : 'Inactive',
+          location: location
+            ? [
+                location.address,
+                location.city,
+                location.state,
+                location.country,
+              ]
+                .filter((v) => v)
+                .join(', ')
+            : '-',
+          createdAt: moment(createdAt).format('dddd, Do MMMM YYYY h:mm A'),
+        }),
+      ),
+    }),
+    server: false,
   },
 );
 
@@ -124,7 +135,7 @@ const searchEmpty = () => {
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
               outer-class="md:w-[34rem] w-full search-field"
-              v-on:keyup.enter="searchKeyword"
+              @keyup.enter="searchKeyword"
               @input="searchEmpty"
             />
             <button
@@ -139,13 +150,13 @@ const searchEmpty = () => {
       <div class="pb-10 pt-5">
         <DashboardTable
           :headers="messageHeaders"
-          :rows="data.data"
+          :rows="data?.data || []"
           type="groups"
           @on-delete-record="deleteRecord"
         />
         <div class="ml-8">
           <PaginationTable
-            :total-records="data?.total"
+            :total-records="data?.total || 0"
             :current-page="page"
             :paginate="paginate"
             entity="Groups"

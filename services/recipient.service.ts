@@ -12,9 +12,8 @@ const recipient = z.object({
   emailAddress: z.string(),
   alternateEmail: z.string().optional(),
   status: z.boolean(),
-  notes: z.string(),
-  deviceId: z.string(),
-  groups: z.array(z.unknown()),
+  notes: z.string().optional(),
+  groups: z.array(z.unknown()).optional(),
 });
 
 const noSchema = z.object({});
@@ -51,8 +50,10 @@ export class RecipientService {
     });
   }
 
-  getAll() {
-    return this.apiService.get(recipients);
+  getAll(params: Record<string, any>) {
+    return this.apiService.get(recipients, undefined, {
+      params,
+    });
   }
 
   create(data: Data) {

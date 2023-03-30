@@ -5,14 +5,12 @@ import { ApiTarget } from './api.service';
 const group = z.object({
   id: z.number(),
   createdAt: z.string(),
-  updatedAt: z.string(),
   groupName: z.string(),
   recipientCount: z.number(),
   status: z.boolean(),
   notes: z.string(),
-  location: z.string(),
-  deviceId: z.string(),
-  recipients: z.array(z.unknown()),
+  location: z.object({}),
+  recipients: z.array(z.unknown()).optional(),
 });
 
 const noSchema = z.object({});
@@ -44,8 +42,10 @@ export class GroupService {
     });
   }
 
-  getAll() {
-    return this.apiService.get(groups);
+  getAll(params: Record<string, any>) {
+    return this.apiService.get(groups, undefined, {
+      params,
+    });
   }
 
   update(id: number, data: Data) {

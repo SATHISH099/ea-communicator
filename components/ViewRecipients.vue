@@ -21,12 +21,21 @@ const initialState: initialStateData = {
   recipients: props.recipients || [],
 };
 
+const recipientService = useService('recipient');
+if (process.client) {
+  recipientService.setAuth();
+}
+
 const form = reactive({ ...initialState });
-const { data, refresh } = await useFetch<any>(
+const { data, refresh } = await useAsyncData(
   () =>
-    `recipients?search=${search.value}&pageNumber=${page.value}&pageSize=10`,
+    recipientService.getAll({
+      search: search.value,
+      pageSize: 10,
+      pageNumber: page.value,
+    }),
   {
-    baseURL: config.public.API_SMARTSUITE_BASEURL,
+    server: false,
     transform: ({ total, data }) => ({
       total,
       data: data.map(({ id, name }: RecipientData) => ({
@@ -53,7 +62,7 @@ const toggleChecked = () => {
 
   mainChecked.value = mainCheck.value.length > 0;
   if (mainChecked.value) {
-    data.value.data.forEach((value: RecipientData) => {
+    data.value?.data?.forEach((value: RecipientData) => {
       form.recipients.push(value);
     });
   }
@@ -95,12 +104,12 @@ const toggleChecked = () => {
           v-model="form.recipients"
           type="checkbox"
           :options="
-                  data.data.map((recipientItem: RecipientData) => {
+                  data?.data?.map((recipientItem: RecipientData) => {
                     return {
                       value: recipientItem,
                       label: `${recipientItem.name}`,
                     };
-                  })
+                  }) || []
                 "
           outer-class="recipient-list"
           input-class="form-check-input mr-2"
@@ -109,7 +118,7 @@ const toggleChecked = () => {
       </div>
       <div class="ml-8">
         <PaginationTable
-          :total-records="data.total"
+          :total-records="data?.total || 0"
           :current-page="page"
           :paginate="paginate"
         ></PaginationTable>
