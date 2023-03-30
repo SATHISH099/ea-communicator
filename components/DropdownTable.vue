@@ -28,7 +28,7 @@ const onDeleteRecord = (deleteId) => {
       v-if="props.dropDownOption.isDelete"
       :entity="`${props.type}`"
       :show="show"
-      :deleteId="props.detailId"
+      :delete-id="props.detailId"
       @onDeleteRecord="onDeleteRecord"
       @hideModal="hideModal"
     ></DeleteRecord>
@@ -36,11 +36,11 @@ const onDeleteRecord = (deleteId) => {
     <div class="dropdown relative text-right">
       <client-only>
         <img
+          v-click-away="($event) => (isOpen = false)"
           tabindex="0"
           class="cursor-pointer"
           src="/EditIcon.png"
           @click="isOpen = !isOpen"
-          v-click-away="($event) => (isOpen = false)"
         />
       </client-only>
       <ul
@@ -62,7 +62,7 @@ const onDeleteRecord = (deleteId) => {
           >View</NuxtLink
         >
 
-        <li class="p-2" v-if="props.dropDownOption.isEdit">
+        <li v-if="props.dropDownOption.isEdit" class="p-2">
           <NuxtLink
             :to="{
               path:
@@ -77,11 +77,11 @@ const onDeleteRecord = (deleteId) => {
             >Edit</NuxtLink
           >
         </li>
-        <li class="p-2" v-if="props.dropDownOption.isDelete">
+        <li v-if="props.dropDownOption.isDelete" class="p-2">
           <button
-            @click="deleteShow()"
             class="bg-transparent border-none text-white cursor-pointer"
             type="button"
+            @click="deleteShow()"
           >
             Delete
           </button>
