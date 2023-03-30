@@ -10,6 +10,7 @@ const orderBy = ref('id');
 const search = ref('');
 const searchField = ref('');
 const { setMessage } = useToasterStore();
+const user = useCurrentUser();
 
 const MessageHeaders = [
   'ID',
@@ -174,7 +175,11 @@ const bulkDelete = async (data: number[]) => {
           :rows="data?.data || []"
           type="email"
           :show-bulk-delete="true"
-          :dropDownOption="{ isView: true, isEdit: false, isDelete: true }"
+          :dropDownOption="{
+            isView: true,
+            isEdit: false,
+            isDelete: user.hasRole('event-manager', 'admin'),
+          }"
           @bulkDelete="bulkDelete"
           @onDeleteRecord="deleteRecord"
           @sortRecord="sortRecord"

@@ -17,6 +17,7 @@ export function useLogin() {
       localStorage.setItem('ss_token', data.token);
 
       if (user) {
+        useCurrentUser().set(user);
         useLayoutStore().setLayout(true);
         navigateTo({ name: 'index' });
       } else {

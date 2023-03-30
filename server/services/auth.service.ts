@@ -37,16 +37,6 @@ export class AuthService {
   }
 
   async login(token: string, session: Session) {
-    if (session.user) {
-      const user = await this.userRepository.findOneBy({
-        id: session.user.id,
-      });
-
-      return {
-        user,
-      };
-    }
-
     const { data, token: accessToken } = await this.verifySmartSuiteToken(
       token,
     );
@@ -54,6 +44,9 @@ export class AuthService {
     const user = await this.userRepository.findOne({
       where: {
         userId: data?.id,
+      },
+      relations: {
+        roles: true,
       },
     });
 
@@ -76,7 +69,7 @@ export class AuthService {
       status: user.status,
       name: data.name,
       email: data.email,
-      roles: data.roles,
+      roles: user.roles.map((role) => role.slug),
       tokenId: userToken.id,
     };
 
