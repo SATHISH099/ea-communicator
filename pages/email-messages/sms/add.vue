@@ -80,6 +80,19 @@ const setGroupRecipients = (
   groups.value = groupSelected;
   showModal.value = false;
 };
+
+const count = ref(0);
+const countLimit = computed(() => {
+  if (count.value < 160) {
+    return 0;
+  }
+
+  return Math.floor(count.value / 160);
+});
+
+const messageCount = () => {
+  count.value = message.value.length;
+};
 </script>
 
 <template>
@@ -186,7 +199,10 @@ const setGroupRecipients = (
                 placeholder="Message*"
                 outer-class="w-full"
                 input-class="form-control"
+                @input="messageCount"
+                @paste="messageCount"
               />
+              <div class="mt-2">SMS Count: {{ count }}/{{ countLimit }}</div>
             </div>
             <div flex flex-wrap justify-end items-center>
               <div class="flex items-center mt-5 md:w-auto w-full">

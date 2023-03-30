@@ -101,6 +101,19 @@ const setGroupRecipients = (
   groups.value = groupSelected;
   showModal.value = false;
 };
+
+const count = ref(0);
+const countLimit = computed(() => {
+  if (count.value < 160) {
+    return 0;
+  }
+
+  return Math.floor(count.value / 160);
+});
+
+const messageCount = () => {
+  count.value = data.message.length;
+};
 </script>
 
 <template>
@@ -214,7 +227,12 @@ const setGroupRecipients = (
                 placeholder="Message*"
                 outer-class="w-full"
                 input-class="form-control"
+                @input="messageCount"
+                @paste="messageCount"
               />
+              <div class="mt-2">
+                Message Count: {{ count }}/{{ countLimit }}
+              </div>
             </div>
             <div flex flex-wrap items-center gap-5 mb-6>
               <h6 text-stone>Communication Channels</h6>
