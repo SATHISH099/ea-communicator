@@ -71,7 +71,7 @@ const toggleChecked = () => {
 
 <template>
   <div>
-    <div class="bg-white small-shadow">
+    <div class="bg-white small-shadow pb-8">
       <div class="p-6">
         <h5 text-stone mb-8>Recipient's list</h5>
         <div class="flex flex-wrap items-center gap-4">

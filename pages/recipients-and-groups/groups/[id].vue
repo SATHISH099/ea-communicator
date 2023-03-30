@@ -3,8 +3,10 @@ import { useRoute } from 'vue-router';
 import type { Recipient } from '~~/services/recipient.service';
 const config = useRuntimeConfig();
 const { id } = useRoute().params;
+const showModal = ref(false);
+const hideModal = ref(false);
 
-const messageHeaders = ['Recipients', 'Email Address'];
+const messageHeaders = ['Recipients', 'Email Address', ''];
 const { data } = await useFetch<any>(() => `groups/${id}`, {
   baseURL: config.public.API_SMARTSUITE_BASEURL,
 });
@@ -15,6 +17,11 @@ const recipients = data.value?.recipients.map(
     emailAddress,
   }),
 );
+
+const openViewModal = () => {
+  showModal.value = true;
+  hideModal.value = true;
+};
 </script>
 
 <template>
@@ -87,6 +94,8 @@ const recipients = data.value?.recipients.map(
             :headers="messageHeaders"
             :rows="recipients"
             :isDropdown="false"
+            :is-viewable="true"
+            :on-view-click="openViewModal"
           />
         </div>
       </div>

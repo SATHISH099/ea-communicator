@@ -12,6 +12,7 @@ const orderBy = ref('id');
 const search = ref('');
 const searchField = ref('');
 const { setMessage } = useToasterStore();
+const user = useCurrentUser();
 
 const MessageHeaders = [
   'ID',
@@ -188,8 +189,13 @@ const bulkDelete = async (data: number[]) => {
           :show-bulk-delete="true"
           :drop-down-option="{
             isView: false,
-            isEdit: true,
-            isDelete: true,
+            isEdit: user.hasRole(
+              'admin',
+              'event-manager',
+              'supervisor',
+              'team-member',
+            ),
+            isDelete: user.hasRole('admin'),
           }"
           :actions="{
             edit: `/email-messages/${type}/edit/[id]`,
@@ -204,8 +210,8 @@ const bulkDelete = async (data: number[]) => {
             :total-records="data?.total || 0"
             :current-page="page"
             :paginate="paginate"
-            @setPerPage="setPerPage"
             entity="Predefined Templates"
+            @setPerPage="setPerPage"
           ></PaginationTable>
         </div>
       </div>

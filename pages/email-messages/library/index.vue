@@ -122,6 +122,10 @@ const searchEmpty = () => {
           <span class="text-silver">/</span>
           <span class="text-primary"> Library</span>
         </p>
+        <div class="mt-4 flex gap-4">
+          <button class="btn">List View</button>
+          <button class="btn">Grid View</button>
+        </div>
       </div>
       <div class="flex flex-wrap justify-between items-center gap-4">
         <div class="flex flex-wrap items-center gap-4">
