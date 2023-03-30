@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const props = defineProps(['recipients']);
 defineEmits(['setRecipients']);
-const config = useRuntimeConfig();
+
 const page = ref(1);
 const search = ref('');
 const searchField = ref('');

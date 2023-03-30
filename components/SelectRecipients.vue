@@ -16,22 +16,42 @@ interface initialStateData {
 
 const props = defineProps(['recipients', 'groups']);
 defineEmits(['setGroupsRecipients']);
+
+const recipientService = useService('recipient');
+if (process.client) {
+  recipientService.setAuth();
+}
+
+const groupService = useService('group');
+if (process.client) {
+  groupService.setAuth();
+}
+
 const searchRecipient = ref('');
 const searchGroup = ref('');
 const type = ref<string>('recipients');
-const config = useRuntimeConfig();
 
-const { data: recipients, refresh: refreshRecipient } = await useFetch<any>(
-  () => `recipients?search=${searchRecipient.value}&pageNumber=1&pageSize=10`,
+const { data: recipients, refresh: refreshRecipient } = await useAsyncData(
+  () =>
+    recipientService.getAll({
+      search: searchRecipient.value,
+      pageSize: 10,
+      pageNumber: 1,
+    }),
   {
-    baseURL: config.public.API_SMARTSUITE_BASEURL,
+    server: false,
   },
 );
 
-const { data: groups, refresh: refreshGroup } = await useFetch<any>(
-  () => `groups?search=${searchGroup.value}&pageNumber=1&pageSize=10`,
+const { data: groups, refresh: refreshGroup } = await useAsyncData(
+  () =>
+    groupService.getAll({
+      search: searchRecipient.value,
+      pageSize: 10,
+      pageNumber: 1,
+    }),
   {
-    baseURL: config.public.API_SMARTSUITE_BASEURL,
+    server: false,
   },
 );
 
@@ -135,9 +155,9 @@ const removeFromGroup = (id: number) => {
       </div>
       <div class="flex flex-wrap items-center gap-3 mt-10">
         <span
-          class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
           v-for="recipient in form.recipients"
           :key="recipient.id"
+          class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
         >
           {{ recipient.name }}
           <button
@@ -150,9 +170,9 @@ const removeFromGroup = (id: number) => {
         </span>
 
         <span
-          class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary"
           v-for="group in form.groups"
           :key="group.id"
+          class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary"
         >
           {{ group.groupName }}
           <button
