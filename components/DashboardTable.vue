@@ -92,11 +92,11 @@ const toggleChecked = () => {
     ></DeleteRecord>
 
     <FormKit
-      type="form"
       id="bulkDelete"
-      @submit="deleteShow"
+      v-slot="{ value }"
+      type="form"
       :actions="false"
-      #default="{ value }"
+      @submit="deleteShow"
     >
       <table class="relative">
         <thead>
