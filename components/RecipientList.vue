@@ -3,6 +3,11 @@ const props = defineProps(['recipients', 'groups']);
 const recipientService = useService('recipient');
 const groupService = useService('group');
 
+if (process.client) {
+  recipientService.setAuth();
+  groupService.setAuth();
+}
+
 interface RecipientData {
   name: string;
   emailAddress: string;
