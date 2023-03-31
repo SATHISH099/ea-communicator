@@ -70,6 +70,7 @@ loadRecipients(activeTab.value);
     </div>
     <DashboardTable
       v-if="activeTab === 'recipients'"
+      :is-dropdown="false"
       mt-3
       mb-8
       :headers="recipientHeaders"
@@ -81,6 +82,7 @@ loadRecipients(activeTab.value);
 
     <DashboardTable
       v-if="activeTab === 'groups'"
+      :is-dropdown="false"
       mt-3
       mb-8
       :headers="groupHeaders"
