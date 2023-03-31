@@ -185,8 +185,8 @@ const bulkDelete = async (data: number[]) => {
           :rows="data?.data || []"
           :show-bulk-delete="true"
           :drop-down-option="{
-            isView: false,
-            isEdit: true,
+            isView: true,
+            isEdit: !user.hasRole('team-member'),
             isDelete: user.hasRole('admin'),
           }"
           :actions="{
