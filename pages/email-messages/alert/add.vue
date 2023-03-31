@@ -5,6 +5,10 @@ const { setMessage } = useToasterStore();
 const { $trpc } = useNuxtApp();
 const router = useRouter();
 
+definePageMeta({
+  middleware: 'permission',
+});
+
 interface AlertData {
   title: string;
   message: string;

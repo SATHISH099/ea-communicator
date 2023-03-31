@@ -6,6 +6,11 @@ const router = useRouter();
 interface EditData {
   title: string;
 }
+
+definePageMeta({
+  middleware: 'permission',
+});
+
 const { $trpc } = useNuxtApp();
 const params = useRoute().params;
 const emailId: number = parseInt(params.id as string);

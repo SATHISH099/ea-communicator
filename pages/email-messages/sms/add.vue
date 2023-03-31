@@ -6,6 +6,10 @@ const router = useRouter();
 
 const { $trpc } = useNuxtApp();
 
+definePageMeta({
+  middleware: 'permission',
+});
+
 interface SmsData {
   title: string;
   message: string;
