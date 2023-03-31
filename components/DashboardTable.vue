@@ -35,6 +35,14 @@ const props = defineProps({
     type: Object,
     default: {},
   },
+  isViewable: {
+    type: Boolean,
+    default: false,
+  },
+  onViewClick: {
+    type: Function,
+    default: () => {},
+  },
 });
 const emit = defineEmits(['onDeleteRecord', 'sortRecord', 'bulkDelete']);
 
@@ -186,6 +194,13 @@ const toggleChecked = () => {
                   />
                   {{ cell?.value ?? cell }}
                 </div>
+              </td>
+              <td v-if="isViewable">
+                <a
+                  class="cursor-pointer flex justify-end text-sm hover:underline"
+                  @click="onViewClick(row)"
+                  >View</a
+                >
               </td>
               <td class="text-[14px] px-[30px] py-[18px]">
                 <DropdownTable

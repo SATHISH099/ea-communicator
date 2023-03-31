@@ -74,7 +74,7 @@ const toggleChecked = () => {
 
 <template>
   <div>
-    <div class="bg-white small-shadow">
+    <div class="bg-white small-shadow pb-8">
       <div class="p-6">
         <h5 text-stone mb-8>Group's list</h5>
         <div class="flex flex-wrap items-center gap-4">
@@ -130,4 +130,21 @@ const toggleChecked = () => {
   </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+.recipient-checkbox {
+  .formkit-fieldset {
+    margin-bottom: 25px;
+    margin-left: 24px;
+    border: none;
+    ul {
+      list-style: none;
+      .formkit-wrapper {
+        display: flex;
+        :first-child {
+          padding-right: 10px;
+        }
+      }
+    }
+  }
+}
+</style>
