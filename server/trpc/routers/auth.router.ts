@@ -11,7 +11,9 @@ const login = procedure
     const loginResponse = await service.login(input, session);
     return {
       token: loginResponse.token,
-      user: session.user as AuthSessionPayload,
+      user: {
+        ...(session.user as AuthSessionPayload),
+      },
     };
   });
 

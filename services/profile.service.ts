@@ -45,7 +45,7 @@ export class ProfileService {
     return this.apiService.get(profile);
   }
 
-  update(data: Data) {
-    return this.apiService.put(profile, data, `/profile`);
+  update(data: any) {
+    return this.apiService.putForm(profile, data, `/profile`);
   }
 }

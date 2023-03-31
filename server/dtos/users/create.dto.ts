@@ -24,6 +24,7 @@ export class CreateUserDto {
   @IsOptional()
   status: boolean;
 
+  @IsOptional()
   @IsNumber()
   userId: number;
 
@@ -39,6 +40,10 @@ export class CreateUserDto {
   @IsOptional()
   notes: string;
 
+  @IsOptional()
+  role: number;
+
+  @IsOptional()
   @IsArray()
   roles: RoleDto[];
 }

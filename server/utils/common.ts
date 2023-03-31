@@ -111,6 +111,9 @@ export async function verifySmartSuiteRequest(event: H3Event, role?: string) {
     where: {
       userId: data.id,
     },
+    relations: {
+      roles: true,
+    },
   });
 
   return {

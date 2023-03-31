@@ -12,6 +12,7 @@ interface initialStateData {
   mobile?: string;
   designation?: string;
   notes?: string;
+  profilePath?: string;
 }
 
 const initialState: initialStateData = {
@@ -20,7 +21,10 @@ const initialState: initialStateData = {
   middleName: '',
   lastName: '',
 };
+
 const profileService = useService('profile');
+const profileImage = ref<any>();
+const submitting = ref(false);
 
 const profile = ref<initialStateData>({ ...initialState });
 
@@ -33,7 +37,14 @@ onMounted(async () => {
 
 const submitHandler = async () => {
   try {
-    const response = await profileService.update(profile.value);
+    submitting.value = true;
+    const formElement = document.getElementById(
+      'updateProfile',
+    ) as HTMLFormElement;
+
+    const formData = new FormData(formElement);
+
+    const response = await profileService.update(formData);
     if (response) {
       setMessage('Profile Updated successfully', 'success');
     } else {
@@ -42,6 +53,7 @@ const submitHandler = async () => {
   } catch (error) {
     console.error(new Error('Whoops, something went wrong.'));
   }
+  submitting.value = false;
 };
 </script>
 
@@ -68,19 +80,33 @@ const submitHandler = async () => {
         <div class="lg:flex gap-5">
           <div class="md:w-[20%]">
             <div class="relative mb-10">
-              <img src="/profile.png" class="h-67 w-69" />
+              <img
+                :src="profile.profilePath || '/profile.png'"
+                class="h-67 w-69"
+              />
               <button
+                type="button"
                 class="bottom-0 absolute bg-[#D9D9D9] text-carbon h-10 w-69 text-center flex items-center justify-center hover:text-stone cursor-pointer border-none text-lg"
+                onclick="this.nextElementSibling.click()"
               >
-                Change picture
+                Change Picture
               </button>
+              <input
+                @change="profileImage = ($event.target as any)?.files[0]"
+                id="image"
+                ref="file"
+                type="file"
+                accept="image/*"
+                name="image"
+                class="hidden"
+              />
             </div>
           </div>
           <div class="md:w-[80%] md:mt-0 mt-4">
             <div class="md:flex gap-5">
               <FormKit
                 v-model="profile.firstName"
-                name="first_name"
+                name="firstName"
                 type="text"
                 validation="required"
                 placeholder="First Name"
@@ -89,7 +115,7 @@ const submitHandler = async () => {
               />
               <FormKit
                 v-model="profile.middleName"
-                name="middle_name"
+                name="middleName"
                 type="text"
                 placeholder="Middle Name"
                 input-class="form-control"
@@ -97,7 +123,7 @@ const submitHandler = async () => {
               />
               <FormKit
                 v-model="profile.lastName"
-                name="last_name"
+                name="lastName"
                 type="text"
                 validation="required"
                 placeholder="Last Name"
@@ -108,7 +134,7 @@ const submitHandler = async () => {
             <div class="md:flex gap-5">
               <FormKit
                 v-model="profile.phoneNumber"
-                name="phone_number"
+                name="phoneNumber"
                 type="text"
                 placeholder="Phone"
                 input-class="form-control"
@@ -144,6 +170,7 @@ const submitHandler = async () => {
             <div class="w-full mb-5">
               <FormKit
                 v-model="profile.notes"
+                name="notes"
                 type="textarea"
                 rows="10"
                 placeholder="Notes"
@@ -154,7 +181,9 @@ const submitHandler = async () => {
           </div>
         </div>
         <div class="flex justify-end">
-          <button class="btn btn-primary">Edit Profile</button>
+          <button :disabled="submitting" class="btn btn-primary">
+            Edit Profile
+          </button>
         </div>
       </FormKit>
     </div>

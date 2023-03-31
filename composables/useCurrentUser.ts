@@ -4,6 +4,7 @@ export interface AuthUser {
   id?: number;
   name?: string;
   email?: string;
+  profileImage?: string;
   roles: string[];
 }
 
@@ -11,6 +12,7 @@ const defaultUser: AuthUser = {
   id: undefined,
   name: undefined,
   email: undefined,
+  profileImage: undefined,
   roles: [],
 };
 

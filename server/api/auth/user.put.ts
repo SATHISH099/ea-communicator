@@ -18,7 +18,5 @@ export default defineEventHandler(async (event) => {
   const requestBody = await readBody(event);
   await validationPipe(UpdateUserDto, requestBody);
 
-  return service.update(id as number, {
-    ...requestBody,
-  });
+  return service.updateUser(id as number, requestBody);
 });

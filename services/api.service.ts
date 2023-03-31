@@ -78,6 +78,16 @@ export class ApiService {
     return this.makeRequest(this.getUrl(url), this.getOptions(options), schema);
   }
 
+  putForm<T>(
+    schema: z.ZodType<T>,
+    data: any,
+    url?: string,
+    options?: FetchOptions,
+  ) {
+    options = { method: 'put', body: data, ...options };
+    return this.makeRequest(this.getUrl(url), this.getOptions(options), schema);
+  }
+
   patch<T>(
     schema: z.ZodType<T>,
     data: Record<string, any>,
