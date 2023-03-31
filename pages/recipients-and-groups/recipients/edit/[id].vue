@@ -7,6 +7,10 @@ const { setMessage } = useToasterStore();
 const { id: recipientId } = useRoute().params;
 const router = useRouter();
 
+definePageMeta({
+  middleware: 'permission',
+});
+
 interface GroupData {
   id: number;
   groupName: string;

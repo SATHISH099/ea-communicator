@@ -6,6 +6,10 @@ import { ImportanceLevel } from '~~/server/enums/importance-level.enum';
 const { setMessage } = useToasterStore();
 const router = useRouter();
 
+definePageMeta({
+  middleware: 'permission',
+});
+
 interface EmailData {
   title: string;
   message: string;

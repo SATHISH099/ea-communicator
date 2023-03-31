@@ -1,4 +1,6 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const user = useCurrentUser();
+</script>
 
 <template>
   <div>
@@ -12,6 +14,7 @@
           </p>
         </div>
         <NuxtLink
+          v-if="!user.hasRole('team-member')"
           :to="{ name: 'email-messages-alert-add' }"
           class="btn btn-primary"
           >Send a Message</NuxtLink

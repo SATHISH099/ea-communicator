@@ -4,6 +4,10 @@ import { useToasterStore } from '~~/store/toaster';
 const { setMessage } = useToasterStore();
 const router = useRouter();
 
+definePageMeta({
+  middleware: 'permission',
+});
+
 interface RecipientData {
   id: number;
   name: string;

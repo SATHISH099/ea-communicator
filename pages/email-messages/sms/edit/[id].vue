@@ -2,6 +2,10 @@
 import { useToasterStore } from '~~/store/toaster';
 const router = useRouter();
 
+definePageMeta({
+  middleware: 'permission',
+});
+
 const { setMessage } = useToasterStore();
 interface EditData {
   title: string;

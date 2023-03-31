@@ -12,7 +12,7 @@ const endDate = ref<string | null>('');
 const searchField = ref('');
 
 const messageHeaders = [
-  { value: 'Id', isSort: true, key: 'id' },
+  { value: 'ID', isSort: true, key: 'id' },
   'Sender',
   'Title',
   'Recipients',
@@ -138,7 +138,7 @@ const setDate = (dateStr: string[] | null) => {
                 },
                 {
                   value: 'message',
-                  label: 'Alert',
+                  label: 'Messages',
                 },
               ]"
             />
