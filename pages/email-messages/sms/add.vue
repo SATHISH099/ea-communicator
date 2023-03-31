@@ -87,11 +87,11 @@ const setGroupRecipients = (
 
 const count = ref(0);
 const countLimit = computed(() => {
-  if (count.value <= 10) {
+  if (count.value < 160) {
     return count.value > 0 ? 1 : 0;
   }
 
-  return Math.floor(count.value / 10 + 1);
+  return Math.ceil(count.value / 160);
 });
 
 const messageCount = () => {

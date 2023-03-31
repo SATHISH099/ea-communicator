@@ -109,10 +109,10 @@ const setGroupRecipients = (
 const count = ref(0);
 const countLimit = computed(() => {
   if (count.value < 160) {
-    return 0;
+    return count.value > 0 ? 1 : 0;
   }
 
-  return Math.floor(count.value / 160);
+  return Math.ceil(count.value / 160);
 });
 
 const messageCount = () => {
