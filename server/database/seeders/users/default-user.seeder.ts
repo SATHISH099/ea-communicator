@@ -17,6 +17,7 @@ export class DefaultUserSeeder implements Seeder {
           status: true,
           name: 'EA Admin',
           email: 'admin@earlyalert.com',
+          roles: [{ id: 1 }],
         }),
       );
     }

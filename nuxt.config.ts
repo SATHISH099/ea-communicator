@@ -1,5 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import type { ModuleOptions } from 'nuxt/schema';
+import type { ModuleOptions } from '@sidebase/nuxt-session';
 import unocssConfig from './unocss.config';
 
 const nuxtConfig = defineNuxtConfig({
@@ -35,6 +35,10 @@ const session: ModuleOptions = {
     cookieSecure: process.env.APP_URL?.startsWith('https'),
     // Sessions expire after 3600 seconds = 60 minutes
     expiryInSeconds: parseInt(process.env.SESSION_EXPIRY_SECONDS || '3600'),
+    storageOptions: {
+      driver: 'memory',
+      options: {},
+    },
   },
   api: { methods: ['get'] },
 };
