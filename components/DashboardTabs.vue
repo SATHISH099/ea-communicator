@@ -32,7 +32,7 @@ const TAB_MENU = {
 <template>
   <div class="bg-white small-shadow rounded-[4px] w-full">
     <div class="flex md:justify-end justify-start p-6">
-      <div class="flex items-center lex-wrap">
+      <div class="flex items-center">
         <div
           v-for="(value, key) in TAB_MENU"
           :key="key"
