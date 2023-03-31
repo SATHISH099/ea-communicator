@@ -5,6 +5,7 @@ const config = useRuntimeConfig();
 const { id } = useRoute().params;
 const showModal = ref(false);
 const hideModal = ref(false);
+const modalRecipient = ref<any>();
 
 const messageHeaders = ['Recipients', 'Email Address', ''];
 const { data } = await useFetch<any>(() => `groups/${id}`, {
@@ -18,7 +19,11 @@ const recipients = data.value?.recipients.map(
   }),
 );
 
-const openViewModal = () => {
+const openViewModal = (row: Recipient) => {
+  modalRecipient.value = data.value?.recipients?.find(
+    (r: any) => r.emailAddress === row.emailAddress,
+  );
+
   showModal.value = true;
   hideModal.value = true;
 };
@@ -98,6 +103,11 @@ const openViewModal = () => {
             :on-view-click="openViewModal"
           />
         </div>
+        <RecipientViewModal
+          :data="modalRecipient"
+          :show="showModal"
+          :close="$emit('hideModal')"
+        ></RecipientViewModal>
       </div>
     </div>
   </div>

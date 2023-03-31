@@ -198,7 +198,7 @@ const toggleChecked = () => {
               <td v-if="isViewable">
                 <a
                   class="cursor-pointer flex justify-end text-sm hover:underline"
-                  @click="onViewClick"
+                  @click="onViewClick(row)"
                   >View</a
                 >
               </td>

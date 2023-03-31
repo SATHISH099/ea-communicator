@@ -1,32 +1,10 @@
 <script lang="ts" setup>
-import type { Group } from '~~/services/group.service';
+const props = defineProps<{ show?: boolean; deleteId?: boolean; data: any }>();
+const current = ref<any>(props.data);
 
-const props = defineProps({
-  entity: {
-    type: String,
-    required: true,
-  },
-  show: {
-    type: Boolean,
-    default: true,
-    required: false,
-  },
-  deleteId: {
-    default: true,
-    required: false,
-  },
+watch(props.data, () => {
+  current.value = props.data;
 });
-const { id } = useRoute().params;
-const config = useRuntimeConfig();
-
-const { data } = await useFetch<any>(() => `recipients/${id}`, {
-  baseURL: config.public.API_SMARTSUITE_BASEURL,
-});
-
-const groups = data.value.groups.map(({ groupName, status }: Group) => ({
-  groupName,
-  status: status ? 'Active' : 'In-Active',
-}));
 </script>
 
 <template>
