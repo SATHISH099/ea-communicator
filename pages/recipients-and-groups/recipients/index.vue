@@ -3,6 +3,7 @@ import '~~/services/recipient.service';
 import { useToasterStore } from '~~/store/toaster';
 
 const { setMessage } = useToasterStore();
+const user = useCurrentUser();
 
 const recipientService = useService('recipient');
 if (process.client) {
@@ -192,11 +193,13 @@ const searchEmpty = () => {
             </CModal>
           </div>
         </teleport>
-        <NuxtLink
-          :to="{ name: 'recipients-and-groups-recipients-add' }"
-          class="btn btn-primary block md:w-auto w-full text-center"
-          >Add New Recipient</NuxtLink
-        >
+        <div v-if="user.hasRole('admin')">
+          <NuxtLink
+            :to="{ name: 'recipients-and-groups-recipients-add' }"
+            class="btn btn-primary block md:w-auto w-full text-center"
+            >Add New Recipient</NuxtLink
+          >
+        </div>
       </div>
     </div>
     <div class="bg-white small-shadow">
@@ -211,7 +214,7 @@ const searchEmpty = () => {
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
               outer-class="search-field md:w-[34rem] w-full"
-              v-on:keyup.enter="searchKeyword"
+              @keyup.enter="searchKeyword"
               @input="searchEmpty"
             />
             <button
@@ -228,6 +231,11 @@ const searchEmpty = () => {
           :headers="recipientHeaders"
           :rows="data?.data || []"
           type="recipients"
+          :drop-down-option="{
+            isView: true,
+            isEdit: user.hasRole('admin'),
+            isDelete: user.hasRole('admin'),
+          }"
           @sort-record="sortRecord"
           @on-delete-record="deleteRecord"
         />

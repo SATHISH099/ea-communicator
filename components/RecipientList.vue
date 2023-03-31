@@ -3,6 +3,11 @@ const props = defineProps(['recipients', 'groups']);
 const recipientService = useService('recipient');
 const groupService = useService('group');
 
+if (process.client) {
+  recipientService.setAuth();
+  groupService.setAuth();
+}
+
 interface RecipientData {
   name: string;
   emailAddress: string;
@@ -65,6 +70,7 @@ loadRecipients(activeTab.value);
     </div>
     <DashboardTable
       v-if="activeTab === 'recipients'"
+      :is-dropdown="false"
       mt-3
       mb-8
       :headers="recipientHeaders"
@@ -76,6 +82,7 @@ loadRecipients(activeTab.value);
 
     <DashboardTable
       v-if="activeTab === 'groups'"
+      :is-dropdown="false"
       mt-3
       mb-8
       :headers="groupHeaders"

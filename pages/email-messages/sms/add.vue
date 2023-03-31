@@ -6,6 +6,10 @@ const router = useRouter();
 
 const { $trpc } = useNuxtApp();
 
+definePageMeta({
+  middleware: 'permission',
+});
+
 interface SmsData {
   title: string;
   message: string;
@@ -80,16 +84,29 @@ const setGroupRecipients = (
   groups.value = groupSelected;
   showModal.value = false;
 };
+
+const count = ref(0);
+const countLimit = computed(() => {
+  if (count.value < 160) {
+    return count.value > 0 ? 1 : 0;
+  }
+
+  return Math.ceil(count.value / 160);
+});
+
+const messageCount = () => {
+  count.value = message.value.length;
+};
 </script>
 
 <template>
   <div>
     <FormKit
-      type="form"
       id="sendSms"
-      @submit="submitHandler"
+      v-slot="{ value }"
+      type="form"
       :actions="false"
-      #default="{ value }"
+      @submit="submitHandler"
     >
       <div class="flex justify-between items-center mb-10">
         <div>
@@ -108,7 +125,7 @@ const setGroupRecipients = (
         </div>
       </div>
       <div w-full>
-        <div class="success alert-success" v-if="successResponse.id">
+        <div v-if="successResponse.id" class="success alert-success">
           SMS Successfully Sent
         </div>
         <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>
@@ -119,8 +136,8 @@ const setGroupRecipients = (
                 <h6 text-stone>Priority</h6>
                 <div flex flex-wrap items-center gap-3>
                   <FormKit
-                    name="importanceLevel"
                     v-model="importanceLevel"
+                    name="importanceLevel"
                     type="radio"
                     validation="required"
                     outer-class="radio-fieldset"
@@ -167,26 +184,29 @@ const setGroupRecipients = (
                 </p>
               </div>
               <FormKit
+                v-model="title"
                 type="text"
                 name="title"
                 placeholder="Title of the Message*"
                 validation="required"
-                v-model="title"
                 input-class="form-control"
                 outer-class="mb-5 col-span-2"
               />
             </div>
             <div class="w-full mb-5">
               <FormKit
+                v-model="message"
                 type="textarea"
                 name="message"
                 validation="required"
-                v-model="message"
                 rows="10"
                 placeholder="Message*"
                 outer-class="w-full"
                 input-class="form-control"
+                @input="messageCount"
+                @paste="messageCount"
               />
+              <div class="mt-2">SMS Count: {{ count }}/{{ countLimit }}</div>
             </div>
             <div flex flex-wrap justify-end items-center>
               <div class="flex items-center mt-5 md:w-auto w-full">

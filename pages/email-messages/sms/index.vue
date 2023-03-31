@@ -10,6 +10,7 @@ const orderType = ref<'desc' | 'asc'>('desc');
 const orderBy = ref('id');
 const searchField = ref('');
 const { setMessage } = useToasterStore();
+const user = useCurrentUser();
 
 const messageHeaders = [
   'ID',
@@ -137,7 +138,7 @@ const searchEmpty = () => {
           <span class="text-primary hover:no-underline ml-1">SMS</span>
         </p>
       </div>
-      <div class="flex mt-10 md:mt-0">
+      <div v-if="!user.hasRole('team-member')" class="flex mt-10 md:mt-0">
         <NuxtLink
           :to="{ name: 'email-messages-sms-add' }"
           class="btn btn-primary btn-create w-full flex justify-center"
@@ -146,20 +147,20 @@ const searchEmpty = () => {
       </div>
     </div>
     <div class="bg-white small-shadow">
-      <div class="success alert-success" v-if="isDelete">
+      <div v-if="isDelete" class="success alert-success">
         SMS Successfully Deleted
       </div>
       <div class="p-6">
         <div class="flex flex-wrap items-center gap-4">
           <FormKit
+            v-model="searchField"
             prefix-icon="search"
             type="search"
-            v-model="searchField"
             placeholder="Search"
             input-class="form-control pl-[3.5rem]"
             prefix-icon-class="search-icon"
             outer-class="md:w-[34rem] w-full search-field"
-            v-on:keyup.enter="searchKeyword"
+            @keyup.enter="searchKeyword"
             @input="searchEmpty"
           />
           <button class="btn btn-primary md:w-30 w-full" @click="searchKeyword">
@@ -173,19 +174,23 @@ const searchEmpty = () => {
           :rows="data?.data"
           type="sms"
           :show-bulk-delete="true"
-          :dropDownOption="{ isView: true, isEdit: false, isDelete: true }"
+          :drop-down-option="{
+            isView: true,
+            isEdit: false,
+            isDelete: user.hasRole('admin'),
+          }"
           @bulkDelete="bulkDelete"
           @onDeleteRecord="deleteRecord"
           @sortRecord="sortRecord"
         />
         <div class="ml-8">
           <PaginationTable
-            :totalRecords="data?.total"
-            :currentPage="page"
-            :pageSize="pageSize"
-            @setPerPage="setPerPage"
-            v-bind:paginate="paginate"
+            :total-records="data?.total"
+            :current-page="page"
+            :page-size="pageSize"
+            :paginate="paginate"
             entity="SMS"
+            @setPerPage="setPerPage"
           ></PaginationTable>
         </div>
       </div>

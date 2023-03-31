@@ -2,6 +2,7 @@
 import moment from 'moment';
 import { useToasterStore } from '~~/store/toaster';
 const { setMessage } = useToasterStore();
+const user = useCurrentUser();
 
 const page = ref(1);
 const pageSize = ref(10);
@@ -115,7 +116,7 @@ const searchEmpty = () => {
           <span class="text-primary hover:no-underline ml-1">Groups</span>
         </p>
       </div>
-      <div md:w-auto w-full>
+      <div v-if="user.hasRole('admin')" md:w-auto w-full>
         <NuxtLink
           :to="{ name: 'recipients-and-groups-groups-create' }"
           class="btn btn-primary block md:w-auto w-full text-center"
@@ -152,6 +153,11 @@ const searchEmpty = () => {
           :headers="messageHeaders"
           :rows="data?.data || []"
           type="groups"
+          :drop-down-option="{
+            isView: true,
+            isEdit: user.hasRole('admin'),
+            isDelete: user.hasRole('admin'),
+          }"
           @on-delete-record="deleteRecord"
         />
         <div class="ml-8">

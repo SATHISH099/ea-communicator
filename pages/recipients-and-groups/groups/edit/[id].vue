@@ -5,6 +5,10 @@ const config = useRuntimeConfig();
 const { setMessage } = useToasterStore();
 const router = useRouter();
 
+definePageMeta({
+  middleware: ['permission'],
+});
+
 interface RecipientData {
   id: number;
   name: string;

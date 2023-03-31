@@ -12,6 +12,7 @@ const orderBy = ref('id');
 const search = ref('');
 const searchField = ref('');
 const { setMessage } = useToasterStore();
+const user = useCurrentUser();
 
 const MessageHeaders = [
   'ID',
@@ -131,7 +132,7 @@ const bulkDelete = async (data: number[]) => {
           <span class="text-primary hover:no-underline ml-1">Template</span>
         </p>
       </div>
-      <div class="md:w-auto w-full">
+      <div v-if="!user.hasRole('team-member')" class="md:w-auto w-full">
         <NuxtLink
           :to="{ name: 'email-messages-predefined-templates-add' }"
           class="btn btn-primary btn-create block md:w-auto w-full text-center"
@@ -140,9 +141,6 @@ const bulkDelete = async (data: number[]) => {
       </div>
     </div>
     <div class="bg-white small-shadow">
-      <!-- <div v-if="isDelete" class="success alert-success">
-        Template Successfully Deleted
-      </div> -->
       <div class="p-6">
         <div class="flex flex-wrap justify-between items-center gap-4">
           <div class="flex flex-wrap items-center gap-4">
@@ -187,9 +185,9 @@ const bulkDelete = async (data: number[]) => {
           :rows="data?.data || []"
           :show-bulk-delete="true"
           :drop-down-option="{
-            isView: false,
-            isEdit: true,
-            isDelete: true,
+            isView: true,
+            isEdit: !user.hasRole('team-member'),
+            isDelete: user.hasRole('admin'),
           }"
           :actions="{
             edit: `/email-messages/${type}/edit/[id]`,
@@ -204,8 +202,8 @@ const bulkDelete = async (data: number[]) => {
             :total-records="data?.total || 0"
             :current-page="page"
             :paginate="paginate"
-            @setPerPage="setPerPage"
             entity="Predefined Templates"
+            @setPerPage="setPerPage"
           ></PaginationTable>
         </div>
       </div>
