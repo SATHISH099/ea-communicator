@@ -137,7 +137,7 @@ const bulkDelete = async (data: number[]) => {
           <span class="text-primary hover:no-underline ml-1">Email</span>
         </p>
       </div>
-      <div class="flex mt-10 md:mt-0">
+      <div v-if="!user.hasRole('team-member')" class="flex mt-10 md:mt-0">
         <NuxtLink
           :to="{ name: 'email-messages-email-add' }"
           class="btn btn-primary btn-create w-full flex justify-center"
@@ -178,7 +178,7 @@ const bulkDelete = async (data: number[]) => {
           :dropDownOption="{
             isView: true,
             isEdit: false,
-            isDelete: user.hasRole('event-manager', 'admin'),
+            isDelete: user.hasRole('admin'),
           }"
           @bulkDelete="bulkDelete"
           @onDeleteRecord="deleteRecord"

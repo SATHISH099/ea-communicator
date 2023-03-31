@@ -11,6 +11,7 @@ const search = ref('');
 const searchField = ref('');
 const { setMessage } = useToasterStore();
 const { $trpc } = useNuxtApp();
+const user = useCurrentUser();
 
 const MessageHeaders = [
   'ID',
@@ -136,7 +137,7 @@ const searchEmpty = () => {
           <span class="text-primary hover:no-underline ml-1">Messages</span>
         </p>
       </div>
-      <div class="flex mt-10 md:mt-0">
+      <div v-if="!user.hasRole('team-member')" class="flex mt-10 md:mt-0">
         <NuxtLink
           :to="{ name: 'email-messages-alert-add' }"
           class="btn btn-primary btn-create w-full flex justify-center"
@@ -156,7 +157,7 @@ const searchEmpty = () => {
               input-class="form-control pl-[3.5rem]"
               prefix-icon-class="search-icon"
               outer-class="md:w-[34rem] w-full search-field"
-              v-on:keyup.enter="searchKeyword"
+              @keyup.enter="searchKeyword"
               @input="searchEmpty"
             />
             <button
@@ -174,7 +175,11 @@ const searchEmpty = () => {
           :rows="data?.data || []"
           type="alert"
           :show-bulk-delete="true"
-          :drop-down-option="{ isView: true, isEdit: false, isDelete: true }"
+          :drop-down-option="{
+            isView: true,
+            isEdit: false,
+            isDelete: user.hasRole('admin'),
+          }"
           @bulkDelete="bulkDelete"
           @onDeleteRecord="deleteRecord"
           @sortRecord="sortRecord"
@@ -183,10 +188,10 @@ const searchEmpty = () => {
           <PaginationTable
             :total-records="data?.total || 0"
             :current-page="page"
-            :pageSize="pageSize"
+            :page-size="pageSize"
             :paginate="paginate"
-            @setPerPage="setPerPage"
             entity="Messages"
+            @setPerPage="setPerPage"
           ></PaginationTable>
         </div>
       </div>

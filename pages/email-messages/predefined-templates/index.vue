@@ -132,7 +132,7 @@ const bulkDelete = async (data: number[]) => {
           <span class="text-primary hover:no-underline ml-1">Template</span>
         </p>
       </div>
-      <div class="md:w-auto w-full">
+      <div v-if="!user.hasRole('team-member')" class="md:w-auto w-full">
         <NuxtLink
           :to="{ name: 'email-messages-predefined-templates-add' }"
           class="btn btn-primary btn-create block md:w-auto w-full text-center"
@@ -141,9 +141,6 @@ const bulkDelete = async (data: number[]) => {
       </div>
     </div>
     <div class="bg-white small-shadow">
-      <!-- <div v-if="isDelete" class="success alert-success">
-        Template Successfully Deleted
-      </div> -->
       <div class="p-6">
         <div class="flex flex-wrap justify-between items-center gap-4">
           <div class="flex flex-wrap items-center gap-4">
@@ -189,12 +186,7 @@ const bulkDelete = async (data: number[]) => {
           :show-bulk-delete="true"
           :drop-down-option="{
             isView: false,
-            isEdit: user.hasRole(
-              'admin',
-              'event-manager',
-              'supervisor',
-              'team-member',
-            ),
+            isEdit: true,
             isDelete: user.hasRole('admin'),
           }"
           :actions="{

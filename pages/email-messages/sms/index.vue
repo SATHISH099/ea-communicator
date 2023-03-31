@@ -175,7 +175,7 @@ const searchEmpty = () => {
           type="sms"
           :show-bulk-delete="true"
           :drop-down-option="{
-            isView: user.hasRole('admin', 'team-member'),
+            isView: true,
             isEdit: false,
             isDelete: user.hasRole('admin'),
           }"

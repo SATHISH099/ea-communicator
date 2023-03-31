@@ -154,12 +154,7 @@ const searchEmpty = () => {
           :rows="data?.data || []"
           type="groups"
           :drop-down-option="{
-            isView: user.hasRole(
-              'admin',
-              'event-manager',
-              'team-member',
-              'supervisor',
-            ),
+            isView: true,
             isEdit: user.hasRole('admin'),
             isDelete: user.hasRole('admin'),
           }"
