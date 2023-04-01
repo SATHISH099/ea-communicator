@@ -15,7 +15,6 @@ const { setMessage } = useToasterStore();
 const user = useCurrentUser();
 
 const MessageHeaders = [
-  'ID',
   'Title',
   'Message',
   { value: 'Created Date', isSort: true, key: 'createdAt' },

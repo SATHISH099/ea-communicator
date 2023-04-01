@@ -14,7 +14,6 @@ const { $trpc } = useNuxtApp();
 const user = useCurrentUser();
 
 const MessageHeaders = [
-  'ID',
   'Sender',
   'Subject',
   'Recipients',
