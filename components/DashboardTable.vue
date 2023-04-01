@@ -181,20 +181,23 @@ const toggleChecked = () => {
                   input-class="form-check-input"
                 />
               </td>
-              <td
-                v-for="(cell, index) in row"
-                :key="index"
-                class="text-left text-[14px] px-[30px] py-[18px]"
-              >
-                <div flex items-center>
-                  <img
-                    v-if="cell && cell.image"
-                    class="pr-4"
-                    :src="cell.image"
-                  />
-                  {{ cell?.value ?? cell }}
-                </div>
-              </td>
+
+              <template v-for="(cell, index) in row">
+                <td
+                  v-if="headers.includes('ID') || index !== 'id'"
+                  :key="index"
+                  class="text-left text-[14px] px-[30px] py-[18px]"
+                >
+                  <div flex items-center>
+                    <img
+                      v-if="cell && cell.image"
+                      class="pr-4"
+                      :src="cell.image"
+                    />
+                    {{ cell?.value ?? cell }}
+                  </div>
+                </td>
+              </template>
               <td v-if="isViewable">
                 <a
                   class="cursor-pointer flex justify-end text-sm hover:underline"

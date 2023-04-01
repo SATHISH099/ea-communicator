@@ -4,7 +4,7 @@ export interface AuthUser {
   id?: number;
   name?: string;
   email?: string;
-  profileImage?: string;
+  profilePath?: string | null;
   roles: string[];
 }
 
@@ -12,7 +12,7 @@ const defaultUser: AuthUser = {
   id: undefined,
   name: undefined,
   email: undefined,
-  profileImage: undefined,
+  profilePath: undefined,
   roles: [],
 };
 
@@ -42,6 +42,10 @@ export const useCurrentUser = defineStore('current-user', {
     },
     set(user: AuthUser) {
       this.user = user;
+      setCurrentUser(this.user);
+    },
+    update(user: Partial<AuthUser>) {
+      this.user = { ...this.user, ...user };
       setCurrentUser(this.user);
     },
     hasRole(...roles: string[]) {
