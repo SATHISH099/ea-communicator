@@ -52,6 +52,8 @@ const recipients = ref<RecipientData[] | []>(
 );
 
 const submitHandler = async () => {
+  let response;
+
   try {
     const request = {
       ...data,
@@ -62,9 +64,15 @@ const submitHandler = async () => {
         id: data.location,
       },
     };
-    const response = await groupService.update(Number(groupId), request);
+    if (router.currentRoute.value.query.type === 'clone')
+      response = await groupService.createGroup(request);
+    else response = await groupService.update(Number(groupId), request);
+
     if (response) {
-      setMessage('Group updated successfully', 'success');
+      if (router.currentRoute.value.query.type === 'clone')
+        setMessage('Group clone successfully', 'success');
+      else setMessage('Group updated successfully', 'success');
+
       router.push('/recipients-and-groups/groups');
     } else {
       setMessage('Error updating group data.', 'error');
@@ -173,7 +181,9 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
             </div>
             <div class="flex justify-end items-center mt-5 md:w-auto w-full">
               <button class="btn btn-primary md:w-auto w-full">
-                Update Group
+                {{
+                  $route.query.type === 'clone' ? 'Clone Group' : 'Update Group'
+                }}
               </button>
             </div>
           </FormKit>

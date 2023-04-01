@@ -77,6 +77,22 @@ const onDeleteRecord = (deleteId) => {
             >Edit</NuxtLink
           >
         </li>
+        <li v-if="props.type === 'groups'" class="p-2">
+          <NuxtLink
+            :to="{
+              path:
+                props.actions.edit
+                  ?.replace('[module]', props.type)
+                  ?.replace('[id]', props.detailId) ||
+                `${$route.path.split('/').slice(0, -1).join('/')}/${
+                  props.type
+                }/edit/${props.detailId}`,
+              query: { type: 'clone' },
+            }"
+            class="p-2 text-white"
+            >Clone</NuxtLink
+          >
+        </li>
         <li v-if="props.dropDownOption.isDelete" class="p-2">
           <button
             class="bg-transparent border-none text-white cursor-pointer"
