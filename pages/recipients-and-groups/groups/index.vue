@@ -9,7 +9,6 @@ const pageSize = ref(10);
 const search = ref('');
 const searchField = ref('');
 const messageHeaders = [
-  'ID',
   'Group Name',
   'Members',
   'Status',

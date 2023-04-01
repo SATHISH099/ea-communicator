@@ -36,24 +36,29 @@ onMounted(async () => {
 });
 
 const submitHandler = async () => {
-  try {
-    submitting.value = true;
-    const formElement = document.getElementById(
-      'updateProfile',
-    ) as HTMLFormElement;
+  submitting.value = true;
+  const formElement = document.getElementById(
+    'updateProfile',
+  ) as HTMLFormElement;
 
-    const formData = new FormData(formElement);
+  const formData = new FormData(formElement);
 
-    const response = await profileService.update(formData);
-    if (response) {
-      setMessage('Profile Updated successfully', 'success');
-    } else {
-      setMessage('Something went wrong.', 'error');
-    }
-  } catch (error) {
-    console.error(new Error('Whoops, something went wrong.'));
+  const response = await profileService.update(formData);
+  if (response.id) {
+    useCurrentUser().update({
+      name: [response.firstName, response.lastName].join(' '),
+      profilePath: response.profilePath,
+    });
+
+    setMessage('Profile Updated successfully', 'success');
+  } else {
+    setMessage('Something went wrong.', 'error');
   }
   submitting.value = false;
+};
+
+const onProfileUpload = (event: any) => {
+  profileImage.value = URL.createObjectURL(event.target.files[0]);
 };
 </script>
 
@@ -81,7 +86,7 @@ const submitHandler = async () => {
           <div class="md:w-[20%]">
             <div class="relative mb-10">
               <img
-                :src="profile.profilePath || '/profile.png'"
+                :src="profileImage || profile.profilePath || '/profile.png'"
                 class="h-67 w-69"
               />
               <button
@@ -92,7 +97,7 @@ const submitHandler = async () => {
                 Change Picture
               </button>
               <input
-                @change="profileImage = ($event.target as any)?.files[0]"
+                @change="onProfileUpload"
                 id="image"
                 ref="file"
                 type="file"

@@ -11,7 +11,7 @@ if (process.client) {
 }
 
 const orderType = ref('desc');
-const orderBy = ref('recipients.id');
+const orderBy = ref('recipients.created_at');
 const viewUploadModal = ref(false);
 
 const pageSize = ref(10);
@@ -20,7 +20,6 @@ const search = ref('');
 const searchField = ref('');
 
 const recipientHeaders = [
-  { value: 'ID', isSort: true, key: 'recipients.id' },
   { value: 'Name', isSort: true, key: 'name' },
   'Phone (Voice)',
   'Phone (Text)',

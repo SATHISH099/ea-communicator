@@ -15,10 +15,12 @@ const loggedInDataSchema = z.object({
     userId: z.string(),
     email: z.string(),
     status: z.boolean(),
-    name: z.string(),
+    firstName: z.string(),
+    lastName: z.string().nullable(),
     roles: z.array(z.string()),
     tokenId: z.number(),
     tenantId: z.number(),
+    profilePath: z.string().nullable(),
   }),
   token: z.string(),
 });
@@ -67,10 +69,11 @@ export class AuthService {
     const sessionPayload: AuthSessionPayload = {
       id: user.id,
       status: user.status,
-      name: data.name,
+      name: [data.firstName, data.lastName].join(' '),
       email: data.email,
       roles: user.roles.map((role) => role.slug),
       tokenId: userToken.id,
+      profilePath: data.profilePath,
     };
 
     const jwtToken = this.jwtService.sign(sessionPayload);

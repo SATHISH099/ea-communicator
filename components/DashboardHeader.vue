@@ -4,6 +4,8 @@ const isOpens = ref(false);
 
 const { logout } = useLogout();
 const adminUrl = useRuntimeConfig().public.SMARTSUITE_BASEURL;
+const userStore = useCurrentUser();
+const user = userStore.get();
 </script>
 
 <template>
@@ -56,8 +58,8 @@ const adminUrl = useRuntimeConfig().public.SMARTSUITE_BASEURL;
     <div class="dropdown">
       <client-only>
         <img
-          src="/avatar.png"
-          class="h-10 mr-4 cursor-pointer"
+          :src="user.profilePath || '/avatar.png'"
+          class="h-10 mr-4 cursor-pointer rounded-50"
           @click="isOpen = !isOpen"
           v-click-away="($event) => (isOpen = false)"
         />
@@ -79,7 +81,7 @@ const adminUrl = useRuntimeConfig().public.SMARTSUITE_BASEURL;
         </li>
       </div>
     </div>
-    <p class="mr-10">Admin</p>
+    <p class="mr-10">{{ user.name }}</p>
   </div>
 </template>
 

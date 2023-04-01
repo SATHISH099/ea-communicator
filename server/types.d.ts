@@ -21,6 +21,7 @@ export interface AuthSessionPayload
   id: number;
   roles: string[];
   tokenId: number;
+  profilePath?: string | null;
 }
 
 export type Session = BaseSession & { user?: AuthSessionPayload };

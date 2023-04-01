@@ -13,7 +13,6 @@ const { setMessage } = useToasterStore();
 const user = useCurrentUser();
 
 const MessageHeaders = [
-  'ID',
   'Sender',
   'Subject',
   'Recipients',
