@@ -14,5 +14,6 @@
         </div>
       </div>
     </div>
+    <loader />
   </div>
 </template>
