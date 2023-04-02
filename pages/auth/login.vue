@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+const { setLoader } = useLoader();
 definePageMeta({
   layout: 'default',
 });
@@ -8,7 +9,7 @@ const { data, login, errorMessage } = useLogin();
 
 onMounted(async () => {
   const { APP_URL, APP_AUTH_URL } = useRuntimeConfig().public;
-
+  setLoader(true);
   if (query.token) {
     data.token = query.token as string;
     await login();

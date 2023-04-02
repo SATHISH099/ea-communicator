@@ -1,10 +1,12 @@
-import type { ActiveLoader, Props, Slots } from 'vue-loading-overlay';
-import { useLoading } from 'vue-loading-overlay';
+import { defineStore } from 'pinia';
 
-export function useLoader() {
-  const loader = useLoading({
-    color: '#b12222',
-  });
-
-  return loader;
-}
+export const useLoader = defineStore('global-loader', {
+  state: () => ({
+    enabled: false,
+  }),
+  actions: {
+    setLoader(enabled: boolean) {
+      this.enabled = enabled;
+    },
+  },
+});
