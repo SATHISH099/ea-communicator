@@ -89,6 +89,7 @@ async function deleteMedia(id: number) {
     console.error(error);
   }
 }
+
 const viewMedia = (media: Media) => {
   if (extensions.photos.includes(media.extension)) {
     viewImageModal.value = true;

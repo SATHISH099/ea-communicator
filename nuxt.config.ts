@@ -25,7 +25,11 @@ const nuxtConfig = defineNuxtConfig({
       transpile: ['@vuepic/vue-datepicker'],
     },
   },
-  css: ['~/assets/scss/main.scss', '@vueform/multiselect/themes/default.css'],
+  css: [
+    '~/assets/scss/main.scss',
+    '@vueform/multiselect/themes/default.css',
+    'vue-loading-overlay/dist/css/index.css',
+  ],
   build: { transpile: ['trpc-nuxt'] },
 });
 

@@ -67,7 +67,9 @@ const searchKeyword = () => {
   search.value = searchField.value;
   page.value = 1;
 
-  if (search.value) refresh();
+  if (search.value) {
+    refresh();
+  }
 };
 
 const paginate = (pg: number) => {
