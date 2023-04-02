@@ -1,10 +1,16 @@
 <script lang="ts" setup>
+import type { AuthUser } from '~~/composables/useCurrentUser';
+
 const showDropdown = ref('');
 const SidebarOpen = ref(false);
 const isDesktop = ref(false);
+const user = ref<AuthUser>();
 
 const { logout } = useLogout();
-
+const userStore = useCurrentUser();
+watchEffect(() => {
+  user.value = userStore.user;
+});
 const MenuItems = [
   {
     text: 'Dashboard',
