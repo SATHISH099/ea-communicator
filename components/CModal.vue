@@ -47,7 +47,7 @@ const closeModal = () => {
             p-0
             @click="closeModal"
           >
-            <img src="/close.png" alt="close" />
+            <img @click="closeModal" src="/close.png" alt="close" />
           </button>
         </div>
         <div>
