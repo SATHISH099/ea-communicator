@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import '~~/services/recipient.service';
 import { useToasterStore } from '~~/store/toaster';
-
+const { setLoader } = useLoader();
 const { setMessage } = useToasterStore();
 const user = useCurrentUser();
 
@@ -31,6 +31,7 @@ const recipientHeaders = [
   '',
 ];
 
+setLoader(true);
 const { data, refresh } = await useAsyncData(
   () =>
     recipientService.getAll({
@@ -68,6 +69,7 @@ const { data, refresh } = await useAsyncData(
   },
 );
 
+setLoader(false);
 const searchKeyword = () => {
   search.value = searchField.value;
   page.value = 1;

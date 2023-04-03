@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Media } from '~~/services/media.service';
 import { useToasterStore } from '~~/store/toaster';
-
+const { setLoader } = useLoader();
 const { setMessage } = useToasterStore();
 const user = useCurrentUser();
 const ListHeaders = ['ID', 'Image', 'Created At', ''];
@@ -22,6 +22,7 @@ const searchField = ref('');
 const viewType = ref<'grid' | 'list'>('grid');
 const { $trpc } = useNuxtApp();
 
+setLoader(true);
 const { data: medias, refresh } = await useAsyncData(() =>
   $trpc.library.list.query({
     search: search.value,
@@ -31,7 +32,7 @@ const { data: medias, refresh } = await useAsyncData(() =>
     pageSize: pageSize.value,
   }),
 );
-
+setLoader(false);
 const searchKeyword = () => {
   search.value = searchField.value;
   page.value = 1;

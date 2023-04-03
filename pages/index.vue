@@ -17,7 +17,8 @@ const user = useCurrentUser();
           v-if="!user.hasRole('team-member')"
           :to="{ name: 'email-messages-alert-add' }"
           class="btn btn-primary"
-          >Send a Message</NuxtLink
+        >
+          Send a Message</NuxtLink
         >
       </div>
     </div>
@@ -41,5 +42,30 @@ const user = useCurrentUser();
 .tab.active {
   background-color: #b42424;
   color: white;
+}
+
+// DashBoard Styling
+@media only screen and (max-width: 1450px) and (min-width: 1200px) {
+  .dashboard-count {
+    display: flex;
+    flex-wrap: wrap;
+
+    div {
+      width: 48%;
+    }
+  }
+}
+
+@media only screen and (max-width: 1450px) {
+  .recent-panel {
+    .recent-sent-message {
+      display: block;
+    }
+
+    .recent-sms {
+      position: relative;
+      top: 0%;
+    }
+  }
 }
 </style>

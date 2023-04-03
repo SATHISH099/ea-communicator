@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import moment from 'moment';
-
+const { setLoader } = useLoader();
 const { $trpc } = useNuxtApp();
 const page = ref(1);
 const type = ref<'email' | 'sms' | 'message'>('email');
@@ -21,7 +21,7 @@ const messageHeaders = [
   { value: 'Sent At', isSort: true, key: 'createdAt' },
   '',
 ];
-
+setLoader(true);
 const { data, refresh } = await useAsyncData(
   (): any =>
     $trpc[type.value].list.query({
@@ -54,6 +54,7 @@ watch(
   },
 );
 
+setLoader(false);
 const searchKeyword = () => {
   search.value = searchField.value;
   page.value = 1;

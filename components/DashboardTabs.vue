@@ -30,9 +30,9 @@ const TAB_MENU = {
 </script>
 
 <template>
-  <div class="bg-white small-shadow rounded-[4px] w-full">
-    <div class="flex md:justify-end justify-start p-6">
-      <div class="flex items-center">
+  <div class="bg-white small-shadow rounded-[4px] w-full recent-panel">
+    <div class="flex md:justify-end justify-start p-6 recent-sent-message">
+      <div class="flex items-center flex-wrap">
         <div
           v-for="(value, key) in TAB_MENU"
           :key="key"
@@ -52,7 +52,7 @@ const TAB_MENU = {
     <div class="relative">
       <div>
         <h5
-          class="text-stone md:absolute md:-top-[63px] md:left-0 md:pl-6 md:ml-0 ml-7"
+          class="text-stone md:absolute md:-top-[63px] md:left-0 md:pl-6 md:ml-0 ml-7 recent-sms"
         >
           Recent Sent {{ TAB_MENU[activeTab] }}
         </h5>
