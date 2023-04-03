@@ -1,11 +1,16 @@
-<script setup>
+<script lang="ts" setup>
+import type { AuthUser } from '~~/composables/useCurrentUser';
+
 const isOpen = ref(false);
 const isOpens = ref(false);
+const user = ref<AuthUser>();
 
 const { logout } = useLogout();
 const adminUrl = useRuntimeConfig().public.SMARTSUITE_BASEURL;
 const userStore = useCurrentUser();
-const user = userStore.get();
+watchEffect(() => {
+  user.value = userStore.user;
+});
 </script>
 
 <template>
@@ -14,10 +19,10 @@ const user = userStore.get();
   >
     <client-only>
       <img
+        v-click-away="() => (isOpens = false)"
         src="/Component.png"
-        @click="isOpens = !isOpens"
-        v-click-away="($event) => (isOpens = false)"
         class="mr-8"
+        @click="isOpens = !isOpens"
       />
     </client-only>
     <div
@@ -58,10 +63,10 @@ const user = userStore.get();
     <div class="dropdown">
       <client-only>
         <img
-          :src="user.profilePath || '/avatar.png'"
+          v-click-away="() => (isOpen = false)"
+          :src="user?.profilePath || '/avatar.png'"
           class="h-10 mr-4 cursor-pointer rounded-50"
           @click="isOpen = !isOpen"
-          v-click-away="($event) => (isOpen = false)"
         />
       </client-only>
       <div v-show="isOpen" class="dropdown-menus right-15 top-20">
@@ -73,7 +78,6 @@ const user = userStore.get();
         <li class="p-2">
           <button
             class="bg-transparent outline-none border-none text-white cursor-pointer text-[14px]"
-            :disabled="loading"
             @click="logout"
           >
             Logout
@@ -81,7 +85,7 @@ const user = userStore.get();
         </li>
       </div>
     </div>
-    <p class="mr-10">{{ user.name }}</p>
+    <p class="mr-10">{{ user?.name }}</p>
   </div>
 </template>
 

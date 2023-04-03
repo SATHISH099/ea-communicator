@@ -3,7 +3,7 @@ import moment from 'moment';
 import { useToasterStore } from '~~/store/toaster';
 const { setMessage } = useToasterStore();
 const user = useCurrentUser();
-
+const { setLoader } = useLoader();
 const page = ref(1);
 const pageSize = ref(10);
 const search = ref('');
@@ -21,7 +21,7 @@ const groupService = useService('group');
 if (process.client) {
   groupService.setAuth();
 }
-
+setLoader(true);
 const { data, refresh } = await useAsyncData(
   () =>
     groupService.getAll({
@@ -63,11 +63,14 @@ const { data, refresh } = await useAsyncData(
   },
 );
 
+setLoader(false);
 const searchKeyword = () => {
   search.value = searchField.value;
   page.value = 1;
 
-  if (search.value) refresh();
+  if (search.value) {
+    refresh();
+  }
 };
 
 const paginate = (pg: number) => {
