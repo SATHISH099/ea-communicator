@@ -3,6 +3,8 @@ import '~~/services/media.service';
 import '~~/services/email.service';
 import { useToasterStore } from '~~/store/toaster';
 import { ImportanceLevel } from '~~/server/enums/importance-level.enum';
+import type { Media } from '~~/types/common';
+
 const { setMessage } = useToasterStore();
 const router = useRouter();
 
@@ -41,8 +43,7 @@ const bccGroups = ref<GroupData[] | []>([]);
 const showModal = ref(false);
 const showModalCc = ref(false);
 const showModalBcc = ref(false);
-const showAttachmentModal = ref(false);
-const selectedAttachments = ref<any[]>([]);
+const selectedAttachments = ref<Media[]>();
 
 const toggleModal = () => {
   showModal.value = !showModal.value;
@@ -91,7 +92,7 @@ const submitHandler = async () => {
         subject: subject.value,
         body: body.value,
         importanceLevel: importanceLevel.value,
-        medias: selectedAttachments.value.map(({ id }) => ({ id })),
+        medias: selectedAttachments.value?.map(({ id }) => ({ id })),
         recipients: {
           to: recipients.value.map(({ id }) => id),
           cc: ccRecipients.value.map(({ id }) => id),
@@ -142,28 +143,16 @@ const setCcGroupRecipients = (
   ccGroups.value = groupSelected;
   showModalCc.value = false;
 };
-
-const onMediaSelected = (
-  medias: { id: number; title: string; extension: string }[],
-) => {
-  selectedAttachments.value = medias;
-  showAttachmentModal.value = false;
-};
-
-const removeAttachment = (media: any) => {
-  const index = selectedAttachments.value.findIndex((ca) => ca.id === media.id);
-  selectedAttachments.value.splice(index);
-};
 </script>
 
 <template>
   <div>
     <FormKit
-      type="form"
       id="sendEmail"
-      @submit="submitHandler"
+      v-slot="{ value }"
+      type="form"
       :actions="false"
-      #default="{ value }"
+      @submit="submitHandler"
     >
       <div class="flex justify-between items-center mb-10">
         <div>
@@ -224,17 +213,17 @@ const removeAttachment = (media: any) => {
                     class="flex flex-wrap items-center gap-2 overflow-x-auto"
                   >
                     <span
-                      class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
                       v-for="recipient in recipients"
                       :key="recipient.id"
+                      class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
                     >
                       {{ recipient.name }}
                     </span>
 
                     <span
-                      class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary"
                       v-for="group in groups"
                       :key="group.id"
+                      class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary"
                     >
                       {{ group.groupName }}
                     </span>
@@ -338,73 +327,7 @@ const removeAttachment = (media: any) => {
               </p>
             </div>
             <div flex flex-wrap justify-between items-center>
-              <div
-                flex
-                flex-row
-                class="border-solid border-rounded w-70% border-[#f5f5f5] p-1 bg-[#f5f5f5]"
-              >
-                <div
-                  class="files p-2 w-70% bg-white grid md:grid-cols-3 grid-cols-1 gap-2"
-                >
-                  <template
-                    v-for="(media, index) in selectedAttachments"
-                    :key="index"
-                  >
-                    <div
-                      class="p-1 border-solid border-rounded border-[#e4e4e4] bg-[#f7f7f7] flex flex-row items-center justify-around"
-                    >
-                      <span w-5>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 15 16"
-                        >
-                          <path
-                            d="M3,13h.86v-.9h.39c.62,0,1.14-.45,1.14-1.06s-.5-1.05-1.14-1.05h-1.25v3Zm.86-1.59v-.72h.3c.2,0,.37,.13,.37,.35s-.16,.36-.37,.36h-.3Z"
-                            fill="currentColor"
-                          ></path>
-                          <path
-                            d="M6.19,13h1.19c1,0,1.62-.59,1.62-1.52,0-.87-.62-1.48-1.62-1.48h-1.19v3Zm.86-.71v-1.59h.29c.33,0,.78,.16,.78,.78,0,.65-.45,.81-.78,.81h-.29Z"
-                            fill="currentColor"
-                          ></path>
-                          <path
-                            d="M10,13h.86v-1.07h1.06v-.69h-1.06v-.54h1.21v-.69h-2.06v3Z"
-                            fill="currentColor"
-                          ></path>
-                          <path
-                            d="M12.5,16H2.5c-.83,0-1.5-.67-1.5-1.5V1.5c0-.83,.67-1.5,1.5-1.5h7.09c.4,0,.78,.16,1.06,.44l2.91,2.91c.28,.28,.44,.66,.44,1.06V14.5c0,.83-.67,1.5-1.5,1.5ZM2.5,1c-.28,0-.5,.22-.5,.5V14.5c0,.28,.22,.5,.5,.5H12.5c.28,0,.5-.22,.5-.5V4.41c0-.13-.05-.26-.15-.35l-2.91-2.91c-.09-.09-.22-.15-.35-.15H2.5Z"
-                            fill="currentColor"
-                          ></path>
-                          <path
-                            d="M13.38,5h-2.91c-.81,0-1.47-.66-1.47-1.47V.62c0-.28,.22-.5,.5-.5s.5,.22,.5,.5V3.53c0,.26,.21,.47,.47,.47h2.91c.28,0,.5,.22,.5,.5s-.22,.5-.5,.5Z"
-                            fill="currentColor"
-                          ></path>
-                        </svg>
-                      </span>
-                      <p class="mb-0 text-xs text-[#555]">{{ media.title }}</p>
-                      <button
-                        class="outline-none bg-transparent border-none border-0"
-                        type="button"
-                      >
-                        <img
-                          src="/close.png"
-                          alt="close"
-                          @click="removeAttachment(media)"
-                        />
-                      </button>
-                    </div>
-                  </template>
-                </div>
-                <FormKit
-                  type="button"
-                  outer-class="py-4"
-                  prefix-icon="uploadCloud"
-                  prefix-icon-class="inline-block w-8 h-8 pr-2"
-                  input-class="px-4 md:w-auto w-full outline-none border-none bg-transparent text-[#444] flex items-center"
-                  @click="showAttachmentModal = true"
-                >
-                  Attach Files
-                </FormKit>
-              </div>
+              <MediaModalInput v-model="selectedAttachments" />
               <div class="flex items-center mt-5 md:w-auto w-full">
                 <FormKit
                   type="submit"
@@ -465,14 +388,6 @@ const removeAttachment = (media: any) => {
           @set-groups-recipients="setBccGroupRecipients"
         ></SelectRecipients>
       </div>
-    </TheModal>
-
-    <TheModal
-      title="Attachments"
-      :show="showAttachmentModal"
-      @close="showAttachmentModal = false"
-    >
-      <MediaModalView :on-select="onMediaSelected" />
     </TheModal>
   </div>
 </template>
