@@ -4,6 +4,7 @@ import { useToasterStore } from '~~/store/toaster';
 
 const { setMessage } = useToasterStore();
 const user = useCurrentUser();
+const ListHeaders = ['ID', 'Image', 'Created At', ''];
 
 const mediaService = useService('media');
 const extensions = {
@@ -18,6 +19,7 @@ const orderBy = ref('id');
 const search = ref('');
 const extensionType = ref('');
 const searchField = ref('');
+const viewType = ref<'grid' | 'list'>('grid');
 const { $trpc } = useNuxtApp();
 
 const { data: medias, refresh } = await useAsyncData(() =>
@@ -113,20 +115,34 @@ const searchEmpty = () => {
     <div mb-8>
       <div mb-10>
         <h4 class="mb-4 text-stone">Library</h4>
-        <p class="text-silver">
-          <NuxtLink to="/" class="text-silver sub-heading"
-            >Communicator</NuxtLink
-          >
-          <span class="text-silver">/</span>
-          <NuxtLink to="/email-messages" class="text-silver sub-heading">
-            Email/Messages</NuxtLink
-          >
-          <span class="text-silver">/</span>
-          <span class="text-primary"> Library</span>
-        </p>
-        <div class="mt-4 flex gap-4">
-          <button class="btn">List View</button>
-          <button class="btn">Grid View</button>
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-silver">
+              <NuxtLink to="/" class="text-silver sub-heading"
+                >Communicator</NuxtLink
+              >
+              <span class="text-silver">/</span>
+              <NuxtLink to="/email-messages" class="text-silver sub-heading">
+                Email/Messages</NuxtLink
+              >
+              <span class="text-silver">/</span>
+              <span class="text-primary"> Library</span>
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-3 md:w-auto w-full">
+            <FormKit
+              v-model="viewType"
+              type="select"
+              validation="required"
+              name="View"
+              input-class="form-control"
+              placeholder="View Type"
+              :options="[
+                { value: 'grid', label: 'Grid' },
+                { value: 'list', label: 'List' },
+              ]"
+            />
+          </div>
         </div>
       </div>
       <div class="flex flex-wrap justify-between items-center gap-4">
@@ -139,7 +155,7 @@ const searchEmpty = () => {
             input-class="form-control pl-[3.5rem]"
             prefix-icon-class="search-icon"
             outer-class="md:w-[34rem] w-full search-field"
-            v-on:keyup.enter="searchKeyword"
+            @keyup.enter="searchKeyword"
             @input="searchEmpty"
           />
           <button class="btn btn-primary md:w-30 w-full" @click="searchKeyword">
@@ -204,7 +220,7 @@ const searchEmpty = () => {
         </div>
       </div>
     </div>
-    <div class="bg-white small-shadow p-6">
+    <div v-if="viewType === 'grid'" class="bg-white small-shadow p-6">
       <div
         v-if="medias?.total || 0 > 0"
         class="grid lg:grid-cols-7 md:grid-cols-3 grid-cols-1 gap-3 media-gallery"
@@ -273,15 +289,29 @@ const searchEmpty = () => {
         <p>No items found in gallery</p>
       </div>
     </div>
+    <div v-else class="bg-white small-shadow p-6">
+      <DashboardTable
+        :headers="ListHeaders"
+        :rows="
+          medias?.data?.map((media) => ({
+            id: media.id,
+            imageUrl: { image: media.fileUrl },
+            createdAt: media.createdAt,
+          })) || []
+        "
+        :is-dropdown="false"
+      />
+    </div>
     <div class="ml-8">
       <PaginationTable
         :total-records="medias?.total || 0"
         :current-page="page"
         entity="Items"
-        v-bind:paginate="paginate"
+        :paginate="paginate"
         @setPerPage="setPerPage"
       ></PaginationTable>
     </div>
+    <div></div>
   </div>
 </template>
 

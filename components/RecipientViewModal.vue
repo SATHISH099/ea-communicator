@@ -1,10 +1,15 @@
 <script lang="ts" setup>
 const props = defineProps<{ show?: boolean; deleteId?: boolean; data: any }>();
+const emit = defineEmits(['confirm', 'close']);
 const current = ref<any>(props.data);
 
 watch(props.data, () => {
   current.value = props.data;
 });
+
+const closeModal = () => {
+  emit('close');
+};
 </script>
 
 <template>
@@ -14,18 +19,24 @@ watch(props.data, () => {
         class="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-10 z-10"
       >
         <div
-          class="w-[50%] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white pt-[2.5rem] rounded-[0.25rem] shadow-[0_0_10px_rgba(0,0,0,0.1)] px-[3rem]"
+          class="overflow-y-auto h-[91%] md:w-[50%] w-[90%] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white pt-[2.5rem] rounded-[0.25rem] shadow-[0_0_10px_rgba(0,0,0,0.1)] px-[3rem]"
         >
           <div w-full>
             <div flex justify-between right-0 top-1 mb-8>
               <div>
                 <h4 class="text-stone">View Details</h4>
               </div>
-              <button bg-transparent border-0 cursor-pointer p-0>
+              <button
+                @click="closeModal"
+                bg-transparent
+                border-0
+                cursor-pointer
+                p-0
+              >
                 <img src="/close.png" alt="close" />
               </button>
             </div>
-            <div class="flex gap-24 modal-border pb-8">
+            <div class="md:flex gap-24 modal-border pb-8">
               <div>
                 <div class="mb-10">
                   <h5 text-stone mb-3>First Name</h5>

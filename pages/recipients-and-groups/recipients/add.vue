@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import '~~/services/recipient.service';
 import { useToasterStore } from '~~/store/toaster';
+import { limitCharacter } from '~/utils/common';
 
 const { setMessage } = useToasterStore();
 const router = useRouter();
@@ -105,6 +106,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 placeholder="Full Name*"
                 input-class="form-control"
                 validation="required|length:3,25"
+                @input="limitCharacter(data, data.name, 'name', 25)"
               />
               <FormKit
                 v-model="data.cellVoice"
@@ -113,6 +115,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 placeholder="Mobile phone for voice calls*"
                 validation="required|length:7,10"
                 input-class="form-control"
+                @input="limitCharacter(data, data.cellVoice, 'cellVoice', 10)"
               />
               <FormKit
                 v-model="data.cellText"
@@ -121,6 +124,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 placeholder="Mobile phone for SMS*"
                 input-class="form-control"
                 validation="required|length:7,10"
+                @input="limitCharacter(data, data.cellText, 'cellText', 10)"
               />
               <FormKit
                 v-model="data.homeNumber"
@@ -129,6 +133,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 placeholder="Home phone number*"
                 input-class="form-control"
                 validation="required|length:7,10"
+                @input="limitCharacter(data, data.homeNumber, 'homeNumber', 10)"
               />
               <FormKit
                 v-model="data.workNumber"
@@ -137,6 +142,7 @@ const setGroups = (groupSelected: GroupData[]) => {
                 placeholder="Work phone number*"
                 input-class="form-control"
                 validation="required|length:7,10"
+                @input="limitCharacter(data, data.workNumber, 'workNumber', 10)"
               />
               <FormKit
                 v-model="data.emailAddress"

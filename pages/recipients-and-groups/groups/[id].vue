@@ -25,7 +25,9 @@ const openViewModal = (row: Recipient) => {
   );
 
   showModal.value = true;
-  hideModal.value = true;
+  // const closeModal = () => {
+  //   emit('close');
+  // };
 };
 </script>
 
@@ -106,7 +108,7 @@ const openViewModal = (row: Recipient) => {
         <RecipientViewModal
           :data="modalRecipient"
           :show="showModal"
-          :close="$emit('hideModal')"
+          @close="$emit('hideModal')"
         ></RecipientViewModal>
       </div>
     </div>

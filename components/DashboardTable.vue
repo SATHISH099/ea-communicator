@@ -194,7 +194,9 @@ const toggleChecked = () => {
                       class="pr-4"
                       :src="cell.image"
                     />
-                    {{ cell?.value ?? cell }}
+                    <p v-else>
+                      {{ cell?.value ?? cell }}
+                    </p>
                   </div>
                 </td>
               </template>
