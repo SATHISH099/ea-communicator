@@ -27,7 +27,7 @@ watchEffect(() => {
     </client-only>
     <div
       v-show="isOpens"
-      class="dropdown-menu shadow-xl md:right-16 right-13 top-20 p-40 z-2 md:w-[13%] w-[70%]"
+      class="dropdown-menu shadow-xl md:right-21 right-13 top-20 p-40 z-2 md:w-[13%] w-[70%]"
     >
       <div class="grid grid-cols-2 gap-4">
         <div class="flex flex-col items-center">
@@ -69,7 +69,7 @@ watchEffect(() => {
           @click="isOpen = !isOpen"
         />
       </client-only>
-      <div v-show="isOpen" class="dropdown-menus right-15 top-20">
+      <div v-show="isOpen" class="dropdown-menus right-21 top-20">
         <li class="p-2">
           <NuxtLink :to="{ name: 'profile' }" class="text-white"
             >View Profile</NuxtLink
@@ -85,7 +85,7 @@ watchEffect(() => {
         </li>
       </div>
     </div>
-    <p class="mr-10">{{ user?.name }}</p>
+    <p class="mr-10 truncate max-w-[8ch]">{{ user?.name }}</p>
   </div>
 </template>
 

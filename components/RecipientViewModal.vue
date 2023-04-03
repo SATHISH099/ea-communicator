@@ -100,7 +100,9 @@ const closeModal = () => {
             </div>
             <div class="flex justify-end mt-8 mb-8">
               <NuxtLink
-                to="/recipients-and-groups/recipients/add"
+                :to="{
+                  path: `/recipients-and-groups/recipients/edit/${data.id}`,
+                }"
                 class="btn btn-primary"
                 >Edit</NuxtLink
               >

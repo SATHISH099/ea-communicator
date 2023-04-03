@@ -3,6 +3,7 @@ import moment from 'moment';
 import { useToasterStore } from '~~/store/toaster';
 
 const page = ref(1);
+const { setLoader } = useLoader();
 const pageSize = ref(10);
 const orderType = ref<'desc' | 'asc'>('desc');
 const orderBy = ref('id');
@@ -23,6 +24,7 @@ const MessageHeaders = [
   '',
 ];
 
+setLoader(true);
 const { data, refresh } = await useAsyncData(
   () =>
     $trpc.message.list.query({
@@ -58,6 +60,7 @@ const { data, refresh } = await useAsyncData(
   },
 );
 
+setLoader(false);
 const searchKeyword = () => {
   search.value = searchField.value;
   page.value = 1;

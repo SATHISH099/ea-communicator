@@ -78,7 +78,7 @@ watchEffect(() => {
 <template>
   <div>
     <button
-      class="absolute top-[2.5em] left-[2em] border-none bg-transparent outline-none cursor-pointer md:hidden block"
+      class="absolute top-[2.5em] left-[2em] border-none bg-transparent outline-none cursor-pointer lg:hidden block z-1"
       @click="SidebarOpen = !SidebarOpen"
     >
       <img alt="" class="w-[1.5rem]" src="/hamburger-icon.png" />

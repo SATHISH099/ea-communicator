@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import moment from 'moment';
 import { useToasterStore } from '~~/store/toaster';
-
+const { setLoader } = useLoader();
 const { $trpc } = useNuxtApp();
 const type = ref<'email' | 'sms'>('email');
 const page = ref(1);
@@ -22,7 +22,7 @@ const MessageHeaders = [
 
 const showLess = (input: string) =>
   input && input.length > 100 ? `${input.substring(0, 100)}...` : input;
-
+setLoader(true);
 const { data, refresh } = await useAsyncData(
   (): any =>
     $trpc[type.value].list.query({
@@ -48,6 +48,7 @@ const { data, refresh } = await useAsyncData(
     }),
   },
 );
+setLoader(false);
 const searchKeyword = () => {
   search.value = searchField.value;
   page.value = 1;

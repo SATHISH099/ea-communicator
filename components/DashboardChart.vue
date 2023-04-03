@@ -70,7 +70,7 @@ const setDate = (dateStr: string[] | null) => {
     </div>
     <div px-8>
       <div class="flex flex-col justify-between items-center gap-10">
-        <div class="relative w-[400px] h-[400px] my-8">
+        <div class="relative w-[400px] h-[400px] my-8 tenant-chart">
           <Doughnut
             id="dashboardChart"
             :options="chartOptions"
@@ -98,9 +98,9 @@ const setDate = (dateStr: string[] | null) => {
             }"
           />
           <div
-            class="absolute flex items-center top-[12.6rem] left-1/2 w-[12rem] h-[12rem] transform -translate-x-1/2 -translate-y-1/2 rounded-full p-10 shadow-[0_3.20559px_32.0559px_rgba(0,0,0,0.08)]"
+            class="tenant-counting absolute flex items-center top-[12.6rem] left-1/2 w-[12rem] h-[12rem] transform -translate-x-1/2 -translate-y-1/2 rounded-full p-10 shadow-[0_3.20559px_32.0559px_rgba(0,0,0,0.08)]"
           >
-            <div flex flex-col items-center>
+            <div flex flex-col items-center mx-auto>
               <p text-silver mb-3>Total Messages</p>
               <h1>
                 {{
@@ -169,3 +169,18 @@ const setDate = (dateStr: string[] | null) => {
     </div>
   </div>
 </template>
+
+<style lang="scss">
+.tenant-chart {
+  @media screen and (max-width: 450px) {
+    display: flex;
+    justify-content: center;
+    canvas {
+      height: 70% !important;
+      width: 70% !important;
+      position: absolute;
+      top: 60px;
+    }
+  }
+}
+</style>
