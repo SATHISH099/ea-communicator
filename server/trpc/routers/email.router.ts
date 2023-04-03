@@ -14,8 +14,9 @@ const list = authProcedure
       })
       .merge(queryListSchema),
   )
-  .query(({ input }) => {
+  .query(({ ctx, input }) => {
     const emailService = new EmailService();
+    emailService.setEvent(ctx);
     const isPredefinedCond = { isPredefined: input.isPredefined };
 
     return emailService.findAll(input, {
@@ -40,8 +41,9 @@ const deleteEmail = authProcedure.input(z.number()).mutation(({ input }) => {
   return emailService.delete(input);
 });
 
-const show = authProcedure.input(z.number()).query(({ input }) => {
+const show = authProcedure.input(z.number()).query(({ ctx, input }) => {
   const emailService = new EmailService();
+  emailService.setEvent(ctx);
   return emailService.findOne(input);
 });
 

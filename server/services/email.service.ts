@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import type { FindOneOptions } from 'typeorm';
+import type { FindManyOptions, FindOneOptions } from 'typeorm';
 import appDataSource from '../database/config/app.datasource';
 import { EmailGroup } from '../database/entities/emails/email-groups.entity';
 import { EmailRecipient } from '../database/entities/emails/email-recipients.entity';
@@ -10,6 +10,7 @@ import type {
 } from '../dtos/emails/create-email.dto';
 import { RecipientType } from '../enums/recipient-type.enum';
 import { SendingStatus } from '../enums/sending-status.enum';
+import { QueryList } from '../validations/base';
 import type { CreateEmailDto } from '../validations/emails/create.dto';
 import type { UpdateEmailDto } from '../validations/emails/update.dto';
 import { BaseService } from './base.service';
@@ -23,10 +24,29 @@ export class EmailService extends BaseService<Email> {
     this.repository = appDataSource.getRepository(Email);
   }
 
-  findOne(id: number, overrideOptions?: FindOneOptions<Email>): Promise<Email> {
+  async findOne(
+    id: number,
+    overrideOptions?: FindOneOptions<Email>,
+  ): Promise<Email> {
+    const user = await getCurrentUser(this.event);
+
     return super.findOne(id, {
       ...overrideOptions,
+      where: {
+        tenantId: user.tenantId,
+      },
       relations: { medias: true, recipients: true, groups: true, sender: true },
+    });
+  }
+
+  async findAll(query: QueryList, overrideOptions?: FindManyOptions<Email>) {
+    const user = await getCurrentUser(this.event);
+
+    return super.findAll(query, {
+      ...overrideOptions,
+      where: {
+        tenantId: user.tenantId,
+      },
     });
   }
 

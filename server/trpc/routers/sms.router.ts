@@ -41,8 +41,9 @@ const deleteSms = authProcedure.input(z.number()).mutation(({ input }) => {
   return smsService.delete(input);
 });
 
-const show = authProcedure.input(z.number()).query(({ input }) => {
+const show = authProcedure.input(z.number()).query(({ ctx, input }) => {
   const smsService = new SmsService();
+  smsService.setEvent(ctx);
   return smsService.findOne(input);
 });
 
