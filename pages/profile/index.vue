@@ -83,7 +83,7 @@ const onProfileUpload = (event: any) => {
         @submit="submitHandler"
       >
         <div class="lg:flex gap-5">
-          <div class="md:w-[20%]">
+          <div>
             <div class="relative mb-10">
               <img
                 :src="profileImage || profile.profilePath || '/profile.png'"
@@ -107,7 +107,7 @@ const onProfileUpload = (event: any) => {
               />
             </div>
           </div>
-          <div class="md:w-[80%] md:mt-0 mt-4">
+          <div class="md:w-full md:mt-0 mt-4">
             <div class="md:flex gap-5">
               <FormKit
                 v-model="profile.firstName"
