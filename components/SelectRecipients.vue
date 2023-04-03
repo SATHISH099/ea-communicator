@@ -16,6 +16,7 @@ interface initialStateData {
 
 const props = defineProps(['recipients', 'groups']);
 defineEmits(['setGroupsRecipients']);
+const { setLoader } = useLoader();
 
 const recipientService = useService('recipient');
 if (process.client) {
@@ -31,6 +32,7 @@ const searchRecipient = ref('');
 const searchGroup = ref('');
 const type = ref<string>('recipients');
 
+setLoader(true);
 const { data: recipients, refresh: refreshRecipient } = await useAsyncData(
   () =>
     recipientService.getAll({
@@ -55,6 +57,7 @@ const { data: groups, refresh: refreshGroup } = await useAsyncData(
   },
 );
 
+setLoader(false);
 const initialState: initialStateData = {
   recipients: props.recipients || [],
   groups: props.groups || [],

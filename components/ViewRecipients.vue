@@ -7,6 +7,7 @@ const search = ref('');
 const searchField = ref('');
 const mainCheck = ref([]);
 const mainChecked = ref(false);
+const { setLoader } = useLoader();
 
 interface RecipientData {
   id: number;
@@ -21,6 +22,7 @@ const initialState: initialStateData = {
   recipients: props.recipients || [],
 };
 
+setLoader(true);
 const recipientService = useService('recipient');
 if (process.client) {
   recipientService.setAuth();
@@ -45,6 +47,8 @@ const { data, refresh } = await useAsyncData(
     }),
   },
 );
+
+setLoader(false);
 
 const searchKeyword = () => {
   search.value = searchField.value;

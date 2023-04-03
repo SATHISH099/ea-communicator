@@ -13,6 +13,7 @@ onMounted(async () => {
   if (query.token) {
     data.token = query.token as string;
     await login();
+    setLoader(false);
   } else {
     await navigateTo(`${APP_AUTH_URL}?redirect_url=${APP_URL}/auth/login`, {
       external: true,
