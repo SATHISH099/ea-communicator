@@ -4,8 +4,9 @@ import { authProcedure, router } from '../trpc';
 import { MediaService } from '~~/server/services/media.service';
 import { queryListSchema } from '~~/server/validations/base';
 
-const list = authProcedure.input(queryListSchema).query(({ input }) => {
+const list = authProcedure.input(queryListSchema).query(({ ctx, input }) => {
   const service = new MediaService();
+  service.setEvent(ctx);
 
   return service.findAll(input, {
     where: [

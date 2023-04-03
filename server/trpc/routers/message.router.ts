@@ -7,8 +7,9 @@ import { createMessageDto } from '~~/server/validations/messages/create.dto';
 
 const list = authProcedure
   .input(z.object({}).merge(queryListSchema))
-  .query(({ input }) => {
+  .query(({ ctx, input }) => {
     const messageService = new MessageService();
+    messageService.setEvent(ctx);
 
     return messageService.findAll(input, {
       where: {
@@ -22,8 +23,9 @@ const list = authProcedure
     });
   });
 
-const show = authProcedure.input(z.number()).query(({ input }) => {
+const show = authProcedure.input(z.number()).query(({ ctx, input }) => {
   const messageService = new MessageService();
+  messageService.setEvent(ctx);
   return messageService.findOne(input);
 });
 
