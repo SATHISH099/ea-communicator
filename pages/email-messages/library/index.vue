@@ -3,6 +3,7 @@ import type { Media } from '~~/services/media.service';
 import { useToasterStore } from '~~/store/toaster';
 
 const { setMessage } = useToasterStore();
+const user = useCurrentUser();
 const ListHeaders = ['ID', 'Image', 'Created At', ''];
 
 const mediaService = useService('media');
@@ -162,13 +163,13 @@ const searchEmpty = () => {
           </button>
         </div>
         <div md:flex md:items-center gap-4>
-          <!-- <button
+          <button
             v-if="!user.hasRole('team-member')"
             class="mb-4 md:mb-0 border-none outline-none flex items-center py-[16px] px-[32px] rounded-[4px] text-stone text-[1.125rem] gap-3 cursor-pointer"
             @click="viewUploadModal = true"
           >
             <img src="/document-add.png" alt="" /> Add new item
-          </button> -->
+          </button>
           <teleport to="body">
             <div v-if="viewUploadModal">
               <CModal
