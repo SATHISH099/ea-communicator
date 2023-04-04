@@ -1,4 +1,4 @@
-import { ILike } from 'typeorm';
+import { Between, ILike } from 'typeorm';
 import { z } from 'zod';
 import { authProcedure, router } from '~/server/trpc/trpc';
 import { SmsService } from '~~/server/services/sms.service';
@@ -21,6 +21,10 @@ const list = authProcedure
     const isPredefinedCond = {
       isPredefined: input.isPredefined,
       tenantId: user.tenantId,
+      ...(input.startDate &&
+        input.endDate && {
+          createdAt: Between(input.startDate, input.endDate),
+        }),
     };
 
     return smsService.findAll(input, {
