@@ -24,7 +24,7 @@ const removeAttachment = (media: any) => {
   <div
     flex
     flex-row
-    class="border-solid border-rounded md:w-70% w-full border-[#f5f5f5] p-1 bg-[#f5f5f5]"
+    class="border-solid border-rounded md:w-70% w-full border-[#f5f5f5] p-1 bg-[#f5f5f5] cursor-pointer"
   >
     <div
       class="files p-2 w-70% bg-white grid md:grid-cols-3 grid-cols-1 gap-2 items-center"
@@ -80,10 +80,10 @@ const removeAttachment = (media: any) => {
     </div>
     <FormKit
       type="button"
-      outer-class="py-4"
+      outer-class="py-4 "
       prefix-icon="uploadCloud"
       prefix-icon-class="inline-block w-8 h-8 pr-2"
-      input-class="px-4 md:w-auto w-full outline-none border-none bg-transparent text-[#444] flex items-center"
+      input-class="px-4 md:w-auto w-full outline-none border-none bg-transparent text-[#444] flex items-center cursor-pointer"
       @click="showAttachmentModal = true"
     >
       <span> Attach Files </span>

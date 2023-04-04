@@ -15,7 +15,7 @@ const loaderState = useLoader();
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgb(255 255 255 / 95%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,8 +23,8 @@ const loaderState = useLoader();
 }
 
 .spinner {
-  width: 50px;
-  height: 50px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   border: 5px solid #ccc;
   border-top-color: #333;

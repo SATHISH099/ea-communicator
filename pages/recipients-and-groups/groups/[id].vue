@@ -108,7 +108,7 @@ const openViewModal = (row: Recipient) => {
         <RecipientViewModal
           :data="modalRecipient"
           :show="showModal"
-          @close="$emit('hideModal')"
+          @close="showModal = false"
         ></RecipientViewModal>
       </div>
     </div>
