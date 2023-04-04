@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import type { DeepPartial } from 'typeorm';
-
+import { In } from 'typeorm';
 import appDataSource from '../database/config/app.datasource';
 import { Role } from '../database/entities/role/role.entity';
 import { User } from '../database/entities/user/user.entity';
@@ -18,8 +17,19 @@ export class UserService extends BaseService<User> {
     });
   }
 
-  create(data: DeepPartial<User>) {
-    return super.create(data);
+  async create(data: any) {
+    const user = await super.create(_.omit(data, ['roles']));
+    const roles = await appDataSource.getRepository(Role).find({
+      where: {
+        id: In(data.roles),
+      },
+    });
+
+    user.roles = roles;
+
+    this.repository.manager.save(user);
+
+    return user;
   }
 
   async updateUser(id: number, data: any) {

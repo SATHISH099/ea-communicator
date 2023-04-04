@@ -31,6 +31,11 @@ const nuxtConfig = defineNuxtConfig({
     'vue-loading-overlay/dist/css/index.css',
   ],
   build: { transpile: ['trpc-nuxt'] },
+  app: {
+    head: {
+      title: 'Communicator | SmartSuite',
+    },
+  },
 });
 
 const session: ModuleOptions = {
@@ -40,8 +45,10 @@ const session: ModuleOptions = {
     // Sessions expire after 3600 seconds = 60 minutes
     expiryInSeconds: parseInt(process.env.SESSION_EXPIRY_SECONDS || '3600'),
     storageOptions: {
-      driver: 'memory',
-      options: {},
+      driver: 'fs',
+      options: {
+        base: './.session',
+      },
     },
   },
   api: { methods: ['get'] },
