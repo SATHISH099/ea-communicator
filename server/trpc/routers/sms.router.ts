@@ -1,4 +1,4 @@
-import { Like } from 'typeorm';
+import { ILike } from 'typeorm';
 import { z } from 'zod';
 import { authProcedure, router } from '~/server/trpc/trpc';
 import { SmsService } from '~~/server/services/sms.service';
@@ -14,17 +14,21 @@ const list = authProcedure
       })
       .merge(queryListSchema),
   )
-  .query(({ ctx, input }) => {
+  .query(async ({ ctx, input }) => {
     const smsService = new SmsService();
     smsService.setEvent(ctx);
-    const isPredefinedCond = { isPredefined: input.isPredefined };
+    const user = await getCurrentUser(ctx);
+    const isPredefinedCond = {
+      isPredefined: input.isPredefined,
+      tenantId: user.tenantId,
+    };
 
     return smsService.findAll(input, {
       where: [
-        { title: Like(`%${input.search}%`), ...isPredefinedCond },
-        { message: Like(`%${input.search}%`), ...isPredefinedCond },
+        { title: ILike(`%${input.search}%`), ...isPredefinedCond },
+        { message: ILike(`%${input.search}%`), ...isPredefinedCond },
         {
-          sender: [{ name: Like(`%${input.search}%`) }],
+          sender: [{ name: ILike(`%${input.search}%`) }],
           ...isPredefinedCond,
         },
       ],

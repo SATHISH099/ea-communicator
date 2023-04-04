@@ -1,4 +1,4 @@
-import { Like } from 'typeorm';
+import { ILike } from 'typeorm';
 import { z } from 'zod';
 import { authProcedure, router } from '~/server/trpc/trpc';
 import { EmailService } from '~~/server/services/email.service';
@@ -14,17 +14,21 @@ const list = authProcedure
       })
       .merge(queryListSchema),
   )
-  .query(({ ctx, input }) => {
+  .query(async ({ ctx, input }) => {
     const emailService = new EmailService();
     emailService.setEvent(ctx);
-    const isPredefinedCond = { isPredefined: input.isPredefined };
+    const user = await getCurrentUser(ctx);
+    const isPredefinedCond = {
+      isPredefined: input.isPredefined,
+      tenantId: user.tenantId,
+    };
 
     return emailService.findAll(input, {
       where: [
-        { subject: Like(`%${input.search}%`), ...isPredefinedCond },
-        { body: Like(`%${input.search}%`), ...isPredefinedCond },
+        { subject: ILike(`%${input.search}%`), ...isPredefinedCond },
+        { body: ILike(`%${input.search}%`), ...isPredefinedCond },
         {
-          sender: [{ name: Like(`%${input.search}%`) }],
+          sender: [{ name: ILike(`%${input.search}%`) }],
           ...isPredefinedCond,
         },
       ],
@@ -41,9 +45,8 @@ const deleteEmail = authProcedure.input(z.number()).mutation(({ input }) => {
   return emailService.delete(input);
 });
 
-const show = authProcedure.input(z.number()).query(({ ctx, input }) => {
+const show = authProcedure.input(z.number()).query(({ input }) => {
   const emailService = new EmailService();
-  emailService.setEvent(ctx);
   return emailService.findOne(input);
 });
 

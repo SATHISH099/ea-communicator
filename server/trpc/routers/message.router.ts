@@ -1,4 +1,4 @@
-import { Like } from 'typeorm';
+import { ILike, Like } from 'typeorm';
 import { z } from 'zod';
 import { authProcedure, router } from '~/server/trpc/trpc';
 import { MessageService } from '~~/server/services/message.service';
@@ -7,14 +7,24 @@ import { createMessageDto } from '~~/server/validations/messages/create.dto';
 
 const list = authProcedure
   .input(z.object({}).merge(queryListSchema))
-  .query(({ ctx, input }) => {
+  .query(async ({ ctx, input }) => {
     const messageService = new MessageService();
     messageService.setEvent(ctx);
+    const user = await getCurrentUser(ctx);
+
+    const tenantId = {
+      tenantId: user.tenantId,
+    };
 
     return messageService.findAll(input, {
-      where: {
-        ...(input.search && { title: Like(`%${input.search}%`) }),
-      },
+      where: [
+        { title: ILike(`%${input.search}%`), ...tenantId },
+        { message: ILike(`%${input.search}%`), ...tenantId },
+        {
+          sender: [{ name: ILike(`%${input.search}%`) }],
+          ...tenantId,
+        },
+      ],
       relations: {
         sender: true,
         recipients: true,

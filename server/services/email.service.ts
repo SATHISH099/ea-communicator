@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import type { FindManyOptions, FindOneOptions } from 'typeorm';
+import type { FindOneOptions } from 'typeorm';
 import appDataSource from '../database/config/app.datasource';
 import { EmailGroup } from '../database/entities/emails/email-groups.entity';
 import { EmailRecipient } from '../database/entities/emails/email-recipients.entity';
@@ -10,17 +10,13 @@ import type {
 } from '../dtos/emails/create-email.dto';
 import { RecipientType } from '../enums/recipient-type.enum';
 import { SendingStatus } from '../enums/sending-status.enum';
-import { QueryList } from '../validations/base';
 import type { CreateEmailDto } from '../validations/emails/create.dto';
 import type { UpdateEmailDto } from '../validations/emails/update.dto';
 import { BaseService } from './base.service';
-import { UserService } from './user.service';
 
 export class EmailService extends BaseService<Email> {
-  private userService: UserService;
   constructor() {
     super();
-    this.userService = new UserService();
     this.repository = appDataSource.getRepository(Email);
   }
 
@@ -36,17 +32,6 @@ export class EmailService extends BaseService<Email> {
         tenantId: user.tenantId,
       },
       relations: { medias: true, recipients: true, groups: true, sender: true },
-    });
-  }
-
-  async findAll(query: QueryList, overrideOptions?: FindManyOptions<Email>) {
-    const user = await getCurrentUser(this.event);
-
-    return super.findAll(query, {
-      ...overrideOptions,
-      where: {
-        tenantId: user.tenantId,
-      },
     });
   }
 
