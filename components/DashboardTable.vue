@@ -64,6 +64,8 @@ onMounted(() => {
   }
 });
 
+const user = useCurrentUser();
+
 const submitHandler = () => {
   showBulk.value = false;
   emit(
@@ -114,6 +116,7 @@ const toggleChecked = () => {
               class="px-[30px] py-[18px] position-relative"
             >
               <FormKit
+                v-if="user.hasRole('admin')"
                 v-model="mainChecked"
                 type="checkbox"
                 input-class="form-check-input"
@@ -174,13 +177,24 @@ const toggleChecked = () => {
           </template>
           <template v-else>
             <tr v-for="row in props.rows" :key="row.id">
-              <td v-if="props.showBulkDelete" class="px-[30px] py-[18px]">
+              <td
+                v-if="props.showBulkDelete && user.hasRole('admin')"
+                class="px-[30px] py-[18px]"
+              >
                 <FormKit
                   v-model="bulkChecked[row.id.toString()]"
                   type="checkbox"
                   input-class="form-check-input"
                 />
               </td>
+
+              <td
+                v-if="
+                  !user.hasRole('admin') &&
+                  props.type !== 'groups' &&
+                  props.type !== 'recipients'
+                "
+              ></td>
 
               <template v-for="(cell, index) in row">
                 <td
