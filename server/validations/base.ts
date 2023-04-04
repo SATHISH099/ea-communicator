@@ -6,6 +6,8 @@ export const queryListSchema = z.object({
   orderBy: z.string().default('createdAt'),
   orderType: z.enum(['asc', 'desc']).default('desc'),
   search: z.string().optional(),
+  startDate: z.any(),
+  endDate: z.any(),
 });
 
 export const mediaIdSchema = z.object({
