@@ -3,6 +3,7 @@ const props = defineProps(['detailId', 'type', 'dropDownOption', 'actions']);
 const emit = defineEmits(['onDeleteRecord']);
 const isOpen = ref(false);
 const show = ref(false);
+const user = useCurrentUser();
 
 const deleteShow = () => {
   show.value = true;
@@ -77,7 +78,7 @@ const onDeleteRecord = (deleteId) => {
             >Edit</NuxtLink
           >
         </li>
-        <li v-if="props.type === 'groups'" class="p-2">
+        <li v-if="props.type === 'groups' && user.hasRole('admin')" class="p-2">
           <NuxtLink
             :to="{
               path:
