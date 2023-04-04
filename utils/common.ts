@@ -18,7 +18,7 @@ export function titleLimit(input: string, limit: number) {
 }
 
 export function stripHtml(input: string) {
-  return input?.replace(/(<([^>]+)>)/gi, '');
+  return input?.replace(/<[^>]*>|&nbsp;/g, '');
 }
 
 export const limitCharacter = (
