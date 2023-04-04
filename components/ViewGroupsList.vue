@@ -139,6 +139,7 @@ const toggleChecked = () => {
     ul {
       list-style: none;
       .formkit-wrapper {
+        cursor: pointer;
         display: flex;
         :first-child {
           padding-right: 10px;

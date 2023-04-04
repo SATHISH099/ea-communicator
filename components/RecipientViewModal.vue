@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const props = defineProps<{ show?: boolean; deleteId?: boolean; data: any }>();
-const emit = defineEmits(['confirm', 'close']);
+const emit = defineEmits(['close']);
 const current = ref<any>(props.data);
 
 watch(props.data, () => {

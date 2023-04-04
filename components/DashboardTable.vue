@@ -191,7 +191,7 @@ const toggleChecked = () => {
                   <div flex items-center>
                     <img
                       v-if="cell && cell.image"
-                      class="pr-4"
+                      class="pr-4 w-20"
                       :src="cell.image"
                     />
                     <p v-else>
