@@ -26,7 +26,7 @@ export const limitCharacter = (
   text: string,
   inputName: string,
   limit: number,
-) => {
+): void => {
   if (text.length > limit) {
     data[inputName] = text.substring(0, limit);
   }

@@ -1,4 +1,4 @@
-import type { FindManyOptions, FindOneOptions } from 'typeorm';
+import type { FindOneOptions } from 'typeorm';
 import _ from 'lodash';
 import appDataSource from '../database/config/app.datasource';
 import { SmsGroup } from '../database/entities/sms/sms-groups.entity';
@@ -7,7 +7,6 @@ import { Sms } from '../database/entities/sms/sms.entity';
 import type { CreateSmsDto } from '../validations/sms/create.dto';
 import { SendingStatus } from '../enums/sending-status.enum';
 import type { UpdateSmsDto } from '../validations/sms/update.dto';
-import type { QueryList } from '../validations/base';
 import { BaseService } from './base.service';
 import { UserService } from './user.service';
 
@@ -34,17 +33,6 @@ export class SmsService extends BaseService<Sms> {
         sender: true,
         recipients: true,
         groups: true,
-      },
-    });
-  }
-
-  async findAll(query: QueryList, overrideOptions?: FindManyOptions<Sms>) {
-    const user = await getCurrentUser(this.event);
-
-    return super.findAll(query, {
-      ...overrideOptions,
-      where: {
-        tenantId: user.tenantId,
       },
     });
   }
