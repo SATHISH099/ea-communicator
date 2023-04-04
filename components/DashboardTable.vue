@@ -63,7 +63,6 @@ onMounted(() => {
     }
   }
 });
-
 const user = useCurrentUser();
 
 const submitHandler = () => {

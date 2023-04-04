@@ -20,6 +20,7 @@ const nuxtConfig = defineNuxtConfig({
       SMARTSUITE_BASEURL: process.env.SMARTSUITE_URL,
       API_SMARTSUITE_BASEURL: process.env.API_SMARTSUITE_BASEURL,
       APP_AUTH_URL: process.env.APP_AUTH_URL,
+      UPLOAD_SIZE_LIMIT: parseInt(process.env.UPLOAD_SIZE_LIMIT || '25000000'),
     },
     build: {
       transpile: ['@vuepic/vue-datepicker'],

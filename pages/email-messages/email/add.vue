@@ -143,6 +143,10 @@ const setCcGroupRecipients = (
   ccGroups.value = groupSelected;
   showModalCc.value = false;
 };
+
+const onUploadSizeError = (message: string) => {
+  console.log(message);
+};
 </script>
 
 <template>
@@ -326,8 +330,11 @@ const setCcGroupRecipients = (
                 Please Enter Body
               </p>
             </div>
-            <div flex flex-wrap justify-between items-center>
-              <MediaModalInput v-model="selectedAttachments" />
+            <div flex flex-wrap justify-between items-center pb-2>
+              <MediaModalInput
+                v-model="selectedAttachments"
+                @error="onUploadSizeError"
+              />
               <div class="flex items-center mt-5 md:w-auto w-full">
                 <FormKit
                   type="submit"

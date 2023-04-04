@@ -12,7 +12,6 @@ const endDate = ref<string | null>('');
 const searchField = ref('');
 
 const messageHeaders = [
-  { value: 'ID', isSort: true, key: 'id' },
   'Sender',
   'Title',
   'Recipients',

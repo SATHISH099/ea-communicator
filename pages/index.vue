@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+definePageMeta({
+  middleware: 'permission',
+});
+
 const user = useCurrentUser();
 </script>
 
