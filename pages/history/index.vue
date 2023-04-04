@@ -7,8 +7,8 @@ const type = ref<'email' | 'sms' | 'message'>('email');
 const orderType = ref<'desc' | 'asc'>('desc');
 const orderBy = ref('id');
 const search = ref('');
-const startDate = ref<string | null>('');
-const endDate = ref<string | null>('');
+const startDate = ref<string>(new Date().toISOString());
+const endDate = ref<string>(new Date().toISOString());
 const searchField = ref('');
 
 const messageHeaders = [
@@ -29,6 +29,8 @@ const { data, refresh } = await useAsyncData(
       pageSize: 10,
       orderType: orderType.value,
       orderBy: orderBy.value,
+      startDate: startDate.value,
+      endDate: endDate.value,
     }),
   {
     transform: ({ data, total }: any) => ({

@@ -1,4 +1,4 @@
-import { ILike, Like } from 'typeorm';
+import { Between, ILike } from 'typeorm';
 import { z } from 'zod';
 import { authProcedure, router } from '~/server/trpc/trpc';
 import { MessageService } from '~~/server/services/message.service';
@@ -14,6 +14,10 @@ const list = authProcedure
 
     const tenantId = {
       tenantId: user.tenantId,
+      ...(input.startDate &&
+        input.endDate && {
+          createdAt: Between(input.startDate, input.endDate),
+        }),
     };
 
     return messageService.findAll(input, {
