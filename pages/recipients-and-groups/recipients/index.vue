@@ -74,7 +74,9 @@ const searchKeyword = () => {
   search.value = searchField.value;
   page.value = 1;
 
-  if (search.value) refresh();
+  if (search.value) {
+    refresh();
+  }
 };
 
 const paginate = (pg: number) => {
@@ -123,7 +125,6 @@ const uploadFile = async (data: { file: any }) => {
 const searchEmpty = () => {
   if (!searchField.value) {
     search.value = '';
-    orderBy.value = 'id';
     refresh();
   }
 };
