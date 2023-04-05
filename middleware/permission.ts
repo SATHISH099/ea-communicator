@@ -1,4 +1,8 @@
 export default defineNuxtRouteMiddleware((to) => {
+  if (process.server) {
+    return;
+  }
+
   const user = useCurrentUser();
 
   if (

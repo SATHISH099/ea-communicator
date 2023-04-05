@@ -3,7 +3,7 @@ import type { Media } from '~~/types/common';
 
 const props = defineProps<{ modelValue?: Media[] }>();
 const emit = defineEmits(['update:modelValue', 'error']);
-const SIZE_LIMIT = 2500000; // useRuntimeConfig().public.UPLOAD_SIZE_LIMIT;
+const SIZE_LIMIT = useRuntimeConfig().public.UPLOAD_SIZE_LIMIT;
 
 const errorMessage = ref('');
 const hasError = ref(false);
