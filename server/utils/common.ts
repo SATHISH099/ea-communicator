@@ -5,6 +5,10 @@ import { JwtService } from '../services/jwt.service';
 import { UserService } from '../services/user.service';
 import type { AuthSessionPayload } from '../types';
 
+export function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export function titleCase(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 }

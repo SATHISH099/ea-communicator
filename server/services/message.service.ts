@@ -4,6 +4,7 @@ import { MessageGroup } from '../database/entities/message/message-groups.entity
 import { MessageRecipient } from '../database/entities/message/message-recipients.entity';
 import { Message } from '../database/entities/message/message.entity';
 import { SendingStatus } from '../enums/sending-status.enum';
+import Queue from '../utils/queue';
 import type { CreateMessageDto } from '../validations/messages/create.dto';
 import { BaseService } from './base.service';
 
@@ -66,7 +67,27 @@ export class MessageService extends BaseService<Message> {
       }),
     );
 
+    Queue.enqueue(() => this.sendMessage(message.id));
+
     return message;
+  }
+
+  async sendMessage(msgId: number) {
+    const config = useRuntimeConfig();
+    console.log('processing', { msgId });
+
+    if (config.functionMessage) {
+      await $fetch(config.functionMessage, {
+        params: {
+          id: msgId,
+        },
+        onRequestError(context) {
+          console.warn('error sending message', context.error);
+        },
+      });
+
+      console.log('processed', { msgId });
+    }
   }
 
   delete(id: number) {

@@ -9,6 +9,7 @@ import { SendingStatus } from '../enums/sending-status.enum';
 import type { UpdateSmsDto } from '../validations/sms/update.dto';
 import { BaseService } from './base.service';
 import { UserService } from './user.service';
+import Queue from '../utils/queue';
 
 export class SmsService extends BaseService<Sms> {
   private userService: UserService;
@@ -70,7 +71,27 @@ export class SmsService extends BaseService<Sms> {
       );
     }
 
+    Queue.enqueue(() => this.sendSms(sms.id));
+
     return sms;
+  }
+
+  async sendSms(smsId: number) {
+    const config = useRuntimeConfig();
+    console.log('processing', { smsId });
+
+    if (config.functionSms) {
+      await $fetch(config.functionSms, {
+        params: {
+          id: smsId,
+        },
+        onResponseError(context) {
+          console.warn('error sending sms', context.error);
+        },
+      });
+
+      console.log('processed', { smsId });
+    }
   }
 
   updateSms(id: number, body: UpdateSmsDto) {

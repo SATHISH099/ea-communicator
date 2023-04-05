@@ -10,6 +10,7 @@ import type {
 } from '../dtos/emails/create-email.dto';
 import { RecipientType } from '../enums/recipient-type.enum';
 import { SendingStatus } from '../enums/sending-status.enum';
+import Queue from '../utils/queue';
 import type { CreateEmailDto } from '../validations/emails/create.dto';
 import type { UpdateEmailDto } from '../validations/emails/update.dto';
 import { BaseService } from './base.service';
@@ -52,7 +53,27 @@ export class EmailService extends BaseService<Email> {
       await this.groupBind(groups!, email);
     }
 
+    Queue.enqueue(() => this.sendEmail(email.id));
+
     return email;
+  }
+
+  async sendEmail(emailId: number) {
+    const config = useRuntimeConfig();
+    console.log('processing', { emailId });
+
+    if (config.functionEmail) {
+      await $fetch(config.functionEmail, {
+        params: {
+          emailId,
+        },
+        onResponseError(context) {
+          console.warn('error sending email', context.error);
+        },
+      });
+
+      console.log('processed', { emailId });
+    }
   }
 
   async recipientBind(

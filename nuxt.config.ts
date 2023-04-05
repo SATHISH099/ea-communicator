@@ -13,6 +13,12 @@ const nuxtConfig = defineNuxtConfig({
     // The private keys which are only available server-side
     apiSecret: process.env.NUXT_API_SECRET,
     baseDir: __dirname,
+
+    functionEmail: process.env.FUNCTION_EMAIL,
+    functionSms: process.env.FUNCTION_SMS,
+    functionMessage: process.env.FUNCTION_MESSAGE,
+    functionVoice: process.env.FUNCTION_VOICE,
+
     // Keys within public are also exposed client-side
     public: {
       APP_URL: process.env.APP_URL,
