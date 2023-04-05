@@ -4,7 +4,7 @@ import { useToasterStore } from '~~/store/toaster';
 const { setLoader } = useLoader();
 const { setMessage } = useToasterStore();
 const user = useCurrentUser();
-const ListHeaders = ['ID', 'Image', 'Created At', ''];
+const ListHeaders = ['ID', 'Item Type', 'Created At', ''];
 
 const mediaService = useService('media');
 const extensions = {
@@ -296,7 +296,11 @@ const searchEmpty = () => {
         :rows="
           medias?.data?.map((media) => ({
             id: media.id,
-            imageUrl: { image: media.fileUrl },
+            imageUrl: {
+              image: extensions.others.includes(media.extension)
+                ? `/icon/${media.extension}.png`
+                : media.fileUrl,
+            },
             createdAt: media.createdAt,
           })) || []
         "
