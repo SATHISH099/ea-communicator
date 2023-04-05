@@ -2,8 +2,11 @@
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 const emit = defineEmits(['setDate']);
+const router = useRoute();
 
-const date = ref([new Date(), new Date()]);
+const date = ref(
+  router.fullPath.includes('history') ? '' : [new Date(), new Date()],
+);
 const handleDate = (dateStr: string) => {
   emit('setDate', dateStr);
 };

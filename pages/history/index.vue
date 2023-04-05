@@ -8,8 +8,8 @@ const type = ref<'email' | 'sms' | 'message'>('email');
 const orderType = ref<'desc' | 'asc'>('desc');
 const orderBy = ref('id');
 const search = ref('');
-const startDate = ref<string>(new Date().toISOString());
-const endDate = ref<string>(new Date().toISOString());
+const startDate = ref<string>('');
+const endDate = ref<string>('');
 const searchField = ref('');
 
 const messageHeaders = [
@@ -159,17 +159,17 @@ const setDate = (dateStr: string[] | null) => {
           :rows="data?.data || []"
           :type="type"
           :drop-down-option="{ isView: true, isEdit: false, isDelete: false }"
-          @sortRecord="sortRecord"
           :actions="{
             view: '/email-messages/[module]/[id]',
           }"
+          @sortRecord="sortRecord"
         />
         <div class="ml-8">
           <PaginationTable
-            :totalRecords="data?.total"
-            :currentPage="page"
-            :pageSize="pageSize"
-            v-bind:paginate="paginate"
+            :total-records="data?.total"
+            :current-page="page"
+            :page-size="pageSize"
+            :paginate="paginate"
             @setPerPage="setPerPage"
           ></PaginationTable>
         </div>
