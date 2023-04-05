@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const { setLoader } = useLoader();
 definePageMeta({
-  layout: 'default',
+  layout: 'auth',
 });
 
 const { query } = useRoute();

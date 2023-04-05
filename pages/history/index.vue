@@ -3,6 +3,7 @@ import moment from 'moment';
 const { setLoader } = useLoader();
 const { $trpc } = useNuxtApp();
 const page = ref(1);
+const pageSize = ref(10);
 const type = ref<'email' | 'sms' | 'message'>('email');
 const orderType = ref<'desc' | 'asc'>('desc');
 const orderBy = ref('id');
@@ -26,7 +27,7 @@ const { data, refresh } = await useAsyncData(
     $trpc[type.value].list.query({
       search: search.value,
       pageNumber: page.value,
-      pageSize: 10,
+      pageSize: pageSize.value,
       orderType: orderType.value,
       orderBy: orderBy.value,
       startDate: startDate.value,
@@ -70,6 +71,11 @@ const paginate = (pg: number) => {
 const sortRecord = (key: string) => {
   orderType.value = orderType.value === 'desc' ? 'asc' : 'desc';
   orderBy.value = key;
+  refresh();
+};
+
+const setPerPage = (perPage: number) => {
+  pageSize.value = perPage;
   refresh();
 };
 
@@ -160,9 +166,11 @@ const setDate = (dateStr: string[] | null) => {
         />
         <div class="ml-8">
           <PaginationTable
-            :total-records="data?.total || 0"
-            :current-page="page"
-            :paginate="paginate"
+            :totalRecords="data?.total"
+            :currentPage="page"
+            :pageSize="pageSize"
+            v-bind:paginate="paginate"
+            @setPerPage="setPerPage"
           ></PaginationTable>
         </div>
       </div>

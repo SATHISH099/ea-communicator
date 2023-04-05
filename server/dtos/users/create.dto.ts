@@ -7,10 +7,6 @@ import {
   IsString,
 } from 'class-validator';
 
-class RoleDto {
-  id: number;
-}
-
 export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
@@ -45,5 +41,5 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsArray()
-  roles: RoleDto[];
+  roles: number[];
 }

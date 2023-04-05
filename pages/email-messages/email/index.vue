@@ -29,8 +29,8 @@ const { data, refresh } = await useAsyncData(
   () =>
     $trpc.email.list.query({
       orderType: orderType.value,
-      search: search.value,
       orderBy: orderBy.value,
+      search: search.value,
       pageSize: pageSize.value,
       pageNumber: page.value,
     }),

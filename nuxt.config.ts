@@ -20,6 +20,7 @@ const nuxtConfig = defineNuxtConfig({
       SMARTSUITE_BASEURL: process.env.SMARTSUITE_URL,
       API_SMARTSUITE_BASEURL: process.env.API_SMARTSUITE_BASEURL,
       APP_AUTH_URL: process.env.APP_AUTH_URL,
+      UPLOAD_SIZE_LIMIT: parseInt(process.env.UPLOAD_SIZE_LIMIT || '25000000'),
     },
     build: {
       transpile: ['@vuepic/vue-datepicker'],
@@ -31,6 +32,11 @@ const nuxtConfig = defineNuxtConfig({
     'vue-loading-overlay/dist/css/index.css',
   ],
   build: { transpile: ['trpc-nuxt'] },
+  app: {
+    head: {
+      title: 'Communicator | SmartSuite',
+    },
+  },
 });
 
 const session: ModuleOptions = {
@@ -40,8 +46,10 @@ const session: ModuleOptions = {
     // Sessions expire after 3600 seconds = 60 minutes
     expiryInSeconds: parseInt(process.env.SESSION_EXPIRY_SECONDS || '3600'),
     storageOptions: {
-      driver: 'memory',
-      options: {},
+      driver: 'fs',
+      options: {
+        base: './.session',
+      },
     },
   },
   api: { methods: ['get'] },

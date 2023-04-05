@@ -1,0 +1,28 @@
+diff --git a/drivers/fs.cjs b/drivers/fs.cjs
+index 71b531fe9506ac4d4197cad81303083f8d105939..864c49b83d08bd90722af8827c94fc38c5a54b71 100644
+--- a/drivers/fs.cjs
++++ b/drivers/fs.cjs
+@@ -12,7 +12,8 @@ var _nodeFs = require("./utils/node-fs.cjs");
+ var _anymatch = _interopRequireDefault(require("anymatch"));
+ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+ const PATH_TRAVERSE_RE = /\.\.\:|\.\.$/;
+-var _default = (0, _utils.defineDriver)((opts = {}) => {
++var _default = (0, _utils.defineDriver)((optts = {}) => {
++  const opts = { ...optts };
+   if (!opts.base) {
+     throw new Error("base is required");
+   }
+diff --git a/drivers/fs.mjs b/drivers/fs.mjs
+index 73bed3ccf81e9cdc5605d41f696e175cfdc6bc7d..478cc37e632528218cef000fd1df309963365759 100644
+--- a/drivers/fs.mjs
++++ b/drivers/fs.mjs
+@@ -11,7 +11,8 @@ import {
+ } from "./utils/node-fs.mjs";
+ import anymatch from "anymatch";
+ const PATH_TRAVERSE_RE = /\.\.\:|\.\.$/;
+-export default defineDriver((opts = {}) => {
++export default defineDriver((optts = {}) => {
++  const opts = { ...optts };
+   if (!opts.base) {
+     throw new Error("base is required");
+   }

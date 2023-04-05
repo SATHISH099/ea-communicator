@@ -2,8 +2,11 @@
 import type { Media } from '~~/types/common';
 
 const props = defineProps<{ modelValue?: Media[] }>();
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'error']);
+const SIZE_LIMIT = 2500000; // useRuntimeConfig().public.UPLOAD_SIZE_LIMIT;
 
+const errorMessage = ref('');
+const hasError = ref(false);
 const showAttachmentModal = ref(false);
 const selectedAttachments = ref<Media[]>(props.modelValue || []);
 
@@ -11,7 +14,21 @@ const onMediaSelected = (medias: Media[]) => {
   selectedAttachments.value = medias;
   showAttachmentModal.value = false;
 
-  emit('update:modelValue', medias);
+  const totalSize = medias.reduce(
+    (p, c) => p + parseInt(c.size?.toString() || '0'),
+    0,
+  );
+
+  if (SIZE_LIMIT < totalSize) {
+    hasError.value = true;
+    errorMessage.value = 'Attachment size excceeds the allowed size of 25Mb';
+    emit('error', errorMessage.value);
+  } else {
+    hasError.value = false;
+    errorMessage.value = '';
+    emit('error', '');
+    emit('update:modelValue', medias);
+  }
 };
 
 const removeAttachment = (media: any) => {
@@ -24,7 +41,7 @@ const removeAttachment = (media: any) => {
   <div
     flex
     flex-row
-    class="border-solid border-rounded md:w-70% w-full border-[#f5f5f5] p-1 bg-[#f5f5f5] cursor-pointer"
+    class="position-relative border-solid border-rounded md:w-70% w-full border-[#f5f5f5] p-1 bg-[#f5f5f5] cursor-pointer"
   >
     <div
       class="files p-2 w-70% bg-white grid md:grid-cols-3 grid-cols-1 gap-2 items-center"
@@ -88,6 +105,9 @@ const removeAttachment = (media: any) => {
     >
       <span> Attach Files </span>
     </FormKit>
+    <div v-if="hasError" class="position-absolute -bottom-6 text-primary">
+      {{ errorMessage }}
+    </div>
   </div>
   <Teleport to="body">
     <TheModal

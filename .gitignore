@@ -11,3 +11,4 @@ pnpm-lock.yaml
 .scannerwork
 uploads
 public/uploads
+.session
