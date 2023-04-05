@@ -174,6 +174,7 @@ const bulkDelete = async (data: number[]) => {
         <DashboardTable
           :headers="MessageHeaders"
           :rows="data?.data || []"
+          :current-page="page"
           type="email"
           :show-bulk-delete="true"
           :dropDownOption="{

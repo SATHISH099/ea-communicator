@@ -152,6 +152,7 @@ const setDate = (dateStr: string[] | null) => {
           :headers="messageHeaders"
           :rows="data?.data || []"
           :type="type"
+          :current-page="page"
           :drop-down-option="{ isView: true, isEdit: false, isDelete: false }"
           @sortRecord="sortRecord"
           :actions="{

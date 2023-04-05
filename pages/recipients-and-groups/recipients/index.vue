@@ -104,6 +104,7 @@ const deleteRecord = async (id: number) => {
 };
 
 const uploadFile = async (data: { file: any }) => {
+  setLoader(true);
   const formData = new FormData();
   formData.append('file', data.file[0].file);
 
@@ -113,10 +114,13 @@ const uploadFile = async (data: { file: any }) => {
   }
   const res = await recipientService.bulkCreate(formData);
   if (res) {
+    refresh();
+    setLoader(false);
+    viewUploadModal.value = false;
     setMessage('File Uploaded Successfully', 'success');
-    window.location.reload();
   } else {
     setMessage('File not Uploaded.', 'error');
+    setLoader(false);
   }
 };
 
@@ -237,6 +241,7 @@ const searchEmpty = () => {
             isEdit: user.hasRole('admin'),
             isDelete: user.hasRole('admin'),
           }"
+          :current-page="page"
           @sort-record="sortRecord"
           @on-delete-record="deleteRecord"
         />

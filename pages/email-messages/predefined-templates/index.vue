@@ -182,6 +182,7 @@ const bulkDelete = async (data: number[]) => {
       <div class="pb-10 pt-5">
         <DashboardTable
           :headers="MessageHeaders"
+          :current-page="page"
           :rows="data?.data || []"
           :show-bulk-delete="true"
           :drop-down-option="{

@@ -155,6 +155,7 @@ const searchEmpty = () => {
           :headers="messageHeaders"
           :rows="data?.data || []"
           type="groups"
+          :current-page="page"
           :drop-down-option="{
             isView: true,
             isEdit: user.hasRole('admin'),

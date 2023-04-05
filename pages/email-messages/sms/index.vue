@@ -172,6 +172,7 @@ const searchEmpty = () => {
         <DashboardTable
           :headers="messageHeaders"
           :rows="data?.data"
+          :current-page="page"
           type="sms"
           :show-bulk-delete="true"
           :drop-down-option="{

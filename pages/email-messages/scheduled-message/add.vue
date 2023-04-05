@@ -180,6 +180,7 @@ const activeTab = ref('alerts');
             mb-8
             :headers="MessageHeaders"
             :rows="MessageRows"
+            :current-page="page"
             :isDropdown="false"
             :isTemplateDefine="true"
           />

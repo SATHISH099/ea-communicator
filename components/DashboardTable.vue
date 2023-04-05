@@ -4,9 +4,14 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  currentPage: {
+    type: Number,
+    default: 1,
+  },
   rows: {
     type: Array,
     required: true,
+    default: () => [],
   },
   isDropdown: {
     default: true,
@@ -24,7 +29,8 @@ const props = defineProps({
     required: false,
   },
   use: {
-    required: false,
+    type: Function,
+    default: () => {},
   },
   showBulkDelete: {
     type: Boolean,
@@ -63,15 +69,31 @@ onMounted(() => {
     }
   }
 });
+
+watch(
+  () => props.currentPage,
+  () => {
+    if (props.showBulkDelete && props.rows.length > 0) {
+      mainChecked.value = false;
+      bulkChecked.value = {};
+      for (const row of props.rows) {
+        bulkChecked.value[row.id.toString()] = false;
+      }
+    }
+  },
+);
+
 const user = useCurrentUser();
 
 const submitHandler = () => {
   showBulk.value = false;
+
   emit(
     'bulkDelete',
     Object.keys(bulkChecked.value).filter((key) => bulkChecked.value[key]),
   );
 
+  mainChecked.value = false;
   bulkChecked.value = [];
 };
 
@@ -93,7 +115,7 @@ const toggleChecked = () => {
 <template>
   <div class="admin-table">
     <DeleteRecord
-      v-if="showBulkDelete && props.rows.length > 0"
+      v-if="showBulkDelete && props.rows?.length > 0"
       :entity="`bulk ${props.type}`"
       :show="showBulk"
       @onDeleteRecord="submitHandler"
