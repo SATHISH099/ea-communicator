@@ -65,7 +65,7 @@ export class EmailService extends BaseService<Email> {
     if (config.functionEmail) {
       await $fetch(config.functionEmail, {
         params: {
-          emailId,
+          id: emailId,
         },
         onResponseError(context) {
           console.warn('error sending email', context.error);
