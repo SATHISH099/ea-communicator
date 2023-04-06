@@ -106,6 +106,7 @@ const toggleChecked = () => {
         <FormKit
           v-model="form.groups"
           type="checkbox"
+          :current-page="page"
           :options="
                   data?.data.map((groupItem: GroupData) => {
                     return {
