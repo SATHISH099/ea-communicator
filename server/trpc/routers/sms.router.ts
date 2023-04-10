@@ -68,8 +68,9 @@ const update = authProcedure
       data: updateSmsDto,
     }),
   )
-  .mutation(({ input: { id, data } }) => {
+  .mutation(({ ctx, input: { id, data } }) => {
     const service = new SmsService();
+    service.setEvent(ctx);
     return service.updateSms(id, data);
   });
 
