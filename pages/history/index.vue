@@ -4,7 +4,7 @@ const { setLoader } = useLoader();
 const { $trpc } = useNuxtApp();
 const page = ref(1);
 const pageSize = ref(10);
-const type = ref<'email' | 'sms' | 'message'>('email');
+const type = ref<'email' | 'sms' | 'alert'>('email');
 const orderType = ref<'desc' | 'asc'>('desc');
 const orderBy = ref('id');
 const search = ref('');
@@ -22,9 +22,10 @@ const messageHeaders = [
   '',
 ];
 setLoader(true);
+
 const { data, refresh } = await useAsyncData(
   (): any =>
-    $trpc[type.value].list.query({
+    $trpc[type.value === 'alert' ? 'message' : type.value].list.query({
       search: search.value,
       pageNumber: page.value,
       pageSize: pageSize.value,
@@ -145,7 +146,7 @@ const setDate = (dateStr: string[] | null) => {
                   label: 'Sms',
                 },
                 {
-                  value: 'message',
+                  value: 'alert',
                   label: 'Messages',
                 },
               ]"
