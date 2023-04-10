@@ -79,9 +79,14 @@ const openViewModal = (row: Recipient) => {
               <h5 class="text-stone">Location</h5>
               <p class="text-carbon">
                 {{
-                  `${data.location.address ? data.location.address : ''} ${
-                    data.location.city
-                  }, ${data.location.state}, ${data.location.country}`
+                  [
+                    data.location.address,
+                    data.location.city,
+                    data.location.state,
+                    data.location.country,
+                  ]
+                    .filter((l) => l)
+                    .join(', ')
                 }}
               </p>
             </div>
@@ -100,7 +105,7 @@ const openViewModal = (row: Recipient) => {
             mb-8
             :headers="messageHeaders"
             :rows="recipients"
-            :isDropdown="false"
+            :is-dropdown="false"
             :is-viewable="true"
             :on-view-click="openViewModal"
           />
