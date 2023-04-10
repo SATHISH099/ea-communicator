@@ -74,6 +74,12 @@ const data = await $trpc.email.show.query(parseInt(id as string));
               <h6 class="text-stone">Message</h6>
               <p class="text-carbon" v-html="data.body"></p>
             </div>
+            <h6 class="text-stone">Attachments</h6>
+            <div class="mb-10 flex gap-y-2 mt-2">
+              <div v-for="item in data.medias" :key="item.id">
+                <img class="w-50 h-50 mr-2" :src="item.fileUrl" alt="" />
+              </div>
+            </div>
           </div>
         </div>
         <RecipientList :recipients="data.recipients" :groups="data.groups" />
