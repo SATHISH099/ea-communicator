@@ -3,6 +3,7 @@ const props = defineProps(['groups']);
 defineEmits(['setGroups']);
 
 const page = ref(1);
+const pageSize = ref(10);
 const search = ref('');
 const searchField = ref('');
 const mainCheck = ref([]);
@@ -31,7 +32,7 @@ const { data, refresh } = await useAsyncData(
   () =>
     groupService.getAll({
       search: search.value,
-      pageSize: 10,
+      pageSize: pageSize.value,
       pageNumber: page.value,
     }),
   {
@@ -57,6 +58,11 @@ const searchKeyword = () => {
 
 const paginate = (pg: number) => {
   page.value = pg;
+  refresh();
+};
+
+const setPerPage = (perPage: number) => {
+  pageSize.value = perPage;
   refresh();
 };
 
@@ -125,6 +131,7 @@ const toggleChecked = () => {
           :total-records="data?.total || []"
           :current-page="page"
           :paginate="paginate"
+          @setPerPage="setPerPage"
         ></PaginationTable>
       </div>
     </div>
