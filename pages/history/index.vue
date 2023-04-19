@@ -44,7 +44,9 @@ const { data, refresh } = await useAsyncData(
         recipients: message.recipients.length,
         groups: message.groups.length,
         body: stripHtml(message.body) || message.message,
-        createdAt: message.createdAt,
+        createdAt: moment(message.createdAt).format(
+          'dddd, Do MMMM YYYY h:mm A',
+        ),
       })),
     }),
   },
