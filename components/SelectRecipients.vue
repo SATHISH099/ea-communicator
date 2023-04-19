@@ -96,6 +96,8 @@ const viewMoreRecipient = () => {
     recipientPageNumber.value
   ) {
     recipientPageNumber.value++;
+    recipientPageSize.value += 10;
+    --recipientPageNumber.value;
     refreshRecipient();
   }
 };
@@ -105,6 +107,8 @@ const viewMoreGroup = () => {
     Math.ceil(groups.value.total / groupPageSize.value) > groupPageNumber.value
   ) {
     groupPageNumber.value++;
+    groupPageSize.value += 10;
+    --groupPageNumber.value;
     refreshGroup();
   }
 };
