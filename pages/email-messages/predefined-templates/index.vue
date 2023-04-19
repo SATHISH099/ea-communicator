@@ -129,7 +129,9 @@ const bulkDelete = async (data: number[]) => {
             Email/Messages</NuxtLink
           >
           <span class="text-silver">/</span>
-          <span class="text-primary hover:no-underline ml-1">Template</span>
+          <span class="text-primary hover:no-underline ml-1"
+            >Predefined Template</span
+          >
         </p>
       </div>
       <div v-if="!user.hasRole('team-member')" class="md:w-auto w-full">

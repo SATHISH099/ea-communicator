@@ -142,7 +142,7 @@ const messageCount = () => {
               Messages</NuxtLink
             >
             <span class="text-silver">/</span>
-            <span class="text-primary"> Create New Messages</span>
+            <span class="text-primary"> Create New Message</span>
           </p>
         </div>
       </div>

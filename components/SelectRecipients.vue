@@ -30,6 +30,8 @@ if (process.client) {
 
 const searchRecipient = ref('');
 const searchGroup = ref('');
+const pageNumber = ref(1);
+const pageSize = ref(11);
 const type = ref<string>('recipients');
 
 setLoader(true);
@@ -37,8 +39,8 @@ const { data: recipients, refresh: refreshRecipient } = await useAsyncData(
   () =>
     recipientService.getAll({
       search: searchRecipient.value,
-      pageSize: 10,
-      pageNumber: 1,
+      pageSize: pageSize.value,
+      pageNumber: pageNumber.value,
     }),
   {
     server: false,
@@ -49,8 +51,8 @@ const { data: groups, refresh: refreshGroup } = await useAsyncData(
   () =>
     groupService.getAll({
       search: searchRecipient.value,
-      pageSize: 10,
-      pageNumber: 1,
+      pageSize: pageSize.value,
+      pageNumber: pageNumber.value,
     }),
   {
     server: false,
@@ -85,6 +87,27 @@ const removeFromGroup = (id: number) => {
     return group.id !== id;
   });
 };
+
+const handleScroll = () => {
+  const recipientsDiv = document.getElementById('recipientsDiv');
+  if (
+    recipientsDiv &&
+    recipientsDiv?.scrollTop + recipientsDiv?.clientHeight >=
+      recipientsDiv?.scrollHeight
+  ) {
+    pageNumber.value++;
+    refreshRecipient();
+    refreshGroup();
+  } else if (
+    recipientsDiv &&
+    recipientsDiv?.scrollTop === 0 &&
+    pageNumber.value > 1
+  ) {
+    pageNumber.value--;
+    refreshRecipient();
+    refreshGroup();
+  }
+};
 </script>
 
 <template>
@@ -114,8 +137,11 @@ const removeFromGroup = (id: number) => {
       </div>
     </div>
     <div>
+      <!--  -->
       <div
+        id="recipientsDiv"
         class="grid grid-cols-2 gap-4 shadow-[0_6px_12px_#F7F7F7] border-solid border border-[#F5F7FA] rounded-[4px] pb-5 max-h-[313px] overflow-y-auto"
+        @scroll="handleScroll"
       >
         <div>
           <h6 class="text-[#B42424] font-medium mb-4 px-[1rem] pt-[1rem]">
