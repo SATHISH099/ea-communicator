@@ -105,10 +105,26 @@ const setGroups = (groupSelected: GroupData[]) => {
   <div>
     <div class="mb-10">
       <div>
-        <h4 class="mb-4 text-carbon">Recipients</h4>
+        <h4 class="mb-4 text-stone">Recipients</h4>
         <p class="text-silver">
-          Smart Suite / Communicator / Recipients /
-          <span class="text-primary"> Edit Recipient </span>
+          <NuxtLink to="/" class="text-silver sub-heading"
+            >Communicator</NuxtLink
+          >
+          <span class="text-silver">/</span>
+          <NuxtLink to="/recipients-and-groups" class="text-silver sub-heading"
+            >Recepients And Groups</NuxtLink
+          >
+          <span class="text-silver">/</span>
+          <NuxtLink
+            to="/recipients-and-groups/recipients"
+            class="text-silver sub-heading"
+            >Recepients</NuxtLink
+          >
+          <span class="text-silver">/</span>
+
+          <span class="text-primary hover:no-underline ml-1"
+            >Edit Recipient</span
+          >
         </p>
       </div>
     </div>
