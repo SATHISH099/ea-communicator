@@ -3,6 +3,7 @@ const props = defineProps(['recipients']);
 defineEmits(['setRecipients']);
 
 const page = ref(1);
+const pageSize = ref(10);
 const search = ref('');
 const searchField = ref('');
 const mainCheck = ref([]);
@@ -33,7 +34,7 @@ const { data, refresh } = await useAsyncData(
   () =>
     recipientService.getAll({
       search: search.value,
-      pageSize: 10,
+      pageSize: pageSize.value,
       pageNumber: page.value,
     }),
   {
@@ -58,6 +59,11 @@ const searchKeyword = () => {
 
 const paginate = (pg: number) => {
   page.value = pg;
+  refresh();
+};
+
+const setPerPage = (perPage: number) => {
+  pageSize.value = perPage;
   refresh();
 };
 
@@ -126,6 +132,7 @@ const toggleChecked = () => {
           :total-records="data?.total || 0"
           :current-page="page"
           :paginate="paginate"
+          @setPerPage="setPerPage"
         ></PaginationTable>
       </div>
     </div>

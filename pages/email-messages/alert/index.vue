@@ -143,7 +143,7 @@ const searchEmpty = () => {
         <NuxtLink
           :to="{ name: 'email-messages-alert-add' }"
           class="btn btn-primary btn-create w-full flex justify-center"
-          >Create New Messages</NuxtLink
+          >Create New Message</NuxtLink
         >
       </div>
     </div>
