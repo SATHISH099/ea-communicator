@@ -2,12 +2,21 @@
 type MessageType = 'message' | 'email' | 'sms';
 const recentEmailHeaders = ['ID', 'Sender', 'Email Subject', 'Email Messages'];
 const activeTab = ref<MessageType>('message');
+const pageSize = ref(6);
+const orderType = ref<'desc' | 'asc'>('desc');
+const orderBy = ref('id');
+const search = ref('');
+const page = ref(1);
 const { $trpc } = useNuxtApp();
 
 const { data, refresh } = await useAsyncData(
   (): any =>
     $trpc[activeTab.value].list.query({
-      pageSize: 6,
+      pageSize: pageSize.value,
+      pageNumber: page.value,
+      orderBy: orderBy.value,
+      orderType: orderType.value,
+      search: search.value,
     }),
   {
     transform: ({ total, data }: any) => ({
@@ -16,7 +25,7 @@ const { data, refresh } = await useAsyncData(
         id: message.id,
         sender: message.sender?.name,
         subject: message.subject || message.title,
-        body: message.message || message.body,
+        body: stripHtml(message.message) || stripHtml(message.body),
       })),
     }),
   },
