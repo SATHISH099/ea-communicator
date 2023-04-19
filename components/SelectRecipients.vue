@@ -30,8 +30,10 @@ if (process.client) {
 
 const searchRecipient = ref('');
 const searchGroup = ref('');
-const pageNumber = ref(1);
-const pageSize = ref(11);
+const groupPageNumber = ref(1);
+const groupPageSize = ref(10);
+const recipientPageNumber = ref(1);
+const recipientPageSize = ref(10);
 const type = ref<string>('recipients');
 
 setLoader(true);
@@ -39,8 +41,8 @@ const { data: recipients, refresh: refreshRecipient } = await useAsyncData(
   () =>
     recipientService.getAll({
       search: searchRecipient.value,
-      pageSize: pageSize.value,
-      pageNumber: pageNumber.value,
+      pageSize: recipientPageSize.value,
+      pageNumber: recipientPageNumber.value,
     }),
   {
     server: false,
@@ -51,8 +53,8 @@ const { data: groups, refresh: refreshGroup } = await useAsyncData(
   () =>
     groupService.getAll({
       search: searchRecipient.value,
-      pageSize: pageSize.value,
-      pageNumber: pageNumber.value,
+      pageSize: groupPageSize.value,
+      pageNumber: groupPageNumber.value,
     }),
   {
     server: false,
@@ -88,23 +90,21 @@ const removeFromGroup = (id: number) => {
   });
 };
 
-const handleScroll = () => {
-  const recipientsDiv = document.getElementById('recipientsDiv');
+const viewMoreRecipient = () => {
   if (
-    recipientsDiv &&
-    recipientsDiv?.scrollTop + recipientsDiv?.clientHeight >=
-      recipientsDiv?.scrollHeight
+    Math.ceil(recipients.value.total / recipientPageSize.value) >
+    recipientPageNumber.value
   ) {
-    pageNumber.value++;
+    recipientPageNumber.value++;
     refreshRecipient();
-    refreshGroup();
-  } else if (
-    recipientsDiv &&
-    recipientsDiv?.scrollTop === 0 &&
-    pageNumber.value > 1
+  }
+};
+
+const viewMoreGroup = () => {
+  if (
+    Math.ceil(groups.value.total / groupPageSize.value) > groupPageNumber.value
   ) {
-    pageNumber.value--;
-    refreshRecipient();
+    groupPageNumber.value++;
     refreshGroup();
   }
 };
@@ -141,7 +141,6 @@ const handleScroll = () => {
       <div
         id="recipientsDiv"
         class="grid grid-cols-2 gap-4 shadow-[0_6px_12px_#F7F7F7] border-solid border border-[#F5F7FA] rounded-[4px] pb-5 max-h-[313px] overflow-y-auto"
-        @scroll="handleScroll"
       >
         <div>
           <h6 class="text-[#B42424] font-medium mb-4 px-[1rem] pt-[1rem]">
@@ -161,6 +160,12 @@ const handleScroll = () => {
             outer-class="recipient-list"
             input-class="form-check-input mr-2"
           />
+          <span
+            class="text-primary hover:no-underline mt-2 cursor-pointer flex justify-center"
+            @click="viewMoreRecipient"
+          >
+            View More</span
+          >
         </div>
         <div>
           <h6 class="text-[#B42424] font-medium mb-4 px-[1rem] pt-[1rem]">
@@ -180,6 +185,12 @@ const handleScroll = () => {
             outer-class="recipient-list"
             input-class="form-check-input mr-2"
           />
+          <span
+            class="text-primary hover:no-underline mt-2 cursor-pointer flex justify-center"
+            @click="viewMoreGroup"
+          >
+            View More</span
+          >
         </div>
       </div>
       <div class="flex flex-wrap items-center gap-3 mt-10">
