@@ -214,7 +214,7 @@ const messageCount = () => {
                 v-model="data.title"
                 type="text"
                 name="title"
-                validation="required"
+                validation="required|length:3,100"
                 placeholder="Subject*"
                 input-class="form-control"
                 outer-class="mb-5 col-span-2"

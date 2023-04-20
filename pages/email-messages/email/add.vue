@@ -308,7 +308,7 @@ const onUploadSizeError = (message: string) => {
                 v-model="subject"
                 name="subject"
                 type="text"
-                validation="required"
+                validation="required|length:3,100"
                 placeholder="Subject*"
                 input-class="form-control"
                 outer-class="mb-5 md:col-span-2 col-span-1"

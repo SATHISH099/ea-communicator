@@ -24,8 +24,11 @@ const { data, refresh } = await useAsyncData(
       data: data.map((message: any) => ({
         id: message.id,
         sender: message.sender?.name,
-        subject: message.subject || message.title,
-        body: stripHtml(message.message) || stripHtml(message.body),
+        subject: textLimit(message.subject || message.title, 50),
+        body: textLimit(
+          stripHtml(message.message) || stripHtml(message.body),
+          50,
+        ),
       })),
     }),
   },
