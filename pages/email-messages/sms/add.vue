@@ -97,6 +97,20 @@ const countLimit = computed(() => {
 const messageCount = () => {
   count.value = message.value.length;
 };
+
+const removeFromRecipient = (id: number) => {
+  recipients.value = recipients.value.filter(function (
+    recipient: RecipientData,
+  ) {
+    return recipient.id !== id;
+  });
+};
+
+const removeFromGroup = (id: number) => {
+  groups.value = groups.value.filter(function (group: any) {
+    return group.id !== id;
+  });
+};
 </script>
 
 <template>
@@ -157,27 +171,48 @@ const messageCount = () => {
                   type="button"
                   class="w-full border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex justify-between text-[16px] text-silver items-center p-[1rem]"
                   title="Click Me"
-                  @click="toggleModal"
                 >
-                  <div class="flex items-center">
-                    <span class="mr-3">TO</span>
-                    <div
-                      class="flex flex-wrap items-center gap-2 overflow-x-auto"
+                  <span class="mr-3">TO</span>
+                  <div
+                    class="flex flex-wrap items-center gap-2 overflow-x-auto"
+                  >
+                    <span
+                      v-for="recipient in recipients"
+                      :key="recipient.id"
+                      class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary flex"
                     >
-                      <span
-                        v-for="recipient in recipients"
-                        :key="recipient.id"
-                        class="p-[0.2rem] border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                      {{ recipient.name }}
+                      <button
+                        class="border-none outline-none bg-transparent text-primary"
+                        type="button"
+                        @click="removeFromRecipient(recipient.id)"
                       >
-                        {{ recipient.name }}
-                      </span>
-                    </div>
-                  </div>
+                        <span
+                          class="inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-white bg-primary rounded-full ml-3"
+                          >x</span
+                        >
+                      </button>
+                    </span>
 
-                  <span v-for="group in groups" :key="group.id">
-                    {{ group.groupName }}
-                  </span>
-                  <img src="/plus.png" alt="plus" />
+                    <span
+                      v-for="group in groups"
+                      :key="group.id"
+                      class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary flex"
+                    >
+                      {{ group.groupName }}
+                      <button
+                        type="button"
+                        class="border-none outline-none bg-transparent text-primary mr-2"
+                        @click="removeFromGroup(group.id)"
+                      >
+                        <span
+                          class="inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-white bg-primary rounded-full ml-3"
+                          >x</span
+                        >
+                      </button>
+                    </span>
+                  </div>
+                  <img src="/plus.png" alt="plus" @click="toggleModal" />
                 </button>
                 <p v-if="errorRecipients" class="text-primary mt-2">
                   Please Enter Recipient/Group

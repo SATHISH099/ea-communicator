@@ -201,22 +201,25 @@ const viewMoreGroup = () => {
         <span
           v-for="recipient in form.recipients"
           :key="recipient.id"
-          class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+          class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary flex"
         >
           {{ recipient.name }}
           <button
-            class="border-none outline-none bg-transparent text-primary mr-2"
+            class="border-none outline-none bg-transparent text-primary"
             type="button"
             @click="removeFromRecipient(recipient.id)"
           >
-            X
+            <span
+              class="inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-white bg-primary rounded-full ml-3"
+              >x</span
+            >
           </button>
         </span>
 
         <span
           v-for="group in form.groups"
           :key="group.id"
-          class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary"
+          class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary flex"
         >
           {{ group.groupName }}
           <button
@@ -224,7 +227,10 @@ const viewMoreGroup = () => {
             class="border-none outline-none bg-transparent text-primary mr-2"
             @click="removeFromGroup(group.id)"
           >
-            X
+            <span
+              class="inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-white bg-primary rounded-full ml-3"
+              >x</span
+            >
           </button>
         </span>
       </div>
