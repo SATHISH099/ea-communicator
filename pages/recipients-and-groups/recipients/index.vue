@@ -27,7 +27,6 @@ const recipientHeaders = [
   'Work phone Number',
   'Primary Email',
   'Alternate Email',
-  'Address',
   '',
 ];
 
@@ -54,16 +53,6 @@ const { data, refresh } = await useAsyncData(
         workNumber: x.workNumber,
         emailAddress: x.emailAddress,
         alternateEmail: x.alternateEmail,
-        location: x.location
-          ? [
-              x.location.address,
-              x.location.city,
-              x.location.state,
-              x.location.country,
-            ]
-              .filter((v) => v)
-              .join(', ')
-          : '-',
       })),
     }),
   },

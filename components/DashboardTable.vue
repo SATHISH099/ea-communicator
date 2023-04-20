@@ -113,7 +113,7 @@ const toggleChecked = () => {
 </script>
 
 <template>
-  <div class="admin-table">
+  <div class="admin-table overflow-x-auto">
     <DeleteRecord
       v-if="showBulkDelete && props.rows?.length > 0"
       :entity="`bulk ${props.type}`"
@@ -242,7 +242,10 @@ const toggleChecked = () => {
                   >View</a
                 >
               </td>
-              <td class="text-[14px] px-[30px] py-[18px]">
+              <td
+                class="text-[14px] px-[30px] py-[16px]"
+                :class="{ 'w-[163px]': isDropdown }"
+              >
                 <DropdownTable
                   v-if="isDropdown ?? true"
                   :detail-id="row.id"
