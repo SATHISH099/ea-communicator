@@ -69,9 +69,7 @@ const submitHandler = async (formData: any) => {
   if (checkvalidation()) {
     try {
       const response =
-        type.value === 'email'
-          ? await saveEmail()
-          : await saveSms();
+        type.value === 'email' ? await saveEmail() : await saveSms();
       if (response) {
         setMessage('Template created successfully', 'success');
         router.push('/email-messages/predefined-templates');
@@ -106,7 +104,10 @@ const submitHandler = async (formData: any) => {
               Email / Alerts</NuxtLink
             >
             <span class="text-silver">/</span>
-            <NuxtLink to="/email-messages/predefined-templates" class="text-silver sub-heading">
+            <NuxtLink
+              to="/email-messages/predefined-templates"
+              class="text-silver sub-heading"
+            >
               Predefined Templates</NuxtLink
             >
             <span class="text-silver">/</span>
