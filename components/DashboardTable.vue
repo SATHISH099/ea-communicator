@@ -163,7 +163,7 @@ const toggleChecked = () => {
             <th
               v-for="(header, index) in headers"
               :key="index"
-              class="md:px-[30px] py-[18px] px-[24px]"
+              class="md:px-[30px] py-[18px] px-[24px] font-medium"
             >
               <div flex items-center gap-2>
                 {{ header.value ?? header }}
@@ -282,7 +282,6 @@ const toggleChecked = () => {
       tr {
         th {
           font-size: 16px;
-          font-weight: 400;
           text-align: left;
         }
       }
