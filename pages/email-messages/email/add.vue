@@ -147,6 +147,48 @@ const setCcGroupRecipients = (
 const onUploadSizeError = (message: string) => {
   console.log(message);
 };
+
+const removeFromRecipient = (id: number) => {
+  recipients.value = recipients.value.filter(function (
+    recipient: RecipientData,
+  ) {
+    return recipient.id !== id;
+  });
+};
+
+const removeFromRecipientCc = (id: number) => {
+  ccRecipients.value = ccRecipients.value.filter(function (
+    recipient: RecipientData,
+  ) {
+    return recipient.id !== id;
+  });
+};
+
+const removeFromRecipientBcc = (id: number) => {
+  bccRecipients.value = bccRecipients.value.filter(function (
+    recipient: RecipientData,
+  ) {
+    return recipient.id !== id;
+  });
+};
+
+const removeFromGroup = (id: number) => {
+  groups.value = groups.value.filter(function (group: any) {
+    return group.id !== id;
+  });
+};
+
+const removeFromGroupCc = (id: number) => {
+  ccGroups.value = ccGroups.value.filter(function (group: any) {
+    return group.id !== id;
+  });
+};
+
+const removeFromGroupBcc = (id: number) => {
+  bccGroups.value = bccGroups.value.filter(function (group: any) {
+    return group.id !== id;
+  });
+};
 </script>
 
 <template>
@@ -210,7 +252,6 @@ const onUploadSizeError = (message: string) => {
                 <button
                   type="button"
                   class="w-full relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[1rem] text-silver items-center p-[1rem]"
-                  @click="toggleModal"
                 >
                   <span class="mr-3">TO</span>
                   <div
@@ -219,17 +260,37 @@ const onUploadSizeError = (message: string) => {
                     <span
                       v-for="recipient in recipients"
                       :key="recipient.id"
-                      class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                      class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary flex"
                     >
                       {{ recipient.name }}
+                      <button
+                        class="border-none outline-none bg-transparent text-primary"
+                        type="button"
+                        @click="removeFromRecipient(recipient.id)"
+                      >
+                        <span
+                          class="inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-white bg-primary rounded-full ml-3"
+                          >x</span
+                        >
+                      </button>
                     </span>
 
                     <span
                       v-for="group in groups"
                       :key="group.id"
-                      class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary"
+                      class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary flex"
                     >
                       {{ group.groupName }}
+                      <button
+                        type="button"
+                        class="border-none outline-none bg-transparent text-primary mr-2"
+                        @click="removeFromGroup(group.id)"
+                      >
+                        <span
+                          class="inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-white bg-primary rounded-full ml-3"
+                          >x</span
+                        >
+                      </button>
                     </span>
                   </div>
 
@@ -237,6 +298,7 @@ const onUploadSizeError = (message: string) => {
                     class="absolute right-0 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
                     src="/plus.png"
                     alt="plus"
+                    @click="toggleModal"
                   />
                 </button>
                 <p v-if="errorRecipients" class="text-primary mt-2">
@@ -247,60 +309,100 @@ const onUploadSizeError = (message: string) => {
               <button
                 type="button"
                 class="relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[16px] text-silver items-center p-[1rem]"
-                @click="toggleModalCc"
               >
                 <span class="mr-3">CC</span>
                 <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
                   <span
                     v-for="recipient in ccRecipients"
                     :key="recipient.id"
-                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary flex"
                   >
                     {{ recipient.name }}
+                    <button
+                      class="border-none outline-none bg-transparent text-primary"
+                      type="button"
+                      @click="removeFromRecipientCc(recipient.id)"
+                    >
+                      <span
+                        class="inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-white bg-primary rounded-full ml-3"
+                        >x</span
+                      >
+                    </button>
                   </span>
 
                   <span
                     v-for="group in ccGroups"
                     :key="group.id"
-                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary flex"
                   >
                     {{ group.groupName }}
+                    <button
+                      type="button"
+                      class="border-none outline-none bg-transparent text-primary mr-2"
+                      @click="removeFromGroupCc(group.id)"
+                    >
+                      <span
+                        class="inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-white bg-primary rounded-full ml-3"
+                        >x</span
+                      >
+                    </button>
                   </span>
                 </div>
                 <img
                   class="absolute right-0 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
                   src="/plus.png"
                   alt="plus"
+                  @click="toggleModalCc"
                 />
               </button>
 
               <button
                 type="button"
                 class="relative border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex text-[16px] text-silver items-center p-[1rem]"
-                @click="toggleModalBcc"
               >
                 <span class="mr-3">BCC</span>
                 <div class="flex flex-wrap items-center gap-2 overflow-x-auto">
                   <span
                     v-for="recipient in bccRecipients"
                     :key="recipient.id"
-                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary flex"
                   >
                     {{ recipient.name }}
+                    <button
+                      class="border-none outline-none bg-transparent text-primary"
+                      type="button"
+                      @click="removeFromRecipientBcc(recipient.id)"
+                    >
+                      <span
+                        class="inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-white bg-primary rounded-full ml-3"
+                        >x</span
+                      >
+                    </button>
                   </span>
 
                   <span
                     v-for="group in bccGroups"
                     :key="group.id"
-                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                    class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary flex"
                   >
                     {{ group.groupName }}
+                    <button
+                      type="button"
+                      class="border-none outline-none bg-transparent text-primary mr-2"
+                      @click="removeFromGroupBcc(group.id)"
+                    >
+                      <span
+                        class="inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-white bg-primary rounded-full ml-3"
+                        >x</span
+                      >
+                    </button>
                   </span>
                 </div>
                 <img
                   class="absolute right-0 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
                   src="/plus.png"
                   alt="plus"
+                  @click="toggleModalBcc"
                 />
               </button>
 
