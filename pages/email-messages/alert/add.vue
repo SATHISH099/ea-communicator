@@ -45,7 +45,7 @@ const initialState: initialStateData = {
 const data = reactive({ ...initialState });
 const communicationChannel = ref<string[]>([]);
 const successResponse = ref({ id: null });
-const channels: string[] = ['Sms', 'Email', 'Voice'];
+const channels: string[] = ['Sms', 'Email'];
 const recipients = ref<RecipientData[] | []>([]);
 const groups = ref<GroupData[] | []>([]);
 const showModal = ref(false);
@@ -139,21 +139,21 @@ const messageCount = () => {
               to="/email-messages/alert"
               class="text-silver sub-heading"
             >
-              Messages</NuxtLink
+              Alerts</NuxtLink
             >
             <span class="text-silver">/</span>
-            <span class="text-primary"> Create New Message</span>
+            <span class="text-primary"> Create New Alert</span>
           </p>
         </div>
       </div>
       <div w-full>
         <div v-if="successResponse.id" class="success alert-success">
-          Message Successfully Sent
+          Alert Successfully Sent
         </div>
         <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>
           <div bg-white small-shadow p-6 col-span-2>
             <div md:flex flex-wrap justify-between items-center>
-              <h5 text-stone>Create New Message</h5>
+              <h5 text-stone>Create New Alert</h5>
               <div flex flex-wrap items-center gap-5>
                 <h6 text-stone>Priority</h6>
                 <div flex flex-wrap items-center gap-3>
@@ -234,9 +234,7 @@ const messageCount = () => {
                 @input="messageCount"
                 @paste="messageCount"
               />
-              <div class="mt-2">
-                Message Count: {{ count }}/{{ countLimit }}
-              </div>
+              <div class="mt-2">Alert Count: {{ count }}/{{ countLimit }}</div>
             </div>
             <div flex flex-wrap items-center gap-5 mb-6>
               <h6 text-stone>Communication Channels</h6>

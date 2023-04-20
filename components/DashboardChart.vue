@@ -65,7 +65,7 @@ const setDate = (dateStr: string[] | null) => {
     class="lg:w-[64%] w-full lg:mb-0 md:mb-10 bg-white small-shadow rounded-[4px] w-full py-4 px-6"
   >
     <div class="md:flex justify-between items-center">
-      <h5 class="text-stone mb-4 md:mb-0">Messages</h5>
+      <h5 class="text-stone mb-4 md:mb-0">Alerts</h5>
       <DatePicker @setDate="setDate"></DatePicker>
     </div>
     <div px-8>
@@ -75,7 +75,7 @@ const setDate = (dateStr: string[] | null) => {
             id="dashboardChart"
             :options="chartOptions"
             :data="{
-              labels: ['Emails', 'SMS', 'Voice', 'Alerts'],
+              labels: ['Emails', 'SMS', 'Alerts'],
               datasets: [
                 {
                   data: [
@@ -101,12 +101,11 @@ const setDate = (dateStr: string[] | null) => {
             class="tenant-counting absolute flex items-center top-[12.6rem] left-1/2 w-[12rem] h-[12rem] transform -translate-x-1/2 -translate-y-1/2 rounded-full p-10 shadow-[0_3.20559px_32.0559px_rgba(0,0,0,0.08)]"
           >
             <div flex flex-col items-center mx-auto>
-              <p text-silver mb-3>Total Messages</p>
+              <p text-silver mb-3>Total Alerts</p>
               <h1>
                 {{
                   (data?.emailCount || 0) +
                   (data?.smsCount || 0) +
-                  (data?.voiceCount || 0) +
                   (data?.messageCount || 0)
                 }}
               </h1>
@@ -151,18 +150,6 @@ const setDate = (dateStr: string[] | null) => {
           <div class="flex items-center gap-2">
             <img src="/alert-bullet.png" alt="" />
             <span class="text-silver">Alerts</span>
-          </div>
-        </div>
-        <div class="mb-8 flex flex-col items-center md:items-start">
-          <div class="flex items-center gap-2 mb-2">
-            <img src="/SentVoice.png" alt="" class="h-8" />
-          </div>
-          <div class="flex items-center mb-2">
-            <h4 class="text-carbon mr-2">{{ data?.voiceCount || 0 }}</h4>
-          </div>
-          <div class="flex items-center gap-2">
-            <img src="/voice-bullet.png" alt="" />
-            <span class="text-silver">Voice</span>
           </div>
         </div>
       </div>

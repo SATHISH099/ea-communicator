@@ -149,7 +149,7 @@ const setDate = (dateStr: string[] | null) => {
                 },
                 {
                   value: 'alert',
-                  label: 'Messages',
+                  label: 'Alerts',
                 },
               ]"
             />
