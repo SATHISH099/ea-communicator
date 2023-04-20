@@ -101,8 +101,8 @@ const setGroups = (groupSelected: GroupData[]) => {
                 type="text"
                 placeholder="Full Name*"
                 input-class="form-control"
-                validation="required|length:3,25|number"
-                @input="limitCharacter(data, data.name, 'name', 25)"
+                validation="required|length:3,50"
+                @input="limitCharacter(data, data.name, 'name', 50)"
               />
               <FormKit
                 v-model="data.cellVoice"

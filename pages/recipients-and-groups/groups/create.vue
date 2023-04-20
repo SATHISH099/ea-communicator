@@ -118,7 +118,7 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
                 v-model="data.groupName"
                 type="text"
                 name="name"
-                validation="required"
+                validation="required|length:5,50"
                 placeholder="Group Name*"
                 input-class="form-control"
               />
