@@ -95,27 +95,28 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
         <h4 class="mb-4 text-carbon">Groups</h4>
         <p class="text-silver">
           <NuxtLink to="/" class="text-silver sub-heading"
-            >Smart Suite</NuxtLink
+            >Communicator</NuxtLink
           >
           <span class="text-silver">/</span>
-          <NuxtLink to="/" class="text-silver sub-heading">
-            Communicator</NuxtLink
+          <NuxtLink to="/recipients-and-groups" class="text-silver sub-heading">
+            Recipients and Groups</NuxtLink
           >
           <span class="text-silver">/</span>
-          <NuxtLink
-            to="/recipients-and-groups/groups"
-            class="text-silver sub-heading"
-          >
-            Recipients</NuxtLink
-          >
-          <span class="text-primary">Create New Group</span>
+          <span class="text-primary hover:no-underline ml-1">Groups </span>
+
+          <span class="text-silver">/</span>
+          <span class="text-primary hover:no-underline ml-1">
+            {{ $route.query.type === 'clone' ? 'Clone' : 'Edit' }} Group
+          </span>
         </p>
       </div>
     </div>
     <div w-full>
       <div grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5>
         <div bg-white small-shadow p-6 md:col-span-2 col-span-1>
-          <h5 text-stone>Create New Group</h5>
+          <h5 text-stone>
+            {{ $route.query.type === 'clone' ? 'Clone' : 'Edit' }} Group
+          </h5>
           <FormKit type="form" :actions="false" @submit="submitHandler">
             <div grid md:grid-cols-2 grid-cols-1 gap-5 my-8 md:w-auto w-full>
               <FormKit
