@@ -49,10 +49,10 @@ const { data, refresh } = await useAsyncData(
         }: any) => ({
           id,
           sender: sender?.name,
-          subject,
+          subject: textLimit(subject, 50),
           recipients: recipients.length,
           groups: groups.length,
-          body: stripHtml(body),
+          body: textLimit(stripHtml(body), 50),
           createdAt: moment(createdAt).format('dddd, Do MMMM YYYY h:mm A'),
         }),
       ),

@@ -70,7 +70,7 @@ const data = await $trpc.email.show.query(parseInt(id as string));
               <h6 class="text-stone">Subject</h6>
               <p class="text-carbon">{{ data.subject }}</p>
             </div>
-            <div class="mb-10 grid gap-y-2">
+            <div class="mb-10 grid gap-y-2 w-50">
               <h6 class="text-stone">Message</h6>
               <p class="text-carbon" v-html="data.body"></p>
             </div>

@@ -40,10 +40,10 @@ const { data, refresh } = await useAsyncData(
       data: data.map((message: any) => ({
         id: message.id,
         sender: message.sender?.name,
-        subject: message.subject || message.title,
+        subject: textLimit(message.subject || message.title, 50),
         recipients: message.recipients.length,
         groups: message.groups.length,
-        body: stripHtml(message.body) || message.message,
+        body: textLimit(stripHtml(message.body) || message.message, 50),
         createdAt: moment(message.createdAt).format(
           'dddd, Do MMMM YYYY h:mm A',
         ),

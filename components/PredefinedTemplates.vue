@@ -29,8 +29,8 @@ const { data, refresh } = await useAsyncData(
     transform: ({ total, data }: any) => ({
       total,
       data: data.map((x: any) => ({
-        title: x.subject || x.title,
-        message: stripHtml(x.body) || x.message,
+        title: textLimit(x.subject || x.title, 50),
+        message: textLimit(stripHtml(x.body) || x.message, 10),
       })),
     }),
   },

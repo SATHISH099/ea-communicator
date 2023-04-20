@@ -188,7 +188,7 @@ const messageCount = () => {
                 type="text"
                 name="title"
                 placeholder="Title of the Message*"
-                validation="required"
+                validation="required|length:3,100"
                 input-class="form-control"
                 outer-class="mb-5 col-span-2"
               />

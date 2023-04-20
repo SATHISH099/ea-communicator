@@ -120,7 +120,7 @@ const submitHandler = async (formData: any) => {
               type="text"
               name="title"
               v-model="title"
-              validation="required"
+              validation="required|length:3,100"
               placeholder="Title of the message*"
               input-class="form-control"
               outer-class="mb-5"

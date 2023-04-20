@@ -20,8 +20,6 @@ const MessageHeaders = [
   { value: 'Created Date', isSort: true, key: 'createdAt' },
 ];
 
-const showLess = (input: string) =>
-  input && input.length > 100 ? `${input.substring(0, 100)}...` : input;
 setLoader(true);
 const { data, refresh } = await useAsyncData(
   (): any =>
@@ -38,11 +36,14 @@ const { data, refresh } = await useAsyncData(
       total,
       data: data.map((message: any) => ({
         id: message.id,
-        title: type.value === 'email' ? message.subject : message.title,
+        title:
+          type.value === 'email'
+            ? textLimit(message.subject, 50)
+            : textLimit(message.title, 50),
         message:
           type.value === 'email'
-            ? showLess(stripHtml(message.body))
-            : showLess(message.message),
+            ? textLimit(stripHtml(message.body), 50)
+            : textLimit(message.message, 50),
         sentDate: moment(message.createdAt).format('dddd, Do MMMM YYYY h:mm A'),
       })),
     }),

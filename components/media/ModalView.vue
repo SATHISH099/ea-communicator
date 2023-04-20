@@ -147,7 +147,7 @@ const handleAddMedia = async (event: any) => {
               :src="media.fileUrl"
               alt=""
             />
-            <div>{{ titleLimit(media.title, 20) }}</div>
+            <div>{{ textLimit(media.title, 20) }}</div>
             <button
               type="button"
               :class="{ selected: selectedMedia.includes(media.id) }"
