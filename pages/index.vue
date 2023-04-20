@@ -22,7 +22,7 @@ const user = useCurrentUser();
           :to="{ name: 'email-messages-alert-add' }"
           class="btn btn-primary"
         >
-          Send a Message</NuxtLink
+          Send an Alert</NuxtLink
         >
       </div>
     </div>
