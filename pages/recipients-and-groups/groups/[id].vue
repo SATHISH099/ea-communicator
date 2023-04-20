@@ -41,13 +41,12 @@ const openViewModal = (row: Recipient) => {
             >Communicator</NuxtLink
           >
           <span class="text-silver">/</span>
-          <NuxtLink to="/email-messages" class="text-silver sub-heading">
-            Email/Messages
-          </NuxtLink>
+          <NuxtLink to="/recipients-and-groups" class="text-silver sub-heading">
+            Recipients and Groups</NuxtLink
+          >
           <span class="text-silver">/</span>
-          <NuxtLink to="/email-messages/email" class="text-silver sub-heading">
-            Email
-          </NuxtLink>
+          <span class="text-primary hover:no-underline ml-1">Groups </span>
+
           <span class="text-silver">/</span>
           <span class="text-primary hover:no-underline ml-1">View Details</span>
         </p>
