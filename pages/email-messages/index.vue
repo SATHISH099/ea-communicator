@@ -7,7 +7,7 @@
       <p class="text-silver hover:text-primary">
         <NuxtLink to="/" class="text-silver sub-heading">Communicator</NuxtLink>
         <span class="text-silver">/</span>
-        <span class="text-primary hover:no-underline"> Email / Messages</span>
+        <span class="text-primary hover:no-underline"> Communications</span>
       </p>
     </div>
     <div
@@ -28,7 +28,7 @@
           <div class="w-[284px] h-[176px] rounded-[4px] small-shadow p-[25px]">
             <div class="flex flex-col justify-between items-center">
               <SvgsAlert />
-              <p class="text-[20px] text-carbon font-medium mt-6">Messages</p>
+              <p class="text-[20px] text-carbon font-medium mt-6">Alerts</p>
             </div>
           </div>
         </NuxtLink>

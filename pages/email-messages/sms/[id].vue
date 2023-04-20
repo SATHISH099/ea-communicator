@@ -24,7 +24,7 @@ const data = await $trpc.sms.show.query(parseInt(id as string));
           >
           <span class="text-silver">/</span>
           <NuxtLink to="/email-messages" class="text-silver sub-heading">
-            Email / Alerts</NuxtLink
+            Communications</NuxtLink
           >
           <span class="text-silver">/</span>
           <NuxtLink to="/email-messages/sms" class="text-silver sub-heading">

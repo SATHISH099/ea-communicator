@@ -30,7 +30,7 @@ const groups = ref(data.groups.map(({ groupId }) => ({ groupId })));
           >
           <span class="text-silver">/</span>
           <NuxtLink to="/email-messages" class="text-silver sub-heading">
-            Email / Alerts</NuxtLink
+            Communications</NuxtLink
           >
           <span class="text-silver">/</span>
           <NuxtLink to="/email-messages/alert" class="text-silver sub-heading">

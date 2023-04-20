@@ -151,7 +151,14 @@ const searchEmpty = () => {
           <span class="text-primary hover:no-underline ml-1">Recipients</span>
         </p>
       </div>
-      <div md:w-auto w-full flex items-center gap-4>
+      <div
+        v-if="user.hasRole('admin')"
+        md:w-auto
+        w-full
+        flex
+        items-center
+        gap-4
+      >
         <div>
           <button class="btn btn-secondary flex items-center gap-3">
             <img src="/download.png" alt="" />
@@ -199,7 +206,7 @@ const searchEmpty = () => {
             </CModal>
           </div>
         </teleport>
-        <div v-if="user.hasRole('admin')">
+        <div>
           <NuxtLink
             :to="{ name: 'recipients-and-groups-recipients-add' }"
             class="btn btn-primary block md:w-auto w-full text-center"

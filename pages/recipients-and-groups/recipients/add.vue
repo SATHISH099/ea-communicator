@@ -101,43 +101,43 @@ const setGroups = (groupSelected: GroupData[]) => {
                 type="text"
                 placeholder="Full Name*"
                 input-class="form-control"
-                validation="required|length:3,25"
+                validation="required|length:3,25|number"
                 @input="limitCharacter(data, data.name, 'name', 25)"
               />
               <FormKit
                 v-model="data.cellVoice"
                 name="Cell Voice"
-                type="number"
+                type="tel"
                 placeholder="Mobile phone for voice calls*"
-                validation="required|length:7,10"
+                validation="required|length:7,10|number"
                 input-class="form-control"
                 @input="limitCharacter(data, data.cellVoice, 'cellVoice', 10)"
               />
               <FormKit
                 v-model="data.cellText"
                 name="Cell Text"
-                type="number"
+                type="tel"
                 placeholder="Mobile phone for SMS*"
                 input-class="form-control"
-                validation="required|length:7,10"
+                validation="required|length:7,10|number"
                 @input="limitCharacter(data, data.cellText, 'cellText', 10)"
               />
               <FormKit
                 v-model="data.homeNumber"
                 name="Home Number"
-                type="number"
+                type="tel"
                 placeholder="Home phone number*"
                 input-class="form-control"
-                validation="required|length:7,10"
+                validation="required|length:7,10|number"
                 @input="limitCharacter(data, data.homeNumber, 'homeNumber', 10)"
               />
               <FormKit
                 v-model="data.workNumber"
                 name="Work Number"
-                type="number"
+                type="tel"
                 placeholder="Work phone number*"
                 input-class="form-control"
-                validation="required|length:7,10"
+                validation="required|length:7,10|number"
                 @input="limitCharacter(data, data.workNumber, 'workNumber', 10)"
               />
               <FormKit
