@@ -19,7 +19,7 @@ const MenuItems = [
     activeIcon: 'dashboard-active.png',
   },
   {
-    text: 'Email / Messages',
+    text: 'Email / Alert',
     link: '/email-messages',
     icon: 'email.png',
     activeIcon: 'email-active.png',
@@ -33,7 +33,7 @@ const MenuItems = [
       //   text: 'Scheduled Messages',
       //   link: '/email-messages/scheduled-message',
       // },
-      { text: 'Messages', link: '/email-messages/alert' },
+      { text: 'Alerts', link: '/email-messages/alert' },
       { text: 'Email', link: '/email-messages/email' },
       { text: 'SMS', link: '/email-messages/sms' },
       { text: 'Library', link: '/email-messages/library' },

@@ -24,16 +24,6 @@
             </div>
           </div>
         </NuxtLink>
-        <NuxtLink to="">
-          <div class="w-[284px] h-[176px] rounded-[4px] small-shadow p-[25px]">
-            <div class="flex flex-col justify-between items-center">
-              <SvgsScheduled />
-              <p class="text-[20px] text-carbon font-medium mt-6">
-                Scheduled Message
-              </p>
-            </div>
-          </div>
-        </NuxtLink>
         <NuxtLink to="/email-messages/alert">
           <div class="w-[284px] h-[176px] rounded-[4px] small-shadow p-[25px]">
             <div class="flex flex-col justify-between items-center">
@@ -58,12 +48,6 @@
             </div>
           </div>
         </NuxtLink>
-        <div class="w-[284px] h-[176px] rounded-[4px] small-shadow p-[25px]">
-          <div class="flex flex-col justify-between items-center">
-            <SvgsVoice />
-            <p class="text-[20px] text-carbon font-medium mt-6">Voice</p>
-          </div>
-        </div>
         <div class="w-[284px] h-[176px] rounded-[4px] small-shadow p-[25px]">
           <div class="flex flex-col justify-between items-center">
             <SvgsLibrary />

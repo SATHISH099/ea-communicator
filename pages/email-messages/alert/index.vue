@@ -136,7 +136,7 @@ const searchEmpty = () => {
             Email/Messages</NuxtLink
           >
           <span class="text-silver">/</span>
-          <span class="text-primary hover:no-underline ml-1">Messages</span>
+          <span class="text-primary hover:no-underline ml-1">Alerts</span>
         </p>
       </div>
       <div v-if="!user.hasRole('team-member')" class="flex mt-10 md:mt-0">
