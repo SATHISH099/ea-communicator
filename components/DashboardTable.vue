@@ -242,7 +242,10 @@ const toggleChecked = () => {
                   >View</a
                 >
               </td>
-              <td class="text-[14px] px-[30px] py-[16px]" :class="{ 'w-[163px]': isDropdown }">
+              <td
+                class="text-[14px] px-[30px] py-[16px]"
+                :class="{ 'w-[163px]': isDropdown }"
+              >
                 <DropdownTable
                   v-if="isDropdown ?? true"
                   :detail-id="row.id"
