@@ -5,16 +5,19 @@ const showDropdown = ref('');
 const SidebarOpen = ref(false);
 const isDesktop = ref(false);
 const user = ref<AuthUser>();
+const route = useRoute();
 
 const { logout } = useLogout();
 const userStore = useCurrentUser();
 watchEffect(() => {
   user.value = userStore.user;
 });
+
 const MenuItems = [
   {
     text: 'Dashboard',
     link: '/',
+    strict: true,
     icon: 'dashboard.png',
     activeIcon: 'dashboard-active.png',
   },
@@ -59,6 +62,15 @@ const MenuItems = [
     activeIcon: 'history-active.png',
   },
 ];
+
+type MenuItem = (typeof MenuItems)[0];
+function isActiveItem(item: MenuItem) {
+  if (item.strict) {
+    return route.path === item.link;
+  }
+
+  return route.path.startsWith(item.link);
+}
 
 onMounted(() => {
   if (process.client) {
@@ -117,9 +129,7 @@ watchEffect(() => {
               >
                 <NuxtLink
                   :class="`${
-                    $route.path.startsWith(item.link)
-                      ? 'text-primary'
-                      : 'text-silver'
+                    isActiveItem(item) ? 'text-primary' : 'text-silver'
                   } no-underline flex items-center gap-3`"
                   :to="item.link"
                   @click="
@@ -131,9 +141,7 @@ watchEffect(() => {
                   ><img
                     alt="item-icon"
                     :src="`/${
-                      $route.path.startsWith(item.link)
-                        ? item.activeIcon
-                        : item.icon
+                      isActiveItem(item) ? item.activeIcon : item.icon
                     }`"
                   />
                   {{ SidebarOpen ? item.text : '' }}
@@ -150,7 +158,7 @@ watchEffect(() => {
                   <li v-for="subitem in item.items" :key="subitem.link">
                     <NuxtLink
                       :class="`${
-                        subitem.link && $route.path.startsWith(subitem.link)
+                        subitem.link && $route.path.includes(subitem.link)
                           ? 'text-primary bg-floral'
                           : 'text-silver'
                       } mt-2 px-10 py-3 block rounded-[4px] w-full`"

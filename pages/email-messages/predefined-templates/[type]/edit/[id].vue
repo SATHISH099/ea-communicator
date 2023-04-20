@@ -4,20 +4,22 @@ import { useToasterStore } from '~~/store/toaster';
 const { setMessage } = useToasterStore();
 const router = useRouter();
 
-interface AddData {
-  title: string;
-  body: string;
-  message: string;
-}
+definePageMeta({
+  middleware: 'permission',
+});
 
 const { $trpc } = useNuxtApp();
-const type = ref<'email' | 'sms'>('email');
+const { type: entity, id } = useRoute().params;
+
+if (!['email', 'sms'].includes(entity as string)) {
+  navigateTo('/email-messages/predefined-templates');
+}
+
+const type = ref<'email' | 'sms'>(entity as 'email' | 'sms');
 const successResponse = ref({ id: null });
 const errorBody = ref(false);
 const title = ref('');
-const message = ref('');
 const body = ref('');
-const { id } = useRoute().params;
 const entityId = parseInt(id as string);
 const data: any = await $trpc[type.value].show.query(entityId);
 
@@ -45,30 +47,31 @@ const checkvalidation = () => {
   return true;
 };
 
-const saveEmail = (formData: AddData) => {
+const saveEmail = () => {
   const data = {
-    subject: formData.title,
+    subject: title.value,
     body: body.value,
   };
 
   return $trpc.email.update.mutate({ id: entityId, data });
 };
 
-const saveSms = (formData: AddData) => {
+const saveSms = () => {
   const data = {
-    title: formData.title,
-    message: message.value,
+    title: title.value,
+    message: body.value,
   };
 
   return $trpc.sms.update.mutate({ id: entityId, data });
 };
+
 const submitHandler = async (formData: any) => {
   if (checkvalidation()) {
     try {
       const response =
         type.value === 'email'
-          ? await saveEmail(formData)
-          : await saveSms(formData);
+          ? await saveEmail()
+          : await saveSms();
       if (response) {
         setMessage('Template created successfully', 'success');
         router.push('/email-messages/predefined-templates');
@@ -95,8 +98,19 @@ const submitHandler = async (formData: any) => {
         <div class="md:mb-0 mb-10">
           <h4 class="mb-4 text-stone">Predefined Templates</h4>
           <p class="text-silver">
-            Communicator / Email/Messages / Predefined Templates /
-            <span class="text-primary"> Add New Predefined Template</span>
+            <NuxtLink to="/" class="text-silver sub-heading"
+              >Communicator</NuxtLink
+            >
+            <span class="text-silver">/</span>
+            <NuxtLink to="/email-messages" class="text-silver sub-heading">
+              Email / Alerts</NuxtLink
+            >
+            <span class="text-silver">/</span>
+            <NuxtLink to="/email-messages/predefined-templates" class="text-silver sub-heading">
+              Predefined Templates</NuxtLink
+            >
+            <span class="text-silver">/</span>
+            <span class="text-primary"> Edit Predefined Template</span>
           </p>
         </div>
       </div>
@@ -136,7 +150,7 @@ const submitHandler = async (formData: any) => {
               <FormKit
                 type="textarea"
                 name="message"
-                v-model="message"
+                v-model="body"
                 rows="10"
                 placeholder="Message"
                 validation="required"

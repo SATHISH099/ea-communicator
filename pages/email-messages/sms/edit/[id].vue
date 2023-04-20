@@ -21,11 +21,6 @@ const errorBody = ref(false);
 const title = ref(record.title);
 const message = ref(record.message);
 
-const setField = (data: string) => {
-  errorBody.value = false;
-  message.value = data;
-};
-
 const checkvalidation = () => {
   if (!message.value) {
     errorBody.value = true;
@@ -78,7 +73,7 @@ const submitHandler = async (formData: EditData) => {
             >
             <span class="text-silver">/</span>
             <NuxtLink to="/" class="text-silver sub-heading">
-              Email/Messages</NuxtLink
+              Email / Alerts</NuxtLink
             >
             <span class="text-silver">/</span>
             <NuxtLink to="/" class="text-silver sub-heading">

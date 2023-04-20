@@ -127,7 +127,7 @@ const bulkDelete = async (data: number[]) => {
           >
           <span class="text-silver">/</span>
           <NuxtLink to="/email-messages" class="text-silver sub-heading">
-            Email/Messages</NuxtLink
+            Email / Alerts</NuxtLink
           >
           <span class="text-silver">/</span>
           <span class="text-primary hover:no-underline ml-1"
@@ -194,7 +194,8 @@ const bulkDelete = async (data: number[]) => {
             isDelete: user.hasRole('admin'),
           }"
           :actions="{
-            edit: `/email-messages/${type}/edit/[id]`,
+            view: `/email-messages/predefined-templates/${type}/[id]`,
+            edit: `/email-messages/predefined-templates/${type}/edit/[id]`,
           }"
           :type="type === 'email' ? 'email' : 'sms'"
           @bulkDelete="bulkDelete"
