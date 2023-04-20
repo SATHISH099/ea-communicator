@@ -24,14 +24,15 @@ const groups = data.value.groups.map(({ groupName, status }: Group) => ({
             >Communicator</NuxtLink
           >
           <span class="text-silver">/</span>
-          <NuxtLink to="/recipients-and-groups" class="text-silver sub-heading"
-            >Recepients And Groups</NuxtLink
+          <NuxtLink to="/recipients-and-groups" class="text-silver sub-heading">
+            Recepients And Groups</NuxtLink
           >
           <span class="text-silver">/</span>
           <NuxtLink
             to="/recipients-and-groups/recepients"
             class="text-silver sub-heading"
-            >Recepients</NuxtLink
+          >
+            Recepients</NuxtLink
           >
           <span class="text-silver">/</span>
 
