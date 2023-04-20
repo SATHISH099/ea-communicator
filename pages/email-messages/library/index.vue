@@ -124,7 +124,7 @@ const searchEmpty = () => {
               >
               <span class="text-silver">/</span>
               <NuxtLink to="/email-messages" class="text-silver sub-heading">
-                Email/Messages</NuxtLink
+                Email / Alerts</NuxtLink
               >
               <span class="text-silver">/</span>
               <span class="text-primary"> Library</span>

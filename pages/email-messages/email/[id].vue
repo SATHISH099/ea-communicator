@@ -25,11 +25,11 @@ const data = await $trpc.email.show.query(parseInt(id as string));
           >
           <span class="text-silver">/</span>
           <NuxtLink to="/email-messages" class="text-silver sub-heading">
-            Email/Messages</NuxtLink
+            Email / Alerts</NuxtLink
           >
           <span class="text-silver">/</span>
           <NuxtLink to="/email-messages/alert" class="text-silver sub-heading">
-            Email/Messages</NuxtLink
+            Email / Alerts</NuxtLink
           >
           <span class="text-silver">/</span>
           <span class="text-primary hover:no-underline ml-1">View Details</span>
