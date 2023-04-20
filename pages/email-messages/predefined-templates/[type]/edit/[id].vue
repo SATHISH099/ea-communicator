@@ -101,7 +101,7 @@ const submitHandler = async (formData: any) => {
             >
             <span class="text-silver">/</span>
             <NuxtLink to="/email-messages" class="text-silver sub-heading">
-              Email / Alerts</NuxtLink
+              Communications</NuxtLink
             >
             <span class="text-silver">/</span>
             <NuxtLink

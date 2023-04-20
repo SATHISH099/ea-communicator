@@ -22,7 +22,7 @@ const MenuItems = [
     activeIcon: 'dashboard-active.png',
   },
   {
-    text: 'Email / Alert',
+    text: 'Communications',
     link: '/email-messages',
     icon: 'email.png',
     activeIcon: 'email-active.png',

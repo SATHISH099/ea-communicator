@@ -55,7 +55,7 @@ const data = await $trpc.dashboard.counts.query({
     >
       <div>
         <h1 class="text-primary mb-2 font-bold">{{ data.voiceCount }}</h1>
-        <p class="font-medium text-carbon">Sent Groups</p>
+        <p class="font-medium text-carbon">Groups</p>
       </div>
       <img alt="library" src="/SentVoice.png" class="md:w-[40px] xl:w-[auto]" />
     </div>
@@ -64,7 +64,7 @@ const data = await $trpc.dashboard.counts.query({
     >
       <div>
         <h1 class="text-primary mb-2 font-bold">{{ data.voiceCount }}</h1>
-        <p class="font-medium text-carbon">Sent Recipients</p>
+        <p class="font-medium text-carbon">Recipients</p>
       </div>
       <img alt="library" src="/SentVoice.png" class="md:w-[40px] xl:w-[auto]" />
     </div>
