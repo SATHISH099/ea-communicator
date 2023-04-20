@@ -102,7 +102,7 @@ const toggleChecked = () => {
             v-model="mainCheck"
             type="checkbox"
             input-class="form-check-input"
-            :options="[{ value: true, label: 'Groups' }]"
+            :options="[{ value: true, label: 'Select All Groups' }]"
             outer-class="recipient-checkbox"
             @input="toggleChecked"
           />
