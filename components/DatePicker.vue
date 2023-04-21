@@ -7,23 +7,30 @@ const router = useRoute();
 const date = ref(
   router.fullPath.includes('history') ? '' : [new Date(), new Date()],
 );
-const handleDate = (dateStr: string) => {
-  emit('setDate', dateStr);
-};
+
+watch(
+  () => date.value,
+  () => {
+    if (date.value[0] && date.value[1]) {
+      emit('setDate', date.value);
+    } else {
+      date.value = router.fullPath.includes('history')
+        ? ''
+        : [new Date(), new Date()];
+    }
+  },
+);
 </script>
 
 <template>
   <div class="datepicker">
     <VueDatePicker
       v-model="date"
-      type="date"
-      :time="false"
       format="MM/dd/yyyy"
       :max-date="new Date()"
       range
       multi-calendars
       placeholder="Filter By: Date"
-      @update:model-value="handleDate"
     />
   </div>
 </template>

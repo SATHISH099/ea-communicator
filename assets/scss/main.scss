@@ -385,3 +385,11 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance:textfield;
 }
+
+div[data-test=open-time-picker-btn] {
+  display: none;
+}
+
+body.sidebar-open #main-content {
+  max-width: calc(100% - 310px);
+}
