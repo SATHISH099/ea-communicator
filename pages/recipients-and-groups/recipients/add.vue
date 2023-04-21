@@ -66,6 +66,12 @@ const submitCreate = async () => {
 const setGroups = (groupSelected: GroupData[]) => {
   groups.value = groupSelected;
 };
+
+const removeFromGroup = (id: number) => {
+  groups.value = groups.value.filter(function (group: any) {
+    return group.id !== id;
+  });
+};
 </script>
 
 <template>
@@ -109,9 +115,9 @@ const setGroups = (groupSelected: GroupData[]) => {
                 name="Cell Voice"
                 type="tel"
                 placeholder="Mobile phone for voice calls*"
-                validation="required|length:7,10|number"
+                validation="required|length:7,13|number"
                 input-class="form-control"
-                @input="limitCharacter(data, data.cellVoice, 'cellVoice', 10)"
+                @input="limitCharacter(data, data.cellVoice, 'cellVoice', 13)"
               />
               <FormKit
                 v-model="data.cellText"
@@ -119,8 +125,8 @@ const setGroups = (groupSelected: GroupData[]) => {
                 type="tel"
                 placeholder="Mobile phone for SMS*"
                 input-class="form-control"
-                validation="required|length:7,10|number"
-                @input="limitCharacter(data, data.cellText, 'cellText', 10)"
+                validation="required|length:7,13|number"
+                @input="limitCharacter(data, data.cellText, 'cellText', 13)"
               />
               <FormKit
                 v-model="data.homeNumber"
@@ -128,8 +134,8 @@ const setGroups = (groupSelected: GroupData[]) => {
                 type="tel"
                 placeholder="Home phone number*"
                 input-class="form-control"
-                validation="required|length:7,10|number"
-                @input="limitCharacter(data, data.homeNumber, 'homeNumber', 10)"
+                validation="required|length:7,13|number"
+                @input="limitCharacter(data, data.homeNumber, 'homeNumber', 13)"
               />
               <FormKit
                 v-model="data.workNumber"
@@ -137,8 +143,8 @@ const setGroups = (groupSelected: GroupData[]) => {
                 type="tel"
                 placeholder="Work phone number*"
                 input-class="form-control"
-                validation="required|length:7,10|number"
-                @input="limitCharacter(data, data.workNumber, 'workNumber', 10)"
+                validation="required|length:7,13|number"
+                @input="limitCharacter(data, data.workNumber, 'workNumber', 13)"
               />
               <FormKit
                 v-model="data.emailAddress"
@@ -179,9 +185,19 @@ const setGroups = (groupSelected: GroupData[]) => {
                 <span
                   v-for="group in groups"
                   :key="group.id"
-                  class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                  class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary flex"
                 >
                   {{ group.groupName }}
+                  <button
+                    type="button"
+                    class="border-none outline-none bg-transparent text-primary mr-2"
+                    @click="removeFromGroup(group.id)"
+                  >
+                    <span
+                      class="inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-white bg-primary rounded-full ml-3"
+                      >x</span
+                    >
+                  </button>
                 </span>
               </div>
             </div>

@@ -76,6 +76,13 @@ const toggleChecked = () => {
     });
   }
 };
+
+watch(
+  () => props.groups,
+  () => {
+    form.groups = props.groups;
+  },
+);
 </script>
 
 <template>
