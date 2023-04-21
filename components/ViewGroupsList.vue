@@ -80,11 +80,7 @@ const toggleChecked = () => {
 watch(
   () => props.groups,
   () => {
-    form.groups = [];
-    for (const group of props.groups) {
-      const index = form.groups.findIndex((value) => value.id === group.id);
-      form.groups.push(group);
-    }
+    form.groups = props.groups;
   },
 );
 </script>

@@ -115,9 +115,9 @@ const removeFromGroup = (id: number) => {
                 name="Cell Voice"
                 type="tel"
                 placeholder="Mobile phone for voice calls*"
-                validation="required|length:7,10|number"
+                validation="required|length:7,13|number"
                 input-class="form-control"
-                @input="limitCharacter(data, data.cellVoice, 'cellVoice', 10)"
+                @input="limitCharacter(data, data.cellVoice, 'cellVoice', 13)"
               />
               <FormKit
                 v-model="data.cellText"
@@ -125,8 +125,8 @@ const removeFromGroup = (id: number) => {
                 type="tel"
                 placeholder="Mobile phone for SMS*"
                 input-class="form-control"
-                validation="required|length:7,10|number"
-                @input="limitCharacter(data, data.cellText, 'cellText', 10)"
+                validation="required|length:7,13|number"
+                @input="limitCharacter(data, data.cellText, 'cellText', 13)"
               />
               <FormKit
                 v-model="data.homeNumber"
@@ -134,8 +134,8 @@ const removeFromGroup = (id: number) => {
                 type="tel"
                 placeholder="Home phone number*"
                 input-class="form-control"
-                validation="required|length:7,10|number"
-                @input="limitCharacter(data, data.homeNumber, 'homeNumber', 10)"
+                validation="required|length:7,13|number"
+                @input="limitCharacter(data, data.homeNumber, 'homeNumber', 13)"
               />
               <FormKit
                 v-model="data.workNumber"
@@ -143,8 +143,8 @@ const removeFromGroup = (id: number) => {
                 type="tel"
                 placeholder="Work phone number*"
                 input-class="form-control"
-                validation="required|length:7,10|number"
-                @input="limitCharacter(data, data.workNumber, 'workNumber', 10)"
+                validation="required|length:7,13|number"
+                @input="limitCharacter(data, data.workNumber, 'workNumber', 13)"
               />
               <FormKit
                 v-model="data.emailAddress"
