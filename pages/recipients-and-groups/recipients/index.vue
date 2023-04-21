@@ -244,9 +244,10 @@ const searchEmpty = () => {
         />
         <div class="ml-8">
           <PaginationTable
-            :total-records="data?.total"
+            :total-records="data?.total || 0"
             :current-page="page"
             :paginate="paginate"
+            :page-size="pageSize"
             entity="Recipients"
             @set-per-page="setPerPage"
           ></PaginationTable>
