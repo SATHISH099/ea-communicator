@@ -77,6 +77,13 @@ const toggleChecked = () => {
     });
   }
 };
+
+watch(
+  () => props.recipients,
+  () => {
+    form.recipients = props.recipients;
+  },
+);
 </script>
 
 <template>
