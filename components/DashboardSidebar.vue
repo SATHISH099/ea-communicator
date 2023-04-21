@@ -2,7 +2,7 @@
 import type { AuthUser } from '~~/composables/useCurrentUser';
 
 const showDropdown = ref('');
-const SidebarOpen = ref(false);
+const SidebarOpen = ref(true);
 const isDesktop = ref(false);
 const user = ref<AuthUser>();
 const route = useRoute();
@@ -75,8 +75,31 @@ function isActiveItem(item: MenuItem) {
 onMounted(() => {
   if (process.client) {
     isDesktop.value = window.matchMedia('(min-width: 768px)').matches;
+    toggleDesktopClass();
   }
 });
+
+const toggleDesktopClass = () => {
+  if (process.client) {
+    if (!isDesktop.value) {
+      document.body.classList.remove('sidebar-open');
+    } else {
+      document.body.classList.add('sidebar-open');
+    }
+  }
+}
+
+const toggleSidebar = () => {
+  const opened = SidebarOpen.value;
+
+  if (!opened) {
+    document.body.classList.add('sidebar-open');
+  } else {
+    document.body.classList.remove('sidebar-open');
+  }
+
+  SidebarOpen.value = !opened
+};
 
 watchEffect(() => {
   if (isDesktop.value) {
@@ -84,6 +107,8 @@ watchEffect(() => {
   } else {
     SidebarOpen.value = false;
   }
+
+  toggleDesktopClass();
 });
 </script>
 
@@ -91,14 +116,14 @@ watchEffect(() => {
   <div>
     <button
       class="absolute top-[2.5em] left-[2em] border-none bg-transparent outline-none cursor-pointer lg:hidden block z-1"
-      @click="SidebarOpen = !SidebarOpen"
+      @click="toggleSidebar"
     >
       <img alt="" class="w-[1.5rem]" src="/hamburger-icon.png" />
     </button>
     <div :class="`shadow-2xl relative sidebar ${SidebarOpen ? 'open' : ''}`">
       <div
         class="absolute -right-[15px] top-[33px] shadow-[0_3.20559px_32.0559px_rgba(0,0,0,0.08)] bg-white w-[28px] h-[28px] p-[10px] rounded-[50%] md:flex hidden items-center cursor-pointer"
-        @click="SidebarOpen = !SidebarOpen"
+        @click="toggleSidebar"
       >
         <img
           alt="logo"
