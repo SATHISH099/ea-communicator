@@ -24,6 +24,9 @@ export class CreateUserDto {
   @IsNumber()
   userId: number;
 
+  @IsNumber()
+  tenantId: number;
+
   @IsString()
   @IsOptional()
   department: string;
