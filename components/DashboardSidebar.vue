@@ -87,7 +87,7 @@ const toggleDesktopClass = () => {
       document.body.classList.add('sidebar-open');
     }
   }
-}
+};
 
 const toggleSidebar = () => {
   const opened = SidebarOpen.value;
@@ -98,7 +98,7 @@ const toggleSidebar = () => {
     document.body.classList.remove('sidebar-open');
   }
 
-  SidebarOpen.value = !opened
+  SidebarOpen.value = !opened;
 };
 
 watchEffect(() => {

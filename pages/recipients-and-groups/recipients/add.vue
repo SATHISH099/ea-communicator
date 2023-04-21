@@ -66,6 +66,12 @@ const submitCreate = async () => {
 const setGroups = (groupSelected: GroupData[]) => {
   groups.value = groupSelected;
 };
+
+const removeFromGroup = (id: number) => {
+  groups.value = groups.value.filter(function (group: any) {
+    return group.id !== id;
+  });
+};
 </script>
 
 <template>
@@ -179,9 +185,19 @@ const setGroups = (groupSelected: GroupData[]) => {
                 <span
                   v-for="group in groups"
                   :key="group.id"
-                  class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                  class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] mr-3 text-primary flex"
                 >
                   {{ group.groupName }}
+                  <button
+                    type="button"
+                    class="border-none outline-none bg-transparent text-primary mr-2"
+                    @click="removeFromGroup(group.id)"
+                  >
+                    <span
+                      class="inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-white bg-primary rounded-full ml-3"
+                      >x</span
+                    >
+                  </button>
                 </span>
               </div>
             </div>

@@ -14,10 +14,12 @@ watch(
     if (date.value[0] && date.value[1]) {
       emit('setDate', date.value);
     } else {
-      date.value = router.fullPath.includes('history') ? '' : [new Date(), new Date()];
+      date.value = router.fullPath.includes('history')
+        ? ''
+        : [new Date(), new Date()];
     }
-  }
-)
+  },
+);
 </script>
 
 <template>
