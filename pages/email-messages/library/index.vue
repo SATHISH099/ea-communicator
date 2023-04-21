@@ -311,6 +311,7 @@ const searchEmpty = () => {
       <PaginationTable
         :total-records="medias?.total || 0"
         :current-page="page"
+        :page-size="pageSize"
         entity="Items"
         :paginate="paginate"
         @setPerPage="setPerPage"

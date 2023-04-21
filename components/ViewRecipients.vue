@@ -139,6 +139,8 @@ watch(
           :total-records="data?.total || 0"
           :current-page="page"
           :paginate="paginate"
+          :page-size="pageSize"
+          length="small"
           @setPerPage="setPerPage"
         ></PaginationTable>
       </div>

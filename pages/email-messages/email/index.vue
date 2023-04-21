@@ -190,7 +190,7 @@ const bulkDelete = async (data: number[]) => {
           <PaginationTable
             :totalRecords="data?.total"
             :currentPage="page"
-            :pageSize="pageSize"
+            :page-size="pageSize"
             v-bind:paginate="paginate"
             @setPerPage="setPerPage"
             entity="Emails"
