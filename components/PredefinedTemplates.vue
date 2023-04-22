@@ -97,6 +97,7 @@ const searchEmpty = () => {
         <PaginationTable
           :totalRecords="data?.total || 0"
           :currentPage="page"
+          :page-size="pageSize"
           v-bind:paginate="paginate"
           @setPerPage="setPerPage"
         ></PaginationTable>

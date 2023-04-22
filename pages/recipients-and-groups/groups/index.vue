@@ -168,6 +168,7 @@ const searchEmpty = () => {
             :total-records="data?.total || 0"
             :current-page="page"
             :paginate="paginate"
+            :page-size="pageSize"
             entity="Groups"
             @set-per-page="setPerPage"
           ></PaginationTable>

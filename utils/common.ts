@@ -57,3 +57,30 @@ export const limitCharacter = (
     data[inputName] = text.substring(0, limit);
   }
 };
+
+export const getPaginationNumbers = (
+  currentPage: number,
+  totalPages: number,
+  maxLength: number,
+) => {
+  let pages: number[] = [];
+
+  // Calculate the start and end page numbers for the pagination list
+  let start = 1;
+  let end = totalPages;
+  if (totalPages > maxLength) {
+    const halfLength = Math.floor(maxLength / 2);
+    start = Math.max(currentPage - halfLength, 1);
+    end = Math.min(start + maxLength - 1, totalPages);
+    if (end - start + 1 < maxLength) {
+      start = end - maxLength + 1;
+    }
+  }
+
+  // Add the page numbers to the list
+  for (let i = start; i <= end; i++) {
+    pages.push(i);
+  }
+
+  return pages;
+};

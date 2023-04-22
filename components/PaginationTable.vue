@@ -5,9 +5,44 @@ const props = defineProps([
   'paginate',
   'pageSize',
   'entity',
+  'length',
 ]);
+
 const emit = defineEmits(['setPerPage']);
 const perPage = ref<number>(10);
+const totalPageCount = computed(() =>
+  Math.ceil(Number(props.totalRecords) / Number(props.pageSize || perPage)),
+);
+
+const totalPages = ref(
+  getPaginationNumbers(
+    props.currentPage,
+    totalPageCount.value,
+    props.length === 'small' ? 2 : 5,
+  ),
+);
+
+watch(
+  () => props.currentPage,
+  () => {
+    totalPages.value = getPaginationNumbers(
+      props.currentPage,
+      totalPageCount.value,
+      props.length === 'small' ? 2 : 5,
+    );
+  },
+);
+
+watch(
+  () => props.pageSize,
+  () => {
+    totalPages.value = getPaginationNumbers(
+      props.currentPage,
+      totalPageCount.value,
+      props.length === 'small' ? 2 : 5,
+    );
+  },
+);
 
 const setPerPage = () => {
   emit('setPerPage', Number(perPage.value));
@@ -27,15 +62,13 @@ const setPerPage = () => {
           <img src="/left-arrow.png" />
         </button>
         <button
-          v-for="index in Math.ceil(
-            Number(props.totalRecords) / Number(props.pageSize || perPage),
-          )"
+          v-for="(page, index) in totalPages"
           :key="index"
           type="button"
-          :class="`${currentPage === index ? 'active' : ''}  btn-pagination`"
-          @click="props.paginate(index)"
+          :class="`${currentPage === page ? 'active' : ''}  btn-pagination`"
+          @click="props.paginate(page)"
         >
-          {{ index }}
+          {{ page }}
         </button>
         <button
           class="btn-pagination"

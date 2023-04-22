@@ -11,7 +11,6 @@ export default defineEventHandler(async (event) => {
 
   return service.create({
     ...requestBody,
-    tenantId: user.tenantId,
     creator: user,
   });
 });
