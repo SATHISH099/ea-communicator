@@ -115,7 +115,7 @@ const submitHandler = async (formData: any) => {
           </p>
         </div>
       </div>
-      <DashboardCard title="Add New Predefined Template">
+      <DashboardCard title="Edit Predefined Template">
         <div class="p-6">
           <div class="max-w-[50rem]">
             <div class="success alert-success" v-if="successResponse.id">
