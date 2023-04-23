@@ -19,7 +19,7 @@ const MessageHeaders = [
   'Groups',
   'Email Message',
   { value: 'Sent At', isSort: true, key: 'createdAt' },
-  '',
+  'Action',
 ];
 
 const { $trpc } = useNuxtApp();

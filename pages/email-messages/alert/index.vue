@@ -21,7 +21,7 @@ const MessageHeaders = [
   'Groups',
   'Alert Message',
   { value: 'Sent At', isSort: true, key: 'createdAt' },
-  '',
+  'Action',
 ];
 
 setLoader(true);
