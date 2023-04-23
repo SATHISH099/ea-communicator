@@ -139,7 +139,7 @@ const removeFromGroup = (id: number) => {
     <FormKit id="sendSms" type="form" :actions="false" @submit="submitHandler">
       <div class="flex justify-between items-center mb-10">
         <div>
-          <h4 class="mb-4 text-stone">Messages</h4>
+          <h4 class="mb-4 text-stone">Alerts</h4>
           <p class="text-silver">
             <NuxtLink to="/" class="text-silver sub-heading"
               >Communicator</NuxtLink

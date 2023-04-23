@@ -21,7 +21,7 @@ const MessageHeaders = [
   'Groups',
   'Alert Message',
   { value: 'Sent At', isSort: true, key: 'createdAt' },
-  '',
+  'Action',
 ];
 
 setLoader(true);
@@ -126,7 +126,7 @@ const searchEmpty = () => {
   <div>
     <div class="md:flex justify-between items-center mb-10">
       <div>
-        <h4 class="mb-4 text-stone">Messages</h4>
+        <h4 class="mb-4 text-stone">Alerts</h4>
         <p class="text-silver">
           <NuxtLink to="/" class="text-silver sub-heading"
             >Communicator</NuxtLink
@@ -143,7 +143,7 @@ const searchEmpty = () => {
         <NuxtLink
           :to="{ name: 'email-messages-alert-add' }"
           class="btn btn-primary btn-create w-full flex justify-center"
-          >Create New Message</NuxtLink
+          >Create New Alert</NuxtLink
         >
       </div>
     </div>

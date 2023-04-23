@@ -27,7 +27,7 @@ const recipientHeaders = [
   'Work phone Number',
   'Primary Email',
   'Alternate Email',
-  '',
+  'Action',
 ];
 
 setLoader(true);

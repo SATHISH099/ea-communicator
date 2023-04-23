@@ -103,7 +103,7 @@ const submitHandler = async (formData: any) => {
               to="/email-messages/predefined-templates"
               class="text-silver sub-heading"
             >
-              Predefined Messages</NuxtLink
+              Predefined Templates</NuxtLink
             >
             <span class="text-silver">/</span>
             <span class="text-primary"> Add New Predefined Template</span>

@@ -18,6 +18,7 @@ const MessageHeaders = [
   'Title',
   'Message',
   { value: 'Created Date', isSort: true, key: 'createdAt' },
+  'Action',
 ];
 
 setLoader(true);
