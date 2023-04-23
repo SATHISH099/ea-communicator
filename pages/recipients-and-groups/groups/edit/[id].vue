@@ -86,6 +86,14 @@ const submitHandler = async () => {
 const setRecipients = (recipientSelected: RecipientData[]) => {
   recipients.value = recipientSelected;
 };
+
+const removeFromRecipient = (id: number) => {
+  recipients.value = recipients.value.filter(function (
+    recipient: RecipientData,
+  ) {
+    return recipient.id !== id;
+  });
+};
 </script>
 
 <template>
@@ -174,9 +182,19 @@ const setRecipients = (recipientSelected: RecipientData[]) => {
                 <span
                   v-for="recipient in recipients"
                   :key="recipient.id"
-                  class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary"
+                  class="border border-solid border-primary py-[6px] px-[16px] rounded-[24px] text-primary flex"
                 >
                   {{ recipient.name }}
+                  <button
+                    class="border-none outline-none bg-transparent text-primary"
+                    type="button"
+                    @click="removeFromRecipient(recipient.id)"
+                  >
+                    <span
+                      class="inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-white bg-primary rounded-full ml-3"
+                      >x</span
+                    >
+                  </button>
                 </span>
               </div>
             </div>
