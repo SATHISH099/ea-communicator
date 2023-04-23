@@ -57,7 +57,7 @@ const data = await $trpc.dashboard.counts.query({
         <h1 class="text-primary mb-2 font-bold">{{ data.voiceCount }}</h1>
         <p class="font-medium text-carbon">Groups</p>
       </div>
-      <img alt="library" src="/SentVoice.png" class="md:w-[40px] xl:w-[auto]" />
+      <svgsGroups />
     </div>
     <div
       class="update-card small-shadow bg-white rounded-[4px] md:p-[16px] p-[10px] flex justify-between items-center gap-15 md:gap-10"
@@ -66,7 +66,7 @@ const data = await $trpc.dashboard.counts.query({
         <h1 class="text-primary mb-2 font-bold">{{ data.voiceCount }}</h1>
         <p class="font-medium text-carbon">Recipients</p>
       </div>
-      <img alt="library" src="/SentVoice.png" class="md:w-[40px] xl:w-[auto]" />
+      <SvgsRecipients />
     </div>
   </div>
 </template>
