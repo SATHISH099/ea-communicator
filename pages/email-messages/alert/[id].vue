@@ -5,17 +5,23 @@ import { useRoute } from 'vue-router';
 
 const { $trpc } = useNuxtApp();
 const { id } = useRoute().params;
+let data: any = null;
 
 const showModal = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
 };
 
-const data = await $trpc.message.show.query(parseInt(id as string));
+try {
+  data = await $trpc.message.show.query(parseInt(id as string));
+} catch (error) {
+  navigateTo(`/email-messages/alert`);
+}
+
 const recipients = ref(
-  data.recipients.map(({ recipientId }) => ({ recipientId })),
+  data.recipients.map(({ recipientId }: any) => ({ recipientId })),
 );
-const groups = ref(data.groups.map(({ groupId }) => ({ groupId })));
+const groups = ref(data.groups.map(({ groupId }: any) => ({ groupId })));
 </script>
 
 <template>

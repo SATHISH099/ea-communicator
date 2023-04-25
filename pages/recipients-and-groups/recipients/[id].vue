@@ -7,8 +7,13 @@ const { id } = useRoute().params;
 const { data } = await useFetch<any>(() => `recipients/${id}`, {
   baseURL: config.public.API_SMARTSUITE_BASEURL,
 });
+
+if (process.client && !data.value) {
+  navigateTo('/recipients-and-groups/recipients');
+}
+
 const messageHeaders = ['Group Name', 'Status'];
-const groups = data.value.groups.map(({ groupName, status }: Group) => ({
+const groups = data.value?.groups.map(({ groupName, status }: Group) => ({
   groupName,
   status: status ? 'Active' : 'In-Active',
 }));
@@ -47,31 +52,31 @@ const groups = data.value.groups.map(({ groupName, status }: Group) => ({
             <div class="grid grid-cols-2 gap-13">
               <div>
                 <h6 class="text-stone mb-2">Name</h6>
-                <p class="text-carbon">{{ data.name }}</p>
+                <p class="text-carbon">{{ data?.name }}</p>
               </div>
               <div col-span-2>
                 <h6 class="text-stone mb-2">Mobile phone for voice calls</h6>
-                <p class="text-carbon">{{ data.cellVoice }}</p>
+                <p class="text-carbon">{{ data?.cellVoice }}</p>
               </div>
               <div col-span-2>
                 <h6 class="text-stone mb-2">Mobile phone for SMS</h6>
-                <p class="text-carbon">{{ data.cellText }}</p>
+                <p class="text-carbon">{{ data?.cellText }}</p>
               </div>
               <div col-span-2>
                 <h6 class="text-stone mb-2">Home phone number</h6>
-                <p class="text-carbon">{{ data.homeNumber }}</p>
+                <p class="text-carbon">{{ data?.homeNumber }}</p>
               </div>
               <div col-span-2>
                 <h6 class="text-stone mb-2">Work phone number</h6>
-                <p class="text-carbon">{{ data.workNumber }}</p>
+                <p class="text-carbon">{{ data?.workNumber }}</p>
               </div>
               <div col-span-2>
                 <h6 class="text-stone mb-2">Primary E-Mail</h6>
-                <p class="text-carbon">{{ data.emailAddress }}</p>
+                <p class="text-carbon">{{ data?.emailAddress }}</p>
               </div>
               <div col-span-2>
                 <h6 class="text-stone mb-2">Alternate Email</h6>
-                <p class="text-carbon">{{ data.alternateEmail }}</p>
+                <p class="text-carbon">{{ data?.alternateEmail }}</p>
               </div>
               <div col-span-2>
                 <h6 class="text-stone mb-2">Address</h6>

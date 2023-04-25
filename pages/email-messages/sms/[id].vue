@@ -4,13 +4,18 @@ import Multiselect from '@vueform/multiselect';
 
 const { $trpc } = useNuxtApp();
 const { id } = useRoute().params;
+let data: any = null;
 
 const showModal = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
 };
 
-const data = await $trpc.sms.show.query(parseInt(id as string));
+try {
+  data = await $trpc.sms.show.query(parseInt(id as string));
+} catch (error) {
+  navigateTo(`/email-messages/sms`);
+}
 </script>
 
 <template>

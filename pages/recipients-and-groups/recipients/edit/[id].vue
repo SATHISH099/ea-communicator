@@ -37,6 +37,10 @@ const { data: recipientDetail } = await useFetch<any>(
   },
 );
 
+if (process.client && !recipientDetail.value) {
+  navigateTo('/recipients-and-groups/recipients');
+}
+
 const locations = await $fetch<{ data: any[]; total: number }>(`/locations`, {
   baseURL: useRuntimeConfig().public.API_SMARTSUITE_BASEURL,
 });
@@ -48,21 +52,21 @@ if (process.client) {
 }
 
 const initialState: initialStateData = {
-  name: record.name,
-  cellVoice: record.cellVoice,
-  cellText: record.cellText,
-  homeNumber: record.homeNumber,
-  workNumber: record.workNumber,
-  emailAddress: record.emailAddress,
-  alternateEmail: record.alternateEmail,
-  location: record.location?.id,
+  name: record?.name,
+  cellVoice: record?.cellVoice,
+  cellText: record?.cellText,
+  homeNumber: record?.homeNumber,
+  workNumber: record?.workNumber,
+  emailAddress: record?.emailAddress,
+  alternateEmail: record?.alternateEmail,
+  location: record?.location?.id,
   status: true,
-  notes: record.notes,
+  notes: record?.notes,
 };
 
 const data = reactive({ ...initialState });
 const groups = ref<GroupData[] | []>(
-  record.groups.map(({ id, groupName, status }: GroupData) => ({
+  record?.groups.map(({ id, groupName, status }: GroupData) => ({
     id,
     groupName,
     status,
