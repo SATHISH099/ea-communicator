@@ -35,6 +35,8 @@ const groupPageSize = ref(10);
 const recipientPageNumber = ref(1);
 const recipientPageSize = ref(10);
 const type = ref<string>('recipients');
+const isGroupViewMore: any = ref(true);
+const isRecipientViewMore: any = ref(true);
 
 setLoader(true);
 const { data: recipients, refresh: refreshRecipient } = await useAsyncData(
@@ -100,6 +102,13 @@ const viewMoreRecipient = () => {
     --recipientPageNumber.value;
     refreshRecipient();
   }
+
+  if (
+    Math.ceil(recipients.value.total / recipientPageSize.value) ===
+    recipientPageNumber.value
+  ) {
+    isRecipientViewMore.value = false;
+  }
 };
 
 const viewMoreGroup = () => {
@@ -110,6 +119,13 @@ const viewMoreGroup = () => {
     groupPageSize.value += 10;
     --groupPageNumber.value;
     refreshGroup();
+  }
+
+  if (
+    Math.ceil(groups.value.total / groupPageSize.value) ===
+    groupPageNumber.value
+  ) {
+    isGroupViewMore.value = false;
   }
 };
 </script>
@@ -165,6 +181,7 @@ const viewMoreGroup = () => {
             input-class="form-check-input mr-2"
           />
           <span
+            v-if="isRecipientViewMore"
             class="text-primary hover:no-underline mt-2 cursor-pointer flex justify-center"
             @click="viewMoreRecipient"
           >
@@ -190,6 +207,7 @@ const viewMoreGroup = () => {
             input-class="form-check-input mr-2"
           />
           <span
+            v-if="isGroupViewMore"
             class="text-primary hover:no-underline mt-2 cursor-pointer flex justify-center"
             @click="viewMoreGroup"
           >
