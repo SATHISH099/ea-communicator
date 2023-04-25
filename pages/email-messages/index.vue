@@ -3,7 +3,7 @@
 <template>
   <div>
     <div class="mb-10">
-      <h4 class="mb-4 text-stone">Email / Messages</h4>
+      <h4 class="mb-4 text-stone">Communications</h4>
       <p class="text-silver hover:text-primary">
         <NuxtLink to="/" class="text-silver sub-heading">Communicator</NuxtLink>
         <span class="text-silver">/</span>
