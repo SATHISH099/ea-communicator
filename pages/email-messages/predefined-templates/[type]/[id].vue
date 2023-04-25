@@ -3,6 +3,7 @@ import '~~/services/email.service';
 
 const { $trpc } = useNuxtApp();
 const { type: entity, id } = useRoute().params;
+let data: any = null;
 
 if (!['email', 'sms'].includes(entity as string)) {
   navigateTo('/email-messages/predefined-templates');
@@ -12,7 +13,11 @@ const type = ref<'email' | 'sms'>(entity as 'email' | 'sms');
 const title = ref('');
 const body = ref('');
 const entityId = parseInt(id as string);
-const data: any = await $trpc[type.value].show.query(entityId);
+try {
+  data = await $trpc[type.value].show.query(entityId);
+} catch (error) {
+  navigateTo(`/email-messages/predefined-templates`);
+}
 
 if (type.value === 'sms') {
   title.value = data.title;

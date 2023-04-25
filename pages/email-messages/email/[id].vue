@@ -5,12 +5,17 @@ import { useRoute } from 'vue-router';
 const { $trpc } = useNuxtApp();
 const { id } = useRoute().params;
 const showModal = ref(false);
+let data: any = null;
 
 const toggleModal = () => {
   showModal.value = !showModal.value;
 };
 
-const data = await $trpc.email.show.query(parseInt(id as string));
+try {
+  data = await $trpc.email.show.query(parseInt(id as string));
+} catch (error) {
+  navigateTo('/email-messages/email');
+}
 </script>
 
 <template>

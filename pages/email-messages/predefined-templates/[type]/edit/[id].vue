@@ -3,6 +3,7 @@ import '~~/services/email.service';
 import { useToasterStore } from '~~/store/toaster';
 const { setMessage } = useToasterStore();
 const router = useRouter();
+let data: any = null;
 
 definePageMeta({
   middleware: 'permission',
@@ -21,7 +22,11 @@ const errorBody = ref(false);
 const title = ref('');
 const body = ref('');
 const entityId = parseInt(id as string);
-const data: any = await $trpc[type.value].show.query(entityId);
+try {
+  data = await $trpc[type.value].show.query(entityId);
+} catch (error) {
+  navigateTo(`/email-messages/predefined-templates`);
+}
 
 if (type.value === 'sms') {
   title.value = data.title;

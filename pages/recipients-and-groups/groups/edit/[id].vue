@@ -21,12 +21,14 @@ interface initialStateData {
   location: number;
 }
 
+const { setLoader } = useLoader();
 const groupService = useService('group');
 if (process.client) {
   groupService.setAuth();
 }
 const { id: groupId } = useRoute().params;
 
+setLoader(true);
 const locations = await $fetch<{ data: any[]; total: number }>(`/locations`, {
   baseURL: useRuntimeConfig().public.API_SMARTSUITE_BASEURL,
 });
@@ -35,17 +37,23 @@ const { data: groupDetail } = await useFetch<any>(() => `groups/${groupId}`, {
   baseURL: config.public.API_SMARTSUITE_BASEURL,
 });
 
+if (process.client && !groupDetail.value) {
+  setLoader(false);
+  navigateTo('/recipients-and-groups/groups');
+}
+
+setLoader(false);
 const record = groupDetail.value;
 const initialState: initialStateData = {
-  groupName: record.groupName,
-  status: record.status,
-  notes: record.notes,
-  location: record.location?.id,
+  groupName: record?.groupName,
+  status: record?.status,
+  notes: record?.notes,
+  location: record?.location?.id,
 };
 
 const data = reactive({ ...initialState });
 const recipients = ref<RecipientData[] | []>(
-  record.recipients.map(({ id, name }: RecipientData) => ({
+  record?.recipients.map(({ id, name }: RecipientData) => ({
     id,
     name,
   })),
