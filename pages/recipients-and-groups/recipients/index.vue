@@ -11,7 +11,7 @@ if (process.client) {
 }
 
 const orderType = ref('desc');
-const orderBy = ref('name');
+const orderBy = ref('id');
 const viewUploadModal = ref(false);
 
 const pageSize = ref(10);

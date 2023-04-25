@@ -8,6 +8,8 @@ const page = ref(1);
 const pageSize = ref(10);
 const search = ref('');
 const searchField = ref('');
+const orderType = ref('desc');
+const orderBy = ref('id');
 const messageHeaders = [
   'Group Name',
   'Members',
@@ -28,6 +30,8 @@ const { data, refresh } = await useAsyncData(
       search: search.value,
       pageSize: pageSize.value,
       pageNumber: page.value,
+      orderBy: orderBy.value,
+      orderType: orderType.value.toUpperCase(),
     }),
   {
     transform: ({ total, data }) => ({
