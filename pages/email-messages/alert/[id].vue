@@ -40,7 +40,7 @@ const groups = ref(data.groups.map(({ groupId }: any) => ({ groupId })));
           >
           <span class="text-silver">/</span>
           <NuxtLink to="/email-messages/alert" class="text-silver sub-heading">
-            Email</NuxtLink
+            Alert</NuxtLink
           >
           <span class="text-silver">/</span>
           <span class="text-primary hover:no-underline ml-1">View Details</span>

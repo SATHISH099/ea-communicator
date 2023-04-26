@@ -34,7 +34,7 @@ try {
           >
           <span class="text-silver">/</span>
           <NuxtLink to="/email-messages/alert" class="text-silver sub-heading">
-            Communications</NuxtLink
+            Email</NuxtLink
           >
           <span class="text-silver">/</span>
           <span class="text-primary hover:no-underline ml-1">View Details</span>
