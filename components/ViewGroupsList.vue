@@ -34,6 +34,7 @@ const { data, refresh } = await useAsyncData(
       search: search.value,
       pageSize: pageSize.value,
       pageNumber: page.value,
+      isActive: true,
     }),
   {
     transform: ({ total, data }) => ({

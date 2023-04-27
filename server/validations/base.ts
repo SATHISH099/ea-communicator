@@ -8,6 +8,7 @@ export const queryListSchema = z.object({
   search: z.string().optional(),
   startDate: z.any(),
   endDate: z.any(),
+  isActive: z.boolean().default(false).optional(),
 });
 
 export const mediaIdSchema = z.object({
