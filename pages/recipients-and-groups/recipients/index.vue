@@ -20,9 +20,10 @@ const search = ref('');
 const searchField = ref('');
 
 const recipientHeaders = [
-  { value: 'Name', isSort: true, key: 'name' },
-  'Phone (Voice)',
-  'Phone (Text)',
+  { value: 'Full Name', isSort: true, key: 'name' },
+  'Added In Groups',
+  'Mobile Phone',
+  'Mobile Phone for SMS',
   'Home phone number',
   'Work phone Number',
   'Primary Email',
@@ -47,6 +48,7 @@ const { data, refresh } = await useAsyncData(
       data: data.map((x: any) => ({
         id: x.id,
         name: x.name,
+        member: x.groupCount,
         cellVoice: x.cellVoice,
         cellText: x.cellText,
         homeNumber: x.homeNumber,
