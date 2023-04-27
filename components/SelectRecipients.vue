@@ -45,6 +45,7 @@ const { data: recipients, refresh: refreshRecipient } = await useAsyncData(
       search: searchRecipient.value,
       pageSize: recipientPageSize.value,
       pageNumber: recipientPageNumber.value,
+      isActive: true,
     }),
   {
     server: false,
@@ -54,9 +55,10 @@ const { data: recipients, refresh: refreshRecipient } = await useAsyncData(
 const { data: groups, refresh: refreshGroup } = await useAsyncData(
   () =>
     groupService.getAll({
-      search: searchRecipient.value,
+      search: searchGroup.value,
       pageSize: groupPageSize.value,
       pageNumber: groupPageNumber.value,
+      isActive: true,
     }),
   {
     server: false,
