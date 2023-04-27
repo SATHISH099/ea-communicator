@@ -19,7 +19,6 @@ export default defineEventHandler(async (event) => {
   await validationPipe(CreateMediaDto, data);
 
   const service = new MediaService();
-  const user = new UserService();
   const medias = await Promise.all(
     data.media.map(async (file: FileAttr) => {
       const uniqueSuffix = randomUUID();
@@ -35,7 +34,7 @@ export default defineEventHandler(async (event) => {
         size: file.size || 0,
         fileUrl,
         filePath,
-        tenantId: (await user.getLoginUser()).tenantId,
+        tenantId: event.context.session?.user?.tenantId,
       });
     }),
   );

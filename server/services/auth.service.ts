@@ -74,6 +74,7 @@ export class AuthService {
       roles: user.roles.map((role) => role.slug),
       tokenId: userToken.id,
       profilePath: data.profilePath,
+      tenantId: user.tenantId,
     };
 
     const jwtToken = this.jwtService.sign(sessionPayload);
