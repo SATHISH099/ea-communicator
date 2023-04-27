@@ -36,6 +36,7 @@ const { data, refresh } = await useAsyncData(
       search: search.value,
       pageSize: pageSize.value,
       pageNumber: page.value,
+      isActive: true,
     }),
   {
     server: false,
