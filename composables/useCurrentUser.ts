@@ -5,6 +5,7 @@ export interface AuthUser {
   name?: string;
   email?: string;
   profilePath?: string | null;
+  tenantId: number;
   roles: string[];
 }
 
@@ -13,6 +14,7 @@ const defaultUser: AuthUser = {
   name: undefined,
   email: undefined,
   profilePath: undefined,
+  tenantId: 0,
   roles: [],
 };
 

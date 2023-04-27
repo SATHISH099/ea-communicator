@@ -17,10 +17,11 @@ export interface InputFile {
 }
 
 export interface AuthSessionPayload
-  extends Pick<User, 'name' | 'email' | 'status'> {
+  extends Pick<User, 'name' | 'email' | 'status' | 'tenantId'> {
   id: number;
   roles: string[];
   tokenId: number;
+  tenantId: number;
   profilePath?: string | null;
 }
 
