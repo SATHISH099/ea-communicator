@@ -147,9 +147,9 @@ const removeFromGroup = (id: number) => {
             <div grid lg:grid-cols-2 grid-cols-1 gap-5 my-8>
               <FormKit
                 v-model="data.name"
-                name="First Name"
+                name="Full Name"
                 type="text"
-                placeholder="First Name"
+                placeholder="Full Name*"
                 input-class="form-control"
                 validation="required|length:3,50"
                 @input="limitCharacter(data, data.name, 'name', 50)"
