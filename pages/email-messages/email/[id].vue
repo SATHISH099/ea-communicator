@@ -75,9 +75,9 @@ try {
               <h6 class="text-stone">Subject</h6>
               <p class="text-carbon">{{ data.subject }}</p>
             </div>
-            <div class="mb-10 grid gap-y-2 w-50">
+            <div class="mb-10 grid gap-y-2 w-100">
               <h6 class="text-stone">Message</h6>
-              <p class="text-carbon" v-html="data.body"></p>
+              <p class="text-carbon leading-7" v-html="data.body"></p>
             </div>
             <h6 class="text-stone">Attachments</h6>
             <div class="mb-10 flex gap-y-2 mt-2">
