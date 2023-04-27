@@ -44,6 +44,17 @@ watch(
   },
 );
 
+watch(
+  () => props.totalRecords,
+  () => {
+    totalPages.value = getPaginationNumbers(
+      props.currentPage,
+      totalPageCount.value,
+      props.length === 'small' ? 2 : 5,
+    );
+  },
+);
+
 const setPerPage = () => {
   emit('setPerPage', Number(perPage.value));
 };

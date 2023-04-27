@@ -26,11 +26,11 @@ const closeModal = () => {
                 <h4 class="text-stone">View Details</h4>
               </div>
               <button
-                @click="closeModal"
                 bg-transparent
                 border-0
                 cursor-pointer
                 p-0
+                @click="closeModal"
               >
                 <img src="/close.png" alt="close" />
               </button>
@@ -42,12 +42,6 @@ const closeModal = () => {
                   <p class="text-stone text-[16px]">{{ data.name }}</p>
                 </div>
                 <div class="mb-10">
-                  <h5 text-stone mb-4>Last Name</h5>
-                  <p class="text-stone text-[16px]">
-                    {{ data.groupName }}
-                  </p>
-                </div>
-                <div class="mb-10">
                   <h5 text-stone mb-4>Mobile Phone For Voice Calls</h5>
                   <p class="text-stone text-[16px]">{{ data.cellVoice }}</p>
                 </div>
@@ -56,12 +50,6 @@ const closeModal = () => {
                   <h5 text-stone mb-4>Primary Email</h5>
                   <p class="text-stone text-[16px]">
                     {{ data.alternateEmail }}
-                  </p>
-                </div>
-                <div class="mb-10">
-                  <h5 text-stone mb-4>Address</h5>
-                  <p class="text-stone text-[16px]">
-                    {{ data.emailAddress }}
                   </p>
                 </div>
               </div>
