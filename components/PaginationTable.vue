@@ -41,6 +41,7 @@ watch(
       totalPageCount.value,
       props.length === 'small' ? 2 : 5,
     );
+    props.paginate(1);
   },
 );
 
