@@ -59,7 +59,7 @@ watchEffect(() => {
             alt=""
           />
           <p class="mr-10 max-w-[16ch]">
-            {{ user?.name }}
+            {{ textLimit(user?.name ?? '', 10) }}
           </p>
         </div>
       </client-only>
