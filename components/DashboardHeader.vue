@@ -5,7 +5,7 @@ const isOpen = ref(false);
 const isOpens = ref(false);
 const user = ref<AuthUser>();
 
-const { logout } = useLogout();
+const { loading, logout } = useLogout();
 const adminUrl = useRuntimeConfig().public.SMARTSUITE_BASEURL;
 const userStore = useCurrentUser();
 watchEffect(() => {
@@ -46,22 +46,33 @@ watchEffect(() => {
     </div>
     <div class="dropdown">
       <client-only>
-        <img
-          v-click-away="() => (isOpen = false)"
-          :src="user?.profilePath || '/avatar.png'"
-          class="h-10 mr-4 cursor-pointer rounded-50"
+        <div
+          flex
+          justify-center
+          items-center
           @click="isOpen = !isOpen"
-        />
+          v-click-away="() => (isOpen = false)"
+        >
+          <img
+            :src="user?.profilePath || '/blank-profile.png'"
+            class="h-10 w-10 mr-4 cursor-pointer rounded-50"
+            alt=""
+          />
+          <p class="mr-10 max-w-[16ch]">
+            {{ user?.name }}
+          </p>
+        </div>
       </client-only>
-      <div v-show="isOpen" class="dropdown-menus right-21 top-20">
+      <div v-show="isOpen" class="dropdown-menus right-15 top-20">
         <li class="p-2">
-          <NuxtLink :to="{ name: 'profile' }" class="text-white"
+          <NuxtLink :to="{ name: 'profile' }" class="text-white text-[14px]"
             >View Profile</NuxtLink
           >
         </li>
         <li class="p-2">
           <button
             class="bg-transparent outline-none border-none text-white cursor-pointer text-[14px]"
+            :disabled="loading"
             @click="logout"
           >
             Logout
@@ -69,11 +80,10 @@ watchEffect(() => {
         </li>
       </div>
     </div>
-    <p class="mr-10 truncate max-w-[8ch]">{{ user?.name }}</p>
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .dropdown-menu {
   display: flex;
   flex-direction: column;
