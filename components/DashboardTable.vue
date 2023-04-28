@@ -230,7 +230,10 @@ const toggleChecked = () => {
                       :src="cell.image"
                     />
                     <p v-else>
-                      {{ cell?.value ?? cell }}
+                      {{
+                        cell?.value ??
+                        (isTemplateDefine ? textLimit(cell, 20) : cell)
+                      }}
                     </p>
                   </div>
                 </td>
