@@ -131,7 +131,7 @@ const setDate = (dateStr: string[] | null) => {
             </button>
           </div>
           <div class="flex items-center gap-3">
-            <DatePicker @setDate="setDate"></DatePicker>
+            <DatePicker :init-empty="true" @setDate="setDate"></DatePicker>
             <FormKit
               v-model="type"
               input-class="form-control"

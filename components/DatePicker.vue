@@ -1,22 +1,21 @@
 <script lang="ts" setup>
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
-const emit = defineEmits(['setDate']);
-const router = useRoute();
+const props = defineProps<{ initEmpty?: boolean }>();
+const emit = defineEmits(['setDate', 'onError']);
 
-const date = ref(
-  router.fullPath.includes('history') ? '' : [new Date(), new Date()],
-);
+const date = ref(props.initEmpty ? '' : [new Date(), new Date()]);
 
 watch(
   () => date.value,
   () => {
     if (date.value[0] && date.value[1]) {
       emit('setDate', date.value);
+    } else if (!props.initEmpty) {
+      emit('onError', 'single-date');
+      date.value = [new Date(), new Date()];
     } else {
-      date.value = router.fullPath.includes('history')
-        ? ''
-        : [new Date(), new Date()];
+      date.value = '';
     }
   },
 );

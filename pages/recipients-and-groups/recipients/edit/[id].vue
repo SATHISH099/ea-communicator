@@ -122,14 +122,14 @@ const removeFromGroup = (id: number) => {
           >
           <span class="text-silver">/</span>
           <NuxtLink to="/recipients-and-groups" class="text-silver sub-heading">
-            Recepients And Groups</NuxtLink
+            Recipients And Groups</NuxtLink
           >
           <span class="text-silver">/</span>
           <NuxtLink
             to="/recipients-and-groups/recipients"
             class="text-silver sub-heading"
           >
-            Recepients</NuxtLink
+            Recipients</NuxtLink
           >
           <span class="text-silver">/</span>
 
@@ -154,42 +154,32 @@ const removeFromGroup = (id: number) => {
                 validation="required|length:3,50"
                 @input="limitCharacter(data, data.name, 'name', 50)"
               />
-              <FormKit
-                v-model="data.cellVoice"
-                name="Cell Voice"
-                type="tel"
-                placeholder="Mobile phone for voice calls"
-                validation="required|length:7,15|number"
-                input-class="form-control"
-                @input="limitCharacter(data, data.cellVoice, 'cellVoice', 15)"
+
+              <UiFormkitTel
+                :value="data.cellVoice"
+                placeholder="Mobile phone for voice calls*"
+                validation-label="Voice phone"
+                @input="(val) => (data.cellVoice = val)"
               />
-              <FormKit
-                v-model="data.cellText"
-                name="Cell Text"
-                type="tel"
-                placeholder="Mobile phone for SMS"
-                input-class="form-control"
-                validation="required|length:7,15|number"
-                @input="limitCharacter(data, data.cellText, 'cellText', 15)"
+              <UiFormkitTel
+                :value="data.cellText"
+                placeholder="Mobile phone for SMS*"
+                validation-label="SMS phone"
+                @input="(val) => (data.cellText = val)"
               />
-              <FormKit
-                v-model="data.homeNumber"
-                name="Home Number"
-                type="tel"
-                placeholder="Home phone number"
-                input-class="form-control"
-                validation="required|length:7,15|number"
-                @input="limitCharacter(data, data.homeNumber, 'homeNumber', 15)"
+              <UiFormkitTel
+                :value="data.homeNumber"
+                placeholder="Home phone number*"
+                validation-label="Home phone"
+                @input="(val) => (data.homeNumber = val)"
               />
-              <FormKit
-                v-model="data.workNumber"
-                name="Work Number"
-                type="tel"
-                placeholder="Work phone number"
-                input-class="form-control"
-                validation="required|length:7,15|number"
-                @input="limitCharacter(data, data.workNumber, 'workNumber', 15)"
+              <UiFormkitTel
+                :value="data.workNumber"
+                placeholder="Work phone number*"
+                validation-label="Work phone"
+                @input="(val) => (data.workNumber = val)"
               />
+
               <FormKit
                 v-model="data.emailAddress"
                 name="Primary Email"

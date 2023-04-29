@@ -12,6 +12,7 @@ import {
   Title,
   Tooltip,
 } from 'chart.js';
+import { useToasterStore } from '~~/store/toaster';
 
 ChartJS.register(
   Title,
@@ -28,6 +29,7 @@ ChartJS.register(
 const startDate = ref<string>(new Date().toISOString());
 const endDate = ref<string>(new Date().toISOString());
 const { $trpc } = useNuxtApp();
+const { setMessage } = useToasterStore();
 
 const { data, refresh } = await useAsyncData(() =>
   $trpc.dashboard.counts.query({
@@ -66,7 +68,12 @@ const setDate = (dateStr: string[] | null) => {
   >
     <div class="md:flex justify-between items-center">
       <h5 class="text-stone mb-4 md:mb-0">Alerts</h5>
-      <DatePicker @setDate="setDate"></DatePicker>
+      <DatePicker
+        @on-error="
+          setMessage('Please select both start and end date.', 'error')
+        "
+        @setDate="setDate"
+      ></DatePicker>
     </div>
     <div px-8>
       <div class="flex flex-col justify-between items-center gap-10">

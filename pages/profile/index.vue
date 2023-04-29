@@ -44,7 +44,7 @@ const submitHandler = async () => {
   const formData = new FormData(formElement);
 
   const response = await profileService.update(formData);
-  if (response.id) {
+  if (response?.id) {
     useCurrentUser().update({
       name: [response.firstName, response.lastName].join(' '),
       profilePath: response.profilePath,
@@ -137,14 +137,8 @@ const onProfileUpload = (event: any) => {
               />
             </div>
             <div class="md:flex gap-5">
-              <FormKit
-                v-model="profile.phoneNumber"
-                name="phoneNumber"
-                type="text"
-                placeholder="Phone"
-                input-class="form-control"
-                outer-class="w-full mb-5"
-              />
+              <UiFormkitTel name="phoneNumber" :value="profile.phoneNumber" />
+
               <FormKit
                 v-model="profile.email"
                 name="email"

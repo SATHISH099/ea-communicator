@@ -36,7 +36,7 @@ const onDeleteRecord = (deleteId) => {
 
     <div class="dropdown relative text-right">
       <ul
-        class="list-none flex flex-wrap items-center justify-between text-gray-900"
+        class="list-none ml-auto w-[140px] flex items-center justify-between text-gray-900"
       >
         <li v-if="props.dropDownOption.isView" class="p-2">
           <NuxtLink

@@ -57,7 +57,7 @@ loadRecipients(activeTab.value);
           :class="{ active: activeTab === 'recipients' }"
           @click="loadRecipients('recipients')"
         >
-          Recepients
+          Recipients
         </div>
         <div
           class="tab"

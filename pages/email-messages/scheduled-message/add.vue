@@ -67,7 +67,7 @@ const activeTab = ref('alerts');
               class="col-span-2 border border-solid border-[#dce1eb] outline-none bg-white rounded-[4px] cursor-pointer flex justify-between text-[16px] text-silver items-center p-[1rem]"
               @click="toggleModal"
             >
-              <span>Recepient</span>
+              <span>Recipient</span>
               <img src="/plus.png" alt="plus" />
             </button>
             <Multiselect

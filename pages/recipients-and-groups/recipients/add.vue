@@ -110,41 +110,26 @@ const removeFromGroup = (id: number) => {
                 validation="required|length:3,50"
                 @input="limitCharacter(data, data.name, 'name', 50)"
               />
-              <FormKit
-                v-model="data.cellVoice"
-                name="Cell Voice"
-                type="tel"
+
+              <UiFormkitTel
                 placeholder="Mobile phone for voice calls*"
-                validation="required|length:7,15|number"
-                input-class="form-control"
-                @input="limitCharacter(data, data.cellVoice, 'cellVoice', 15)"
+                validation-label="Voice phone"
+                @input="(val) => (data.cellVoice = val)"
               />
-              <FormKit
-                v-model="data.cellText"
-                name="Cell Text"
-                type="tel"
+              <UiFormkitTel
                 placeholder="Mobile phone for SMS*"
-                input-class="form-control"
-                validation="required|length:7,15|number"
-                @input="limitCharacter(data, data.cellText, 'cellText', 15)"
+                validation-label="SMS phone"
+                @input="(val) => (data.cellText = val)"
               />
-              <FormKit
-                v-model="data.homeNumber"
-                name="Home Number"
-                type="tel"
+              <UiFormkitTel
                 placeholder="Home phone number*"
-                input-class="form-control"
-                validation="required|length:7,15|number"
-                @input="limitCharacter(data, data.homeNumber, 'homeNumber', 15)"
+                validation-label="Home phone"
+                @input="(val) => (data.homeNumber = val)"
               />
-              <FormKit
-                v-model="data.workNumber"
-                name="Work Number"
-                type="tel"
+              <UiFormkitTel
                 placeholder="Work phone number*"
-                input-class="form-control"
-                validation="required|length:7,15|number"
-                @input="limitCharacter(data, data.workNumber, 'workNumber', 15)"
+                validation-label="Work phone"
+                @input="(val) => (data.workNumber = val)"
               />
               <FormKit
                 v-model="data.emailAddress"

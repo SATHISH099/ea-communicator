@@ -99,7 +99,7 @@ const activeTab = ref('alerts');
                 :class="{ active: activeTab === 'alerts' }"
                 @click="activeTab = 'alerts'"
               >
-                Recepients
+                Recipients
               </div>
               <div
                 class="tab"

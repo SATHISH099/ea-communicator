@@ -163,7 +163,11 @@ const toggleChecked = () => {
             <th
               v-for="(header, index) in headers"
               :key="index"
-              class="md:px-[30px] py-[18px] px-[24px] font-medium"
+              class="md:px-[30px] py-[18px] px-[24px]"
+              :class="{
+                'w-auto': index !== headers.length - 1,
+                'w-[200px]': index === headers.length - 1,
+              }"
             >
               <div flex items-center gap-2>
                 {{ header.value ?? header }}
@@ -247,7 +251,7 @@ const toggleChecked = () => {
               </td>
               <td
                 class="text-[14px] px-[30px] py-[16px]"
-                :class="{ 'w-[163px]': isDropdown }"
+                :class="{ 'w-[200px]': isDropdown }"
               >
                 <DropdownTable
                   v-if="isDropdown ?? true"
