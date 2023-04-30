@@ -1,7 +1,6 @@
 <script setup>
 const props = defineProps(['detailId', 'type', 'dropDownOption', 'actions']);
 const emit = defineEmits(['onDeleteRecord']);
-const isOpen = ref(false);
 const show = ref(false);
 const user = useCurrentUser();
 
@@ -36,7 +35,7 @@ const onDeleteRecord = (deleteId) => {
 
     <div class="dropdown relative text-right">
       <ul
-        class="list-none ml-auto w-[140px] flex items-center justify-between text-gray-900"
+        class="list-none ml-auto w-[140px] flex items-center justify-center text-gray-900"
       >
         <li v-if="props.dropDownOption.isView" class="p-2">
           <NuxtLink

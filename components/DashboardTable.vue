@@ -253,14 +253,16 @@ const toggleChecked = () => {
                 class="text-[14px] px-[30px] py-[16px]"
                 :class="{ 'w-[200px]': isDropdown }"
               >
-                <DropdownTable
-                  v-if="isDropdown ?? true"
-                  :detail-id="row.id"
-                  :type="props.type"
-                  :actions="props.actions"
-                  :drop-down-option="dropDownOption"
-                  @onDeleteRecord="onDeleteRecord"
-                ></DropdownTable>
+                <client-only>
+                  <DropdownTable
+                    v-if="isDropdown ?? true"
+                    :detail-id="row.id"
+                    :type="props.type"
+                    :actions="props.actions"
+                    :drop-down-option="dropDownOption"
+                    @onDeleteRecord="onDeleteRecord"
+                  ></DropdownTable>
+                </client-only>
                 <button
                   v-if="isTemplateDefine ?? false"
                   class="text-primary hover:underline border-none bg-transparent cursor-pointer"
