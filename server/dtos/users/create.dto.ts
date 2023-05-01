@@ -45,4 +45,8 @@ export class CreateUserDto {
   @IsOptional()
   @IsArray()
   roles: number[];
+
+  @IsOptional()
+  @IsBoolean()
+  init: boolean;
 }

@@ -33,19 +33,21 @@ export class UserService extends BaseService<User> {
   }
 
   async updateUser(id: number, data: any) {
-    const roles = await appDataSource.getRepository(Role).find({
-      where: {
-        id: data.role,
-      },
-    });
-
     const user = await this.repository.findOneByOrFail({
       userId: id,
     });
 
-    user.roles = roles;
+    if (data.role) {
+      const roles = await appDataSource.getRepository(Role).find({
+        where: {
+          id: data.role,
+        },
+      });
 
-    await this.repository.manager.save(user);
+      user.roles = roles;
+
+      await this.repository.manager.save(user);
+    }
 
     return this.repository.update(
       {
