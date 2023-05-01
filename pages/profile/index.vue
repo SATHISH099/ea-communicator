@@ -181,7 +181,7 @@ const onProfileUpload = (event: any) => {
         </div>
         <div class="flex justify-end">
           <button :disabled="submitting" class="btn btn-primary">
-            Edit Profile
+            Update Profile
           </button>
         </div>
       </FormKit>
