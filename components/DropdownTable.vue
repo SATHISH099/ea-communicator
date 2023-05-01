@@ -2,6 +2,7 @@
 const props = defineProps(['detailId', 'type', 'dropDownOption', 'actions']);
 const emit = defineEmits(['onDeleteRecord']);
 const show = ref(false);
+const route = useRoute();
 const user = useCurrentUser();
 
 const deleteShow = () => {
@@ -19,6 +20,36 @@ const onDeleteRecord = (deleteId) => {
   }
 
   emit('onDeleteRecord', deleteId);
+};
+
+const onViewClick = () => {
+  if (typeof props.actions.view === 'function') {
+    props.actions.view(props.detailId);
+  } else {
+    navigateTo(
+      props.actions.view
+        ?.replace('[module]', props.type)
+        ?.replace('[id]', props.detailId) ||
+        `${route.path.split('/').slice(0, -1).join('/')}/${props.type}/${
+          props.detailId
+        }`,
+    );
+  }
+};
+
+const onEditClick = () => {
+  if (typeof props.actions.edit === 'function') {
+    props.actions.edit();
+  } else {
+    navigateTo(
+      props.actions.edit
+        ?.replace('[module]', props.type)
+        ?.replace('[id]', props.detailId) ||
+        `${route.path.split('/').slice(0, -1).join('/')}/${props.type}/edit/${
+          props.detailId
+        }`,
+    );
+  }
 };
 </script>
 
@@ -38,17 +69,13 @@ const onDeleteRecord = (deleteId) => {
         class="list-none ml-auto w-[140px] flex items-center justify-center text-gray-900"
       >
         <li v-if="props.dropDownOption.isView" class="p-2">
-          <NuxtLink
-            :to="{
-              path:
-                props.actions.view
-                  ?.replace('[module]', props.type)
-                  ?.replace('[id]', props.detailId) ||
-                `${$route.path.split('/').slice(0, -1).join('/')}/${
-                  props.type
-                }/${props.detailId}`,
-            }"
+          <a
+            href="javascript:;"
             title="View"
+            outline-none
+            border-none
+            bg-transparent
+            @click="onViewClick"
           >
             <svg
               id="Layer_1"
@@ -62,21 +89,17 @@ const onDeleteRecord = (deleteId) => {
                 d="M61.44,13.81a20.31,20.31,0,1,1-14.34,6,20.24,20.24,0,0,1,14.34-6ZM1.05,31.31A106.72,106.72,0,0,1,11.37,20.43C25.74,7.35,42.08.36,59,0s34.09,5.92,50.35,19.32a121.91,121.91,0,0,1,12.54,12,4,4,0,0,1,.25,5,79.88,79.88,0,0,1-15.38,16.41A69.53,69.53,0,0,1,63.43,68.18,76,76,0,0,1,19.17,53.82,89.35,89.35,0,0,1,.86,36.44a3.94,3.94,0,0,1,.19-5.13Zm15.63-5A99.4,99.4,0,0,0,9.09,34,80.86,80.86,0,0,0,23.71,47.37,68.26,68.26,0,0,0,63.4,60.3a61.69,61.69,0,0,0,38.41-13.72,70.84,70.84,0,0,0,12-12.3,110.45,110.45,0,0,0-9.5-8.86C89.56,13.26,74.08,7.58,59.11,7.89S29.63,14.48,16.68,26.27Zm39.69-7.79a7.87,7.87,0,1,1-7.87,7.87,7.86,7.86,0,0,1,7.87-7.87Z"
               />
             </svg>
-          </NuxtLink>
+          </a>
         </li>
 
         <li v-if="props.dropDownOption.isEdit" class="p-2">
-          <NuxtLink
-            :to="{
-              path:
-                props.actions.edit
-                  ?.replace('[module]', props.type)
-                  ?.replace('[id]', props.detailId) ||
-                `${$route.path.split('/').slice(0, -1).join('/')}/${
-                  props.type
-                }/edit/${props.detailId}`,
-            }"
+          <a
+            href="javascript:;"
             title="Edit"
+            outline-none
+            border-none
+            bg-transparent
+            @click="onEditClick"
           >
             <svg
               class="w-[20px]"
@@ -93,7 +116,7 @@ const onDeleteRecord = (deleteId) => {
                 d="M400.08 26.04c-1.82-1.81-3.72-3.14-5.7-3.97-1.89-.8-4.05-1.2-6.47-1.2-2.38 0-4.52.41-6.4 1.21-1.95.83-3.83 2.15-5.63 3.96l-36.73 36.73 104.11 104.57 37.22-37.22c1.55-1.54 2.69-3.29 3.44-5.18l.15-.38c.71-1.96 1.06-4.17 1.06-6.56 0-2.49-.4-4.82-1.22-6.89l-.22-.62c-.74-1.64-1.79-3.16-3.16-4.52l-80.45-79.93zM69.03 332.8l105.03 103.23 215.22-215.22-104.09-104.17L69.03 332.8zm86.27 113.97-96.28-94.62-27.86 99.15c-4.45 15.91-7.46 28.06-9.05 36.44 19.79-5.98 40.2-11.61 59.73-18.29 10.75-3.39 21.78-6.87 39.25-12.28l24.1-7.34 10.11-3.06zM402.45 2.91c4.5 1.89 8.61 4.69 12.3 8.37l80.45 79.93c3.35 3.33 5.9 7.12 7.68 11.27l.43.96c1.81 4.57 2.69 9.48 2.69 14.56 0 4.87-.8 9.56-2.45 13.97l-.23.63c-1.79 4.53-4.47 8.67-8.08 12.28l-44.64 44.6c-4.07 4.05-10.66 4.03-14.71-.04L317.04 70.11c-4.07-4.07-4.07-10.68 0-14.76l44.08-44.07c3.65-3.66 7.72-6.45 12.23-8.36C377.92.98 382.77 0 387.91 0c5.1 0 9.94.97 14.54 2.91zM174.77 462.66l-23.54 7.07-24.03 7.32c-30.42 9.57-60.67 18.96-91.16 28.28-10.56 3.19-17.58 5.27-20.89 6.17-1.41.4-2.83.54-4.3.39-6.12-.62-9.68-4.3-10.63-11.06-.33-2.28-.28-5.21.13-8.77 1.03-9 4.62-24.47 10.75-46.39l32.27-114.82c.5-1.78 1.43-3.33 2.66-4.55L277.79 94.52c4.07-4.07 10.68-4.07 14.76 0l118.84 118.97c4.05 4.07 4.03 10.65-.02 14.7l-231.66 231.7a10.373 10.373 0 0 1-4.94 2.77z"
               />
             </svg>
-          </NuxtLink>
+          </a>
         </li>
 
         <li v-if="props.type === 'groups' && user.hasRole('admin')" class="p-2">
@@ -132,8 +155,8 @@ const onDeleteRecord = (deleteId) => {
           <button
             class="bg-transparent border-none cursor-pointer"
             type="button"
-            @click="deleteShow()"
             title="Delete"
+            @click="deleteShow()"
           >
             <svg
               id="Layer_1"

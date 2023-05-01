@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import moment from 'moment';
 import type { Media } from '~~/services/media.service';
 import { useToasterStore } from '~~/store/toaster';
 const { setLoader } = useLoader();
@@ -85,7 +86,7 @@ async function deleteMedia(id: number) {
   try {
     await $trpc.library.delete.mutate(id);
 
-    setMessage('Deleted Successfully', 'success');
+    setMessage('Media deleted Successfully', 'success');
     showModal.value = false;
     refresh();
   } catch (error) {
@@ -93,12 +94,21 @@ async function deleteMedia(id: number) {
   }
 }
 
-const viewMedia = (media: Media) => {
+const viewMedia = (mediaObj: Media | number) => {
+  let media = mediaObj as Media;
+  if (typeof mediaObj === 'number') {
+    media = medias.value!.data!.find((m) => m.id === mediaObj)!;
+  }
+
   if (extensions.photos.includes(media.extension)) {
     viewImageModal.value = true;
     selectedMedia.value = media;
   } else {
-    window.open(media.fileUrl);
+    const element = document.createElement('a');
+    element.href = media.fileUrl;
+    element.download = '';
+
+    element.click();
   }
 };
 
@@ -244,25 +254,14 @@ const searchEmpty = () => {
             alt=""
           />
           <div>{{ textLimit(media.title, 20) }}</div>
-          <button class="view-btn" @click="viewMedia(media)">View</button>
-          <teleport to="body">
-            <div v-if="viewImageModal">
-              <CModal
-                :show-confirm-button="false"
-                :show-close-button="false"
-                @close="viewImageModal = false"
-              >
-                <div>
-                  <img
-                    class="w-full h-full"
-                    :src="selectedMedia.fileUrl"
-                    alt=""
-                  />
-                  <h6 text-center text-stone>{{ selectedMedia.title }}</h6>
-                </div>
-              </CModal>
-            </div>
-          </teleport>
+          <div v-if="extensions.photos.includes(media.extension)">
+            <button class="view-btn" @click="viewMedia(media)">View</button>
+          </div>
+          <div v-else>
+            <a class="view-btn" :href="media.fileUrl" target="_blank" download
+              >Download</a
+            >
+          </div>
           <button
             v-if="user.hasRole('admin')"
             class="delete-btn cursor-pointer outline-none border-none bg-transparent p-0"
@@ -301,12 +300,38 @@ const searchEmpty = () => {
                 ? `/icon/${media.extension}.png`
                 : media.fileUrl,
             },
-            createdAt: media.createdAt,
+            createdAt: moment(media.createdAt).format(
+              'dddd, Do MMMM YYYY h:mm A',
+            ),
           })) || []
         "
-        :is-dropdown="false"
+        :is-dropdown="true"
+        :drop-down-option="{
+          isView: true,
+          isEdit: false,
+          isDelete: true,
+        }"
+        :actions="{
+          view: (id: number) => viewMedia(id),
+        }"
+        @onDeleteRecord="(id: number) => deleteMedia(id)"
       />
     </div>
+
+    <teleport to="body">
+      <div v-if="viewImageModal">
+        <CModal
+          :show-confirm-button="false"
+          :show-close-button="false"
+          @close="viewImageModal = false"
+        >
+          <div>
+            <img class="w-full h-full" :src="selectedMedia.fileUrl" alt="" />
+            <h6 text-center text-stone>{{ selectedMedia.title }}</h6>
+          </div>
+        </CModal>
+      </div>
+    </teleport>
     <div class="ml-8">
       <PaginationTable
         :total-records="medias?.total || 0"
