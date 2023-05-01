@@ -29,8 +29,14 @@ if (process.client) {
 const { id: groupId } = useRoute().params;
 
 setLoader(true);
-const locations = await $fetch<{ data: any[]; total: number }>(`/locations`, {
-  baseURL: useRuntimeConfig().public.API_SMARTSUITE_BASEURL,
+const locations = ref();
+onMounted(async () => {
+  locations.value = await $fetch<{ data: any[]; total: number }>(`/locations`, {
+    baseURL: useRuntimeConfig().public.API_SMARTSUITE_BASEURL,
+    headers: {
+      Authorization: `bearer ${localStorage?.getItem('ss_token')}`,
+    },
+  });
 });
 
 const { data: groupDetail } = await useFetch<any>(() => `groups/${groupId}`, {
@@ -166,10 +172,10 @@ const removeFromRecipient = (id: number) => {
                 placeholder="Select Location"
                 :options="[
                   { value: '', label: 'Select Location' },
-                  ...locations.data.map((location) => ({
+                  ...locations?.data.map((location: any) => ({
                     value: location.id,
                     label: `${location.city} ${location.country}`,
-                  })),
+                  })) || [],
                 ]"
               />
 

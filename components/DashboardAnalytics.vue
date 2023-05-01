@@ -1,9 +1,20 @@
 <script lang="ts" setup>
 const { $trpc } = useNuxtApp();
 
+const groupService = useService('group');
+const recipientService = useService('recipient');
+
+if (process.client) {
+  recipientService.setAuth();
+  groupService.setAuth();
+}
+
 const data = await $trpc.dashboard.counts.query({
   countType: 'models',
 });
+
+const groupsCount = await groupService.count();
+const recipientsCount = await recipientService.count();
 </script>
 
 <template>
@@ -54,7 +65,7 @@ const data = await $trpc.dashboard.counts.query({
       class="update-card small-shadow bg-white rounded-[4px] md:p-[16px] p-[10px] flex justify-between items-center gap-15 md:gap-10"
     >
       <div>
-        <h1 class="text-primary mb-2 font-bold">{{ data.voiceCount }}</h1>
+        <h1 class="text-primary mb-2 font-bold">{{ groupsCount }}</h1>
         <p class="font-medium text-carbon">Groups</p>
       </div>
       <svgsGroups />
@@ -63,7 +74,7 @@ const data = await $trpc.dashboard.counts.query({
       class="update-card small-shadow bg-white rounded-[4px] md:p-[16px] p-[10px] flex justify-between items-center gap-15 md:gap-10"
     >
       <div>
-        <h1 class="text-primary mb-2 font-bold">{{ data.voiceCount }}</h1>
+        <h1 class="text-primary mb-2 font-bold">{{ recipientsCount }}</h1>
         <p class="font-medium text-carbon">Recipients</p>
       </div>
       <SvgsRecipients />

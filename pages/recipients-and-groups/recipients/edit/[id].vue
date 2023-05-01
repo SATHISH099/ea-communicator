@@ -41,8 +41,14 @@ if (process.client && !recipientDetail.value) {
   navigateTo('/recipients-and-groups/recipients');
 }
 
-const locations = await $fetch<{ data: any[]; total: number }>(`/locations`, {
-  baseURL: useRuntimeConfig().public.API_SMARTSUITE_BASEURL,
+const locations = ref();
+onMounted(async () => {
+  locations.value = await $fetch<{ data: any[]; total: number }>(`/locations`, {
+    baseURL: useRuntimeConfig().public.API_SMARTSUITE_BASEURL,
+    headers: {
+      Authorization: `bearer ${localStorage?.getItem('ss_token')}`,
+    },
+  });
 });
 
 const record = recipientDetail.value;
@@ -205,10 +211,10 @@ const removeFromGroup = (id: number) => {
                 placeholder="Select Location"
                 :options="[
                   { value: '', label: 'Select Location' },
-                  ...locations.data.map((location) => ({
+                  ...locations?.data.map((location: any) => ({
                     value: location.id,
                     label: `${location.city} ${location.country}`,
-                  })),
+                  })) || [],
                 ]"
               />
             </div>

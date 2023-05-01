@@ -56,6 +56,10 @@ export class RecipientService {
     });
   }
 
+  count() {
+    return this.apiService.get(z.number(), '/recipients/count');
+  }
+
   create(data: Data) {
     return this.apiService.post(recipient, data);
   }
