@@ -57,7 +57,7 @@ if (type.value === 'email') {
     </div>
     <DashboardCard title="Add New Predefined Template">
       <div class="p-6">
-        <div class="max-w-[50rem]">
+        <div>
           <div class="mb-10 grid gap-y-2">
             <h6 class="text-stone">
               {{ type === 'email' ? 'Subject' : 'Title' }}
