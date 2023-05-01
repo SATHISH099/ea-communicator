@@ -32,7 +32,7 @@ watchEffect(() => {
       <div class="grid grid-cols-2 gap-4">
         <div class="flex flex-col items-center">
           <img class="w-10" src="/communicator.png" />
-          <p class="p-2 text-center text-xs">Communicator</p>
+          <a class="p-2 text-center text-xs">Communicator</a>
         </div>
         <div class="flex flex-col items-center">
           <NuxtLink :href="adminUrl">

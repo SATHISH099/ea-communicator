@@ -290,6 +290,8 @@ const toggleChecked = () => {
 <style lang="scss" scoped>
 .admin-table {
   color: #2d2d2e;
+  overflow-y: auto;
+  max-height: 450px;
   @media screen and (max-width: 1366px) {
     overflow-x: auto;
   }
@@ -299,9 +301,14 @@ const toggleChecked = () => {
 
     thead {
       tr {
+        z-index: 1;
+        position: relative;
         th {
           font-size: 16px;
           text-align: left;
+          background: #fff;
+          position: sticky;
+          top: 0;
         }
       }
     }
