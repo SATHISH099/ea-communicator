@@ -390,8 +390,12 @@ div[data-test=open-time-picker-btn] {
   display: none;
 }
 
+body #main-content {
+  max-width: calc(100% - 90px);
+}
+
 body.sidebar-open #main-content {
-  max-width: calc(100% - 310px);
+  max-width: calc(100% - 317px);
 }
 
 ::-webkit-scrollbar {

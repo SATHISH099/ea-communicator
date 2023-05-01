@@ -169,7 +169,14 @@ const toggleChecked = () => {
                 'w-[200px]': index === headers.length - 1,
               }"
             >
-              <div flex items-center gap-2>
+              <div
+                flex
+                items-center
+                gap-2
+                :class="{
+                  'justify-center': index === headers.length - 1,
+                }"
+              >
                 {{ header.value ?? header }}
                 <img
                   v-if="header.isSort"

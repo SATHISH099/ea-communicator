@@ -2,7 +2,7 @@ import { RoleService } from '~~/server/services/role.service';
 import { UserService } from '~~/server/services/user.service';
 
 export default defineEventHandler(async (event) => {
-  const { userId } = getQuery(event);
+  const { userId, tenantId } = getQuery(event);
   await verifySmartSuiteRequest(event);
 
   const service = new RoleService();
@@ -15,13 +15,18 @@ export default defineEventHandler(async (event) => {
       orderType: 'asc',
     },
     {
+      where: {
+        tenantId: (tenantId as string) || '1',
+      },
       select: ['id', 'slug', 'name'],
     },
   );
 
   if (!isNaN(userId as number)) {
     const user = await new UserService().findOne(undefined, {
-      where: { userId: userId as number },
+      where: {
+        userId: userId as number,
+      },
       relations: { roles: true },
     });
 
