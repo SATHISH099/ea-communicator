@@ -244,7 +244,11 @@ const searchEmpty = () => {
             alt=""
           />
           <div>{{ textLimit(media.title, 20) }}</div>
-          <button class="view-btn" @click="viewMedia(media)">View</button>
+          <button class="view-btn" @click="viewMedia(media)">
+            {{
+              extensions.others.includes(media.extension) ? 'Download' : 'View'
+            }}
+          </button>
           <teleport to="body">
             <div v-if="viewImageModal">
               <CModal
