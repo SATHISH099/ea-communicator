@@ -145,7 +145,7 @@ const setDate = (dateStr: string[] | null) => {
                 },
                 {
                   value: 'sms',
-                  label: 'Sms',
+                  label: 'SMS',
                 },
                 {
                   value: 'alert',
