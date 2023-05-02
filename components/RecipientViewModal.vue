@@ -52,6 +52,23 @@ const closeModal = () => {
                     {{ data.alternateEmail }}
                   </p>
                 </div>
+                <div>
+                  <div class="mb-10">
+                    <h5 text-stone mb-4>Address</h5>
+                    <p class="text-stone text-[16px]">
+                      {{
+                        [
+                          data?.location?.address,
+                          data?.location?.city,
+                          data?.location?.state,
+                          data?.location?.country,
+                        ]
+                          .filter((l) => l)
+                          .join(', ')
+                      }}
+                    </p>
+                  </div>
+                </div>
               </div>
               <div>
                 <div class="mb-10">
