@@ -48,6 +48,10 @@ export class GroupService {
     });
   }
 
+  count() {
+    return this.apiService.get(z.number(), '/groups/count');
+  }
+
   update(id: number, data: Data) {
     return this.apiService.put(group, data, `/groups/${id}`);
   }

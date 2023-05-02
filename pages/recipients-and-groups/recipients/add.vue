@@ -20,8 +20,14 @@ const recipientService = useService('recipient');
 if (process.client) {
   recipientService.setAuth();
 }
-const locations = await $fetch<{ data: any[]; total: number }>(`/locations`, {
-  baseURL: useRuntimeConfig().public.API_SMARTSUITE_BASEURL,
+const locations = ref();
+onMounted(async () => {
+  locations.value = await $fetch<{ data: any[]; total: number }>(`/locations`, {
+    baseURL: useRuntimeConfig().public.API_SMARTSUITE_BASEURL,
+    headers: {
+      Authorization: `bearer ${localStorage?.getItem('ss_token')}`,
+    },
+  });
 });
 
 const initialState = {
@@ -157,10 +163,10 @@ const removeFromGroup = (id: number) => {
                 placeholder="Select Location"
                 :options="[
                   { value: '', label: 'Select Location' },
-                  ...locations.data.map((location) => ({
+                  ...locations?.data.map((location: any) => ({
                     value: location.id,
-                    label: `${location.city}, ${location.country}`,
-                  })),
+                    label: `${location.city} ${location.country}`,
+                  })) || [],
                 ]"
               />
             </div>

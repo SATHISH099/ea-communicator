@@ -26,7 +26,7 @@ if (process.client) {
   groupService.setAuth();
 }
 
-const statuses = ['Inactive', 'active'];
+const statuses = ['In Active', 'Active'];
 
 const initialState: initialStateData = {
   groupName: '',
@@ -36,8 +36,14 @@ const initialState: initialStateData = {
   deviceId: 'deviceId',
 };
 
-const locations = await $fetch<{ data: any[]; total: number }>(`/locations`, {
-  baseURL: useRuntimeConfig().public.API_SMARTSUITE_BASEURL,
+const locations = ref();
+onMounted(async () => {
+  locations.value = await $fetch<{ data: any[]; total: number }>(`/locations`, {
+    baseURL: useRuntimeConfig().public.API_SMARTSUITE_BASEURL,
+    headers: {
+      Authorization: `bearer ${localStorage?.getItem('ss_token')}`,
+    },
+  });
 });
 
 const data = reactive({ ...initialState });
@@ -46,11 +52,10 @@ const successResponse = ref({ data: { id: null } });
 const recipients = ref<RecipientData[] | []>([]);
 
 const submitHandler = async () => {
-  data.status = statusText.value === 'active';
+  data.status = statusText.value.toLowerCase() === 'active';
 
   const request = {
     ...data,
-    status: statusText.value === 'active',
     recipients: recipients.value.map(({ id }) => ({
       id,
     })),
@@ -150,10 +155,10 @@ const removeFromRecipient = (id: number) => {
                 placeholder="Select Location"
                 :options="[
                   { value: '', label: 'Select Location' },
-                  ...locations.data.map((location) => ({
+                  ...locations?.data.map((location: any) => ({
                     value: location.id,
                     label: `${location.city} ${location.country}`,
-                  })),
+                  })) || [],
                 ]"
               />
 
