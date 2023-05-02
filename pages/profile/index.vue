@@ -86,7 +86,9 @@ const onProfileUpload = (event: any) => {
           <div>
             <div class="relative mb-10">
               <img
-                :src="profileImage || profile.profilePath || '/profile.png'"
+                :src="
+                  profileImage || profile.profilePath || '/blank-profile.png'
+                "
                 class="h-67 w-69"
               />
               <button

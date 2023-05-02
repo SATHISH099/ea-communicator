@@ -164,6 +164,7 @@ const onEditClick = () => {
               data-name="Layer 1"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 105.16 122.88"
+              fill="#B42424"
             >
               <path
                 class="cls-1"
